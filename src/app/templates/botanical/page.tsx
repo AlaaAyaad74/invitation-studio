@@ -1,8 +1,13 @@
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Botanical | Invitation Studio",
-  description: "Botanical invitation template.",
+  title: "Botanical",
+  description:
+    "A botanical wedding invitation website template from Invitation Studio — coming soon.",
+  robots: {
+    index: false,
+    follow: true,
+  },
 };
 
 export default function BotanicalTemplatePage() {

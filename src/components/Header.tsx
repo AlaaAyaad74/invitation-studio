@@ -50,6 +50,7 @@ export default function Header() {
         <div className="mx-auto flex h-24 max-w-6xl items-center justify-between px-5 sm:h-28 sm:px-8">
           <a
             href="#top"
+            aria-label="Invitation Studio home"
             onClick={() => setOpen(false)}
             className={`font-display text-2xl tracking-[0.04em] transition-colors duration-300 sm:text-3xl ${
               solidBar ? "text-ink" : "text-white"
