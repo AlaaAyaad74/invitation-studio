@@ -7,9 +7,10 @@ export const siteConfig = {
   keywords: [
     "wedding invitation websites",
     "digital wedding invitations",
+    "online wedding invitations",
     "custom couple logo",
     "bespoke invitation site",
-    "RSVP website",
+    "wedding RSVP website",
     "Invitation Studio",
   ],
 } as const;

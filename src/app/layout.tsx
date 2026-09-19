@@ -35,6 +35,14 @@ export const metadata: Metadata = {
   creator: siteConfig.name,
   publisher: siteConfig.name,
   category: "wedding invitations",
+  icons: {
+    icon: [
+      { url: "/favicon.ico", sizes: "32x32", type: "image/x-icon" },
+      { url: "/logo.webp", sizes: "1254x1254", type: "image/webp" },
+    ],
+    shortcut: "/favicon.ico",
+    apple: [{ url: "/apple-touch-icon.png", sizes: "180x180", type: "image/png" }],
+  },
   alternates: {
     canonical: "/",
   },
@@ -56,11 +64,28 @@ export const metadata: Metadata = {
     siteName: siteConfig.name,
     title: `${siteConfig.name} — Wedding Invitation Websites`,
     description: siteConfig.description,
+    images: [
+      {
+        url: "/og.png",
+        width: 1200,
+        height: 630,
+        alt: `${siteConfig.name} logo`,
+        type: "image/png",
+      },
+      {
+        url: "/logo.webp",
+        width: 1254,
+        height: 1254,
+        alt: `${siteConfig.name} logo`,
+        type: "image/webp",
+      },
+    ],
   },
   twitter: {
     card: "summary_large_image",
     title: `${siteConfig.name} — Wedding Invitation Websites`,
     description: siteConfig.description,
+    images: ["/og.png"],
   },
 };
 
@@ -78,14 +103,29 @@ const jsonLd = {
       url: siteUrl,
       email: siteConfig.email,
       logo: `${siteUrl}/logo.webp`,
+      image: `${siteUrl}/og.png`,
+      description: siteConfig.description,
+    },
+    {
+      "@type": "ProfessionalService",
+      name: siteConfig.name,
+      url: siteUrl,
+      email: siteConfig.email,
       image: `${siteUrl}/logo.webp`,
       description: siteConfig.description,
+      areaServed: "Worldwide",
+      serviceType: [
+        "Wedding invitation websites",
+        "Custom couple logos",
+        "Bespoke invitation sites",
+      ],
     },
     {
       "@type": "WebSite",
       name: siteConfig.name,
       url: siteUrl,
       description: siteConfig.description,
+      inLanguage: "en",
       publisher: {
         "@type": "Organization",
         name: siteConfig.name,
@@ -104,8 +144,9 @@ export default function RootLayout({
     <html
       lang="en"
       className={`${figtree.variable} ${cormorant.variable} ${greatVibes.variable} h-full antialiased`}
+      suppressHydrationWarning
     >
-      <body className="min-h-full flex flex-col font-sans">
+      <body className="min-h-full flex flex-col font-sans" suppressHydrationWarning>
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}

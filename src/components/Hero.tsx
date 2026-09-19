@@ -1,3 +1,5 @@
+import { siteConfig } from "@/lib/site";
+
 export default function Hero() {
   return (
     <section
@@ -23,6 +25,7 @@ export default function Hero() {
           Invitation Studio
         </p>
         <h1 className="animate-fade-up delay-1 mt-5 max-w-xl font-display text-2xl leading-snug text-white/95 sm:text-3xl md:text-4xl">
+          <span className="sr-only">{siteConfig.name}. </span>
           Invitation websites that feel like the day itself.
         </h1>
         <p className="animate-fade-up delay-2 mt-4 max-w-md text-base leading-relaxed text-white/80 sm:text-lg">
