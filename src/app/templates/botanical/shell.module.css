@@ -12,7 +12,8 @@
   position: relative;
   z-index: 10;
   width: 100%;
-  max-width: 430px;
+  min-width: 280px;
+  max-width: 480px;
   min-height: 100svh;
   margin-inline: auto;
   overflow-x: hidden;
@@ -45,11 +46,11 @@
     );
 }
 
-@media (min-width: 64rem) {
+@media (min-width: 720px) {
   .cover {
     display: block;
     position: fixed;
-    inset: 0 430px 0 0;
+    inset: 0 480px 0 0;
     z-index: 0;
     overflow: hidden;
   }
@@ -57,7 +58,7 @@
   .stage {
     margin-left: auto;
     margin-right: 0;
-    width: 430px;
+    width: 480px;
     max-width: none;
     box-shadow: -24px 0 60px -28px rgba(42, 38, 35, 0.45);
   }
