@@ -1,0 +1,64 @@
+.frame {
+  position: relative;
+  min-height: 100svh;
+  background: var(--ivory);
+}
+
+.cover {
+  display: none;
+}
+
+.stage {
+  position: relative;
+  z-index: 10;
+  width: 100%;
+  max-width: 430px;
+  min-height: 100svh;
+  margin-inline: auto;
+  overflow-x: hidden;
+  background: #fff;
+}
+
+.image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center 72%;
+  filter: brightness(1.12) contrast(1.06) saturate(1.05);
+}
+
+.veil {
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(
+      120% 90% at 50% 55%,
+      transparent 0%,
+      transparent 52%,
+      color-mix(in srgb, var(--ink) 12%, transparent) 100%
+    ),
+    linear-gradient(
+      90deg,
+      transparent 0%,
+      transparent 78%,
+      color-mix(in srgb, var(--ink) 18%, transparent) 100%
+    );
+}
+
+@media (min-width: 64rem) {
+  .cover {
+    display: block;
+    position: fixed;
+    inset: 0 430px 0 0;
+    z-index: 0;
+    overflow: hidden;
+  }
+
+  .stage {
+    margin-left: auto;
+    margin-right: 0;
+    width: 430px;
+    max-width: none;
+    box-shadow: -24px 0 60px -28px rgba(42, 38, 35, 0.45);
+  }
+}

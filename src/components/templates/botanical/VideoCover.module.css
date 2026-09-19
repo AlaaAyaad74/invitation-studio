@@ -1,0 +1,174 @@
+.cover {
+  position: relative;
+  display: flex;
+  min-height: 100svh;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  color: var(--ink);
+}
+
+.video {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.wash {
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(
+      180deg,
+      rgba(246, 240, 230, 0.1) 0%,
+      rgba(246, 240, 230, 0.04) 28%,
+      rgba(246, 240, 230, 0.32) 48%,
+      rgba(246, 240, 230, 0.12) 72%,
+      rgba(246, 240, 230, 0.4) 100%
+    );
+  pointer-events: none;
+}
+
+.copy {
+  position: relative;
+  z-index: 10;
+  width: 100%;
+  padding: 0 1.5rem;
+  margin-top: -6%;
+  text-align: center;
+}
+
+.line {
+  opacity: 0;
+  animation: invite-up 1.15s cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation-play-state: paused;
+}
+
+.names {
+  opacity: 0;
+  animation: invite-name 1.35s cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation-play-state: paused;
+}
+
+.rule {
+  display: block;
+  width: 4.5rem;
+  height: 1px;
+  margin: 1.1rem auto 0;
+  background: color-mix(in srgb, var(--ink) 28%, transparent);
+  transform-origin: center;
+  opacity: 0;
+  animation: invite-rule 0.9s cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation-play-state: paused;
+}
+
+.cover[data-ready="true"] .line,
+.cover[data-ready="true"] .names,
+.cover[data-ready="true"] .rule {
+  animation-play-state: running;
+}
+
+.d1 {
+  animation-delay: 0.35s;
+}
+.d2 {
+  animation-delay: 0.85s;
+}
+.d3 {
+  animation-delay: 1.2s;
+}
+.d4 {
+  animation-delay: 1.7s;
+}
+.d5 {
+  animation-delay: 2.15s;
+}
+.d6 {
+  animation-delay: 2.55s;
+}
+.d7 {
+  animation-delay: 3.05s;
+}
+.d8 {
+  animation-delay: 3.55s;
+}
+
+.scroll {
+  position: absolute;
+  bottom: 1.15rem;
+  left: 0;
+  right: 0;
+  z-index: 10;
+  display: flex;
+  justify-content: center;
+  color: var(--ink);
+}
+
+@keyframes invite-up {
+  from {
+    opacity: 0;
+    transform: translateY(22px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes invite-name {
+  from {
+    opacity: 0;
+    transform: translateY(28px) scale(0.98);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes invite-rule {
+  from {
+    opacity: 0;
+    transform: scaleX(0.2);
+  }
+  to {
+    opacity: 1;
+    transform: scaleX(1);
+  }
+}
+
+.arrow {
+  width: 1.55rem;
+  height: 1.8rem;
+  filter: drop-shadow(0 1px 8px rgba(246, 240, 230, 0.95));
+}
+
+.cover[data-ready="true"] .arrow {
+  animation: arrow-bounce 1.55s ease-in-out 3.7s infinite;
+}
+
+@keyframes arrow-bounce {
+  0%,
+  100% {
+    transform: translateY(0);
+    opacity: 0.55;
+  }
+  50% {
+    transform: translateY(9px);
+    opacity: 1;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .line,
+  .names,
+  .rule,
+  .arrow {
+    animation: none;
+    opacity: 1;
+    transform: none;
+  }
+}

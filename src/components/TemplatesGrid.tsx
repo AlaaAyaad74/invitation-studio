@@ -1,4 +1,5 @@
 import Image from "next/image";
+import Link from "next/link";
 import Reveal from "@/components/Reveal";
 import { templates } from "@/data/templates";
 
@@ -23,16 +24,16 @@ export default function TemplatesGrid() {
         </Reveal>
 
         <div className="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-          {templates.map((template, index) => (
-            <Reveal key={template.id} delayMs={index * 90}>
-              <article className="h-full overflow-hidden bg-white shadow-[0_18px_40px_-28px_color-mix(in_srgb,var(--ink)_45%,transparent)]">
+          {templates.map((template, index) => {
+            const card = (
+              <>
                 <div className="relative aspect-[4/5] overflow-hidden bg-ivory-deep">
                   <Image
                     src={template.image}
                     alt={`${template.title} invitation template`}
                     fill
                     sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
-                    className="object-cover"
+                    className="object-cover transition duration-700 group-hover:scale-[1.04]"
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-ink/55 via-transparent to-transparent opacity-80" />
                   <span className="absolute bottom-4 left-4 text-xs tracking-[0.18em] text-white/90 uppercase">
@@ -51,15 +52,32 @@ export default function TemplatesGrid() {
                   <p className="text-sm leading-relaxed text-ink-muted">
                     {template.description}
                   </p>
-                  <span className="inline-flex pt-2 text-sm tracking-wide text-ink-muted uppercase">
+                  <span className="inline-flex pt-2 text-sm tracking-wide text-ink-muted uppercase transition group-hover:text-ink">
                     {template.comingSoon
                       ? "Coming soon"
                       : "Preview & personalize"}
                   </span>
                 </div>
-              </article>
-            </Reveal>
-          ))}
+              </>
+            );
+
+            return (
+              <Reveal key={template.id} delayMs={index * 90}>
+                <article className="group h-full overflow-hidden bg-white shadow-[0_18px_40px_-28px_color-mix(in_srgb,var(--ink)_45%,transparent)]">
+                  {template.href ? (
+                    <Link
+                      href={template.href}
+                      className="block h-full outline-offset-4"
+                    >
+                      {card}
+                    </Link>
+                  ) : (
+                    card
+                  )}
+                </article>
+              </Reveal>
+            );
+          })}
         </div>
       </div>
     </section>

@@ -5,6 +5,7 @@ export type InvitationTemplate = {
   description: string;
   image: string;
   comingSoon: boolean;
+  href?: string;
 };
 
 export const templates: InvitationTemplate[] = [
@@ -14,7 +15,8 @@ export const templates: InvitationTemplate[] = [
     style: "Studio",
     description: "A new invitation template — ready for fresh content.",
     image: "/templates/botanical.webp",
-    comingSoon: true,
+    comingSoon: false,
+    href: "/templates/botanical",
   },
   {
     id: "midnight-silk",

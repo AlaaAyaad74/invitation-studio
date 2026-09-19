@@ -1,0 +1,229 @@
+.section {
+  position: relative;
+  overflow: hidden;
+  padding: 2.85rem 1.05rem 3.1rem;
+  background: transparent;
+  color: var(--ink);
+  text-align: center;
+}
+
+.glow {
+  position: absolute;
+  inset: 8% 12% auto;
+  height: 9rem;
+  background: radial-gradient(
+    ellipse at center,
+    color-mix(in srgb, var(--rose-soft) 42%, transparent),
+    transparent 70%
+  );
+  filter: blur(8px);
+  pointer-events: none;
+}
+
+.petal,
+.petalTwo {
+  position: absolute;
+  width: 7.5rem;
+  height: 7.5rem;
+  border-radius: 70% 30% 64% 36%;
+  background: color-mix(in srgb, var(--rose-soft) 22%, transparent);
+  filter: blur(1px);
+  pointer-events: none;
+}
+
+.petal {
+  top: -1.4rem;
+  left: -1.8rem;
+  transform: rotate(-28deg);
+}
+
+.petalTwo {
+  right: -2rem;
+  bottom: -1.6rem;
+  width: 6.4rem;
+  height: 6.4rem;
+  background: color-mix(in srgb, var(--sage) 16%, transparent);
+  transform: rotate(22deg);
+}
+
+.frame {
+  position: relative;
+  z-index: 1;
+  padding: 1.85rem 1rem 1.7rem;
+  border: 1px solid color-mix(in srgb, var(--gold) 58%, transparent);
+  border-radius: 1.5rem;
+  background: transparent;
+}
+
+.corner {
+  position: absolute;
+  width: 1.35rem;
+  height: 1.35rem;
+  color: var(--gold);
+  pointer-events: none;
+}
+
+.corner svg {
+  width: 100%;
+  height: 100%;
+}
+
+.tl {
+  top: 0.55rem;
+  left: 0.55rem;
+}
+
+.tr {
+  top: 0.55rem;
+  right: 0.55rem;
+  transform: scaleX(-1);
+}
+
+.bl {
+  bottom: 0.55rem;
+  left: 0.55rem;
+  transform: scaleY(-1);
+}
+
+.br {
+  right: 0.55rem;
+  bottom: 0.55rem;
+  transform: scale(-1);
+}
+
+.label {
+  margin: 0;
+  font-size: 0.68rem;
+  letter-spacing: 0.34em;
+  text-transform: uppercase;
+  color: var(--rose);
+}
+
+.script {
+  margin: 0.7rem 0 0;
+  font-family: var(--font-great-vibes), cursive;
+  font-size: 2.7rem;
+  line-height: 0.95;
+  color: var(--ink);
+}
+
+.ornament {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.7rem;
+  margin: 0.95rem auto 0;
+  color: var(--gold);
+}
+
+.ornament span {
+  display: block;
+  width: 2.15rem;
+  height: 1px;
+  background: currentColor;
+  opacity: 0.7;
+}
+
+.days {
+  position: relative;
+  margin: 1.15rem 0 0;
+}
+
+.daysValue {
+  display: block;
+  font-family: var(--font-cormorant), serif;
+  font-size: 5.15rem;
+  font-weight: 500;
+  line-height: 0.85;
+  letter-spacing: -0.04em;
+  color: var(--rose);
+}
+
+.daysLabel {
+  display: block;
+  margin-top: 0.5rem;
+  font-size: 0.68rem;
+  letter-spacing: 0.32em;
+  text-transform: uppercase;
+  color: var(--ink-muted);
+}
+
+.row {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0.5rem;
+  margin-top: 1.35rem;
+}
+
+.unit {
+  padding: 0.82rem 0.25rem 0.72rem;
+  border: 1px solid color-mix(in srgb, var(--gold) 48%, transparent);
+  border-radius: 0.9rem;
+  background: transparent;
+}
+
+.unitValue {
+  display: block;
+  font-family: var(--font-cormorant), serif;
+  font-size: 1.9rem;
+  line-height: 1;
+  color: var(--ink);
+}
+
+.unitLabel {
+  display: block;
+  margin-top: 0.4rem;
+  font-size: 0.58rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--ink-muted);
+}
+
+.tick {
+  animation: tick 0.45s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.date {
+  margin: 1.3rem 0 0;
+  font-family: var(--font-cormorant), serif;
+  font-size: 1.05rem;
+  font-style: italic;
+  color: var(--ink-muted);
+}
+
+.done {
+  margin: 1.35rem 0 0;
+}
+
+.doneTitle {
+  margin: 0;
+  font-family: var(--font-great-vibes), cursive;
+  font-size: 3.1rem;
+  line-height: 0.9;
+  color: var(--rose);
+}
+
+.doneCopy {
+  margin: 0.65rem 0 0;
+  font-size: 0.76rem;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--ink-muted);
+}
+
+@keyframes tick {
+  from {
+    opacity: 0.35;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .tick {
+    animation: none;
+  }
+}
