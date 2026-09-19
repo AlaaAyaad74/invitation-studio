@@ -1,3 +1,4 @@
+import Reveal from "@/components/Reveal";
 import { services } from "@/data/templates";
 
 export default function Services() {
@@ -8,7 +9,7 @@ export default function Services() {
 
       <div className="relative mx-auto max-w-6xl px-5 sm:px-8">
         <div className="grid gap-12 lg:grid-cols-[1.1fr_0.9fr] lg:items-end">
-          <div>
+          <Reveal>
             <p className="text-sm tracking-[0.2em] text-rose uppercase">
               Custom services
             </p>
@@ -20,34 +21,35 @@ export default function Services() {
               invitation sites, and day-of digital pieces that feel unmistakably
               yours.
             </p>
-          </div>
+          </Reveal>
 
-          <div className="animate-soft-float border border-ivory-deep bg-white/70 p-6 backdrop-blur-sm sm:p-8">
-            <p className="font-display text-3xl text-ink">Couple logo studio</p>
-            <p className="mt-3 text-sm leading-relaxed text-ink-muted">
-              Start with a monogram, crest, or wordmark—then carry it through
-              your invitation site, envelopes, and thank-you notes.
-            </p>
-            <a
-              href="mailto:hello@vowcraft.studio"
-              className="mt-6 inline-flex bg-sage-deep px-5 py-3 text-sm text-white transition hover:bg-sage"
-            >
-              Request a custom quote
-            </a>
-          </div>
+          <Reveal delayMs={120}>
+            <div className="animate-soft-float border border-ivory-deep bg-white/70 p-6 backdrop-blur-sm sm:p-8">
+              <p className="font-display text-3xl text-ink">Couple logo studio</p>
+              <p className="mt-3 text-sm leading-relaxed text-ink-muted">
+                Start with a monogram, crest, or wordmark—then carry it through
+                your invitation site, envelopes, and thank-you notes.
+              </p>
+              <a
+                href="mailto:hello@vowcraft.studio"
+                className="mt-6 inline-flex bg-sage-deep px-5 py-3 text-sm text-white transition hover:bg-sage"
+              >
+                Request a custom quote
+              </a>
+            </div>
+          </Reveal>
         </div>
 
         <div className="mt-14 grid gap-6 sm:grid-cols-2">
-          {services.map((service) => (
-            <article
-              key={service.title}
-              className="border-l-2 border-rose/40 bg-white/50 py-5 pl-5 pr-4 transition hover:bg-white"
-            >
-              <h3 className="font-display text-2xl text-ink">{service.title}</h3>
-              <p className="mt-2 text-sm leading-relaxed text-ink-muted">
-                {service.description}
-              </p>
-            </article>
+          {services.map((service, index) => (
+            <Reveal key={service.title} delayMs={index * 90}>
+              <article className="h-full border-l-2 border-rose/40 bg-white/50 py-5 pl-5 pr-4 transition hover:bg-white">
+                <h3 className="font-display text-2xl text-ink">{service.title}</h3>
+                <p className="mt-2 text-sm leading-relaxed text-ink-muted">
+                  {service.description}
+                </p>
+              </article>
+            </Reveal>
           ))}
         </div>
       </div>

@@ -1,4 +1,5 @@
 import Image from "next/image";
+import Reveal from "@/components/Reveal";
 import { templates } from "@/data/templates";
 
 export default function TemplatesGrid() {
@@ -8,7 +9,7 @@ export default function TemplatesGrid() {
       <div className="texture-grain pointer-events-none absolute inset-0 opacity-40" />
 
       <div className="relative mx-auto max-w-6xl px-5 sm:px-8">
-        <div className="max-w-2xl">
+        <Reveal className="max-w-2xl">
           <p className="text-sm tracking-[0.2em] text-rose uppercase">
             Templates
           </p>
@@ -19,45 +20,45 @@ export default function TemplatesGrid() {
             Each design is a complete wedding website—choose a look, personalize
             the details, and share a link your guests will love.
           </p>
-        </div>
+        </Reveal>
 
         <div className="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
           {templates.map((template, index) => (
-            <article
-              key={template.id}
-              className="overflow-hidden bg-white shadow-[0_18px_40px_-28px_color-mix(in_srgb,var(--ink)_45%,transparent)]"
-              style={{ animationDelay: `${index * 0.08}s` }}
-            >
-              <div className="relative aspect-[4/5] overflow-hidden bg-ivory-deep">
-                <Image
-                  src={template.image}
-                  alt={template.title}
-                  fill
-                  sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
-                  className="object-cover"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-ink/55 via-transparent to-transparent opacity-80" />
-                <span className="absolute bottom-4 left-4 text-xs tracking-[0.18em] text-white/90 uppercase">
-                  {template.style}
-                </span>
-                {template.comingSoon ? (
-                  <span className="absolute right-4 top-4 bg-white/95 px-3 py-1.5 text-[11px] tracking-[0.16em] text-ink uppercase">
-                    Coming soon
+            <Reveal key={template.id} delayMs={index * 90}>
+              <article className="h-full overflow-hidden bg-white shadow-[0_18px_40px_-28px_color-mix(in_srgb,var(--ink)_45%,transparent)]">
+                <div className="relative aspect-[4/5] overflow-hidden bg-ivory-deep">
+                  <Image
+                    src={template.image}
+                    alt={`${template.title} invitation template`}
+                    fill
+                    sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                    className="object-cover"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-ink/55 via-transparent to-transparent opacity-80" />
+                  <span className="absolute bottom-4 left-4 text-xs tracking-[0.18em] text-white/90 uppercase">
+                    {template.style}
                   </span>
-                ) : null}
-              </div>
-              <div className="space-y-2 p-5">
-                <h3 className="font-display text-2xl text-ink">
-                  {template.title}
-                </h3>
-                <p className="text-sm leading-relaxed text-ink-muted">
-                  {template.description}
-                </p>
-                <span className="inline-flex pt-2 text-sm tracking-wide text-ink-muted uppercase">
-                  {template.comingSoon ? "Coming soon" : "Preview & personalize"}
-                </span>
-              </div>
-            </article>
+                  {template.comingSoon ? (
+                    <span className="absolute right-4 top-4 bg-white/95 px-3 py-1.5 text-[11px] tracking-[0.16em] text-ink uppercase">
+                      Coming soon
+                    </span>
+                  ) : null}
+                </div>
+                <div className="space-y-2 p-5">
+                  <h3 className="font-display text-2xl text-ink">
+                    {template.title}
+                  </h3>
+                  <p className="text-sm leading-relaxed text-ink-muted">
+                    {template.description}
+                  </p>
+                  <span className="inline-flex pt-2 text-sm tracking-wide text-ink-muted uppercase">
+                    {template.comingSoon
+                      ? "Coming soon"
+                      : "Preview & personalize"}
+                  </span>
+                </div>
+              </article>
+            </Reveal>
           ))}
         </div>
       </div>

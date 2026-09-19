@@ -13,8 +13,7 @@ export const templates: InvitationTemplate[] = [
     title: "Botanical",
     style: "Studio",
     description: "A new invitation template — ready for fresh content.",
-    image:
-      "https://images.unsplash.com/photo-1464366400600-7168b8af9bc3?auto=format&fit=crop&w=900&q=80",
+    image: "/templates/botanical.webp",
     comingSoon: true,
   },
   {
@@ -22,8 +21,7 @@ export const templates: InvitationTemplate[] = [
     title: "Midnight Silk",
     style: "Elegant",
     description: "Deep tones and refined typography for evening receptions.",
-    image:
-      "https://images.unsplash.com/photo-1465495976277-4387d4b0b4c6?auto=format&fit=crop&w=900&q=80",
+    image: "/templates/midnight-silk.webp",
     comingSoon: true,
   },
   {
@@ -31,8 +29,7 @@ export const templates: InvitationTemplate[] = [
     title: "Coastal Light",
     style: "Minimal",
     description: "Airy layouts inspired by seaside vows and soft horizons.",
-    image:
-      "https://images.unsplash.com/photo-1522673607200-164d1b6ce486?auto=format&fit=crop&w=900&q=80",
+    image: "/templates/coastal-light.webp",
     comingSoon: true,
   },
   {
@@ -40,8 +37,7 @@ export const templates: InvitationTemplate[] = [
     title: "Heritage Script",
     style: "Classic",
     description: "Timeless calligraphy with formal suite details.",
-    image:
-      "https://images.unsplash.com/photo-1606800052052-a08af7148866?auto=format&fit=crop&w=900&q=80",
+    image: "/templates/heritage-script.webp",
     comingSoon: true,
   },
   {
@@ -49,8 +45,7 @@ export const templates: InvitationTemplate[] = [
     title: "Desert Bloom",
     style: "Modern",
     description: "Warm neutrals and bold geometry for contemporary couples.",
-    image:
-      "https://images.unsplash.com/photo-1511285560929-80b456fea0bc?auto=format&fit=crop&w=900&q=80",
+    image: "/templates/desert-bloom.webp",
     comingSoon: true,
   },
   {
@@ -58,8 +53,7 @@ export const templates: InvitationTemplate[] = [
     title: "Atelier Rose",
     style: "Romantic",
     description: "Blush accents and layered paper textures for intimate days.",
-    image:
-      "https://images.unsplash.com/photo-1520854221256-17451cc331bf?auto=format&fit=crop&w=900&q=80",
+    image: "/templates/atelier-rose.webp",
     comingSoon: true,
   },
 ];

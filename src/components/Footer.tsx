@@ -1,7 +1,9 @@
+import Reveal from "@/components/Reveal";
+
 export default function Footer() {
   return (
     <footer className="border-t border-ink/10 bg-ivory-deep/70 py-10">
-      <div className="mx-auto flex max-w-6xl flex-col items-center gap-4 px-5 sm:flex-row sm:justify-between sm:px-8">
+      <Reveal className="mx-auto flex max-w-6xl flex-col items-center gap-4 px-5 sm:flex-row sm:justify-between sm:px-8">
         <img
           src="/logo.webp"
           alt="Invitation Studio"
@@ -18,7 +20,7 @@ export default function Footer() {
         >
           hello@vowcraft.studio
         </a>
-      </div>
+      </Reveal>
     </footer>
   );
 }

@@ -6,14 +6,6 @@ const nextConfig: NextConfig = {
     imgOptConcurrency: 1,
     turbopackPluginRuntimeStrategy: "workerThreads",
   },
-  images: {
-    remotePatterns: [
-      {
-        protocol: "https",
-        hostname: "images.unsplash.com",
-      },
-    ],
-  },
 };
 
 export default nextConfig;
