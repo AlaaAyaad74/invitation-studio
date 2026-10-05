@@ -8,7 +8,7 @@ type MusicPlayerProps = {
   label?: string;
 };
 
-const UNLOCK_EVENTS = ["touchend", "click", "keydown"] as const;
+const UNLOCK_EVENTS = ["pointerdown", "touchend", "keydown"] as const;
 
 export default function MusicPlayer({
   src,
@@ -23,19 +23,16 @@ export default function MusicPlayer({
     const audio = audioRef.current;
     if (!audio) return;
 
-    let starting = false;
+    let ignore = false;
 
     const tryPlay = () => {
-      if (userPaused.current || !audio.paused || starting) return;
-      starting = true;
+      if (ignore || userPaused.current || !audio.paused) return;
       audio.play().then(
         () => {
-          starting = false;
-          if (!audio.paused) setPlaying(true);
+          if (!ignore && !audio.paused) setPlaying(true);
         },
         () => {
-          starting = false;
-          setPlaying(false);
+          if (!ignore) setPlaying(false);
         },
       );
     };
@@ -47,18 +44,24 @@ export default function MusicPlayer({
     };
 
     const onPlaying = () => {
-      if (!userPaused.current) setPlaying(true);
+      if (!ignore && !userPaused.current) setPlaying(true);
     };
 
-    const onPause = () => setPlaying(false);
+    const onPause = () => {
+      if (!ignore) setPlaying(false);
+    };
 
     const onVisible = () => {
       if (document.visibilityState === "visible") tryPlay();
     };
 
+    const startIfStillPaused = () => {
+      if (!audio.paused) setPlaying(true);
+      else tryPlay();
+    };
+
     audio.addEventListener("playing", onPlaying);
     audio.addEventListener("pause", onPause);
-    audio.addEventListener("canplay", tryPlay);
     document.addEventListener("visibilitychange", onVisible);
     window.addEventListener("pageshow", tryPlay);
     document.addEventListener("WeixinJSBridgeReady", tryPlay);
@@ -67,13 +70,17 @@ export default function MusicPlayer({
       window.addEventListener(eventName, unlock, true);
     }
 
-    tryPlay();
+    if (audio.readyState >= HTMLMediaElement.HAVE_FUTURE_DATA) {
+      startIfStillPaused();
+    } else {
+      audio.addEventListener("canplay", startIfStillPaused, { once: true });
+    }
 
     return () => {
-      audio.pause();
+      ignore = true;
       audio.removeEventListener("playing", onPlaying);
       audio.removeEventListener("pause", onPause);
-      audio.removeEventListener("canplay", tryPlay);
+      audio.removeEventListener("canplay", startIfStillPaused);
       document.removeEventListener("visibilitychange", onVisible);
       window.removeEventListener("pageshow", tryPlay);
       document.removeEventListener("WeixinJSBridgeReady", tryPlay);
