@@ -20,6 +20,7 @@ export const botanicalInvitation = {
     mapUrl: "https://maps.google.com/?q=The+Garden+House+New+Cairo",
   },
   dressCode: "Formal attire in soft neutrals",
+  music: "/voices/botanical-voice.mp3",
   rsvp: {
     whatsapp: "201000000000",
     message:
