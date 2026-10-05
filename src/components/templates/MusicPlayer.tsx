@@ -8,46 +8,78 @@ type MusicPlayerProps = {
   label?: string;
 };
 
+const UNLOCK_EVENTS = ["touchend", "click", "keydown"] as const;
+
 export default function MusicPlayer({
   src,
   label = "Invitation music",
 }: MusicPlayerProps) {
   const audioRef = useRef<HTMLAudioElement>(null);
   const buttonRef = useRef<HTMLButtonElement>(null);
+  const userPaused = useRef(false);
   const [playing, setPlaying] = useState(false);
 
   useEffect(() => {
     const audio = audioRef.current;
     if (!audio) return;
 
+    let starting = false;
+
+    const tryPlay = () => {
+      if (userPaused.current || !audio.paused || starting) return;
+      starting = true;
+      audio.play().then(
+        () => {
+          starting = false;
+          if (!audio.paused) setPlaying(true);
+        },
+        () => {
+          starting = false;
+          setPlaying(false);
+        },
+      );
+    };
+
     const unlock = (event: Event) => {
       const target = event.target;
       if (target instanceof Node && buttonRef.current?.contains(target)) return;
-      if (!audio.paused) return;
-      audio.play().catch(() => setPlaying(false));
+      tryPlay();
     };
 
-    const onPlay = () => {
-      setPlaying(true);
-      window.removeEventListener("pointerdown", unlock);
-      window.removeEventListener("keydown", unlock);
+    const onPlaying = () => {
+      if (!userPaused.current) setPlaying(true);
     };
 
     const onPause = () => setPlaying(false);
 
-    audio.addEventListener("play", onPlay);
-    audio.addEventListener("pause", onPause);
-    window.addEventListener("pointerdown", unlock);
-    window.addEventListener("keydown", unlock);
+    const onVisible = () => {
+      if (document.visibilityState === "visible") tryPlay();
+    };
 
-    audio.play().catch(() => setPlaying(false));
+    audio.addEventListener("playing", onPlaying);
+    audio.addEventListener("pause", onPause);
+    audio.addEventListener("canplay", tryPlay);
+    document.addEventListener("visibilitychange", onVisible);
+    window.addEventListener("pageshow", tryPlay);
+    document.addEventListener("WeixinJSBridgeReady", tryPlay);
+
+    for (const eventName of UNLOCK_EVENTS) {
+      window.addEventListener(eventName, unlock, true);
+    }
+
+    tryPlay();
 
     return () => {
       audio.pause();
-      audio.removeEventListener("play", onPlay);
+      audio.removeEventListener("playing", onPlaying);
       audio.removeEventListener("pause", onPause);
-      window.removeEventListener("pointerdown", unlock);
-      window.removeEventListener("keydown", unlock);
+      audio.removeEventListener("canplay", tryPlay);
+      document.removeEventListener("visibilitychange", onVisible);
+      window.removeEventListener("pageshow", tryPlay);
+      document.removeEventListener("WeixinJSBridgeReady", tryPlay);
+      for (const eventName of UNLOCK_EVENTS) {
+        window.removeEventListener(eventName, unlock, true);
+      }
     };
   }, [src]);
 
@@ -56,16 +88,25 @@ export default function MusicPlayer({
     if (!audio) return;
 
     if (audio.paused) {
+      userPaused.current = false;
       audio.play().catch(() => setPlaying(false));
       return;
     }
 
+    userPaused.current = true;
     audio.pause();
   }
 
   return (
     <>
-      <audio ref={audioRef} src={src} loop autoPlay preload="auto" />
+      <audio
+        ref={audioRef}
+        src={src}
+        loop
+        autoPlay
+        preload="auto"
+        playsInline
+      />
       <button
         ref={buttonRef}
         type="button"
