@@ -19,12 +19,14 @@ export const templates: InvitationTemplate[] = [
     href: "/templates/botanical",
   },
   {
-    id: "midnight-silk",
-    title: "Midnight Silk",
+    id: "elegant",
+    title: "Elegant",
     style: "Elegant",
-    description: "Deep tones and refined typography for evening receptions.",
+    description:
+      "A rose arch and a garden path — an invitation that feels like stepping into the light.",
     image: "/templates/midnight-silk.webp",
-    comingSoon: true,
+    comingSoon: false,
+    href: "/templates/elegant",
   },
   {
     id: "coastal-light",
