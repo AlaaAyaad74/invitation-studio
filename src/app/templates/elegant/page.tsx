@@ -15,6 +15,7 @@ export const metadata: Metadata = {
 };
 
 export default function ElegantTemplatePage() {
+  preload("/elegant/hero-poster.webp", { as: "image" });
   preload(VIDEO_SRC, { as: "video" });
 
   return (

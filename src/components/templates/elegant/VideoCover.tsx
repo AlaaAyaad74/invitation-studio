@@ -4,6 +4,7 @@ import { useEffect, useRef, useState } from "react";
 import { elegantInvitation as data } from "@/data/elegant";
 
 const VIDEO_SRC = "/elegant/elegant_hero_video.mp4";
+const POSTER_SRC = "/elegant/hero-poster.webp";
 
 const PETALS = [
   { className: "left-[18%]", delay: "0.4s", duration: "8.5s" },
@@ -37,6 +38,7 @@ function cue(animation = "animate-e-rise", extra = "") {
 export default function VideoCover() {
   const videoRef = useRef<HTMLVideoElement>(null);
   const [ready, setReady] = useState(false);
+  const [videoOn, setVideoOn] = useState(false);
 
   useEffect(() => {
     const id = window.setTimeout(() => setReady(true), 1400);
@@ -68,6 +70,7 @@ export default function VideoCover() {
       <video
         ref={videoRef}
         className="absolute inset-0 size-full object-cover"
+        poster={POSTER_SRC}
         autoPlay
         muted
         loop
@@ -75,9 +78,17 @@ export default function VideoCover() {
         preload="auto"
         aria-hidden="true"
         onCanPlay={() => setReady(true)}
+        onPlaying={() => setVideoOn(true)}
+        onError={() => setVideoOn(false)}
       >
         <source src={VIDEO_SRC} type="video/mp4" />
       </video>
+      <img
+        src={POSTER_SRC}
+        alt=""
+        fetchPriority="high"
+        className={`pointer-events-none absolute inset-0 z-[1] size-full object-cover transition-opacity duration-700 motion-reduce:transition-none ${videoOn ? "opacity-0" : "opacity-100"}`}
+      />
 
       <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_68%_42%_at_50%_40%,rgba(22,12,14,0.48),transparent_70%),linear-gradient(180deg,rgba(16,28,24,0.38)_0%,transparent_24%,transparent_62%,rgba(16,24,20,0.55)_100%)]" />
 
