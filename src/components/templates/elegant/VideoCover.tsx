@@ -94,33 +94,33 @@ export default function VideoCover() {
       <div className="relative z-10 -mt-[14%] w-full px-[1.4rem] text-center">
         <p
           className={`${cue()} text-[0.68rem] tracking-[0.32em] text-e-white/85 uppercase`}
-          style={{ animationDelay: "0.2s" }}
+          style={{ animationDelay: "3s" }}
         >
           {data.intro}
         </p>
         <h1 className="mt-3.5 font-normal">
           <span
             className={`${cue("animate-e-bloom")} block font-pinyon text-[clamp(4.1rem,17vw,5.4rem)] leading-[0.82] text-e-white [text-shadow:0_10px_28px_rgba(20,10,12,0.35)]`}
-            style={{ animationDelay: "0.55s" }}
+            style={{ animationDelay: "3.35s" }}
           >
             {data.couple.first}
           </span>
           <span
             className={`${cue()} my-0.5 block font-bodoni text-[2rem] leading-none text-[#f0d7b0] italic`}
-            style={{ animationDelay: "1.05s" }}
+            style={{ animationDelay: "3.85s" }}
           >
             &amp;
           </span>
           <span
             className={`${cue("animate-e-bloom")} block font-pinyon text-[clamp(4.1rem,17vw,5.4rem)] leading-[0.82] text-e-white [text-shadow:0_10px_28px_rgba(20,10,12,0.35)]`}
-            style={{ animationDelay: "1.35s" }}
+            style={{ animationDelay: "4.15s" }}
           >
             {data.couple.second}
           </span>
         </h1>
         <p
           className={`${cue()} mx-auto mt-3.5 max-w-52 font-bodoni text-[1.2rem] leading-snug text-e-white/90 italic text-balance`}
-          style={{ animationDelay: "1.9s" }}
+          style={{ animationDelay: "4.7s" }}
         >
           {data.tagline}
         </p>
@@ -128,14 +128,14 @@ export default function VideoCover() {
 
       <p
         className={`${cue("animate-e-rise-center", "motion-reduce:-translate-x-1/2")} absolute bottom-[5.1rem] left-1/2 z-10 m-0 rounded-full border border-e-white/40 bg-[rgba(22,14,16,0.28)] px-4 py-2 text-[0.66rem] tracking-[0.26em] text-e-white uppercase backdrop-blur-sm`}
-        style={{ animationDelay: "2.35s" }}
+        style={{ animationDelay: "5.15s" }}
       >
         {when}
       </p>
 
       <div
         className={`${cue()} absolute inset-x-0 bottom-[2.85rem] z-10 flex justify-center`}
-        style={{ animationDelay: "2.8s" }}
+        style={{ animationDelay: "5.6s" }}
         aria-hidden="true"
       >
         <span className="block h-3 w-2 rounded-[80%_15%_70%_30%] bg-[#f6d5d8] shadow-[0_8px_16px_rgba(20,10,12,0.25)] group-data-[ready=true]:animate-e-bob" />
