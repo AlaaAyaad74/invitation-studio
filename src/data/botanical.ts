@@ -81,7 +81,14 @@ export type BotanicalContent = {
   gallery: readonly { src: string; alt: string }[];
   galleryHint?: string;
   calendarId?: string;
+  hideHeroYear?: boolean;
 };
+
+export function capitalName(name: string) {
+  const word = name.trim();
+  if (!word) return word;
+  return word.charAt(0).toLocaleUpperCase() + word.slice(1).toLocaleLowerCase();
+}
 
 export type BotanicalInvitation = typeof botanicalInvitation;
 

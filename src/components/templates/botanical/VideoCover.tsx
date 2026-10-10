@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import type { BotanicalContent } from "@/data/botanical";
+import { capitalName, type BotanicalContent } from "@/data/botanical";
 import styles from "./VideoCover.module.css";
 
 const VIDEO_SRC = "/botanical/Botanical.mp4";
@@ -37,16 +37,16 @@ export default function VideoCover({ data }: { data: BotanicalContent }) {
           {data.intro}
         </p>
 
-        <h1 className={`${styles.names} ${styles.d2} mt-6 font-script text-[4.25rem] leading-[0.85] text-ink`}>
-          {data.couple.first}
+        <h1 className={`${styles.names} ${styles.d2} alex-brush-regular mt-6 text-[4.25rem] leading-[0.85] text-ink`}>
+          {capitalName(data.couple.first)}
         </h1>
         <p
           className={`${styles.line} ${styles.d3} mt-2 font-display text-3xl italic text-gold`}
         >
           &amp;
         </p>
-        <p className={`${styles.names} ${styles.d4} mt-1 font-script text-[4.25rem] leading-[0.85] text-ink`}>
-          {data.couple.second}
+        <p className={`${styles.names} ${styles.d4} alex-brush-regular mt-1 text-[4.25rem] leading-[0.85] text-ink`}>
+          {capitalName(data.couple.second)}
         </p>
 
         <p
@@ -58,12 +58,35 @@ export default function VideoCover({ data }: { data: BotanicalContent }) {
         <span className={`${styles.rule} ${styles.d6}`} />
 
         <div className={`${styles.line} ${styles.d7} mt-5 font-display`}>
-          <p className="text-[11px] tracking-[0.3em] text-ink-muted uppercase">
+          <p
+            className={
+              data.hideHeroYear
+                ? "text-[13px] tracking-[0.22em] text-ink uppercase"
+                : "text-[11px] tracking-[0.3em] text-ink-muted uppercase"
+            }
+            style={
+              data.hideHeroYear
+                ? { fontWeight: 700, fontSize: "0.82rem" }
+                : undefined
+            }
+          >
             {data.dateLabel.weekday}
           </p>
           <p className="mt-1 text-5xl leading-none">{data.dateLabel.day}</p>
-          <p className="mt-1 text-[11px] tracking-[0.3em] text-ink-muted uppercase">
-            {data.dateLabel.month} {data.dateLabel.year}
+          <p
+            className={
+              data.hideHeroYear
+                ? "mt-1 text-[13px] tracking-[0.22em] text-ink uppercase"
+                : "mt-1 text-[11px] tracking-[0.3em] text-ink-muted uppercase"
+            }
+            style={
+              data.hideHeroYear
+                ? { fontWeight: 700, fontSize: "0.82rem" }
+                : undefined
+            }
+          >
+            {data.dateLabel.month}
+            {data.hideHeroYear ? null : ` ${data.dateLabel.year}`}
           </p>
         </div>
       </div>

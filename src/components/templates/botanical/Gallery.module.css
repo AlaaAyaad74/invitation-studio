@@ -24,6 +24,11 @@
   color: var(--ink);
 }
 
+.script.brush {
+  font-family: "Alex Brush", cursive;
+  font-weight: 400;
+}
+
 .ornament {
   display: flex;
   align-items: center;

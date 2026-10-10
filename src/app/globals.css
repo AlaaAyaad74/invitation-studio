@@ -1,3 +1,4 @@
+@import url("https://fonts.googleapis.com/css2?family=Alex+Brush&display=swap");
 @import "tailwindcss";
 @source "../components";
 
@@ -194,6 +195,12 @@ body {
 
 .delay-4 {
   animation-delay: 0.6s;
+}
+
+.alex-brush-regular {
+  font-family: "Alex Brush", cursive;
+  font-weight: 400;
+  font-style: normal;
 }
 
 .texture-grain {

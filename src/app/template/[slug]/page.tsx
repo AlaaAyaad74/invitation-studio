@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { preload } from "react-dom";
 import Invitation from "@/components/templates/botanical/Invitation";
+import { capitalName } from "@/data/botanical";
 import { getCouple, couples } from "@/data/couples";
 import styles from "../../templates/botanical/shell.module.css";
 
@@ -22,7 +23,7 @@ export async function generateMetadata({
 
   const { first, second } = couple.couple;
   return {
-    title: `${first} & ${second}`,
+    title: `${capitalName(first)} & ${capitalName(second)}`,
     description: `${first} and ${second} invite you to their wedding on ${couple.dateLabel.weekday}, ${couple.dateLabel.day} ${couple.dateLabel.month} ${couple.dateLabel.year}.`,
     robots: { index: false, follow: true },
   };

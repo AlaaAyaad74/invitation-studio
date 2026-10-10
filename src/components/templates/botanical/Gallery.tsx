@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import type { BotanicalContent } from "@/data/botanical";
+import { capitalName, type BotanicalContent } from "@/data/botanical";
 import Reveal from "@/components/Reveal";
 import styles from "./Gallery.module.css";
 
@@ -30,8 +30,8 @@ export default function Gallery({ data }: { data: BotanicalContent }) {
     <section className={styles.section} aria-label="Photos">
       <Reveal className={styles.intro}>
         <p className={styles.label}>Our gallery</p>
-        <p className={styles.script}>
-          {data.couple.first} & {data.couple.second}
+        <p className={`${styles.script} ${styles.brush}`}>
+          {capitalName(data.couple.first)} & {capitalName(data.couple.second)}
         </p>
         <div className={styles.ornament} aria-hidden="true">
           <span />
@@ -63,7 +63,7 @@ export default function Gallery({ data }: { data: BotanicalContent }) {
             >
               <img src={photo.src} alt={photo.alt} loading="lazy" />
               <span className={styles.credit}>
-                {data.couple.first} & {data.couple.second}
+                {capitalName(data.couple.first)} & {capitalName(data.couple.second)}
               </span>
             </button>
           </Reveal>

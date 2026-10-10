@@ -18,6 +18,7 @@ export const couples: CoupleInvitation[] = [
       first: "Ahmed",
       second: "Manar",
     },
+    hideHeroYear: true,
     intro: "Together with their families",
     tagline: "invite you to celebrate their wedding",
     start: "2026-11-06T21:00:00+02:00",
