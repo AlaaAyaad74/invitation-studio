@@ -1,3 +1,5 @@
+import { eventFromInvite, googleCalendarUrl } from "@/lib/calendar";
+
 export const botanicalInvitation = {
   couple: {
     first: "Layla",
@@ -55,23 +57,38 @@ export const botanicalInvitation = {
   ],
 } as const;
 
+export type BotanicalContent = {
+  couple: { first: string; second: string };
+  intro: string;
+  tagline: string;
+  start: string;
+  end: string;
+  dateLabel: {
+    weekday: string;
+    day: string;
+    month: string;
+    year: string;
+  };
+  timeLabel: string;
+  venue: { name: string; address?: string; mapUrl: string };
+  dressCode?: string;
+  music?: string;
+  rsvp?: {
+    whatsapp: string;
+    message: string;
+    deadline: string;
+  };
+  gallery: readonly { src: string; alt: string }[];
+  galleryHint?: string;
+  calendarId?: string;
+};
+
 export type BotanicalInvitation = typeof botanicalInvitation;
 
-function toCalendarStamp(iso: string) {
-  return new Date(iso).toISOString().replace(/[-:]|\.\d{3}/g, "");
+export function getCalendarUrl(data: BotanicalContent, id = "botanical") {
+  return googleCalendarUrl(eventFromInvite(id, data));
 }
 
-export function getCalendarUrl(data: BotanicalInvitation) {
-  const params = new URLSearchParams({
-    action: "TEMPLATE",
-    text: `${data.couple.first} & ${data.couple.second} — Wedding`,
-    dates: `${toCalendarStamp(data.start)}/${toCalendarStamp(data.end)}`,
-    location: `${data.venue.name}, ${data.venue.address}`,
-    details: `${data.intro} ${data.tagline}.`,
-  });
-  return `https://calendar.google.com/calendar/render?${params.toString()}`;
-}
-
-export function getWhatsAppUrl(data: BotanicalInvitation) {
-  return `https://wa.me/${data.rsvp.whatsapp}?text=${encodeURIComponent(data.rsvp.message)}`;
+export function getWhatsAppUrl(rsvp: { whatsapp: string; message: string }) {
+  return `https://wa.me/${rsvp.whatsapp}?text=${encodeURIComponent(rsvp.message)}`;
 }

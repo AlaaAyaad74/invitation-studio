@@ -1,12 +1,12 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { botanicalInvitation as data } from "@/data/botanical";
+import type { BotanicalContent } from "@/data/botanical";
 import styles from "./VideoCover.module.css";
 
 const VIDEO_SRC = "/botanical/Botanical.mp4";
 
-export default function VideoCover() {
+export default function VideoCover({ data }: { data: BotanicalContent }) {
   const [ready, setReady] = useState(false);
 
   useEffect(() => {

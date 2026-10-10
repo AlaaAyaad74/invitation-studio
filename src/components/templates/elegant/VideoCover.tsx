@@ -1,7 +1,7 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
 import { elegantInvitation as data } from "@/data/elegant";
+import { useEffect, useRef, useState } from "react";
 
 const VIDEO_SRC = "/elegant/elegant_hero_video.mp4";
 const POSTER_SRC = "/elegant/hero-poster.webp";
@@ -92,12 +92,18 @@ export default function VideoCover() {
 
       <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_68%_42%_at_50%_40%,rgba(22,12,14,0.48),transparent_70%),linear-gradient(180deg,rgba(16,28,24,0.38)_0%,transparent_24%,transparent_62%,rgba(16,24,20,0.55)_100%)]" />
 
-      <div className="pointer-events-none absolute inset-0 z-[2] overflow-hidden" aria-hidden="true">
+      <div
+        className="pointer-events-none absolute inset-0 z-[2] overflow-hidden"
+        aria-hidden="true"
+      >
         {PETALS.map((petal) => (
           <span
             key={petal.delay}
             className={`absolute -top-[8%] h-[0.78rem] w-[0.55rem] animate-e-drift rounded-[80%_15%_70%_30%] bg-gradient-to-br from-[#ffe8ea] to-[#e7a0ab] opacity-0 ${petal.className}`}
-            style={{ animationDelay: petal.delay, animationDuration: petal.duration }}
+            style={{
+              animationDelay: petal.delay,
+              animationDuration: petal.duration,
+            }}
           />
         ))}
       </div>
@@ -112,19 +118,19 @@ export default function VideoCover() {
         <h1 className="mt-3.5 font-normal">
           <span
             className={`${cue("animate-e-bloom")} block font-pinyon text-[clamp(4.1rem,17vw,5.4rem)] leading-[0.82] text-e-white [text-shadow:0_10px_28px_rgba(20,10,12,0.35)]`}
-            style={{ animationDelay: "3.35s" }}
+            style={{ animationDelay: "1.85s" }}
           >
             {data.couple.first}
           </span>
           <span
             className={`${cue()} my-0.5 block font-bodoni text-[2rem] leading-none text-[#f0d7b0] italic`}
-            style={{ animationDelay: "3.85s" }}
+            style={{ animationDelay: "2.35s" }}
           >
             &amp;
           </span>
           <span
             className={`${cue("animate-e-bloom")} block font-pinyon text-[clamp(4.1rem,17vw,5.4rem)] leading-[0.82] text-e-white [text-shadow:0_10px_28px_rgba(20,10,12,0.35)]`}
-            style={{ animationDelay: "4.15s" }}
+            style={{ animationDelay: "2.65s" }}
           >
             {data.couple.second}
           </span>

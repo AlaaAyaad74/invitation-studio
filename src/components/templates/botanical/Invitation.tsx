@@ -4,21 +4,19 @@ import Countdown from "@/components/templates/botanical/Countdown";
 import Details from "@/components/templates/botanical/Details";
 import Gallery from "@/components/templates/botanical/Gallery";
 import MusicPlayer from "@/components/templates/MusicPlayer";
+import StudioCredit from "@/components/templates/StudioCredit";
 import VideoCover from "@/components/templates/botanical/VideoCover";
-import {
-  botanicalInvitation as data,
-  getWhatsAppUrl,
-} from "@/data/botanical";
+import { getWhatsAppUrl, type BotanicalContent } from "@/data/botanical";
 
-const whatsappUrl = getWhatsAppUrl(data);
+export default function Invitation({ data }: { data: BotanicalContent }) {
+  const whatsappUrl = data.rsvp ? getWhatsAppUrl(data.rsvp) : null;
 
-export default function Invitation() {
   return (
     <div className="bg-[#f6f0e6] text-ink">
-      <VideoCover />
-      <Countdown />
-      <Details />
-      <Gallery />
+      <VideoCover data={data} />
+      <Countdown data={data} />
+      <Details data={data} />
+      <Gallery data={data} />
 
       <section className="relative overflow-hidden px-6 py-16 text-center">
         <Reveal className="relative">
@@ -28,24 +26,26 @@ export default function Invitation() {
           <h2 className="mt-3 font-display text-3xl text-balance text-ink">
             We would love to have you with us
           </h2>
-          <p className="mt-3 text-sm text-ink-muted">{data.rsvp.deadline}</p>
-          <a
-            href={whatsappUrl}
-            target="_blank"
-            rel="noreferrer"
-            className="mt-8 inline-flex items-center gap-2 border border-gold/55 px-6 py-3 text-xs tracking-[0.18em] text-ink uppercase transition hover:bg-ink hover:text-white"
-          >
-            <WhatsAppIcon className="h-4 w-4 fill-current" />
-            Confirm on WhatsApp
-          </a>
+          {data.rsvp ? (
+            <p className="mt-3 text-sm text-ink-muted">{data.rsvp.deadline}</p>
+          ) : null}
+          {whatsappUrl ? (
+            <a
+              href={whatsappUrl}
+              target="_blank"
+              rel="noreferrer"
+              className="mt-8 inline-flex items-center gap-2 border border-gold/55 px-6 py-3 text-xs tracking-[0.18em] text-ink uppercase transition hover:bg-ink hover:text-white"
+            >
+              <WhatsAppIcon className="h-4 w-4 fill-current" />
+              Confirm on WhatsApp
+            </a>
+          ) : null}
         </Reveal>
       </section>
 
-      <footer className="px-6 py-8 text-center text-[10px] tracking-[0.24em] text-ink-muted uppercase">
-        Crafted with Invitation Studio
-      </footer>
+      <StudioCredit className="px-6 py-8 text-center text-[10px] tracking-[0.24em] text-ink-muted uppercase" />
 
-      <MusicPlayer src={data.music} />
+      {data.music ? <MusicPlayer src={data.music} /> : null}
     </div>
   );
 }

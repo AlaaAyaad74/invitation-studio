@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { botanicalInvitation as data } from "@/data/botanical";
+import type { BotanicalContent } from "@/data/botanical";
 import Reveal from "@/components/Reveal";
 import styles from "./Countdown.module.css";
 
@@ -50,7 +50,7 @@ function Corner({ className }: { className: string }) {
   );
 }
 
-export default function Countdown() {
+export default function Countdown({ data }: { data: BotanicalContent }) {
   const target = new Date(data.start).getTime();
   const [remaining, setRemaining] = useState<Remaining | null>(null);
 

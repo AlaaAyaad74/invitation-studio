@@ -1,14 +1,12 @@
 import CalendarIcon from "@/app/common/icons/CalendarIcon";
 import Reveal from "@/components/Reveal";
-import {
-  botanicalInvitation as data,
-  getCalendarUrl,
-} from "@/data/botanical";
+import AddToCalendar from "@/components/templates/AddToCalendar";
+import { getCalendarUrl, type BotanicalContent } from "@/data/botanical";
 import styles from "./Details.module.css";
 
-const calendarUrl = getCalendarUrl(data);
-
-export default function Details() {
+export default function Details({ data }: { data: BotanicalContent }) {
+  const calendarId = data.calendarId ?? "botanical";
+  const calendarUrl = getCalendarUrl(data, calendarId);
   return (
     <section className={styles.section} aria-label="Wedding details">
       <Reveal className={styles.intro}>
@@ -38,15 +36,14 @@ export default function Details() {
               {data.dateLabel.month} {data.dateLabel.year}
             </p>
             <p className={styles.meta}>{data.timeLabel}</p>
-            <a
+            <AddToCalendar
+              template={calendarId}
               href={calendarUrl}
-              target="_blank"
-              rel="noreferrer"
               className={styles.action}
             >
               <CalendarIcon className={styles.icon} />
               Add to calendar
-            </a>
+            </AddToCalendar>
           </article>
         </Reveal>
 
@@ -54,7 +51,9 @@ export default function Details() {
           <article className={styles.card}>
             <p className={styles.cardLabel}>Where</p>
             <p className={styles.title}>{data.venue.name}</p>
-            <p className={styles.meta}>{data.venue.address}</p>
+            {data.venue.address ? (
+              <p className={styles.meta}>{data.venue.address}</p>
+            ) : null}
             <a
               href={data.venue.mapUrl}
               target="_blank"
@@ -66,12 +65,14 @@ export default function Details() {
           </article>
         </Reveal>
 
-        <Reveal delayMs={180}>
-          <article className={styles.card}>
-            <p className={styles.cardLabel}>Dress code</p>
-            <p className={styles.title}>{data.dressCode}</p>
-          </article>
-        </Reveal>
+        {data.dressCode ? (
+          <Reveal delayMs={180}>
+            <article className={styles.card}>
+              <p className={styles.cardLabel}>Dress code</p>
+              <p className={styles.title}>{data.dressCode}</p>
+            </article>
+          </Reveal>
+        ) : null}
       </div>
     </section>
   );

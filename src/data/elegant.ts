@@ -1,3 +1,5 @@
+import { eventFromInvite, googleCalendarUrl } from "@/lib/calendar";
+
 export const elegantInvitation = {
   couple: {
     first: "Amira",
@@ -75,19 +77,8 @@ export const elegantInvitation = {
 
 export type ElegantInvitation = typeof elegantInvitation;
 
-function toCalendarStamp(iso: string) {
-  return new Date(iso).toISOString().replace(/[-:]|\.\d{3}/g, "");
-}
-
 export function getCalendarUrl(data: ElegantInvitation) {
-  const params = new URLSearchParams({
-    action: "TEMPLATE",
-    text: `${data.couple.first} & ${data.couple.second} — Wedding`,
-    dates: `${toCalendarStamp(data.start)}/${toCalendarStamp(data.end)}`,
-    location: `${data.venue.name}, ${data.venue.address}`,
-    details: `${data.intro} ${data.tagline}.`,
-  });
-  return `https://calendar.google.com/calendar/render?${params.toString()}`;
+  return googleCalendarUrl(eventFromInvite("elegant", data));
 }
 
 export function getWhatsAppUrl(data: ElegantInvitation) {

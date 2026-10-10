@@ -1,13 +1,13 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { botanicalInvitation as data } from "@/data/botanical";
+import type { BotanicalContent } from "@/data/botanical";
 import Reveal from "@/components/Reveal";
 import styles from "./Gallery.module.css";
 
-type Photo = (typeof data.gallery)[number];
+type Photo = BotanicalContent["gallery"][number];
 
-export default function Gallery() {
+export default function Gallery({ data }: { data: BotanicalContent }) {
   const [active, setActive] = useState<Photo | null>(null);
 
   useEffect(() => {
@@ -44,7 +44,9 @@ export default function Gallery() {
           </svg>
           <span />
         </div>
-        <p className={styles.hint}>A few stills from the meadow</p>
+        <p className={styles.hint}>
+          {data.galleryHint ?? "A few stills from the meadow"}
+        </p>
       </Reveal>
 
       <div className={styles.masonry}>

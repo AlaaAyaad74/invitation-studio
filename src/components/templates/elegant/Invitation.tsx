@@ -5,10 +5,8 @@ import Gallery from "@/components/templates/elegant/Gallery";
 import Journey from "@/components/templates/elegant/Journey";
 import VideoCover from "@/components/templates/elegant/VideoCover";
 import MusicPlayer from "@/components/templates/MusicPlayer";
-import {
-  elegantInvitation as data,
-  getWhatsAppUrl,
-} from "@/data/elegant";
+import StudioCredit from "@/components/templates/StudioCredit";
+import { elegantInvitation as data, getWhatsAppUrl } from "@/data/elegant";
 
 const whatsappUrl = getWhatsAppUrl(data);
 
@@ -60,9 +58,7 @@ export default function Invitation() {
           </Reveal>
         </section>
 
-        <footer className="px-5 pt-6 pb-7 text-center text-[0.62rem] tracking-[0.26em] text-e-muted uppercase">
-          Crafted with Invitation Studio
-        </footer>
+        <StudioCredit className="px-5 pt-6 pb-7 text-center text-[0.62rem] tracking-[0.26em] text-e-muted uppercase" />
       </div>
 
       <MusicPlayer src={data.music} />

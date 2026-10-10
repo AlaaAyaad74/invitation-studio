@@ -1,8 +1,8 @@
 "use client";
 
-import { useEffect, useState } from "react";
-import { elegantInvitation as data } from "@/data/elegant";
 import Reveal from "@/components/Reveal";
+import { elegantInvitation as data } from "@/data/elegant";
+import { useEffect, useState } from "react";
 
 const UNITS = [
   { key: "hours", label: "Hours" },
@@ -66,7 +66,9 @@ export default function Countdown() {
 
         {remaining?.done ? (
           <div className="my-8">
-            <p className="font-pinyon text-6xl leading-none text-e-rose">Today</p>
+            <p className="font-pinyon text-6xl leading-none text-e-rose">
+              Today
+            </p>
             <p className="mt-2 text-[0.72rem] tracking-[0.22em] text-e-muted uppercase">
               The garden is open
             </p>
@@ -82,7 +84,10 @@ export default function Countdown() {
                 className="absolute inset-[0.65rem] rounded-full border border-dashed border-e-gold/75"
                 aria-hidden="true"
               />
-              <span className="absolute inset-0 animate-e-orbit" aria-hidden="true">
+              <span
+                className="absolute inset-0 animate-e-orbit"
+                aria-hidden="true"
+              >
                 <i className="absolute top-[-0.22rem] left-1/2 size-[0.48rem] -translate-x-1/2 rounded-full bg-e-rose shadow-[0_0_0_4px_color-mix(in_srgb,#fbf6f1_80%,transparent)]" />
               </span>
               <p className="relative m-0">

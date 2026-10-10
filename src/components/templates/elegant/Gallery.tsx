@@ -1,8 +1,8 @@
 "use client";
 
-import { useEffect, useState } from "react";
 import Reveal from "@/components/Reveal";
 import { elegantInvitation as data } from "@/data/elegant";
+import { useEffect, useState } from "react";
 
 const SHAPE =
   "M0.463 0.02C0.529 0.028 0.596 0.066 0.653 0.096C0.710 0.126 0.758 0.160 0.805 0.200C0.853 0.240 0.900 0.280 0.930 0.332C0.960 0.384 0.988 0.450 0.988 0.510C0.988 0.570 0.960 0.636 0.928 0.686C0.896 0.736 0.840 0.774 0.792 0.808C0.744 0.842 0.694 0.866 0.640 0.892C0.586 0.918 0.530 0.952 0.466 0.966C0.402 0.980 0.320 0.992 0.256 0.978C0.192 0.964 0.124 0.914 0.084 0.864C0.044 0.814 0.024 0.744 0.016 0.686C0.008 0.628 0.012 0.568 0.016 0.512C0.020 0.456 0.028 0.404 0.046 0.350C0.064 0.296 0.088 0.244 0.122 0.194C0.156 0.144 0.200 0.082 0.256 0.052C0.312 0.022 0.396 0.012 0.463 0.02Z";
@@ -129,7 +129,10 @@ export default function Gallery() {
                 style={{
                   width: 8,
                   height: 8,
-                  background: itemIndex === index ? "#c45c6c" : "rgba(196, 92, 108, 0.35)",
+                  background:
+                    itemIndex === index
+                      ? "#c45c6c"
+                      : "rgba(196, 92, 108, 0.35)",
                 }}
               />
             ))}
@@ -164,7 +167,10 @@ export default function Gallery() {
             <div
               key={photo.src}
               className="mx-auto w-[min(100%,22rem)] animate-fade-up motion-reduce:animate-none"
-              style={{ aspectRatio: SHAPE_RATIO, clipPath: "url(#elegant-shape)" }}
+              style={{
+                aspectRatio: SHAPE_RATIO,
+                clipPath: "url(#elegant-shape)",
+              }}
             >
               <img
                 src={photo.src}

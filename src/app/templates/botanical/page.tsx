@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { preload } from "react-dom";
 import Invitation from "@/components/templates/botanical/Invitation";
+import { botanicalInvitation } from "@/data/botanical";
 import styles from "./shell.module.css";
 
 export const metadata: Metadata = {
@@ -28,7 +29,7 @@ export default function BotanicalTemplatePage() {
       </aside>
 
       <main className={styles.stage}>
-        <Invitation />
+        <Invitation data={botanicalInvitation} />
       </main>
     </div>
   );

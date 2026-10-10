@@ -1,9 +1,7 @@
 import CalendarIcon from "@/app/common/icons/CalendarIcon";
 import Reveal from "@/components/Reveal";
-import {
-  elegantInvitation as data,
-  getCalendarUrl,
-} from "@/data/elegant";
+import AddToCalendar from "@/components/templates/AddToCalendar";
+import { elegantInvitation as data, getCalendarUrl } from "@/data/elegant";
 
 const calendarUrl = getCalendarUrl(data);
 
@@ -135,10 +133,10 @@ export default function Journey() {
 
       <Reveal className="mt-5">
         <div className="flex overflow-hidden rounded-full border border-e-leaf/15 bg-e-white">
-          <a href={calendarUrl} target="_blank" rel="noreferrer" className={actionClass}>
+          <AddToCalendar template="elegant" href={calendarUrl} className={actionClass}>
             <CalendarIcon className="size-4 fill-none stroke-current stroke-[1.6]" />
             Add to calendar
-          </a>
+          </AddToCalendar>
           <a
             href={data.venue.mapUrl}
             target="_blank"
@@ -157,7 +155,12 @@ export default function Journey() {
 function MomentMark({ index }: { index: number }) {
   if (index === 1) {
     return (
-      <svg viewBox="0 0 24 24" className="size-4" fill="currentColor" aria-hidden="true">
+      <svg
+        viewBox="0 0 24 24"
+        className="size-4"
+        fill="currentColor"
+        aria-hidden="true"
+      >
         <path d="M12 3.2 13.15 7.6 17.7 8.55 13.15 9.5 12 13.9 10.85 9.5 6.3 8.55 10.85 7.6 12 3.2Z" />
         <path d="M17.2 13.2 17.8 15.2 19.8 15.75 17.8 16.3 17.2 18.3 16.6 16.3 14.6 15.75 16.6 15.2 17.2 13.2Z" />
       </svg>
@@ -166,7 +169,12 @@ function MomentMark({ index }: { index: number }) {
 
   if (index === 2) {
     return (
-      <svg viewBox="0 0 24 24" className="size-4" fill="currentColor" aria-hidden="true">
+      <svg
+        viewBox="0 0 24 24"
+        className="size-4"
+        fill="currentColor"
+        aria-hidden="true"
+      >
         <path d="M7 17.5c0-6 4.2-9.2 10.8-10.2-.6 6.4-4.2 10.2-10.8 10.2Z" />
       </svg>
     );
@@ -192,7 +200,13 @@ function MapIcon() {
         stroke="currentColor"
         strokeWidth="1.6"
       />
-      <circle cx="12" cy="11.2" r="1.7" stroke="currentColor" strokeWidth="1.6" />
+      <circle
+        cx="12"
+        cy="11.2"
+        r="1.7"
+        stroke="currentColor"
+        strokeWidth="1.6"
+      />
     </svg>
   );
 }
