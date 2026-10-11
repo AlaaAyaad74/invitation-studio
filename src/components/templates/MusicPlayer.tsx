@@ -81,7 +81,10 @@ export default function MusicPlayer({
     audio.addEventListener("pause", onPause);
     document.addEventListener("visibilitychange", onVisible);
     window.addEventListener("pageshow", tryPlay);
+    window.addEventListener("load", tryPlay);
     document.addEventListener("WeixinJSBridgeReady", tryPlay);
+
+    if (document.readyState === "complete") tryPlay();
 
     const scrollTargets = [window, document, document.documentElement];
 
@@ -108,6 +111,7 @@ export default function MusicPlayer({
       audio.removeEventListener("canplay", startIfStillPaused);
       document.removeEventListener("visibilitychange", onVisible);
       window.removeEventListener("pageshow", tryPlay);
+      window.removeEventListener("load", tryPlay);
       document.removeEventListener("WeixinJSBridgeReady", tryPlay);
       for (const eventName of GESTURE_EVENTS) {
         window.removeEventListener(eventName, unlock, true);
