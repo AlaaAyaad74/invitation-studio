@@ -8,14 +8,20 @@ type MusicPlayerProps = {
   label?: string;
 };
 
-const UNLOCK_EVENTS = [
+const GESTURE_EVENTS = [
   "pointerdown",
   "pointerup",
   "mousedown",
+  "mouseup",
+  "touchstart",
   "touchend",
+  "touchmove",
   "click",
   "keydown",
+  "keyup",
 ] as const;
+
+const SCROLL_EVENTS = ["scroll", "wheel"] as const;
 
 export default function MusicPlayer({
   src,
@@ -29,14 +35,20 @@ export default function MusicPlayer({
   useEffect(() => {
     const audio = audioRef.current;
     if (!audio) return;
+
     let ignore = false;
+    let pending = false;
+
     const tryPlay = () => {
-      if (ignore || userPaused.current || !audio.paused) return;
+      if (ignore || userPaused.current || !audio.paused || pending) return;
+      pending = true;
       audio.play().then(
         () => {
+          pending = false;
           if (!ignore && !audio.paused) setPlaying(true);
         },
         () => {
+          pending = false;
           if (!ignore) setPlaying(false);
         },
       );
@@ -55,6 +67,7 @@ export default function MusicPlayer({
     const onPause = () => {
       if (!ignore) setPlaying(false);
     };
+
     const onVisible = () => {
       if (document.visibilityState === "visible") tryPlay();
     };
@@ -70,8 +83,16 @@ export default function MusicPlayer({
     window.addEventListener("pageshow", tryPlay);
     document.addEventListener("WeixinJSBridgeReady", tryPlay);
 
-    for (const eventName of UNLOCK_EVENTS) {
+    const scrollTargets = [window, document, document.documentElement];
+
+    for (const eventName of GESTURE_EVENTS) {
       window.addEventListener(eventName, unlock, true);
+    }
+
+    for (const eventName of SCROLL_EVENTS) {
+      for (const target of scrollTargets) {
+        target.addEventListener(eventName, unlock, { capture: true, passive: true });
+      }
     }
 
     if (audio.readyState >= HTMLMediaElement.HAVE_FUTURE_DATA) {
@@ -88,8 +109,14 @@ export default function MusicPlayer({
       document.removeEventListener("visibilitychange", onVisible);
       window.removeEventListener("pageshow", tryPlay);
       document.removeEventListener("WeixinJSBridgeReady", tryPlay);
-      for (const eventName of UNLOCK_EVENTS) {
+      for (const eventName of GESTURE_EVENTS) {
         window.removeEventListener(eventName, unlock, true);
+      }
+
+      for (const eventName of SCROLL_EVENTS) {
+        for (const target of scrollTargets) {
+          target.removeEventListener(eventName, unlock, true);
+        }
       }
     };
   }, [src]);
