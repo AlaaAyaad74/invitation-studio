@@ -10,15 +10,11 @@ type MusicPlayerProps = {
 
 const GESTURE_EVENTS = [
   "pointerdown",
-  "pointerup",
   "mousedown",
-  "mouseup",
   "touchstart",
   "touchend",
-  "touchmove",
   "click",
   "keydown",
-  "keyup",
 ] as const;
 
 const SCROLL_EVENTS = ["scroll", "wheel"] as const;
@@ -37,32 +33,52 @@ export default function MusicPlayer({
     if (!audio) return;
 
     let ignore = false;
-    let pending = false;
+    let started = false;
+    let userTried = false;
 
-    const tryPlay = (fromGesture = false) => {
-      if (ignore || userPaused.current || !audio.paused) return;
-      if (!fromGesture && pending) return;
-      pending = true;
+    const markPlaying = () => {
+      if (ignore || audio.paused) return;
+      started = true;
+      setPlaying(true);
+    };
+
+    const playFromUser = () => {
+      if (ignore || userPaused.current || userTried) return;
+      if (!audio.paused) {
+        markPlaying();
+        return;
+      }
+      userTried = true;
       audio.play().then(
         () => {
-          pending = false;
-          if (!ignore && !audio.paused) setPlaying(true);
+          if (!audio.paused) markPlaying();
+          else userTried = false;
         },
         () => {
-          pending = false;
+          userTried = false;
           if (!ignore && audio.paused) setPlaying(false);
         },
       );
     };
 
+    const tryAuto = () => {
+      if (ignore || userPaused.current || started || userTried || !audio.paused) return;
+      audio.play().then(markPlaying, () => {
+        if (ignore || started || userTried || !audio.paused) return;
+        audio.load();
+      });
+    };
+
     const unlock = (event: Event) => {
       const target = event.target;
       if (target instanceof Node && buttonRef.current?.contains(target)) return;
-      tryPlay(true);
+      playFromUser();
     };
 
     const onPlaying = () => {
-      if (!ignore && !userPaused.current) setPlaying(true);
+      if (ignore || userPaused.current) return;
+      started = true;
+      setPlaying(true);
     };
 
     const onPause = () => {
@@ -70,43 +86,42 @@ export default function MusicPlayer({
     };
 
     const onVisible = () => {
-      if (document.visibilityState === "visible") tryPlay();
+      if (document.visibilityState === "visible") tryAuto();
     };
 
     const startIfStillPaused = () => {
-      if (!audio.paused) setPlaying(true);
-      else tryPlay();
+      if (!audio.paused) markPlaying();
+      else tryAuto();
+    };
+
+    let scrollTried = false;
+    const onScroll = () => {
+      if (scrollTried) return;
+      scrollTried = true;
+      playFromUser();
     };
 
     audio.addEventListener("playing", onPlaying);
     audio.addEventListener("pause", onPause);
     document.addEventListener("visibilitychange", onVisible);
-    const onAutoPlay = () => tryPlay();
-    window.addEventListener("pageshow", onAutoPlay);
-    document.addEventListener("WeixinJSBridgeReady", onAutoPlay);
+    window.addEventListener("pageshow", tryAuto);
+    document.addEventListener("WeixinJSBridgeReady", tryAuto);
 
-    const gestureTargets: EventTarget[] = [window, document];
     const scrollTargets: EventTarget[] = [window, document];
     if (document.documentElement) scrollTargets.push(document.documentElement);
-    if (document.body) {
-      gestureTargets.push(document.body);
-      scrollTargets.push(document.body);
-    }
-    if (document.scrollingElement)
-      scrollTargets.push(document.scrollingElement);
+    if (document.body) scrollTargets.push(document.body);
+    if (document.scrollingElement) scrollTargets.push(document.scrollingElement);
 
     for (const eventName of GESTURE_EVENTS) {
-      for (const target of gestureTargets) {
-        target.addEventListener(eventName, unlock, {
-          capture: true,
-          passive: true,
-        });
-      }
+      document.addEventListener(eventName, unlock, {
+        capture: true,
+        passive: true,
+      });
     }
 
-    for (const eventName of SCROLL_EVENTS) {
-      for (const target of scrollTargets) {
-        target.addEventListener(eventName, unlock, {
+    for (const target of scrollTargets) {
+      for (const eventName of SCROLL_EVENTS) {
+        target.addEventListener(eventName, onScroll, {
           capture: true,
           passive: true,
         });
@@ -125,17 +140,15 @@ export default function MusicPlayer({
       audio.removeEventListener("pause", onPause);
       audio.removeEventListener("canplay", startIfStillPaused);
       document.removeEventListener("visibilitychange", onVisible);
-      window.removeEventListener("pageshow", onAutoPlay);
-      document.removeEventListener("WeixinJSBridgeReady", onAutoPlay);
+      window.removeEventListener("pageshow", tryAuto);
+      document.removeEventListener("WeixinJSBridgeReady", tryAuto);
       for (const eventName of GESTURE_EVENTS) {
-        for (const target of gestureTargets) {
-          target.removeEventListener(eventName, unlock, true);
-        }
+        document.removeEventListener(eventName, unlock, true);
       }
 
-      for (const eventName of SCROLL_EVENTS) {
-        for (const target of scrollTargets) {
-          target.removeEventListener(eventName, unlock, true);
+      for (const target of scrollTargets) {
+        for (const eventName of SCROLL_EVENTS) {
+          target.removeEventListener(eventName, onScroll, true);
         }
       }
     };
@@ -161,7 +174,6 @@ export default function MusicPlayer({
         ref={audioRef}
         src={src}
         loop
-        autoPlay
         preload="auto"
         playsInline
       />
