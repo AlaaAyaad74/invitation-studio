@@ -8,7 +8,14 @@ type MusicPlayerProps = {
   label?: string;
 };
 
-const UNLOCK_EVENTS = ["pointerdown", "touchend", "keydown"] as const;
+const UNLOCK_EVENTS = [
+  "pointerdown",
+  "pointerup",
+  "mousedown",
+  "touchend",
+  "click",
+  "keydown",
+] as const;
 
 export default function MusicPlayer({
   src,
@@ -22,9 +29,7 @@ export default function MusicPlayer({
   useEffect(() => {
     const audio = audioRef.current;
     if (!audio) return;
-
     let ignore = false;
-
     const tryPlay = () => {
       if (ignore || userPaused.current || !audio.paused) return;
       audio.play().then(
@@ -50,7 +55,6 @@ export default function MusicPlayer({
     const onPause = () => {
       if (!ignore) setPlaying(false);
     };
-
     const onVisible = () => {
       if (document.visibilityState === "visible") tryPlay();
     };
