@@ -39,8 +39,9 @@ export default function MusicPlayer({
     let ignore = false;
     let pending = false;
 
-    const tryPlay = () => {
-      if (ignore || userPaused.current || !audio.paused || pending) return;
+    const tryPlay = (fromGesture = false) => {
+      if (ignore || userPaused.current || !audio.paused) return;
+      if (!fromGesture && pending) return;
       pending = true;
       audio.play().then(
         () => {
@@ -49,7 +50,7 @@ export default function MusicPlayer({
         },
         () => {
           pending = false;
-          if (!ignore) setPlaying(false);
+          if (!ignore && audio.paused) setPlaying(false);
         },
       );
     };
@@ -57,7 +58,7 @@ export default function MusicPlayer({
     const unlock = (event: Event) => {
       const target = event.target;
       if (target instanceof Node && buttonRef.current?.contains(target)) return;
-      tryPlay();
+      tryPlay(true);
     };
 
     const onPlaying = () => {
@@ -80,21 +81,35 @@ export default function MusicPlayer({
     audio.addEventListener("playing", onPlaying);
     audio.addEventListener("pause", onPause);
     document.addEventListener("visibilitychange", onVisible);
-    window.addEventListener("pageshow", tryPlay);
-    window.addEventListener("load", tryPlay);
-    document.addEventListener("WeixinJSBridgeReady", tryPlay);
+    const onAutoPlay = () => tryPlay();
+    window.addEventListener("pageshow", onAutoPlay);
+    document.addEventListener("WeixinJSBridgeReady", onAutoPlay);
 
-    if (document.readyState === "complete") tryPlay();
-
-    const scrollTargets = [window, document, document.documentElement];
+    const gestureTargets: EventTarget[] = [window, document];
+    const scrollTargets: EventTarget[] = [window, document];
+    if (document.documentElement) scrollTargets.push(document.documentElement);
+    if (document.body) {
+      gestureTargets.push(document.body);
+      scrollTargets.push(document.body);
+    }
+    if (document.scrollingElement)
+      scrollTargets.push(document.scrollingElement);
 
     for (const eventName of GESTURE_EVENTS) {
-      window.addEventListener(eventName, unlock, true);
+      for (const target of gestureTargets) {
+        target.addEventListener(eventName, unlock, {
+          capture: true,
+          passive: true,
+        });
+      }
     }
 
     for (const eventName of SCROLL_EVENTS) {
       for (const target of scrollTargets) {
-        target.addEventListener(eventName, unlock, { capture: true, passive: true });
+        target.addEventListener(eventName, unlock, {
+          capture: true,
+          passive: true,
+        });
       }
     }
 
@@ -110,11 +125,12 @@ export default function MusicPlayer({
       audio.removeEventListener("pause", onPause);
       audio.removeEventListener("canplay", startIfStillPaused);
       document.removeEventListener("visibilitychange", onVisible);
-      window.removeEventListener("pageshow", tryPlay);
-      window.removeEventListener("load", tryPlay);
-      document.removeEventListener("WeixinJSBridgeReady", tryPlay);
+      window.removeEventListener("pageshow", onAutoPlay);
+      document.removeEventListener("WeixinJSBridgeReady", onAutoPlay);
       for (const eventName of GESTURE_EVENTS) {
-        window.removeEventListener(eventName, unlock, true);
+        for (const target of gestureTargets) {
+          target.removeEventListener(eventName, unlock, true);
+        }
       }
 
       for (const eventName of SCROLL_EVENTS) {
