@@ -30,7 +30,7 @@ export const couples: CoupleInvitation[] = [
       year: "2026",
     },
     timeLabel: "Nine o'clock in the evening",
-    music: "/voices/botanical-voice.mp3",
+    music: "/voices/ahmed-manar-voice.mp3",
     venue: {
       name: "ROSABIANCA Village",
       mapUrl: MAP_URL,
