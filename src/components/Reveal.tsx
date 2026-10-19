@@ -6,12 +6,14 @@ type RevealProps = {
   children: ReactNode;
   className?: string;
   delayMs?: number;
+  style?: CSSProperties;
 };
 
 export default function Reveal({
   children,
   className = "",
   delayMs = 0,
+  style,
 }: RevealProps) {
   const ref = useRef<HTMLDivElement>(null);
 
@@ -44,7 +46,7 @@ export default function Reveal({
     <div
       ref={ref}
       className={["reveal", className].filter(Boolean).join(" ")}
-      style={{ "--reveal-delay": `${delayMs}ms` } as CSSProperties}
+      style={{ "--reveal-delay": `${delayMs}ms`, ...style } as CSSProperties}
     >
       {children}
     </div>

@@ -1,8 +1,9 @@
 "use client";
 
+import CountdownLines from "@/app/common/icons/CountdownLines";
 import Reveal from "@/components/Reveal";
 import { elegantInvitation as data } from "@/data/elegant";
-import { useEffect, useState } from "react";
+import { pad, useRemainingTime } from "@/hooks/useRemainingTime";
 
 const UNITS = [
   { key: "hours", label: "Hours" },
@@ -10,39 +11,8 @@ const UNITS = [
   { key: "seconds", label: "Seconds" },
 ] as const;
 
-type Remaining = {
-  days: number;
-  hours: number;
-  minutes: number;
-  seconds: number;
-  done: boolean;
-};
-
-function pad(value: number) {
-  return String(value).padStart(2, "0");
-}
-
-function getRemaining(target: number): Remaining {
-  const diff = Math.max(0, target - Date.now());
-  return {
-    days: Math.floor(diff / 86_400_000),
-    hours: Math.floor((diff / 3_600_000) % 24),
-    minutes: Math.floor((diff / 60_000) % 60),
-    seconds: Math.floor((diff / 1000) % 60),
-    done: diff === 0,
-  };
-}
-
 export default function Countdown() {
-  const target = new Date(data.start).getTime();
-  const [remaining, setRemaining] = useState<Remaining | null>(null);
-
-  useEffect(() => {
-    const tick = () => setRemaining(getRemaining(target));
-    tick();
-    const id = window.setInterval(tick, 1000);
-    return () => window.clearInterval(id);
-  }, [target]);
+  const remaining = useRemainingTime(data.start);
 
   const dateLine = `${data.dateLabel.weekday}, ${data.dateLabel.day} ${data.dateLabel.month} ${data.dateLabel.year}`;
 
@@ -52,11 +22,19 @@ export default function Countdown() {
       aria-label="Countdown to the wedding"
     >
       <div
-        className="pointer-events-none absolute -top-[4%] left-[18%] h-64 w-[64%] bg-[repeating-conic-gradient(from_-8deg_at_50%_0%,transparent_0_18deg,color-mix(in_srgb,#d4b483_22%,transparent)_18deg_19deg)] [mask-image:linear-gradient(180deg,#000_0%,transparent_78%)]"
+        className="pointer-events-none absolute top-0"
+        style={{
+          left: "50%",
+          translate: "-50% 0",
+          width: "72%",
+          height: "11rem",
+        }}
         aria-hidden="true"
-      />
+      >
+        <CountdownLines />
+      </div>
 
-      <Reveal className="relative">
+      <Reveal className="relative pt-8" style={{ paddingTop: "2rem" }}>
         <p className="text-[0.68rem] tracking-[0.34em] text-e-rose uppercase">
           The countdown
         </p>
@@ -86,6 +64,7 @@ export default function Countdown() {
               />
               <span
                 className="absolute inset-0 animate-e-orbit"
+                style={{ animation: "spin 60s linear infinite" }}
                 aria-hidden="true"
               >
                 <i className="absolute top-[-0.22rem] left-1/2 size-[0.48rem] -translate-x-1/2 rounded-full bg-e-rose shadow-[0_0_0_4px_color-mix(in_srgb,#fbf6f1_80%,transparent)]" />

@@ -1,8 +1,8 @@
 "use client";
 
-import { useEffect, useState } from "react";
-import type { BotanicalContent } from "@/data/botanical";
+import { type BotanicalContent } from "@/data/botanical";
 import Reveal from "@/components/Reveal";
+import { pad, useRemainingTime } from "@/hooks/useRemainingTime";
 import styles from "./Countdown.module.css";
 
 const UNITS = [
@@ -10,29 +10,6 @@ const UNITS = [
   { key: "minutes", label: "Minutes" },
   { key: "seconds", label: "Seconds" },
 ] as const;
-
-type Remaining = {
-  days: number;
-  hours: number;
-  minutes: number;
-  seconds: number;
-  done: boolean;
-};
-
-function pad(value: number) {
-  return String(value).padStart(2, "0");
-}
-
-function getRemaining(target: number): Remaining {
-  const diff = Math.max(0, target - Date.now());
-  return {
-    days: Math.floor(diff / 86_400_000),
-    hours: Math.floor((diff / 3_600_000) % 24),
-    minutes: Math.floor((diff / 60_000) % 60),
-    seconds: Math.floor((diff / 1000) % 60),
-    done: diff === 0,
-  };
-}
 
 function Corner({ className }: { className: string }) {
   return (
@@ -51,15 +28,7 @@ function Corner({ className }: { className: string }) {
 }
 
 export default function Countdown({ data }: { data: BotanicalContent }) {
-  const target = new Date(data.start).getTime();
-  const [remaining, setRemaining] = useState<Remaining | null>(null);
-
-  useEffect(() => {
-    const tick = () => setRemaining(getRemaining(target));
-    tick();
-    const id = window.setInterval(tick, 1000);
-    return () => window.clearInterval(id);
-  }, [target]);
+  const remaining = useRemainingTime(data.start);
 
   const dateLine = `${data.dateLabel.weekday}, ${data.dateLabel.day} ${data.dateLabel.month} ${data.dateLabel.year}`;
 

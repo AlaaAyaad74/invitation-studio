@@ -7,6 +7,7 @@ import VideoCover from "@/components/templates/elegant/VideoCover";
 import MusicPlayer from "@/components/templates/MusicPlayer";
 import StudioCredit from "@/components/templates/StudioCredit";
 import { elegantInvitation as data, getWhatsAppUrl } from "@/data/elegant";
+import Image from "next/image";
 
 const whatsappUrl = getWhatsAppUrl(data);
 
@@ -16,10 +17,33 @@ export default function Invitation() {
       <VideoCover />
 
       <div className="relative z-[2] -mt-[2.4rem] rounded-t-[2.4rem] bg-[linear-gradient(180deg,#fbf6f1_0%,#fbf6f1_58%,#f6e4dc_100%)]">
-        <span
+        <div
           aria-hidden="true"
-          className="absolute top-[-0.55rem] left-1/2 h-[0.85rem] w-[0.62rem] -translate-x-1/2 rotate-[18deg] rounded-[80%_15%_70%_30%] bg-[linear-gradient(160deg,#f7c9cf,#c45c6c)] shadow-[-10px_3px_0_-2px_#e7c4c8]"
-        />
+          className="pointer-events-none absolute top-0 left-1/2 z-10 w-56"
+          style={{ translate: "-50% -4rem" }}
+        >
+          <p
+            className="absolute m-0 rounded-full border border-e-white/40 bg-[rgba(22,14,16,0.28)] px-4 py-2 text-[0.66rem] tracking-[0.26em] text-e-white uppercase backdrop-blur-sm"
+            style={{
+              bottom: "calc(100% + 0.6rem)",
+              left: "50%",
+              translate: "-50% 0",
+              width: "max-content",
+              whiteSpace: "nowrap",
+            }}
+          >
+            {data.dateLabel.weekday} · {data.dateLabel.day}{" "}
+            {data.dateLabel.month}
+          </p>
+          <Image
+            src="/elegant/flowers/pink-flowers.gif"
+            alt=""
+            width={600}
+            height={600}
+            unoptimized
+            className="h-auto w-full"
+          />
+        </div>
 
         <Countdown />
         <Journey />

@@ -2,6 +2,9 @@ import CalendarIcon from "@/app/common/icons/CalendarIcon";
 import Reveal from "@/components/Reveal";
 import AddToCalendar from "@/components/templates/AddToCalendar";
 import { elegantInvitation as data, getCalendarUrl } from "@/data/elegant";
+import { LuWatch } from "react-icons/lu";
+import { PiDressLight } from "react-icons/pi";
+import { TbGlassFull } from "react-icons/tb";
 
 const calendarUrl = getCalendarUrl(data);
 
@@ -82,13 +85,16 @@ export default function Journey() {
           {data.moments.map((moment, index) => (
             <Reveal key={moment.label} delayMs={index * 90}>
               <article className="flex items-start gap-3">
-                <span className="relative flex w-9 shrink-0 justify-center self-stretch">
+                <span
+                  className="relative flex shrink-0 justify-center self-stretch"
+                  style={{ width: "2.75rem" }}
+                >
                   {index < data.moments.length - 1 ? (
                     <span
                       aria-hidden="true"
                       className="absolute"
                       style={{
-                        top: 30,
+                        top: 34,
                         bottom: -42,
                         left: "50%",
                         width: 1,
@@ -97,8 +103,11 @@ export default function Journey() {
                       }}
                     />
                   ) : null}
-                  <span className="relative z-[1] mt-3 grid size-9 place-items-center rounded-full border border-e-rose/70 bg-e-cream text-e-rose shadow-[0_0_0_4px_#fbf6f1]">
-                    <MomentMark index={index} />
+                  <span
+                    className="relative z-[1] mt-3 grid place-items-center rounded-full border border-e-rose/70 bg-e-cream text-e-rose shadow-[0_0_0_4px_#fbf6f1]"
+                    style={{ width: "2.75rem", height: "2.75rem" }}
+                  >
+                    <MomentMark label={moment.label} />
                   </span>
                 </span>
                 <div className="min-w-0 flex-1 rounded-2xl bg-e-white px-4 py-3 shadow-[0_18px_34px_-26px_rgba(36,28,26,0.55)]">
@@ -152,44 +161,12 @@ export default function Journey() {
   );
 }
 
-function MomentMark({ index }: { index: number }) {
-  if (index === 1) {
-    return (
-      <svg
-        viewBox="0 0 24 24"
-        className="size-4"
-        fill="currentColor"
-        aria-hidden="true"
-      >
-        <path d="M12 3.2 13.15 7.6 17.7 8.55 13.15 9.5 12 13.9 10.85 9.5 6.3 8.55 10.85 7.6 12 3.2Z" />
-        <path d="M17.2 13.2 17.8 15.2 19.8 15.75 17.8 16.3 17.2 18.3 16.6 16.3 14.6 15.75 16.6 15.2 17.2 13.2Z" />
-      </svg>
-    );
-  }
+function MomentMark({ label }: { label: string }) {
+  const iconProps = { size: "1.55rem", "aria-hidden": true } as const;
 
-  if (index === 2) {
-    return (
-      <svg
-        viewBox="0 0 24 24"
-        className="size-4"
-        fill="currentColor"
-        aria-hidden="true"
-      >
-        <path d="M7 17.5c0-6 4.2-9.2 10.8-10.2-.6 6.4-4.2 10.2-10.8 10.2Z" />
-      </svg>
-    );
-  }
-
-  return (
-    <svg viewBox="0 0 24 24" className="size-4" fill="none" aria-hidden="true">
-      <path
-        d="M6.5 17.5V10.2C6.5 7.2 8.8 5.2 12 5.2s5.5 2 5.5 5V17.5"
-        stroke="currentColor"
-        strokeWidth="1.6"
-        strokeLinecap="round"
-      />
-    </svg>
-  );
+  if (label === "Celebration") return <TbGlassFull {...iconProps} />;
+  if (label === "Attire") return <PiDressLight {...iconProps} />;
+  return <LuWatch {...iconProps} />;
 }
 
 function MapIcon() {

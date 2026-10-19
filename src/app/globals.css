@@ -50,7 +50,7 @@
   --animate-e-bloom: e-bloom 1.35s cubic-bezier(0.22, 1, 0.36, 1) both;
   --animate-e-bob: e-bob 1.7s ease-in-out 3.4s infinite;
   --animate-e-drift: e-drift 9s linear infinite;
-  --animate-e-orbit: spin 22s linear infinite;
+  --animate-e-orbit: spin 60s linear infinite;
   --animate-e-tick: e-tick 0.45s cubic-bezier(0.22, 1, 0.36, 1);
 
   @keyframes e-rise {

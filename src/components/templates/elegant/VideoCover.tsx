@@ -60,8 +60,6 @@ export default function VideoCover() {
     return () => video.removeEventListener("loadeddata", start);
   }, []);
 
-  const when = `${data.dateLabel.weekday} · ${data.dateLabel.day} ${data.dateLabel.month}`;
-
   return (
     <section
       className="group relative flex h-svh max-h-[920px] items-center justify-center overflow-hidden bg-e-leaf text-e-white"
@@ -142,13 +140,6 @@ export default function VideoCover() {
           {data.tagline}
         </p>
       </div>
-
-      <p
-        className={`${cue("animate-e-rise-center", "motion-reduce:-translate-x-1/2")} absolute bottom-[5.1rem] left-1/2 z-10 m-0 rounded-full border border-e-white/40 bg-[rgba(22,14,16,0.28)] px-4 py-2 text-[0.66rem] tracking-[0.26em] text-e-white uppercase backdrop-blur-sm`}
-        style={{ animationDelay: "5.15s" }}
-      >
-        {when}
-      </p>
 
       <div
         className={`${cue()} absolute inset-x-0 bottom-[2.85rem] z-10 flex justify-center`}
