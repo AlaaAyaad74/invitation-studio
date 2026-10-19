@@ -1,0 +1,20 @@
+.root {
+  --paper: #f4f1ea;
+  --ink: #2f3e49;
+  --mute: #6a7d89;
+  --line: rgba(47, 62, 73, 0.16);
+  --blue: #6d8ca3;
+  --blue-deep: #3e6278;
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--font-minimal-sans), system-ui, sans-serif;
+}
+
+.credit {
+  padding: 0.25rem 1.5rem 2.25rem;
+  color: var(--mute);
+  font-size: 0.62rem;
+  letter-spacing: 0.22em;
+  text-align: center;
+  text-transform: uppercase;
+}

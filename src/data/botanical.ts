@@ -90,8 +90,6 @@ export function capitalName(name: string) {
   return word.charAt(0).toLocaleUpperCase() + word.slice(1).toLocaleLowerCase();
 }
 
-export type BotanicalInvitation = typeof botanicalInvitation;
-
 export function getCalendarUrl(data: BotanicalContent, id = "botanical") {
   return googleCalendarUrl(eventFromInvite(id, data));
 }

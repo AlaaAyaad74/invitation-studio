@@ -46,7 +46,6 @@
   --color-e-white: #fffaf6;
   --color-e-night: #10211c;
   --animate-e-rise: e-rise 1.15s cubic-bezier(0.22, 1, 0.36, 1) both;
-  --animate-e-rise-center: e-rise-center 1.15s cubic-bezier(0.22, 1, 0.36, 1) both;
   --animate-e-bloom: e-bloom 1.35s cubic-bezier(0.22, 1, 0.36, 1) both;
   --animate-e-bob: e-bob 1.7s ease-in-out 3.4s infinite;
   --animate-e-drift: e-drift 9s linear infinite;
@@ -61,17 +60,6 @@
     to {
       opacity: 1;
       transform: translateY(0);
-    }
-  }
-
-  @keyframes e-rise-center {
-    from {
-      opacity: 0;
-      transform: translateX(-50%) translateY(16px);
-    }
-    to {
-      opacity: 1;
-      transform: translateX(-50%);
     }
   }
 
@@ -193,10 +181,6 @@ body {
   animation-delay: 0.45s;
 }
 
-.delay-4 {
-  animation-delay: 0.6s;
-}
-
 .alex-brush-regular {
   font-family: "Alex Brush", cursive;
   font-weight: 400;
@@ -235,7 +219,6 @@ body {
   .animate-fade-in,
   .animate-soft-float,
   .animate-e-rise,
-  .animate-e-rise-center,
   .animate-e-bloom,
   .animate-e-bob,
   .animate-e-drift,
@@ -246,10 +229,6 @@ body {
     opacity: 1;
     transform: none;
     transition: none;
-  }
-
-  .animate-e-rise-center {
-    transform: translateX(-50%);
   }
 
   .animate-e-drift {
