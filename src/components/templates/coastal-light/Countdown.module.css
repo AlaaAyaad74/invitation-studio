@@ -131,7 +131,7 @@
   font-variant-numeric: tabular-nums;
   font-family: var(--font-minimal-sans), system-ui, sans-serif;
   font-size: clamp(1.35rem, 6.2vw, 1.85rem);
-  font-weight: 600;
+  font-weight: 400;
   line-height: 1;
   white-space: nowrap;
 }
