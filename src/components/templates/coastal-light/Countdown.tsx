@@ -3,14 +3,14 @@
 import Reveal from "@/components/Reveal";
 import { coastalLightInvitation as data } from "@/data/coastal-light";
 import { pad, useRemainingTime } from "@/hooks/useRemainingTime";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import styles from "./Countdown.module.css";
 
 const UNITS = [
   { key: "days", label: "Days" },
-  { key: "hours", label: "Hrs" },
-  { key: "minutes", label: "Min" },
-  { key: "seconds", label: "Sec" },
+  { key: "hours", label: "Hours" },
+  { key: "minutes", label: "Minutes" },
+  { key: "seconds", label: "Seconds" },
 ] as const;
 
 type Unit = (typeof UNITS)[number]["key"];
@@ -20,42 +20,97 @@ function figures(remaining: ReturnType<typeof useRemainingTime>, key: Unit) {
   return key === "days" ? String(remaining.days) : pad(remaining[key]);
 }
 
-function phrase(remaining: ReturnType<typeof useRemainingTime>, unit: Unit) {
+function phrase(remaining: ReturnType<typeof useRemainingTime>) {
   if (!remaining) return "";
-  if (unit === "days") {
-    const days = remaining.days;
-    return `${days} ${days === 1 ? "morning" : "mornings"} until the marble court`;
-  }
-  if (unit === "hours") {
-    const hours = remaining.hours;
-    if (hours === 0) return "This hour has just begun";
-    return `${hours} ${hours === 1 ? "hour" : "hours"} still in this day`;
-  }
-  if (unit === "minutes") {
-    const minutes = remaining.minutes;
-    if (minutes === 0) return "The hour has just turned";
-    return `${minutes} ${minutes === 1 ? "minute" : "minutes"} until the hour turns`;
-  }
-  return "Every second, a little closer";
+  const days = remaining.days;
+  return `${days} ${days === 1 ? "morning" : "mornings"} until the marble court`;
 }
 
-function Figures({ value }: { value: string }) {
+function FlipFace({ value }: { value: string }) {
+  const shown = useRef(value);
+  const downRef = useRef<HTMLSpanElement>(null);
+  const upRef = useRef<HTMLSpanElement>(null);
+  const [front, setFront] = useState(value);
+  const [back, setBack] = useState(value);
+  const [flipping, setFlipping] = useState(false);
+
+  useEffect(() => {
+    if (value === shown.current) return;
+    const from = shown.current;
+    shown.current = value;
+    if (from === "—" || value === "—") {
+      setFront(value);
+      setBack(value);
+      setFlipping(false);
+      return;
+    }
+    setBack(from);
+    setFront(value);
+    setFlipping(true);
+  }, [value]);
+
+  useEffect(() => {
+    if (!flipping) return;
+    const nodes = [downRef.current, upRef.current];
+    for (const node of nodes) {
+      if (!node) continue;
+      node.style.animation = "none";
+      void node.offsetWidth;
+      node.style.removeProperty("animation");
+    }
+    const timeout = window.setTimeout(() => setFlipping(false), 750);
+    return () => window.clearTimeout(timeout);
+  }, [flipping, front]);
+
   return (
-    <span className={styles.figures}>
-      {value.split("").map((char, index) => (
-        <span key={`${index}-${char}`} className={styles.figure}>
-          {char}
+    <div className={styles.face} aria-hidden="true">
+      <div className={styles.stage}>
+        <span className={`${styles.leaf} ${styles.leafTop}`}>
+          <span className={styles.clip}>
+            <span className={styles.glyph}>{front}</span>
+          </span>
         </span>
-      ))}
-    </span>
+        <span className={`${styles.leaf} ${styles.leafBottom}`}>
+          <span className={styles.clip}>
+            <span className={`${styles.glyph} ${styles.glyphLow}`}>{flipping ? back : front}</span>
+          </span>
+        </span>
+        <span className={styles.hinge} />
+        {flipping ? (
+          <>
+            <span
+              key={`down-${front}`}
+              ref={downRef}
+              className={`${styles.flap} ${styles.flapDown}`}
+            >
+              <span className={styles.clip}>
+                <span className={styles.glyph}>{back}</span>
+              </span>
+            </span>
+            <span
+              key={`up-${front}`}
+              ref={upRef}
+              className={`${styles.flap} ${styles.flapUp}`}
+              onAnimationEnd={(event) => {
+                if (event.target !== event.currentTarget || event.pseudoElement) return;
+                if (!event.animationName.includes("unfold")) return;
+                setFlipping(false);
+              }}
+            >
+              <span className={styles.clip}>
+                <span className={`${styles.glyph} ${styles.glyphLow}`}>{front}</span>
+              </span>
+            </span>
+          </>
+        ) : null}
+      </div>
+    </div>
   );
 }
 
 export default function Countdown() {
   const remaining = useRemainingTime(data.start);
-  const [unit, setUnit] = useState<Unit>("days");
   const dateLine = `${data.dateLabel.weekday}, ${data.dateLabel.day} ${data.dateLabel.month} ${data.dateLabel.year}`;
-  const status = `${data.dateLabel.weekday.slice(0, 3)} ${data.dateLabel.day} ${data.dateLabel.month.slice(0, 3)}`;
 
   return (
     <section className={styles.section} aria-label="Countdown to the wedding">
@@ -72,46 +127,28 @@ export default function Countdown() {
         </Reveal>
       ) : (
         <Reveal delayMs={90}>
-          <div className={styles.watch}>
-            <span className={styles.side} aria-hidden="true" />
-            <div className={styles.screen}>
-              <p className={styles.status}>
-                <i className={styles.live} aria-hidden="true" />
-                {status}
-              </p>
-
-              <div className={styles.readout} role="group" aria-label="Time remaining">
-                {UNITS.map((item, index) => (
-                  <span key={item.key} className={styles.slot}>
-                    {index > 1 ? (
-                      <span className={styles.colon} aria-hidden="true">
-                        :
-                      </span>
-                    ) : null}
-                    <button
-                      type="button"
-                      className={item.key === unit ? styles.unitOn : styles.unit}
-                      aria-pressed={item.key === unit}
-                      onClick={() => setUnit(item.key)}
-                    >
-                      <Figures value={figures(remaining, item.key)} />
-                      <span className={styles.caption}>{item.label}</span>
-                    </button>
+          <div className={styles.board} role="group" aria-label="Time remaining">
+            {UNITS.map((item) => {
+              const value = figures(remaining, item.key);
+              return (
+                <div key={item.key} className={styles.card}>
+                  <FlipFace value={value} />
+                  <span className={styles.caption} aria-hidden="true">
+                    {item.label}
                   </span>
-                ))}
-              </div>
-
-              <div className={styles.track} aria-hidden="true">
-                <i style={{ width: `${((remaining?.seconds ?? 0) / 60) * 100}%` }} />
-              </div>
-            </div>
+                  <span className={styles.sr}>
+                    {value} {item.label}
+                  </span>
+                </div>
+              );
+            })}
           </div>
         </Reveal>
       )}
 
       <Reveal delayMs={160}>
         <p className={styles.phrase} aria-live="polite">
-          {remaining?.done ? "The day is here" : phrase(remaining, unit)}
+          {remaining?.done ? "The day is here" : phrase(remaining)}
         </p>
         <p className={styles.date}>{dateLine}</p>
       </Reveal>

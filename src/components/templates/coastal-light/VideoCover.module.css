@@ -9,9 +9,7 @@
   background: #f7f4ee;
 }
 
-.video,
-.poster,
-.posterOff {
+.video {
   position: absolute;
   inset: 0;
   width: 100%;
@@ -19,94 +17,281 @@
   object-fit: cover;
 }
 
-.poster,
-.posterOff {
-  z-index: 1;
-  transition: opacity 0.7s ease;
+.seal {
+  position: absolute;
+  z-index: 3;
+  top: 51.4%;
+  left: 50%;
+  margin: 0;
+  padding: 0.2rem 0.4rem 0.45rem;
+  transform: translate(-50%, -100%);
+  border: 0;
+  background: transparent;
+  color: #6f4448;
+  font-family: var(--font-minimal-script), "Segoe Script", cursive;
+  font-size: 1.55rem;
+  font-style: normal;
+  font-weight: 400;
+  letter-spacing: 0.01em;
+  line-height: 1;
+  text-shadow:
+    0 1px 0 rgba(255, 250, 247, 0.95),
+    0 0 14px rgba(255, 248, 244, 0.9);
+  text-align: center;
+  text-transform: none;
+  white-space: nowrap;
+  cursor: pointer;
+  touch-action: manipulation;
 }
 
-.posterOff {
-  opacity: 0;
-  pointer-events: none;
+.seal span {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.22rem;
+  animation: tap-invite 2.8s cubic-bezier(0.45, 0, 0.55, 1) infinite;
+}
+
+.seal em {
+  font-style: normal;
+  font-synthesis: none;
+}
+
+.seal span i {
+  width: 0.42rem;
+  height: 0.42rem;
+  border-right: 2px solid currentColor;
+  border-bottom: 2px solid currentColor;
+  animation: tap-point 2.8s cubic-bezier(0.45, 0, 0.55, 1) infinite;
+}
+
+.seal::after {
+  content: "";
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  width: 4.75rem;
+  height: 4.75rem;
+  transform: translate(-50%, 0.15rem);
+}
+
+.seal:focus-visible {
+  outline: 2px solid #6f4448;
+  outline-offset: 3px;
+}
+
+@keyframes tap-invite {
+  0%,
+  100% {
+    opacity: 0.8;
+    transform: translateY(0) scale(1);
+  }
+  50% {
+    opacity: 1;
+    transform: translateY(-4px) scale(1.035);
+  }
+}
+
+@keyframes tap-point {
+  0%,
+  100% {
+    opacity: 0.55;
+    transform: translateY(0) rotate(45deg);
+  }
+  50% {
+    opacity: 1;
+    transform: translateY(4px) rotate(45deg);
+  }
 }
 
 .copy {
   position: absolute;
   z-index: 2;
-  top: 27%;
-  right: 18%;
-  bottom: 43%;
-  left: 18%;
+  inset: 0;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  color: #314653;
+  gap: 1.85rem;
+  padding: 11% 10% 16%;
+  color: #2a1520;
+  font-family: var(--font-minimal-script), "Segoe Script", cursive;
   text-align: center;
+  pointer-events: none;
+}
+
+.copy::before {
+  content: "";
+  position: absolute;
+  z-index: -1;
+  top: 48%;
+  left: 50%;
+  width: 120%;
+  height: 88%;
+  transform: translate(-50%, -50%);
+  background: radial-gradient(
+    ellipse at center,
+    rgba(255, 250, 247, 0.74) 0%,
+    rgba(255, 248, 244, 0.5) 36%,
+    rgba(255, 248, 244, 0.22) 62%,
+    rgba(255, 248, 244, 0) 84%
+  );
+  filter: blur(26px);
+  opacity: 0;
+  pointer-events: none;
+}
+
+.frame[data-revealed="true"] .copy::before {
+  animation: veil-in 1.6s ease forwards;
+}
+
+@keyframes veil-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
 }
 
 .line {
   margin: 0;
-  color: #6d8798;
-  font-size: 0.62rem;
+  font-size: clamp(1.35rem, 5vw, 1.65rem);
   font-weight: 400;
-  letter-spacing: 0.28em;
-  text-transform: uppercase;
+  letter-spacing: 0;
+  line-height: 1.15;
+  text-transform: none;
   opacity: 0;
-  animation: invite-up 1.15s cubic-bezier(0.22, 1, 0.36, 1) both;
-  animation-play-state: paused;
 }
 
 .names {
-  margin: 0.85rem 0 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.35rem;
+  margin: 0 0 0.85rem;
   font-weight: 400;
+  text-shadow: none;
 }
 
 .name {
   display: block;
-  font-family: var(--font-minimal-display), "Times New Roman", serif;
-  font-size: clamp(2.65rem, 11vw, 3.35rem);
-  line-height: 0.92;
-  letter-spacing: 0.045em;
+  font-family: var(--font-minimal-script), "Segoe Script", cursive;
+  font-size: clamp(4.2rem, 17vw, 5.4rem);
+  font-weight: 400;
+  font-synthesis: none;
+  line-height: 0.9;
+  letter-spacing: 0;
+  -webkit-text-stroke: 0.7px currentColor;
+  text-shadow:
+    0.55px 0 0 currentColor,
+    -0.55px 0 0 currentColor,
+    0 0.55px 0 currentColor,
+    0 -0.55px 0 currentColor;
   opacity: 0;
-  animation: invite-name 1.35s cubic-bezier(0.22, 1, 0.36, 1) both;
-  animation-play-state: paused;
 }
 
 .join {
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 0.55rem;
-  margin: 0.45rem 0;
-  color: #6e8da4;
-  font-size: 0.68rem;
-  letter-spacing: 0.18em;
+  gap: 0.7rem;
+  margin: 0.15rem 0;
+  font-size: 2.15rem;
+  font-weight: 400;
+  letter-spacing: 0;
   opacity: 0;
-  animation: invite-up 1.15s cubic-bezier(0.22, 1, 0.36, 1) both;
-  animation-play-state: paused;
 }
 
-.cover[data-ready="true"] .line,
-.cover[data-ready="true"] .name,
-.cover[data-ready="true"] .join {
-  animation-play-state: running;
+.date {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.4rem;
+  margin: 0;
+  font-size: clamp(1.4rem, 5.2vw, 1.7rem);
+  font-weight: 400;
+  letter-spacing: 0;
+  line-height: 1.2;
+  text-transform: none;
+  opacity: 0;
+}
+
+.frame[data-revealed="true"] .line,
+.frame[data-revealed="true"] .join,
+.frame[data-revealed="true"] .date {
+  animation-name: invite-up;
+  animation-duration: 0.85s;
+  animation-timing-function: cubic-bezier(0.22, 1, 0.36, 1);
+  animation-fill-mode: both;
+}
+
+.frame[data-revealed="true"] .name {
+  animation-name: invite-name;
+  animation-duration: 0.95s;
+  animation-timing-function: cubic-bezier(0.22, 1, 0.36, 1);
+  animation-fill-mode: both;
 }
 
 .d1 {
-  animation-delay: 0.35s;
+  animation-delay: 0s;
 }
 
 .d2 {
-  animation-delay: 0.85s;
+  animation-delay: 1.05s;
 }
 
 .d3 {
-  animation-delay: 1.2s;
+  animation-delay: 2.15s;
 }
 
 .d4 {
-  animation-delay: 1.7s;
+  animation-delay: 3.15s;
+}
+
+.d5 {
+  animation-delay: 4.3s;
+}
+
+.scroll {
+  position: absolute;
+  z-index: 4;
+  bottom: 1.15rem;
+  left: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.05rem;
+  height: 2.85rem;
+  padding: 0;
+  border: 1.5px solid currentColor;
+  border-radius: 999px;
+  background: transparent;
+  color: #2a1520;
+  cursor: pointer;
+  animation: arrow-bounce 1.35s ease-in-out infinite;
+}
+
+.scroll svg {
+  width: 1rem;
+  height: 1.2rem;
+}
+
+.scroll:focus-visible {
+  outline: 2px solid #6f4448;
+  outline-offset: 3px;
+}
+
+@keyframes arrow-bounce {
+  0%,
+  100% {
+    opacity: 1;
+    transform: translate(-50%, 0);
+  }
+  50% {
+    opacity: 1;
+    transform: translate(-50%, 12px);
+  }
 }
 
 @keyframes invite-up {
@@ -128,16 +313,6 @@
   to {
     opacity: 1;
     transform: translateY(0) scale(1);
-  }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .line,
-  .name,
-  .join {
-    animation: none;
-    opacity: 1;
-    transform: none;
   }
 }
 

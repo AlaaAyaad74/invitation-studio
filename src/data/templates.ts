@@ -34,7 +34,8 @@ export const templates: InvitationTemplate[] = [
     style: "Minimal",
     description: "Airy layouts inspired by seaside vows and soft horizons.",
     image: "/templates/coastal-light.webp",
-    comingSoon: true,
+    comingSoon: false,
+    href: "/templates/coastal-light",
   },
   {
     id: "heritage-script",

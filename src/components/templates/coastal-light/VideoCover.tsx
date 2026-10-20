@@ -5,62 +5,86 @@ import { useEffect, useRef, useState } from "react";
 import styles from "./VideoCover.module.css";
 
 const VIDEO_SRC = "/minimal/minimal-hero.mp4";
-const POSTER_SRC = "/minimal/hero-poster.webp";
+const REVEAL_AFTER_MS = 7000;
 
 export default function VideoCover() {
   const videoRef = useRef<HTMLVideoElement>(null);
-  const [ready, setReady] = useState(false);
-  const [videoOn, setVideoOn] = useState(false);
-
-  useEffect(() => {
-    const id = window.setTimeout(() => setReady(true), 1600);
-    return () => window.clearTimeout(id);
-  }, []);
+  const revealId = useRef<number | null>(null);
+  const coverRef = useRef<HTMLElement>(null);
+  const openedRef = useRef(false);
+  const [opened, setOpened] = useState(false);
+  const [revealed, setRevealed] = useState(false);
+  const [finished, setFinished] = useState(false);
 
   useEffect(() => {
     const video = videoRef.current;
     if (!video) return;
 
-    const start = () => {
-      video.play().catch(() => {});
+    const showOpeningFrame = () => {
+      if (openedRef.current) return;
+      video.pause();
     };
 
-    if (video.readyState >= HTMLMediaElement.HAVE_CURRENT_DATA) start();
-    else video.load();
+    if (video.readyState >= HTMLMediaElement.HAVE_CURRENT_DATA) showOpeningFrame();
+    else video.addEventListener("loadeddata", showOpeningFrame);
 
-    video.addEventListener("loadeddata", start);
-    return () => video.removeEventListener("loadeddata", start);
+    return () => {
+      video.removeEventListener("loadeddata", showOpeningFrame);
+      if (revealId.current != null) window.clearTimeout(revealId.current);
+    };
   }, []);
+
+  const open = () => {
+    const video = videoRef.current;
+    if (!video || opened) return;
+    openedRef.current = true;
+    setOpened(true);
+    video.play().catch(() => {
+      openedRef.current = false;
+      setOpened(false);
+    });
+  };
+
+  const onPlaying = () => {
+    if (revealId.current != null) return;
+    revealId.current = window.setTimeout(() => setRevealed(true), REVEAL_AFTER_MS);
+  };
+
+  const scrollOn = () => {
+    const next = coverRef.current?.nextElementSibling;
+    next?.scrollIntoView({ behavior: "smooth", block: "start" });
+  };
 
   return (
     <section
+      ref={coverRef}
       className={styles.cover}
-      data-ready={ready ? "true" : "false"}
       aria-label={`${data.couple.first} and ${data.couple.second}`}
     >
-      <div className={styles.frame}>
+      <div
+        className={styles.frame}
+        data-revealed={revealed ? "true" : "false"}
+      >
         <video
           ref={videoRef}
           className={styles.video}
-          poster={POSTER_SRC}
-          autoPlay
           muted
-          loop
           playsInline
           preload="auto"
           aria-hidden="true"
-          onCanPlay={() => setReady(true)}
-          onPlaying={() => setVideoOn(true)}
-          onError={() => setVideoOn(false)}
+          onPlaying={onPlaying}
+          onEnded={() => setFinished(true)}
         >
           <source src={VIDEO_SRC} type="video/mp4" />
         </video>
-        <img
-          src={POSTER_SRC}
-          alt=""
-          fetchPriority="high"
-          className={videoOn ? styles.posterOff : styles.poster}
-        />
+        {opened ? null : (
+          <button type="button" className={styles.seal} onClick={open}>
+            <span>
+              <em>Tap to open</em>
+              <i aria-hidden="true" />
+            </span>
+          </button>
+        )}
 
         <div className={styles.copy}>
           <p className={`${styles.line} ${styles.d1}`}>{data.intro}</p>
@@ -77,7 +101,39 @@ export default function VideoCover() {
               {data.couple.second}
             </span>
           </h1>
+          <p className={`${styles.date} ${styles.d5}`}>
+            <span>{data.dateLabel.weekday}</span>
+            <span>
+              {data.dateLabel.day} {data.dateLabel.month} {data.dateLabel.year}
+            </span>
+          </p>
         </div>
+
+        {finished ? (
+          <button
+            type="button"
+            className={styles.scroll}
+            onClick={scrollOn}
+            aria-label="Scroll down"
+          >
+            <svg viewBox="0 0 24 28" fill="none" aria-hidden="true">
+              <path
+                d="M6 6.5 12 12.5 18 6.5"
+                stroke="currentColor"
+                strokeWidth="2.2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              />
+              <path
+                d="M6 14.5 12 20.5 18 14.5"
+                stroke="currentColor"
+                strokeWidth="2.2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              />
+            </svg>
+          </button>
+        ) : null}
       </div>
     </section>
   );

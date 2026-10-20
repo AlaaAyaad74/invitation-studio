@@ -6,21 +6,6 @@ import styles from "./Schedule.module.css";
 
 const calendarUrl = getCalendarUrl(data);
 
-const rows = [
-  { label: "Time", value: data.timeLabel },
-  {
-    label: "Place",
-    value: data.venue.address
-      ? `${data.venue.name}, ${data.venue.address}`
-      : data.venue.name,
-  },
-  { label: "Attire", value: data.dressCode },
-  ...data.moments.map((moment) => ({
-    label: moment.label,
-    value: `${moment.time} — ${moment.detail}`,
-  })),
-];
-
 export default function Schedule() {
   return (
     <section className={styles.section} aria-label="Wedding day">
@@ -29,20 +14,39 @@ export default function Schedule() {
           <span>02</span>
           The day
         </p>
+        <p className={styles.time}>{data.timeLabel}</p>
+        <figure className={styles.hall}>
+          <img src="/coastal-light/hall.png" alt="" className={styles.mark} />
+          <figcaption>
+            <span className={styles.place}>{data.venue.name}</span>
+            {data.venue.address ? (
+              <span className={styles.where}>
+                <i />
+                {data.venue.address}
+                <i />
+              </span>
+            ) : null}
+          </figcaption>
+        </figure>
+        <p className={styles.attire}>
+          <span>Attire</span>
+          {data.dressCode}
+        </p>
       </Reveal>
 
-      <dl className={styles.list}>
-        {rows.map((row, index) => (
-          <Reveal key={row.label} delayMs={index * 90}>
-            <div className={styles.row}>
-              <dt>{row.label}</dt>
-              <dd>{row.value}</dd>
-            </div>
-          </Reveal>
-        ))}
-      </dl>
+      <Reveal delayMs={100}>
+        <ol className={styles.plan}>
+          {data.moments.map((moment) => (
+            <li key={moment.label} className={styles.moment}>
+              <span className={styles.what}>{moment.label}</span>
+              <span className={styles.when}>{moment.time}</span>
+              <span className={styles.detail}>{moment.detail}</span>
+            </li>
+          ))}
+        </ol>
+      </Reveal>
 
-      <Reveal delayMs={rows.length * 90}>
+      <Reveal delayMs={180}>
         <div className={styles.actions}>
           <AddToCalendar
             template="coastal-light"

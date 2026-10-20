@@ -1,20 +1,25 @@
 .root {
-  --paper: #f4f1ea;
-  --ink: #2f3e49;
-  --mute: #6a7d89;
-  --line: rgba(47, 62, 73, 0.16);
-  --blue: #6d8ca3;
-  --blue-deep: #3e6278;
+  --paper: #f7f3ee;
+  --ink: #2a1520;
+  --mute: #6a4550;
+  --line: rgba(42, 21, 32, 0.16);
+  --blue: #6f4448;
+  --blue-deep: #3a222c;
+  --seal: #e4b6ae;
+  --seal-deep: #d4a39b;
+  --seal-ink: #9a5c52;
   background: var(--paper);
   color: var(--ink);
-  font-family: var(--font-minimal-sans), system-ui, sans-serif;
+  font-family: var(--font-minimal-script), "Segoe Script", cursive;
 }
 
 .credit {
   padding: 0.25rem 1.5rem 2.25rem;
   color: var(--mute);
-  font-size: 0.62rem;
-  letter-spacing: 0.22em;
+  font-family: var(--font-minimal-serif), Georgia, serif;
+  font-size: 1.15rem;
+  font-weight: 500;
+  letter-spacing: 0;
   text-align: center;
-  text-transform: uppercase;
+  text-transform: none;
 }

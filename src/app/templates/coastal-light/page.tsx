@@ -15,7 +15,6 @@ export const metadata: Metadata = {
 };
 
 export default function CoastalLightTemplatePage() {
-  preload("/minimal/hero-poster.webp", { as: "image" });
   preload(VIDEO_SRC, { as: "video" });
 
   return (
