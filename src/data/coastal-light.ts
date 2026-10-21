@@ -2,8 +2,8 @@ import { eventFromInvite, googleCalendarUrl } from "@/lib/calendar";
 
 export const coastalLightInvitation = {
   couple: {
-    first: "Hana",
-    second: "Yusuf",
+    first: "Yusuf",
+    second: "Hana",
   },
   intro: "Together with their families",
   tagline: "request the pleasure of your company",
@@ -17,6 +17,7 @@ export const coastalLightInvitation = {
     year: "2027",
   },
   timeLabel: "Four o'clock in the afternoon",
+  music: "/minimal/minimal-voice.mp3",
   venue: {
     name: "The Marble Court",
     address: "Garden City, Cairo",
@@ -26,7 +27,7 @@ export const coastalLightInvitation = {
   gallery: [
     {
       src: "/elegant/gallery/01-meadow.jpg",
-      alt: "Hana and Yusuf standing together in a lupine meadow",
+      alt: "Yusuf and Hana standing together in a lupine meadow",
     },
     {
       src: "/elegant/gallery/02-field.jpg",
@@ -64,7 +65,7 @@ export const coastalLightInvitation = {
   rsvp: {
     whatsapp: "201000000000",
     message:
-      "Hello! I would love to confirm my attendance to Hana & Yusuf's wedding.",
+      "Hello! I would love to confirm my attendance to Yusuf & Hana's wedding.",
     deadline: "Kindly reply before 1 September 2027",
   },
 } as const;

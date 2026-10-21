@@ -126,12 +126,12 @@ export default function Countdown() {
           <p className={styles.today}>Today</p>
         </Reveal>
       ) : (
-        <Reveal delayMs={90}>
-          <div className={styles.board} role="group" aria-label="Time remaining">
-            {UNITS.map((item) => {
-              const value = figures(remaining, item.key);
-              return (
-                <div key={item.key} className={styles.card}>
+        <div className={styles.board} role="group" aria-label="Time remaining">
+          {UNITS.map((item, index) => {
+            const value = figures(remaining, item.key);
+            return (
+              <Reveal key={item.key} delayMs={40 + index * 70}>
+                <div className={styles.card}>
                   <FlipFace value={value} />
                   <span className={styles.caption} aria-hidden="true">
                     {item.label}
@@ -140,16 +140,18 @@ export default function Countdown() {
                     {value} {item.label}
                   </span>
                 </div>
-              );
-            })}
-          </div>
-        </Reveal>
+              </Reveal>
+            );
+          })}
+        </div>
       )}
 
-      <Reveal delayMs={160}>
+      <Reveal delayMs={80}>
         <p className={styles.phrase} aria-live="polite">
           {remaining?.done ? "The day is here" : phrase(remaining)}
         </p>
+      </Reveal>
+      <Reveal delayMs={140}>
         <p className={styles.date}>{dateLine}</p>
       </Reveal>
     </section>

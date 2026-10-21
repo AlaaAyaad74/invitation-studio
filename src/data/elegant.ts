@@ -2,10 +2,10 @@ import { eventFromInvite, googleCalendarUrl } from "@/lib/calendar";
 
 export const elegantInvitation = {
   couple: {
-    first: "Amira",
-    second: "Karim",
+    first: "Karim",
+    second: "Amira",
   },
-  initials: "A&K",
+  initials: "K&A",
   intro: "Together with their families",
   tagline: "to their wedding day",
   verse: "Two names. One garden. An evening made of light.",
@@ -44,7 +44,7 @@ export const elegantInvitation = {
   gallery: [
     {
       src: "/elegant/gallery/01-meadow.jpg",
-      alt: "Amira and Karim in a lupine meadow at golden hour",
+      alt: "Karim and Amira in a lupine meadow at golden hour",
     },
     {
       src: "/elegant/gallery/02-field.jpg",
@@ -70,7 +70,7 @@ export const elegantInvitation = {
   rsvp: {
     whatsapp: "201000000000",
     message:
-      "Hello! I would love to confirm my attendance to Amira & Karim's wedding.",
+      "Hello! I would love to confirm my attendance to Karim & Amira's wedding.",
     deadline: "Kindly reply before 1 May 2027",
   },
 } as const;

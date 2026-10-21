@@ -21,11 +21,6 @@ export default function Reveal({
     const node = ref.current;
     if (!node) return;
 
-    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
-      node.dataset.revealed = "true";
-      return;
-    }
-
     const observer = new IntersectionObserver(
       (entries) => {
         for (const entry of entries) {

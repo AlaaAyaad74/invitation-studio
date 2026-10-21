@@ -1,5 +1,5 @@
 .root {
-  --paper: #f7f3ee;
+  --paper: #fffbfa;
   --ink: #2a1520;
   --mute: #6a4550;
   --line: rgba(42, 21, 32, 0.16);
@@ -8,9 +8,27 @@
   --seal: #e4b6ae;
   --seal-deep: #d4a39b;
   --seal-ink: #9a5c52;
-  background: var(--paper);
+  background: transparent;
   color: var(--ink);
   font-family: var(--font-minimal-script), "Segoe Script", cursive;
+}
+
+.sheet {
+  background: linear-gradient(180deg, #fffbfa 0%, #fdf4f2 52%, #fbeeea 100%);
+}
+
+.root :global(.reveal) {
+  opacity: 0;
+  transform: translateY(22px);
+  transition:
+    opacity 0.9s cubic-bezier(0.22, 1, 0.36, 1),
+    transform 0.9s cubic-bezier(0.22, 1, 0.36, 1);
+  transition-delay: var(--reveal-delay, 0ms);
+}
+
+.root :global(.reveal[data-revealed="true"]) {
+  opacity: 1;
+  transform: none;
 }
 
 .credit {

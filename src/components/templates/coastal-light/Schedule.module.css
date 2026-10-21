@@ -34,9 +34,18 @@
 
 .mark {
   display: block;
-  width: min(10.75rem, 62%);
-  height: auto;
+  width: min(15.5rem, 84%);
+  aspect-ratio: 640 / 776;
   margin: 0 auto;
+  background: #2a1520;
+  -webkit-mask-image: url("/coastal-light/hall.png");
+  mask-image: url("/coastal-light/hall.png");
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-position: center;
+  mask-position: center;
+  -webkit-mask-size: contain;
+  mask-size: contain;
 }
 
 .place {
@@ -99,7 +108,7 @@
   padding: 0 0.65rem;
 }
 
-.moment + .moment {
+.plan > * + * .moment {
   border-left: 1px solid var(--line);
 }
 
@@ -129,26 +138,43 @@
 }
 
 .actions {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  justify-content: center;
-  gap: 0.35rem 1.15rem;
-  margin-top: 1.45rem;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  width: min(100%, 22rem);
+  margin: 1.85rem auto 0;
 }
 
 .action {
-  display: inline-flex;
+  display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 0.4rem;
-  padding: 0.35rem 0.1rem;
-  color: var(--seal-ink);
+  gap: 0.7rem;
+  min-height: 6.4rem;
+  padding: 0.35rem 0.85rem 0.15rem;
+  color: var(--ink);
   font-family: var(--font-minimal-serif), Georgia, serif;
-  font-size: 0.98rem;
+  font-size: 1.05rem;
   font-weight: 600;
-  letter-spacing: 0.02em;
+  letter-spacing: 0.01em;
+  line-height: 1.25;
+  text-align: center;
   text-decoration: none;
+}
+
+.actions > :last-child .action {
+  border-left: 1px solid var(--line);
+}
+
+.badge {
+  display: grid;
+  place-items: center;
+  width: 2.7rem;
+  height: 2.7rem;
+  border: 1px solid var(--line);
+  border-radius: 50%;
+  background: #fffaf7;
+  color: var(--ink);
 }
 
 .action:hover,
@@ -162,8 +188,8 @@
 }
 
 .icon {
-  width: 0.95rem;
-  height: 0.95rem;
+  width: 1.15rem;
+  height: 1.15rem;
   fill: none;
   stroke: currentColor;
   stroke-width: 1.6px;

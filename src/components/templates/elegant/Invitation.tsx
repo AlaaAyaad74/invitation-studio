@@ -56,9 +56,9 @@ export default function Invitation() {
                 className="mx-auto flex h-[4.4rem] w-[4.4rem] items-baseline justify-center gap-[0.28rem] rounded-full border border-e-gold/80 font-bodoni text-[1.15rem] leading-[4.4rem] tracking-[0.04em] text-e-rose-deep shadow-[inset_0_0_0_4px_#fffaf6,inset_0_0_0_5px_color-mix(in_srgb,#c45c6c_45%,transparent)]"
                 aria-hidden="true"
               >
-                <span>A</span>
-                <i className="text-[0.95rem] text-e-gold italic">&amp;</i>
                 <span>K</span>
+                <i className="text-[0.95rem] text-e-gold italic">&amp;</i>
+                <span>A</span>
               </p>
               <p className="mt-[1.15rem] text-[0.68rem] tracking-[0.34em] text-e-rose uppercase">
                 RSVP

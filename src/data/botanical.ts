@@ -2,8 +2,8 @@ import { eventFromInvite, googleCalendarUrl } from "@/lib/calendar";
 
 export const botanicalInvitation = {
   couple: {
-    first: "Layla",
-    second: "Adam",
+    first: "Adam",
+    second: "Layla",
   },
   intro: "Together with their families",
   tagline: "invite you to celebrate their wedding",
@@ -26,13 +26,13 @@ export const botanicalInvitation = {
   rsvp: {
     whatsapp: "201000000000",
     message:
-      "Hello! I would love to confirm my attendance to Layla & Adam's wedding.",
+      "Hello! I would love to confirm my attendance to Adam & Layla's wedding.",
     deadline: "Kindly reply before 1 February 2027",
   },
   gallery: [
     {
       src: "/botanical/gallery/01-meadow.jpg",
-      alt: "Layla and Adam in a lupine meadow at golden hour",
+      alt: "Adam and Layla in a lupine meadow at golden hour",
     },
     {
       src: "/botanical/gallery/02-field.jpg",

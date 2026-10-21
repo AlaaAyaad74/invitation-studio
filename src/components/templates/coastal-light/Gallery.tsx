@@ -243,6 +243,8 @@ export default function Gallery() {
           <span>04</span>
           Pictures
         </p>
+      </Reveal>
+      <Reveal delayMs={80}>
         <p className={styles.names}>
           {data.couple.first} & {data.couple.second}
         </p>

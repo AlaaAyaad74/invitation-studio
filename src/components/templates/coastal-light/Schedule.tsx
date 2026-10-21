@@ -14,59 +14,75 @@ export default function Schedule() {
           <span>02</span>
           The day
         </p>
+      </Reveal>
+      <Reveal delayMs={70}>
         <p className={styles.time}>{data.timeLabel}</p>
-        <figure className={styles.hall}>
-          <img src="/coastal-light/hall.png" alt="" className={styles.mark} />
-          <figcaption>
+      </Reveal>
+      <figure className={styles.hall}>
+        <Reveal delayMs={120}>
+          <span className={styles.mark} aria-hidden="true" />
+        </Reveal>
+        <figcaption>
+          <Reveal delayMs={170}>
             <span className={styles.place}>{data.venue.name}</span>
-            {data.venue.address ? (
+          </Reveal>
+          {data.venue.address ? (
+            <Reveal delayMs={210}>
               <span className={styles.where}>
                 <i />
                 {data.venue.address}
                 <i />
               </span>
-            ) : null}
-          </figcaption>
-        </figure>
+            </Reveal>
+          ) : null}
+        </figcaption>
+      </figure>
+      <Reveal delayMs={250}>
         <p className={styles.attire}>
           <span>Attire</span>
           {data.dressCode}
         </p>
       </Reveal>
 
-      <Reveal delayMs={100}>
-        <ol className={styles.plan}>
-          {data.moments.map((moment) => (
-            <li key={moment.label} className={styles.moment}>
+      <div className={styles.plan}>
+        {data.moments.map((moment, index) => (
+          <Reveal key={moment.label} delayMs={80 + index * 90}>
+            <p className={styles.moment}>
               <span className={styles.what}>{moment.label}</span>
               <span className={styles.when}>{moment.time}</span>
               <span className={styles.detail}>{moment.detail}</span>
-            </li>
-          ))}
-        </ol>
-      </Reveal>
+            </p>
+          </Reveal>
+        ))}
+      </div>
 
-      <Reveal delayMs={180}>
-        <div className={styles.actions}>
+      <div className={styles.actions}>
+        <Reveal>
           <AddToCalendar
             template="coastal-light"
             href={calendarUrl}
             className={styles.action}
           >
-            <CalendarIcon className={styles.icon} />
+            <span className={styles.badge}>
+              <CalendarIcon className={styles.icon} />
+            </span>
             Add to calendar
           </AddToCalendar>
+        </Reveal>
+        <Reveal delayMs={90}>
           <a
             href={data.venue.mapUrl}
             target="_blank"
             rel="noreferrer"
             className={styles.action}
           >
-            <MapIcon />
+            <span className={styles.badge}>
+              <MapIcon />
+            </span>
             Open map
           </a>
-        </div>
-      </Reveal>
+        </Reveal>
+      </div>
     </section>
   );
 }

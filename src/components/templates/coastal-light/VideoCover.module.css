@@ -33,6 +33,66 @@
   opacity: 0;
 }
 
+.flora {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.piece {
+  position: absolute;
+  opacity: 0;
+  filter:
+    drop-shadow(0 1px 0 rgba(255, 250, 247, 0.85))
+    drop-shadow(0 8px 12px rgba(70, 40, 50, 0.2));
+  animation-name: flora-drift;
+  animation-timing-function: linear;
+  animation-duration: 20s;
+  animation-iteration-count: infinite;
+  animation-fill-mode: both;
+}
+
+.leaf {
+  width: 0.94rem;
+  height: 1.33rem;
+  border-radius: 80% 15% 70% 30%;
+}
+
+.small.leaf {
+  width: 0.66rem;
+  height: 0.94rem;
+}
+
+.rose {
+  background: linear-gradient(135deg, #ffe8ee, #e08b9a);
+}
+
+@keyframes flora-drift {
+  0% {
+    opacity: 0;
+    left: var(--from-x);
+    top: var(--from-y);
+    transform: rotate(var(--spin-from));
+  }
+  22% {
+    opacity: 0.9;
+  }
+  50% {
+    opacity: 0.82;
+    left: var(--mid-x);
+    top: var(--mid-y);
+    transform: rotate(var(--spin-mid));
+  }
+  100% {
+    opacity: 0;
+    left: var(--to-x);
+    top: var(--to-y);
+    transform: rotate(var(--spin-to));
+  }
+}
+
 .seal {
   position: absolute;
   z-index: 3;
@@ -168,6 +228,14 @@
   to {
     opacity: 1;
   }
+}
+
+.line,
+.name,
+.join,
+.date {
+  position: relative;
+  z-index: 2;
 }
 
 .line {
