@@ -23,6 +23,32 @@ export const coastalLightInvitation = {
     mapUrl: "https://maps.google.com/?q=Garden+City+Cairo",
   },
   dressCode: "Ivory, stone, and soft blue",
+  gallery: [
+    {
+      src: "/elegant/gallery/01-meadow.jpg",
+      alt: "Hana and Yusuf standing together in a lupine meadow",
+    },
+    {
+      src: "/elegant/gallery/02-field.jpg",
+      alt: "A quiet moment together in the field",
+    },
+    {
+      src: "/elegant/gallery/03-walk.jpg",
+      alt: "Walking through the blooming meadow",
+    },
+    {
+      src: "/elegant/gallery/04-standing.jpg",
+      alt: "Standing close in the tall grass",
+    },
+    {
+      src: "/elegant/gallery/05-portrait.jpg",
+      alt: "A still portrait in the meadow",
+    },
+    {
+      src: "/elegant/gallery/06-together.jpg",
+      alt: "Together among the lupines",
+    },
+  ],
   moments: [
     {
       label: "Ceremony",

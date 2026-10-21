@@ -10,7 +10,7 @@ export default function Reply() {
     <section className={styles.section} aria-label="RSVP">
       <Reveal>
         <p className={styles.index}>
-          <span>04</span>
+          <span>05</span>
           Reply
         </p>
       </Reveal>

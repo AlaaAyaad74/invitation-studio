@@ -1,0 +1,202 @@
+.section {
+  padding: 2.6rem 1.15rem 0.4rem;
+  font-family: var(--font-minimal-serif), Georgia, serif;
+  text-align: center;
+}
+
+.index {
+  display: flex;
+  align-items: baseline;
+  justify-content: center;
+  gap: 0.55rem;
+  margin: 0;
+  color: var(--ink);
+  font-size: 1.35rem;
+  font-weight: 400;
+  letter-spacing: 0;
+}
+
+.index span {
+  color: var(--seal-ink);
+  letter-spacing: 0.08em;
+}
+
+.names {
+  margin: 0.2rem 0 0;
+  font-family: var(--font-minimal-script), "Segoe Script", cursive;
+  font-size: clamp(2.15rem, 8vw, 2.6rem);
+  font-weight: 400;
+  line-height: 1.1;
+}
+
+.cluster {
+  position: relative;
+  width: min(100%, 26rem);
+  aspect-ratio: 1 / 1.02;
+  margin: 0.85rem auto 0;
+  overflow: hidden;
+}
+
+.sentinel {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+.mover {
+  position: absolute;
+  top: var(--y);
+  left: var(--x);
+  z-index: var(--z);
+  width: var(--w);
+  height: var(--h);
+  opacity: 0;
+  transform: translate3d(var(--from-x), var(--from-y), 0) rotate(var(--from-rot)) scale(0.72);
+}
+
+.cluster[data-revealed="true"] .mover {
+  animation: arrive var(--duration) cubic-bezier(0.16, 1, 0.3, 1) var(--delay) both;
+}
+
+.floater {
+  width: 100%;
+  height: 100%;
+  filter: drop-shadow(0 12px 14px rgba(42, 21, 32, 0.3));
+}
+
+.defs {
+  position: absolute;
+  width: 0;
+  height: 0;
+}
+
+.mover[data-settled="true"] .floater {
+  animation: drift var(--drift) ease-in-out infinite alternate;
+}
+
+.photo {
+  display: block;
+  width: 100%;
+  height: 100%;
+  padding: 0;
+  overflow: hidden;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  box-shadow: none;
+  cursor: pointer;
+}
+
+.photo img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center 32%;
+  transform: scale(1);
+  transition: transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.photo:hover img,
+.photo:focus-visible img {
+  transform: scale(1.07);
+}
+
+.photo:focus-visible {
+  outline: 2px solid var(--seal-ink);
+  outline-offset: 3px;
+}
+
+.lightbox {
+  position: fixed;
+  inset: 0;
+  z-index: 80;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1.4rem;
+  background: rgba(42, 21, 32, 0.48);
+  backdrop-filter: blur(10px);
+  animation: veil 0.35s ease both;
+}
+
+.frame {
+  position: relative;
+  width: min(100%, 22rem);
+  margin: 0;
+}
+
+.frame img {
+  display: block;
+  width: 100%;
+  max-height: 70vh;
+  object-fit: cover;
+  border: 0;
+  border-radius: 1.35rem;
+  box-shadow: 0 24px 50px -18px rgba(20, 8, 14, 0.55);
+}
+
+.frame figcaption {
+  margin-top: 0.7rem;
+  color: #fffaf7;
+  font-family: var(--font-minimal-script), "Segoe Script", cursive;
+  font-size: 2.15rem;
+  line-height: 1;
+  text-align: center;
+}
+
+.close {
+  display: block;
+  margin: 0.75rem auto 0;
+  padding: 0.35rem 0.9rem;
+  border: 1px solid rgba(255, 250, 247, 0.55);
+  border-radius: 999px;
+  background: transparent;
+  color: #fffaf7;
+  font-family: var(--font-minimal-serif), Georgia, serif;
+  font-size: 1rem;
+  font-style: italic;
+  cursor: pointer;
+}
+
+.close:focus-visible {
+  outline: 2px solid #fffaf7;
+  outline-offset: 3px;
+}
+
+@keyframes arrive {
+  from {
+    opacity: 0;
+    transform: translate3d(var(--from-x), var(--from-y), 0) rotate(var(--from-rot)) scale(0.72);
+  }
+  to {
+    opacity: 1;
+    transform: translate3d(0, 0, 0) rotate(var(--rest)) scale(1);
+  }
+}
+
+@keyframes drift {
+  from {
+    transform: translate3d(0, 0, 0);
+  }
+  to {
+    transform: translate3d(var(--dx), var(--dy), 0);
+  }
+}
+
+@keyframes veil {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .lightbox,
+  .photo img {
+    animation: none;
+    transition: none;
+  }
+}

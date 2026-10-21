@@ -5,6 +5,7 @@ import { useEffect, useRef, useState } from "react";
 import styles from "./VideoCover.module.css";
 
 const VIDEO_SRC = "/minimal/minimal-hero.mp4";
+const POSTER_SRC = "/minimal/hero-poster.webp";
 const REVEAL_AFTER_MS = 7000;
 
 export default function VideoCover() {
@@ -12,7 +13,9 @@ export default function VideoCover() {
   const revealId = useRef<number | null>(null);
   const coverRef = useRef<HTMLElement>(null);
   const openedRef = useRef(false);
+  const warmedRef = useRef(false);
   const [opened, setOpened] = useState(false);
+  const [videoOn, setVideoOn] = useState(false);
   const [revealed, setRevealed] = useState(false);
   const [finished, setFinished] = useState(false);
 
@@ -20,16 +23,49 @@ export default function VideoCover() {
     const video = videoRef.current;
     if (!video) return;
 
-    const showOpeningFrame = () => {
+    video.muted = true;
+    video.defaultMuted = true;
+    video.playsInline = true;
+
+    const paintOpeningFrame = () => {
       if (openedRef.current) return;
-      video.pause();
+      try {
+        video.currentTime = 0.001;
+      } catch {
+        /* metadata is not seekable yet */
+      }
     };
 
-    if (video.readyState >= HTMLMediaElement.HAVE_CURRENT_DATA) showOpeningFrame();
-    else video.addEventListener("loadeddata", showOpeningFrame);
+    // In-app browsers (Instagram) often leave <video> blank until a frame is
+    // decoded. Load immediately, seek to the sealed envelope, and try a muted
+    // play/pause so that frame is ready before tap. The poster covers any gap.
+    const warm = () => {
+      if (openedRef.current || warmedRef.current) return;
+      warmedRef.current = true;
+      paintOpeningFrame();
+
+      const attempt = video.play();
+      if (!attempt) return;
+      attempt
+        .then(() => {
+          if (openedRef.current) return;
+          video.pause();
+          paintOpeningFrame();
+        })
+        .catch(() => {
+          paintOpeningFrame();
+        });
+    };
+
+    if (video.readyState >= HTMLMediaElement.HAVE_METADATA) warm();
+    else if (video.networkState === HTMLMediaElement.NETWORK_EMPTY) video.load();
+
+    video.addEventListener("loadedmetadata", warm);
+    video.addEventListener("loadeddata", warm);
 
     return () => {
-      video.removeEventListener("loadeddata", showOpeningFrame);
+      video.removeEventListener("loadedmetadata", warm);
+      video.removeEventListener("loadeddata", warm);
       if (revealId.current != null) window.clearTimeout(revealId.current);
     };
   }, []);
@@ -39,6 +75,11 @@ export default function VideoCover() {
     if (!video || opened) return;
     openedRef.current = true;
     setOpened(true);
+    try {
+      video.currentTime = 0.001;
+    } catch {
+      /* play() still starts once the gesture unlocks the element */
+    }
     video.play().catch(() => {
       openedRef.current = false;
       setOpened(false);
@@ -46,6 +87,8 @@ export default function VideoCover() {
   };
 
   const onPlaying = () => {
+    if (!openedRef.current) return;
+    setVideoOn(true);
     if (revealId.current != null) return;
     revealId.current = window.setTimeout(() => setRevealed(true), REVEAL_AFTER_MS);
   };
@@ -68,15 +111,22 @@ export default function VideoCover() {
         <video
           ref={videoRef}
           className={styles.video}
+          src={VIDEO_SRC}
+          poster={POSTER_SRC}
           muted
           playsInline
           preload="auto"
           aria-hidden="true"
           onPlaying={onPlaying}
           onEnded={() => setFinished(true)}
-        >
-          <source src={VIDEO_SRC} type="video/mp4" />
-        </video>
+        />
+        <img
+          src={POSTER_SRC}
+          alt=""
+          fetchPriority="high"
+          className={styles.still}
+          data-hidden={videoOn ? "true" : "false"}
+        />
         {opened ? null : (
           <button type="button" className={styles.seal} onClick={open}>
             <span>
