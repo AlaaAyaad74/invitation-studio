@@ -2,7 +2,7 @@ import { eventFromInvite, googleCalendarUrl } from "@/lib/calendar";
 
 export const coastalLightInvitation = {
   couple: {
-    first: "Yusuf",
+    first: "Yousef",
     second: "Hana",
   },
   intro: "Together with their families",
@@ -27,7 +27,7 @@ export const coastalLightInvitation = {
   gallery: [
     {
       src: "/elegant/gallery/01-meadow.jpg",
-      alt: "Yusuf and Hana standing together in a lupine meadow",
+      alt: "Yousef and Hana standing together in a lupine meadow",
     },
     {
       src: "/elegant/gallery/02-field.jpg",
@@ -65,7 +65,7 @@ export const coastalLightInvitation = {
   rsvp: {
     whatsapp: "201000000000",
     message:
-      "Hello! I would love to confirm my attendance to Yusuf & Hana's wedding.",
+      "Hello! I would love to confirm my attendance to Yousef & Hana's wedding.",
     deadline: "Kindly reply before 1 September 2027",
   },
 } as const;
