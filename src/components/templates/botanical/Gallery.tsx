@@ -1,8 +1,9 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { capitalName, type BotanicalContent } from "@/data/botanical";
+import ImageWithSkeleton from "@/components/ImageWithSkeleton";
 import Reveal from "@/components/Reveal";
+import { capitalName, type BotanicalContent } from "@/data/botanical";
 import styles from "./Gallery.module.css";
 
 type Photo = BotanicalContent["gallery"][number];
@@ -61,7 +62,14 @@ export default function Gallery({ data }: { data: BotanicalContent }) {
               className={styles.item}
               onClick={() => setActive(photo)}
             >
-              <img src={photo.src} alt={photo.alt} loading="lazy" />
+              <ImageWithSkeleton
+                native
+                src={photo.src}
+                alt={photo.alt}
+                loading="lazy"
+                wrapperClassName="w-full"
+                skeletonClassName="min-h-48"
+              />
               <span className={styles.credit}>
                 {capitalName(data.couple.first)} & {capitalName(data.couple.second)}
               </span>
@@ -78,7 +86,13 @@ export default function Gallery({ data }: { data: BotanicalContent }) {
           aria-label={active.alt}
           onClick={() => setActive(null)}
         >
-          <img src={active.src} alt={active.alt} />
+          <ImageWithSkeleton
+            native
+            src={active.src}
+            alt={active.alt}
+            wrapperClassName="flex max-h-[88svh] justify-center"
+            skeletonClassName="min-h-64 w-full max-w-[920px] rounded-[0.75rem]"
+          />
         </div>
       ) : null}
     </section>

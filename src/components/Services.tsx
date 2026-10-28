@@ -1,5 +1,7 @@
+import Link from "next/link";
 import Reveal from "@/components/Reveal";
 import { services } from "@/data/templates";
+import { siteConfig } from "@/lib/site";
 
 export default function Services() {
   return (
@@ -17,9 +19,9 @@ export default function Services() {
               Made for your names, your story, your day.
             </h2>
             <p className="mt-4 max-w-xl text-ink-muted">
-              Beyond templates, our studio designs couple logos, bespoke
-              invitation sites, and day-of digital pieces that feel unmistakably
-              yours.
+              Beyond templates, our studio designs invitation photos, couple
+              logos, bespoke invitation sites, and day-of digital pieces that
+              feel unmistakably yours.
             </p>
           </Reveal>
 
@@ -31,7 +33,9 @@ export default function Services() {
                 your invitation site, envelopes, and thank-you notes.
               </p>
               <a
-                href="mailto:hello@vowcraft.studio"
+                href={siteConfig.instagramDmUrl}
+                target="_blank"
+                rel="noopener noreferrer"
                 className="mt-6 inline-flex bg-sage-deep px-5 py-3 text-sm text-white transition hover:bg-sage"
               >
                 Request a custom quote
@@ -48,6 +52,14 @@ export default function Services() {
                 <p className="mt-2 text-sm leading-relaxed text-ink-muted">
                   {service.description}
                 </p>
+                {"href" in service && service.href ? (
+                  <Link
+                    href={service.href}
+                    className="mt-3 inline-flex text-sm tracking-wide text-sage-deep underline-offset-4 hover:underline"
+                  >
+                    Browse samples
+                  </Link>
+                ) : null}
               </article>
             </Reveal>
           ))}

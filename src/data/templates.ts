@@ -93,6 +93,12 @@ export const services = [
       "A monogram or wordmark designed around your names, used across the site, save-the-date, and print suite.",
   },
   {
+    title: "Invitation photos",
+    description:
+      "Still invitation cards designed for WhatsApp, print, and social—personalized with your names, date, and details.",
+    href: "/photos",
+  },
+  {
     title: "Bespoke invitation site",
     description:
       "We craft a one-of-a-kind layout from your mood board, venue photos, and ceremony details.",

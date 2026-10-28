@@ -29,8 +29,8 @@ export default function Hero() {
           Invitation websites that feel like the day itself.
         </h1>
         <p className="animate-fade-up delay-2 mt-4 max-w-md text-base leading-relaxed text-white/80 sm:text-lg">
-          Browse wedding invitation templates, then make them yours—or let us
-          craft a custom site with your couple logo and story.
+          Browse invitation websites and invitation photos, then make them
+          yours—or let us craft a custom site with your couple logo and story.
         </p>
         <div className="animate-fade-up delay-3 mt-8 flex flex-wrap gap-3">
           <a
@@ -40,7 +40,9 @@ export default function Hero() {
             View templates
           </a>
           <a
-            href="#services"
+            href={siteConfig.instagramDmUrl}
+            target="_blank"
+            rel="noopener noreferrer"
             className="border border-white/50 px-6 py-3 text-sm tracking-wide text-white transition hover:bg-white/10"
           >
             Custom services

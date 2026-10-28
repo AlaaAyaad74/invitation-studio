@@ -1,5 +1,6 @@
 "use client";
 
+import ImageWithSkeleton from "@/components/ImageWithSkeleton";
 import { elegantInvitation as data } from "@/data/elegant";
 import { useEffect, useRef, useState } from "react";
 
@@ -81,11 +82,16 @@ export default function VideoCover() {
       >
         <source src={VIDEO_SRC} type="video/mp4" />
       </video>
-      <img
+      <ImageWithSkeleton
+        native
+        cover
         src={POSTER_SRC}
         alt=""
         fetchPriority="high"
-        className={`pointer-events-none absolute inset-0 z-[1] size-full object-cover transition-opacity duration-700 motion-reduce:transition-none ${videoOn ? "opacity-0" : "opacity-100"}`}
+        className="pointer-events-none size-full object-cover"
+        wrapperClassName={`pointer-events-none absolute inset-0 z-[1] transition-opacity duration-700 motion-reduce:transition-none ${
+          videoOn ? "opacity-0" : "opacity-100"
+        }`}
       />
 
       <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_68%_42%_at_50%_40%,rgba(22,12,14,0.48),transparent_70%),linear-gradient(180deg,rgba(16,28,24,0.38)_0%,transparent_24%,transparent_62%,rgba(16,24,20,0.55)_100%)]" />

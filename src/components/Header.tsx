@@ -1,14 +1,21 @@
 "use client";
 
+import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
+import ImageWithSkeleton from "@/components/ImageWithSkeleton";
+import { siteConfig } from "@/lib/site";
 
 const links = [
-  { href: "#templates", label: "Templates" },
-  { href: "#features", label: "Features" },
-  { href: "#services", label: "Services" },
+  { href: "/#templates", label: "Templates" },
+  { href: "/photos", label: "Photos" },
+  { href: "/#features", label: "Features" },
+  { href: "/#services", label: "Services" },
 ];
 
 export default function Header() {
+  const pathname = usePathname();
+  const isHome = pathname === "/";
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
 
@@ -36,7 +43,7 @@ export default function Header() {
     };
   }, [open]);
 
-  const solidBar = scrolled || open;
+  const solidBar = !isHome || scrolled || open;
 
   return (
     <header className="fixed inset-x-0 top-0 z-50">
@@ -48,37 +55,46 @@ export default function Header() {
         }`}
       >
         <div className="mx-auto flex h-24 max-w-6xl items-center justify-between px-5 sm:h-28 sm:px-8">
-          <a
-            href="#top"
+          <Link
+            href="/"
             aria-label="Invitation Studio home"
             onClick={() => setOpen(false)}
             className={`font-display text-2xl tracking-[0.04em] transition-colors duration-300 sm:text-3xl ${
               solidBar ? "text-ink" : "text-white"
             }`}
           >
-            <img
+            <ImageWithSkeleton
+              native
               src="/logo.webp"
               alt="Invitation Studio"
               width={96}
               height={96}
               className="h-20 w-auto sm:h-24"
+              wrapperClassName="inline-block"
+              skeletonClassName="min-h-20 w-20 rounded-md sm:min-h-24 sm:w-24"
             />
-          </a>
+          </Link>
 
           <nav className="hidden items-center gap-8 md:flex">
-            {links.map((link) => (
-              <a
-                key={link.href}
-                href={link.href}
-                className={`text-sm tracking-wide transition-colors hover:opacity-80 ${
-                  solidBar ? "text-ink-muted" : "text-white/85"
-                }`}
-              >
-                {link.label}
-              </a>
-            ))}
+            {links.map((link) => {
+              const className = `text-sm tracking-wide transition-colors hover:opacity-80 ${
+                solidBar ? "text-ink-muted" : "text-white/85"
+              }`;
+
+              return link.href.includes("#") ? (
+                <a key={link.href} href={link.href} className={className}>
+                  {link.label}
+                </a>
+              ) : (
+                <Link key={link.href} href={link.href} className={className}>
+                  {link.label}
+                </Link>
+              );
+            })}
             <a
-              href="#services"
+              href={siteConfig.instagramDmUrl}
+              target="_blank"
+              rel="noopener noreferrer"
               className={`rounded-sm px-4 py-2 text-sm tracking-wide transition-colors ${
                 solidBar
                   ? "bg-sage-deep text-white hover:bg-sage"
@@ -141,24 +157,41 @@ export default function Header() {
           }`}
         >
           <nav className="flex flex-1 flex-col justify-center gap-2 px-6 pb-10 pt-32 sm:px-8">
-            {links.map((link, index) => (
-              <a
-                key={link.href}
-                href={link.href}
-                onClick={() => setOpen(false)}
-                className={`font-display text-4xl leading-tight text-ink transition-all duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] sm:text-5xl ${
-                  open ? "translate-y-0 opacity-100" : "translate-y-4 opacity-0"
-                }`}
-                style={{
-                  transitionDelay: open ? `${120 + index * 70}ms` : "0ms",
-                }}
-              >
-                {link.label}
-              </a>
-            ))}
+            {links.map((link, index) => {
+              const className = `font-display text-4xl leading-tight text-ink transition-all duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] sm:text-5xl ${
+                open ? "translate-y-0 opacity-100" : "translate-y-4 opacity-0"
+              }`;
+              const style = {
+                transitionDelay: open ? `${120 + index * 70}ms` : "0ms",
+              };
+
+              return link.href.includes("#") ? (
+                <a
+                  key={link.href}
+                  href={link.href}
+                  onClick={() => setOpen(false)}
+                  className={className}
+                  style={style}
+                >
+                  {link.label}
+                </a>
+              ) : (
+                <Link
+                  key={link.href}
+                  href={link.href}
+                  onClick={() => setOpen(false)}
+                  className={className}
+                  style={style}
+                >
+                  {link.label}
+                </Link>
+              );
+            })}
 
             <a
-              href="#services"
+              href={siteConfig.instagramDmUrl}
+              target="_blank"
+              rel="noopener noreferrer"
               onClick={() => setOpen(false)}
               className={`mt-8 inline-flex w-fit bg-sage-deep px-6 py-3.5 text-sm tracking-wide text-white transition-all duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] hover:bg-sage ${
                 open ? "translate-y-0 opacity-100" : "translate-y-4 opacity-0"

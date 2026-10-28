@@ -1,5 +1,6 @@
 "use client";
 
+import ImageWithSkeleton from "@/components/ImageWithSkeleton";
 import Reveal from "@/components/Reveal";
 import { coastalLightInvitation as data } from "@/data/coastal-light";
 import { useEffect, useRef, useState, type CSSProperties } from "react";
@@ -276,7 +277,16 @@ export default function Gallery() {
                 aria-label={`Open photo: ${piece.photo.alt}`}
                 onClick={() => setActive(piece.photo)}
               >
-                <img src={piece.photo.src} alt="" loading="lazy" draggable={false} />
+                <ImageWithSkeleton
+                  native
+                  cover
+                  src={piece.photo.src}
+                  alt=""
+                  loading="lazy"
+                  draggable={false}
+                  className="size-full object-cover"
+                  wrapperClassName="relative size-full"
+                />
               </button>
             </div>
           </div>
@@ -292,7 +302,13 @@ export default function Gallery() {
           onClick={() => setActive(null)}
         >
           <figure className={styles.frame} onClick={(event) => event.stopPropagation()}>
-            <img src={active.src} alt={active.alt} />
+            <ImageWithSkeleton
+              native
+              src={active.src}
+              alt={active.alt}
+              wrapperClassName="block w-full"
+              skeletonClassName="min-h-64 rounded-[1.35rem]"
+            />
             <figcaption>
               {data.couple.first} & {data.couple.second}
             </figcaption>

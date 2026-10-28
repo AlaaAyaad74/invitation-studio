@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { preload } from "react-dom";
+import ImageWithSkeleton from "@/components/ImageWithSkeleton";
 import Invitation from "@/components/templates/coastal-light/Invitation";
 import styles from "./shell.module.css";
 
@@ -21,10 +22,13 @@ export default function CoastalLightTemplatePage() {
   return (
     <div className={styles.frame}>
       <aside className={styles.cover}>
-        <img
+        <ImageWithSkeleton
+          native
+          cover
           src="/templates/coastal-light.webp"
           alt="Coastal Light invitation template"
           className={styles.image}
+          wrapperClassName="absolute inset-0"
         />
         <div className={styles.veil} />
       </aside>

@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { preload } from "react-dom";
+import ImageWithSkeleton from "@/components/ImageWithSkeleton";
 import Invitation from "@/components/templates/elegant/Invitation";
 
 const VIDEO_SRC = "/elegant/elegant_hero_video.mp4";
@@ -21,10 +22,13 @@ export default function ElegantTemplatePage() {
   return (
     <div className="relative min-h-svh bg-ivory">
       <aside className="pointer-events-none fixed inset-y-0 right-[480px] left-0 z-0 hidden overflow-hidden min-[720px]:block">
-        <img
+        <ImageWithSkeleton
+          native
+          cover
           src="/templates/midnight-silk.webp"
           alt=""
           className="size-full object-cover object-[center_72%] brightness-[1.12] contrast-[1.06] saturate-[1.05]"
+          wrapperClassName="absolute inset-0"
         />
         <div className="absolute inset-0 bg-[radial-gradient(120%_90%_at_50%_55%,transparent_0%,transparent_52%,color-mix(in_srgb,var(--ink)_12%,transparent)_100%),linear-gradient(90deg,transparent_0%,transparent_78%,color-mix(in_srgb,var(--ink)_18%,transparent)_100%)]" />
       </aside>

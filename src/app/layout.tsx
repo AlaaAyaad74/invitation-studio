@@ -1,5 +1,7 @@
 import type { Metadata, Viewport } from "next";
+import { Analytics } from "@vercel/analytics/next";
 import { Cormorant_Garamond, Figtree, Great_Vibes } from "next/font/google";
+import VisitTracker from "@/components/VisitTracker";
 import { getSiteUrl, siteConfig } from "@/lib/site";
 import "./globals.css";
 
@@ -102,6 +104,7 @@ const jsonLd = {
       name: siteConfig.name,
       url: siteUrl,
       email: siteConfig.email,
+      sameAs: [siteConfig.instagramUrl],
       logo: `${siteUrl}/logo.webp`,
       image: `${siteUrl}/og.png`,
       description: siteConfig.description,
@@ -111,11 +114,13 @@ const jsonLd = {
       name: siteConfig.name,
       url: siteUrl,
       email: siteConfig.email,
+      sameAs: [siteConfig.instagramUrl],
       image: `${siteUrl}/logo.webp`,
       description: siteConfig.description,
       areaServed: "Worldwide",
       serviceType: [
         "Wedding invitation websites",
+        "Invitation photos",
         "Custom couple logos",
         "Bespoke invitation sites",
       ],
@@ -152,6 +157,8 @@ export default function RootLayout({
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
         />
         {children}
+        <VisitTracker />
+        <Analytics />
       </body>
     </html>
   );

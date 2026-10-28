@@ -1,5 +1,6 @@
 "use client";
 
+import ImageWithSkeleton from "@/components/ImageWithSkeleton";
 import { coastalLightInvitation as data } from "@/data/coastal-light";
 import { useEffect, useRef, useState } from "react";
 import styles from "./VideoCover.module.css";
@@ -224,12 +225,16 @@ export default function VideoCover() {
           onTimeUpdate={onTimeUpdate}
           onEnded={() => setFinished(true)}
         />
-        <img
+        <ImageWithSkeleton
+          native
+          cover
           src={POSTER_SRC}
           alt=""
           fetchPriority="high"
-          className={styles.still}
-          data-hidden={videoOn ? "true" : "false"}
+          className="size-full object-cover"
+          wrapperClassName={`absolute inset-0 z-[1] transition-opacity duration-[450ms] ease-out ${
+            videoOn ? "opacity-0" : "opacity-100"
+          }`}
         />
         {opened ? null : (
           <button type="button" className={styles.seal} onClick={open}>

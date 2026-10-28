@@ -1,5 +1,6 @@
 "use client";
 
+import ImageWithSkeleton from "@/components/ImageWithSkeleton";
 import Reveal from "@/components/Reveal";
 import { elegantInvitation as data } from "@/data/elegant";
 import { useEffect, useState } from "react";
@@ -95,11 +96,14 @@ export default function Gallery() {
                     clipPath: "url(#elegant-shape)",
                   }}
                 >
-                  <img
+                  <ImageWithSkeleton
+                    native
+                    cover
                     src={item.src}
                     alt=""
                     loading="lazy"
                     className="absolute inset-0 size-full object-cover"
+                    wrapperClassName="absolute inset-0"
                   />
                 </button>
               ))}
@@ -172,10 +176,13 @@ export default function Gallery() {
                 clipPath: "url(#elegant-shape)",
               }}
             >
-              <img
+              <ImageWithSkeleton
+                native
+                cover
                 src={photo.src}
                 alt={photo.alt}
                 className="size-full object-cover"
+                wrapperClassName="relative size-full"
               />
             </div>
             <figcaption className="mt-3 text-center font-pinyon text-3xl text-e-white">

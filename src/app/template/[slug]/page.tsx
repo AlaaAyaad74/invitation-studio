@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { preload } from "react-dom";
+import ImageWithSkeleton from "@/components/ImageWithSkeleton";
 import Invitation from "@/components/templates/botanical/Invitation";
 import { capitalName } from "@/data/botanical";
 import { getCouple, couples } from "@/data/couples";
@@ -39,10 +40,13 @@ export default async function CoupleInvitationPage({ params }: PageProps) {
   return (
     <div className={styles.frame}>
       <aside className={styles.cover}>
-        <img
+        <ImageWithSkeleton
+          native
+          cover
           src="/templates/botanical.webp"
           alt=""
           className={styles.image}
+          wrapperClassName="absolute inset-0"
         />
         <div className={styles.veil} />
       </aside>

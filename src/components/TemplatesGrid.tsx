@@ -1,5 +1,5 @@
-import Image from "next/image";
 import Link from "next/link";
+import ImageWithSkeleton from "@/components/ImageWithSkeleton";
 import Reveal from "@/components/Reveal";
 import { templates } from "@/data/templates";
 
@@ -28,12 +28,13 @@ export default function TemplatesGrid() {
             const card = (
               <>
                 <div className="relative aspect-[4/5] overflow-hidden bg-ivory-deep">
-                  <Image
+                  <ImageWithSkeleton
                     src={template.image}
                     alt={`${template.title} invitation template`}
                     fill
                     sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
                     className="object-cover transition duration-700 group-hover:scale-[1.04]"
+                    wrapperClassName="absolute inset-0"
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-ink/55 via-transparent to-transparent opacity-80" />
                   <span className="absolute bottom-4 left-4 text-xs tracking-[0.18em] text-white/90 uppercase">
