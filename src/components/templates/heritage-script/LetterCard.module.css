@@ -155,8 +155,10 @@
 }
 
 .name {
-  font-size: clamp(2.65rem, 12.5cqi, 3.7rem);
-  line-height: 1.05;
+  font-family: "Alex Brush", cursive;
+  font-size: clamp(3.15rem, 15cqi, 4.25rem);
+  font-weight: 400;
+  line-height: 0.85;
 }
 
 .amp {

@@ -2,8 +2,8 @@ import { eventFromInvite, googleCalendarUrl } from "@/lib/calendar";
 
 export const heritageInvitation = {
   couple: {
-    first: "Helena",
-    second: "Julian",
+    first: "Ahmed",
+    second: "Menna",
   },
   kicker: "Together with their families",
   honour: "request the honour of your presence",
@@ -27,28 +27,36 @@ export const heritageInvitation = {
   music: "/voices/heritage-script-voice.mp3",
   gallery: [
     {
-      src: "/elegant/gallery/01-meadow.jpg",
-      alt: "Helena and Julian in a meadow at golden hour",
+      src: "/heritage script/couple/1.webp",
+      alt: "Ahmed kisses Menna's temple in a close portrait",
     },
     {
-      src: "/elegant/gallery/02-field.jpg",
-      alt: "A quiet moment together in the field",
+      src: "/heritage script/couple/2.webp",
+      alt: "Menna rests against Ahmed in a close portrait",
     },
     {
-      src: "/elegant/gallery/03-walk.jpg",
-      alt: "Walking through the blooming meadow",
+      src: "/heritage script/couple/3.webp",
+      alt: "Ahmed and Menna stand forehead to forehead",
     },
     {
-      src: "/elegant/gallery/04-standing.jpg",
-      alt: "Standing close in the tall grass",
+      src: "/heritage script/couple/4.webp",
+      alt: "Ahmed holds Menna by the window",
     },
     {
-      src: "/elegant/gallery/05-portrait.jpg",
-      alt: "A still portrait in the meadow",
+      src: "/heritage script/couple/5.webp",
+      alt: "Menna rides on Ahmed's back beside the window",
     },
     {
-      src: "/elegant/gallery/06-together.jpg",
-      alt: "Together among the flowers",
+      src: "/heritage script/couple/6.webp",
+      alt: "Ahmed and Menna dance beneath the beams",
+    },
+    {
+      src: "/heritage script/couple/7.webp",
+      alt: "Ahmed and Menna laugh together beneath the beams",
+    },
+    {
+      src: "/heritage script/couple/8.webp",
+      alt: "Ahmed and Menna sit together against the wall",
     },
   ],
 } as const;

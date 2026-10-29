@@ -20,8 +20,9 @@
 .script {
   margin: 0.65rem 0 0;
   color: #f8efe3;
-  font-family: var(--font-heritage-script), "Great Vibes", cursive;
-  font-size: 2.55rem;
+  font-family: "Alex Brush", cursive;
+  font-size: 2.7rem;
+  font-weight: 400;
   line-height: 0.95;
 }
 
