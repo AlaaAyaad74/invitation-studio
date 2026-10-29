@@ -1,0 +1,92 @@
+.frame {
+  position: relative;
+  min-height: 100svh;
+  background: #5c0e1c;
+}
+
+.cover {
+  display: none;
+}
+
+.monogram {
+  position: relative;
+  display: flex;
+  align-items: baseline;
+  justify-content: center;
+  gap: 0.2em;
+  margin: 0;
+  color: #f8efe3;
+  font-family: var(--font-heritage-caps), "Times New Roman", serif;
+  font-size: clamp(4.4rem, 9vw, 8rem);
+  font-weight: 500;
+  letter-spacing: 0.02em;
+  line-height: 0.85;
+  text-shadow: 0 18px 40px rgba(20, 0, 6, 0.35);
+}
+
+.monogramAmp {
+  color: #e8c48a;
+  font-family: var(--font-heritage-serif), Georgia, serif;
+  font-size: 0.5em;
+  font-style: italic;
+  font-weight: 500;
+  letter-spacing: 0;
+}
+
+.coverCaption {
+  position: relative;
+  max-width: 100%;
+  margin: 1.25rem 0 0;
+  padding-inline: 1.25rem;
+  color: #f3e0b8;
+  font-family: var(--font-heritage-serif), Georgia, serif;
+  font-size: 1.2rem;
+  font-style: italic;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  text-align: center;
+}
+
+.stage {
+  position: relative;
+  z-index: 10;
+  width: 100%;
+  min-width: 280px;
+  max-width: 480px;
+  min-height: 100svh;
+  margin-inline: auto;
+  overflow-x: hidden;
+  background: #5c0e1c;
+}
+
+@media (min-width: 720px) {
+  .cover {
+    display: flex;
+    position: fixed;
+    inset: 0 480px 0 0;
+    z-index: 0;
+    overflow: hidden;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background: #5c0e1c;
+  }
+
+  .cover::after {
+    content: "";
+    position: absolute;
+    inset: 1.5rem;
+    border: 1px solid rgba(232, 196, 138, 0.28);
+    pointer-events: none;
+  }
+
+  .stage {
+    margin-right: 0;
+    margin-left: auto;
+    width: 480px;
+    max-width: none;
+    box-shadow:
+      -1px 0 0 rgba(232, 196, 138, 0.45),
+      -32px 0 80px -24px rgba(18, 0, 6, 0.65);
+  }
+}

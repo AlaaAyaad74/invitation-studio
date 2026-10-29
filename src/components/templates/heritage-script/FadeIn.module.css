@@ -1,0 +1,17 @@
+.fade {
+  opacity: 0;
+}
+
+.play {
+  animation: section-fade 1.35s cubic-bezier(0.22, 0.61, 0.36, 1) both;
+}
+
+@keyframes section-fade {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}

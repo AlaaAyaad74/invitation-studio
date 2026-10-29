@@ -41,9 +41,11 @@ export const templates: InvitationTemplate[] = [
     id: "heritage-script",
     title: "Heritage Script",
     style: "Classic",
-    description: "Timeless calligraphy with formal suite details.",
+    description:
+      "A crimson formal suite — calligraphy, gold, and evening light.",
     image: "/templates/heritage-script.webp",
-    comingSoon: true,
+    comingSoon: false,
+    href: "/templates/heritage-script",
   },
   {
     id: "desert-bloom",

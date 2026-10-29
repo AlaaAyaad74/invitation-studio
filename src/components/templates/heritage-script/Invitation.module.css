@@ -1,0 +1,109 @@
+.root {
+  position: relative;
+  background: #5c0e1c;
+  color: #f8efe3;
+  font-family: var(--font-heritage-serif), Georgia, serif;
+}
+
+.label {
+  margin: 0;
+  color: #f3e0b8;
+  font-family: var(--font-heritage-caps), "Times New Roman", serif;
+  font-size: 0.68rem;
+  font-weight: 500;
+  letter-spacing: 0.34em;
+  text-transform: uppercase;
+}
+
+.details {
+  padding: 2.6rem 1.5rem 0.25rem;
+}
+
+.heading {
+  margin: 0 0 1.75rem;
+  color: #f8efe3;
+  font-family: var(--font-heritage-script), "Great Vibes", cursive;
+  font-size: 2.6rem;
+  font-weight: 400;
+  line-height: 1;
+  text-align: center;
+}
+
+.list {
+  display: flex;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  flex-direction: column;
+  gap: 1.85rem;
+}
+
+.item {
+  padding: 0;
+  text-align: center;
+}
+
+.value {
+  display: block;
+  margin-top: 0.45rem;
+  color: #fffaf3;
+  font-family: var(--font-heritage-serif), Georgia, serif;
+  font-size: 1.7rem;
+  font-weight: 500;
+  font-style: italic;
+  letter-spacing: 0.01em;
+  line-height: 1.15;
+}
+
+.note {
+  display: block;
+  margin-top: 0.3rem;
+  color: rgba(248, 239, 227, 0.78);
+  font-family: var(--font-heritage-script), "Great Vibes", cursive;
+  font-size: 1.45rem;
+  font-style: normal;
+}
+
+.link {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.4rem;
+  margin-top: 0.85rem;
+  color: #e8c48a;
+  font-family: var(--font-heritage-caps), "Times New Roman", serif;
+  font-size: 0.62rem;
+  font-weight: 500;
+  letter-spacing: 0.18em;
+  line-height: 1;
+  text-decoration: none;
+  text-transform: uppercase;
+}
+
+.link:hover,
+.link:focus-visible {
+  color: #fffaf3;
+}
+
+.link:focus-visible {
+  outline: 1px solid #e8c48a;
+  outline-offset: 4px;
+}
+
+.linkIcon {
+  width: 0.95rem;
+  height: 0.95rem;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.6;
+}
+
+.credit {
+  padding: 1.6rem 1.5rem 2.2rem;
+  color: rgba(243, 224, 184, 0.78);
+  font-family: var(--font-heritage-caps), "Times New Roman", serif;
+  font-size: 0.62rem;
+  letter-spacing: 0.28em;
+  text-align: center;
+  text-transform: uppercase;
+}
