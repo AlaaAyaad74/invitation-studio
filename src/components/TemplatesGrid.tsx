@@ -1,6 +1,7 @@
 import Link from "next/link";
 import ImageWithSkeleton from "@/components/ImageWithSkeleton";
 import Reveal from "@/components/Reveal";
+import ShareTemplateButton from "@/components/templates/ShareTemplateButton";
 import { templates } from "@/data/templates";
 
 export default function TemplatesGrid() {
@@ -64,7 +65,7 @@ export default function TemplatesGrid() {
 
             return (
               <Reveal key={template.id} delayMs={index * 90}>
-                <article className="group h-full overflow-hidden bg-white shadow-[0_18px_40px_-28px_color-mix(in_srgb,var(--ink)_45%,transparent)]">
+                <article className="group relative h-full overflow-hidden bg-white shadow-[0_18px_40px_-28px_color-mix(in_srgb,var(--ink)_45%,transparent)]">
                   {template.href ? (
                     <Link
                       href={template.href}
@@ -75,6 +76,12 @@ export default function TemplatesGrid() {
                   ) : (
                     card
                   )}
+                  {template.href && !template.comingSoon ? (
+                    <ShareTemplateButton
+                      title={template.title}
+                      path={template.href}
+                    />
+                  ) : null}
                 </article>
               </Reveal>
             );

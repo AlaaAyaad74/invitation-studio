@@ -3,6 +3,7 @@
 import ImageWithSkeleton from "@/components/ImageWithSkeleton";
 import Reveal from "@/components/Reveal";
 import { elegantInvitation as data } from "@/data/elegant";
+import { useHorizontalSwipe } from "@/hooks/useHorizontalSwipe";
 import { useEffect, useState } from "react";
 
 const SHAPE =
@@ -19,6 +20,11 @@ export default function Gallery() {
   function step(delta: number) {
     setIndex((current) => (current + delta + photos.length) % photos.length);
   }
+
+  const swipe = useHorizontalSwipe(
+    () => step(1),
+    () => step(-1),
+  );
 
   useEffect(() => {
     if (!open) return;
@@ -70,9 +76,13 @@ export default function Gallery() {
       <Reveal className="mt-7">
         <div
           className="relative"
+          style={{ touchAction: "pan-y" }}
           role="region"
           aria-roledescription="carousel"
           aria-label="Couple photos"
+          onTouchStart={swipe.onTouchStart}
+          onTouchEnd={swipe.onTouchEnd}
+          onClickCapture={swipe.onClickCapture}
         >
           <div className="overflow-hidden">
             <div
@@ -147,10 +157,14 @@ export default function Gallery() {
       {open ? (
         <div
           className="fixed inset-0 z-[80] flex animate-fade-in items-center justify-center bg-[#10211c] p-5 motion-reduce:animate-none"
+          style={{ touchAction: "pan-y" }}
           role="dialog"
           aria-modal="true"
           aria-label={photo.alt}
           onClick={() => setOpen(false)}
+          onTouchStart={swipe.onTouchStart}
+          onTouchEnd={swipe.onTouchEnd}
+          onClickCapture={swipe.onClickCapture}
         >
           <button
             type="button"
@@ -220,7 +234,7 @@ function FrameButton({
         event.stopPropagation();
         onClick();
       }}
-      className={`absolute z-10 grid size-9 place-items-center rounded-full border backdrop-blur-sm focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-e-leaf ${className}`}
+      className={`absolute z-10 hidden size-9 items-center justify-center rounded-full border backdrop-blur-sm focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-e-leaf md:flex ${className}`}
     >
       <svg
         viewBox="0 0 24 24"

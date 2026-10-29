@@ -2,7 +2,10 @@
 
 import Image from "next/image";
 import { useEffect, useRef, useState, type CSSProperties } from "react";
-import type { InvitationPhoto } from "@/data/photos";
+import { createPortal } from "react-dom";
+import ShareModal from "@/components/ShareModal";
+import { getPhotoSharePath, type InvitationPhoto } from "@/data/photos";
+import { LuShare2 } from "react-icons/lu";
 
 const ASPECTS = [
   "aspect-[3/4]",
@@ -24,6 +27,7 @@ export default function LazyPhotoCard({
 }: LazyPhotoCardProps) {
   const [shouldLoad, setShouldLoad] = useState(index < 6);
   const [isLoaded, setIsLoaded] = useState(false);
+  const [shareOpen, setShareOpen] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
   const aspect = ASPECTS[index % ASPECTS.length];
 
@@ -84,6 +88,38 @@ export default function LazyPhotoCard({
           onLoad={() => setIsLoaded(true)}
         />
       ) : null}
+      <button
+        type="button"
+        aria-label={`Share ${photo.title}`}
+        aria-haspopup="dialog"
+        aria-expanded={shareOpen}
+        onClick={(event) => {
+          event.stopPropagation();
+          setShareOpen(true);
+        }}
+        style={{
+          top: 10,
+          right: 10,
+          width: 36,
+          height: 36,
+          backgroundColor: "#fff",
+          cursor: "pointer",
+        }}
+        className="absolute z-10 inline-flex items-center justify-center rounded-full text-ink shadow-[0_8px_18px_-10px_rgba(0,0,0,0.55)]"
+      >
+        <LuShare2 className="h-4 w-4" strokeWidth={2.2} />
+      </button>
+      {shareOpen
+        ? createPortal(
+            <ShareModal
+              title={photo.title}
+              path={getPhotoSharePath(photo.id)}
+              message={`${photo.title} invitation photo`}
+              onClose={() => setShareOpen(false)}
+            />,
+            document.body,
+          )
+        : null}
     </div>
   );
 }
