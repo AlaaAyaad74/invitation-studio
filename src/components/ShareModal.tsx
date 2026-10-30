@@ -13,15 +13,46 @@ type ShareModalProps = {
   onClose: () => void;
 };
 
+type Platform = "android" | "ios" | "desktop";
+
 type ShareTarget = {
   id: string;
   label: string;
   color: string;
   background?: string;
   icon: IconType;
-  buildHref: (url: string, text: string) => string;
-  copyFirst?: boolean;
+  /** Browser composer. Used on desktop, and when the app is not installed. */
+  buildWebHref: (url: string, text: string) => string;
+  /** In-app share or message composer, so the app does not open on its home screen. */
+  buildMobileHref: (
+    url: string,
+    text: string,
+    platform: "android" | "ios",
+  ) => string;
+  /** Instagram's website cannot prefill a direct message, so the link is copied. */
+  copyForWeb?: boolean;
 };
+
+function getPlatform(): Platform {
+  if (typeof navigator === "undefined") return "desktop";
+  const ua = navigator.userAgent;
+  if (/Android/i.test(ua)) return "android";
+  if (/iPhone|iPad|iPod/i.test(ua)) return "ios";
+  return "desktop";
+}
+
+function androidIntent(
+  scheme: string,
+  path: string,
+  packageName: string,
+  fallback: string,
+) {
+  return `intent://${path}#Intent;scheme=${scheme};package=${packageName};S.browser_fallback_url=${encodeURIComponent(fallback)};end`;
+}
+
+function messageWithLink(text: string, url: string) {
+  return `${text} ${url}`;
+}
 
 const shareTargets: ShareTarget[] = [
   {
@@ -30,16 +61,42 @@ const shareTargets: ShareTarget[] = [
     color: "#00c6ff",
     background: "linear-gradient(to right, #00c6ff, #0072ff)",
     icon: FaFacebookF,
-    buildHref: (url) =>
+    buildWebHref: (url) =>
       `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(url)}`,
+    buildMobileHref: (url, _text, platform) => {
+      const sharer = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(url)}`;
+      const href = encodeURIComponent(sharer);
+      if (platform === "android") {
+        return androidIntent(
+          "fb",
+          `facewebmodal/f?href=${href}`,
+          "com.facebook.katana",
+          sharer,
+        );
+      }
+      return `fb://facewebmodal/f?href=${href}`;
+    },
   },
   {
     id: "x",
     label: "X",
     color: "#000000",
     icon: FaXTwitter,
-    buildHref: (url, text) =>
+    buildWebHref: (url, text) =>
       `https://x.com/intent/post?url=${encodeURIComponent(url)}&text=${encodeURIComponent(text)}`,
+    buildMobileHref: (url, text, platform) => {
+      const message = encodeURIComponent(messageWithLink(text, url));
+      const web = `https://x.com/intent/post?url=${encodeURIComponent(url)}&text=${encodeURIComponent(text)}`;
+      if (platform === "android") {
+        return androidIntent(
+          "twitter",
+          `post?message=${message}`,
+          "com.twitter.android",
+          web,
+        );
+      }
+      return `twitter://post?message=${message}`;
+    },
   },
   {
     id: "instagram",
@@ -47,24 +104,60 @@ const shareTargets: ShareTarget[] = [
     color: "#833ab4",
     background: "linear-gradient(to right, #833ab4, #fd1d1d, #fcb045)",
     icon: FaInstagram,
-    buildHref: () => "https://www.instagram.com/",
-    copyFirst: true,
+    copyForWeb: true,
+    buildWebHref: () => "https://www.instagram.com/direct/inbox/",
+    buildMobileHref: (url, text, platform) => {
+      const message = encodeURIComponent(messageWithLink(text, url));
+      if (platform === "android") {
+        return androidIntent(
+          "instagram",
+          `sharesheet?text=${message}`,
+          "com.instagram.android",
+          "https://www.instagram.com/direct/inbox/",
+        );
+      }
+      return `instagram://sharesheet?text=${message}`;
+    },
   },
   {
     id: "whatsapp",
     label: "WhatsApp",
     color: "#25D366",
     icon: FaWhatsapp,
-    buildHref: (url, text) =>
-      `https://wa.me/?text=${encodeURIComponent(`${text} ${url}`)}`,
+    buildWebHref: (url, text) => {
+      const message = encodeURIComponent(messageWithLink(text, url));
+      return getPlatform() === "desktop"
+        ? `https://web.whatsapp.com/send?text=${message}`
+        : `https://wa.me/?text=${message}`;
+    },
+    buildMobileHref: (url, text, platform) => {
+      const message = encodeURIComponent(messageWithLink(text, url));
+      if (platform === "android") {
+        return androidIntent(
+          "whatsapp",
+          `send?text=${message}`,
+          "com.whatsapp",
+          `https://wa.me/?text=${message}`,
+        );
+      }
+      return `whatsapp://send?text=${message}`;
+    },
   },
   {
     id: "telegram",
     label: "Telegram",
     color: "#2AABEE",
     icon: FaTelegram,
-    buildHref: (url, text) =>
+    buildWebHref: (url, text) =>
       `https://t.me/share/url?url=${encodeURIComponent(url)}&text=${encodeURIComponent(text)}`,
+    buildMobileHref: (url, text, platform) => {
+      const path = `msg_url?url=${encodeURIComponent(url)}&text=${encodeURIComponent(text)}`;
+      const web = `https://t.me/share/url?url=${encodeURIComponent(url)}&text=${encodeURIComponent(text)}`;
+      if (platform === "android") {
+        return androidIntent("tg", path, "org.telegram.messenger", web);
+      }
+      return `tg://${path}`;
+    },
   },
 ];
 
@@ -80,6 +173,7 @@ export default function ShareModal({
   const [hint, setHint] = useState("");
   const url = `${window.location.origin}${path}`;
   const shareText = message ?? `${title} wedding invitation`;
+  const platform = getPlatform();
 
   const copyLink = useCallback(async () => {
     try {
@@ -171,23 +265,40 @@ export default function ShareModal({
         <div className="mt-4 flex items-center justify-between">
           {shareTargets.map((target) => {
             const Icon = target.icon;
+            const href =
+              platform === "desktop"
+                ? target.buildWebHref(url, shareText)
+                : target.buildMobileHref(url, shareText, platform);
+            const opensBrowser = href.startsWith("http");
             return (
               <a
                 key={target.id}
-                href={target.buildHref(url, shareText)}
-                target="_blank"
-                rel="noopener noreferrer"
+                href={href}
+                target={opensBrowser ? "_blank" : undefined}
+                rel={opensBrowser ? "noopener noreferrer" : undefined}
                 aria-label={`Share on ${target.label}`}
                 title={target.label}
-                onClick={
-                  target.copyFirst
-                    ? () => {
-                        void copyLink().then((ok) => {
-                          if (ok) setHint("Link copied. Paste it into Instagram.");
-                        });
+                onClick={(event) => {
+                  if (target.copyForWeb) {
+                    void copyLink().then((ok) => {
+                      if (ok && platform === "desktop") {
+                        setHint(
+                          "Link copied. Paste it into an Instagram direct message.",
+                        );
                       }
-                    : undefined
-                }
+                    });
+                  }
+
+                  if (platform !== "ios") return;
+
+                  event.preventDefault();
+                  openIosApp(href, target.buildWebHref(url, shareText), () => {
+                    if (!target.copyForWeb) return;
+                    setHint(
+                      "Link copied. Paste it into an Instagram direct message.",
+                    );
+                  });
+                }}
                 style={{
                   backgroundColor: target.color,
                   backgroundImage: target.background,
@@ -257,6 +368,33 @@ export default function ShareModal({
       </div>
     </div>
   );
+}
+
+function openIosApp(
+  schemeHref: string,
+  webHref: string,
+  onWebFallback?: () => void,
+) {
+  const timer = window.setTimeout(() => {
+    cleanup();
+    if (document.hidden) return;
+    onWebFallback?.();
+    window.location.assign(webHref);
+  }, 1500);
+
+  const cleanup = () => {
+    window.clearTimeout(timer);
+    document.removeEventListener("visibilitychange", onHide);
+    window.removeEventListener("pagehide", cleanup);
+  };
+
+  const onHide = () => {
+    if (document.hidden) cleanup();
+  };
+
+  document.addEventListener("visibilitychange", onHide);
+  window.addEventListener("pagehide", cleanup);
+  window.location.assign(schemeHref);
 }
 
 function copyWithTextarea(text: string) {
