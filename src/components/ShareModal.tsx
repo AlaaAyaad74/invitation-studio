@@ -41,6 +41,11 @@ function getPlatform(): Platform {
   return "desktop";
 }
 
+/** Instagram's own browser cannot open instagram.com or intent: links. */
+function isInstagramBrowser() {
+  return typeof navigator !== "undefined" && /Instagram/i.test(navigator.userAgent);
+}
+
 function androidIntent(
   scheme: string,
   path: string,
@@ -274,9 +279,12 @@ export default function ShareModal({
                 aria-label={`Share on ${target.label}`}
                 title={target.label}
                 onClick={(event) => {
+                  const instagramBrowser =
+                    target.id === "instagram" && isInstagramBrowser();
+
                   if (target.copyForWeb) {
                     void copyLink().then((ok) => {
-                      if (ok && platform !== "android") {
+                      if (ok && platform !== "android" && !instagramBrowser) {
                         setHint(
                           "Link copied. Paste it into an Instagram direct message.",
                         );
@@ -284,9 +292,27 @@ export default function ShareModal({
                     });
                   }
 
+                  if (instagramBrowser) {
+                    event.preventDefault();
+                    shareFromInstagramBrowser(
+                      messageWithLink(shareText, url),
+                      url,
+                      () => {
+                        setHint(
+                          "Link copied. Paste it into an Instagram direct message.",
+                        );
+                      },
+                    );
+                    return;
+                  }
+
                   if (platform === "android" && target.id === "instagram") {
                     event.preventDefault();
-                    openAndroidInstagram(href, instagramInboxIntent());
+                    openAndroidInstagram(href, () => {
+                      setHint(
+                        "Link copied. Paste it into an Instagram direct message.",
+                      );
+                    });
                     return;
                   }
 
@@ -371,16 +397,27 @@ export default function ShareModal({
   );
 }
 
-function instagramInboxIntent() {
-  const inbox = encodeURIComponent("https://www.instagram.com/direct/inbox/");
-  return `intent://direct-inbox#Intent;scheme=instagram;package=com.instagram.android;S.browser_fallback_url=${inbox};end`;
+function shareFromInstagramBrowser(
+  text: string,
+  url: string,
+  onStay: () => void,
+) {
+  const share = navigator.share?.({ text, url });
+  if (!share) {
+    onStay();
+    return;
+  }
+  void share.catch((error: unknown) => {
+    if (error instanceof DOMException && error.name === "AbortError") return;
+    onStay();
+  });
 }
 
-function openAndroidInstagram(directIntent: string, inboxIntent: string) {
+function openAndroidInstagram(directIntent: string, onStay: () => void) {
   const timer = window.setTimeout(() => {
     cleanup();
     if (document.hidden) return;
-    window.location.assign(inboxIntent);
+    onStay();
   }, 900);
 
   const cleanup = () => {
