@@ -19,9 +19,9 @@ export default function Services() {
               Made for your names, your story, your day.
             </h2>
             <p className="mt-4 max-w-xl text-ink-muted">
-              Beyond templates, our studio designs invitation photos, couple
-              logos, bespoke invitation sites, and day-of digital pieces that
-              feel unmistakably yours.
+              Beyond templates, our studio designs invitation photos, films,
+              couple logos, bespoke invitation sites, and day-of digital pieces
+              that feel unmistakably yours.
             </p>
           </Reveal>
 

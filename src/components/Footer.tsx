@@ -17,7 +17,7 @@ export default function Footer() {
           skeletonClassName="min-h-36 w-36 rounded-md sm:min-h-40 sm:w-40"
         />
         <p className="text-sm text-ink-muted">
-          Wedding invitation websites, invitation photos & custom couple branding.
+          Wedding invitation websites, invitation photos, films & custom couple branding.
         </p>
         <a
           href={siteConfig.instagramDmUrl}

@@ -109,6 +109,7 @@ export const services = [
     title: "Photo & film gallery",
     description:
       "Curated engagement galleries and cinematic loops that feel like part of the invitation itself.",
+    href: "/videos",
   },
   {
     title: "Day-of digital suite",

@@ -29,7 +29,7 @@ export default function Hero() {
           Invitation websites that feel like the day itself.
         </h1>
         <p className="animate-fade-up delay-2 mt-4 max-w-md text-base leading-relaxed text-white/80 sm:text-lg">
-          Browse invitation websites and invitation photos, then make them
+          Browse invitation websites, photos, and films, then make them
           yours—or let us craft a custom site with your couple logo and story.
         </p>
         <div className="animate-fade-up delay-3 mt-8 flex flex-wrap gap-3">

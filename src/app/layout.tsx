@@ -121,6 +121,7 @@ const jsonLd = {
       serviceType: [
         "Wedding invitation websites",
         "Invitation photos",
+        "Invitation videos",
         "Custom couple logos",
         "Bespoke invitation sites",
       ],

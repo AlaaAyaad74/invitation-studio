@@ -258,6 +258,97 @@ body {
   transform: translateY(0) scale(1);
 }
 
+.video-card {
+  border: 1px solid color-mix(in srgb, var(--ink) 10%, transparent);
+  background: #fff;
+  padding: 0;
+  box-shadow: 0 22px 50px -30px color-mix(in srgb, var(--ink) 70%, transparent);
+}
+
+.video-card figcaption {
+  padding: 0.9rem 1rem 1rem;
+}
+
+.video-frame {
+  position: relative;
+  overflow: hidden;
+  background: var(--ivory-deep);
+  aspect-ratio: 9 / 16;
+}
+
+.video-frame video,
+.video-frame .image-skeleton {
+  position: absolute;
+  inset: 0;
+  height: 100%;
+  width: 100%;
+}
+
+.video-frame video {
+  object-fit: cover;
+  background: var(--ink);
+}
+
+.video-frame video::-webkit-media-controls,
+.video-frame video::-webkit-media-controls-enclosure,
+.video-frame video::-webkit-media-controls-panel {
+  display: none !important;
+}
+
+.video-play {
+  position: absolute;
+  inset: 0;
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: color-mix(in srgb, var(--ink) 18%, transparent);
+  cursor: pointer;
+}
+
+.video-play-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.5rem;
+  height: 2.5rem;
+  flex-shrink: 0;
+  border-radius: 999px;
+  border: 1px solid color-mix(in srgb, var(--gold) 55%, transparent);
+  background: color-mix(in srgb, var(--ink) 82%, transparent);
+  color: #fff;
+  box-shadow: 0 8px 16px -8px rgba(0, 0, 0, 0.8);
+  transition: transform 0.3s ease;
+}
+
+.video-play:hover .video-play-icon {
+  transform: scale(1.05);
+}
+
+.video-play-pause {
+  background: transparent;
+}
+
+.video-play-pause .video-play-icon {
+  opacity: 0;
+}
+
+.video-play-pause:hover .video-play-icon,
+.video-play-pause:focus-visible .video-play-icon {
+  opacity: 1;
+}
+
+.video-play-pause .video-play-icon svg {
+  margin-left: 0;
+}
+
+.video-play-icon svg {
+  width: 0.9rem;
+  height: 0.9rem;
+  margin-left: 0.12rem;
+  fill: currentColor;
+}
+
 @media (prefers-reduced-motion: reduce) {
   html {
     scroll-behavior: auto;
@@ -273,7 +364,8 @@ body {
   .animate-e-orbit,
   .animate-e-tick,
   .reveal,
-  .photo-reveal {
+  .photo-reveal,
+  .video-play-icon {
     animation: none;
     opacity: 1;
     transform: none;

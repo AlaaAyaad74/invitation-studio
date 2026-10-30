@@ -9,7 +9,9 @@ import { siteConfig } from "@/lib/site";
 const links = [
   { href: "/#templates", label: "Templates" },
   { href: "/photos", label: "Photos" },
+  { href: "/videos", label: "Videos" },
   { href: "/#features", label: "Features" },
+  { href: "/#pricing", label: "Pricing" },
   { href: "/#services", label: "Services" },
 ];
 
@@ -75,7 +77,7 @@ export default function Header() {
             />
           </Link>
 
-          <nav className="hidden items-center gap-8 md:flex">
+          <nav className="hidden items-center gap-5 md:flex lg:gap-8">
             {links.map((link) => {
               const className = `text-sm tracking-wide transition-colors hover:opacity-80 ${
                 solidBar ? "text-ink-muted" : "text-white/85"

@@ -107,16 +107,11 @@ const shareTargets: ShareTarget[] = [
     copyForWeb: true,
     buildWebHref: () => "https://www.instagram.com/direct/inbox/",
     buildMobileHref: (url, text, platform) => {
-      const message = encodeURIComponent(messageWithLink(text, url));
       if (platform === "android") {
-        return androidIntent(
-          "instagram",
-          `sharesheet?text=${message}`,
-          "com.instagram.android",
-          "https://www.instagram.com/direct/inbox/",
-        );
+        const message = encodeURIComponent(messageWithLink(text, url));
+        return `intent:#Intent;action=android.intent.action.SEND;type=text/plain;package=com.instagram.android;component=com.instagram.android/com.instagram.direct.share.handler.DirectShareHandlerActivity;S.android.intent.extra.TEXT=${message};end`;
       }
-      return `instagram://sharesheet?text=${message}`;
+      return "instagram://direct-inbox";
     },
   },
   {
@@ -281,12 +276,18 @@ export default function ShareModal({
                 onClick={(event) => {
                   if (target.copyForWeb) {
                     void copyLink().then((ok) => {
-                      if (ok && platform === "desktop") {
+                      if (ok && platform !== "android") {
                         setHint(
                           "Link copied. Paste it into an Instagram direct message.",
                         );
                       }
                     });
+                  }
+
+                  if (platform === "android" && target.id === "instagram") {
+                    event.preventDefault();
+                    openAndroidInstagram(href, instagramInboxIntent());
+                    return;
                   }
 
                   if (platform !== "ios") return;
@@ -368,6 +369,33 @@ export default function ShareModal({
       </div>
     </div>
   );
+}
+
+function instagramInboxIntent() {
+  const inbox = encodeURIComponent("https://www.instagram.com/direct/inbox/");
+  return `intent://direct-inbox#Intent;scheme=instagram;package=com.instagram.android;S.browser_fallback_url=${inbox};end`;
+}
+
+function openAndroidInstagram(directIntent: string, inboxIntent: string) {
+  const timer = window.setTimeout(() => {
+    cleanup();
+    if (document.hidden) return;
+    window.location.assign(inboxIntent);
+  }, 900);
+
+  const cleanup = () => {
+    window.clearTimeout(timer);
+    document.removeEventListener("visibilitychange", onHide);
+    window.removeEventListener("pagehide", cleanup);
+  };
+
+  const onHide = () => {
+    if (document.hidden) cleanup();
+  };
+
+  document.addEventListener("visibilitychange", onHide);
+  window.addEventListener("pagehide", cleanup);
+  window.location.assign(directIntent);
 }
 
 function openIosApp(
