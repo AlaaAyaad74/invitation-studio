@@ -149,6 +149,7 @@ export default function RootLayout({
   return (
     <html
       lang="en"
+      data-scroll-behavior="smooth"
       className={`${figtree.variable} ${cormorant.variable} ${greatVibes.variable} h-full antialiased`}
       suppressHydrationWarning
     >

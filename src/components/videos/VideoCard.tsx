@@ -44,6 +44,9 @@ export default function VideoCard({
   const containerRef = useRef<HTMLDivElement>(null);
   const videoRef = useRef<HTMLVideoElement | null>(null);
   const pendingPlay = useRef(false);
+  const userStarted = useRef(false);
+  const warming = useRef(false);
+  const framed = useRef(false);
   const [shouldLoad, setShouldLoad] = useState(index < 3 || highlighted);
   const [ready, setReady] = useState(false);
   const [playing, setPlaying] = useState(false);
@@ -94,13 +97,80 @@ export default function VideoCard({
     };
   }, [highlighted, shouldLoad]);
 
+  const revealFrame = (node: HTMLVideoElement) => {
+    if (framed.current || warming.current || pendingPlay.current || !node.paused) return;
+    warming.current = true;
+    node.muted = true;
+
+    const finish = () => {
+      if (userStarted.current) {
+        warming.current = false;
+        framed.current = true;
+        setReady(true);
+        return;
+      }
+      node.pause();
+      node.muted = false;
+      framed.current = true;
+      warming.current = false;
+      setReady(true);
+    };
+
+    const seekToPicture = () => {
+      if (userStarted.current) {
+        finish();
+        return;
+      }
+      const target = Number.isFinite(node.duration)
+        ? Math.min(0.35, Math.max(0.12, node.duration * 0.02))
+        : 0.2;
+      let timeout = 0;
+      const onSeeked = () => {
+        window.clearTimeout(timeout);
+        node.removeEventListener("seeked", onSeeked);
+        finish();
+      };
+      timeout = window.setTimeout(() => {
+        node.removeEventListener("seeked", onSeeked);
+        finish();
+      }, 800);
+      node.addEventListener("seeked", onSeeked);
+      try {
+        node.currentTime = target;
+      } catch {
+        window.clearTimeout(timeout);
+        node.removeEventListener("seeked", onSeeked);
+        finish();
+      }
+    };
+
+    const attempt = node.play();
+    if (!attempt) {
+      seekToPicture();
+      return;
+    }
+    attempt.then(seekToPicture).catch(() => {
+      try {
+        node.currentTime = 0.2;
+      } catch {
+        /* the play button still starts the film */
+      }
+      node.muted = false;
+      warming.current = false;
+      framed.current = true;
+      setReady(true);
+    });
+  };
+
   const play = () => {
+    userStarted.current = true;
     const node = videoRef.current;
     if (!node) {
       pendingPlay.current = true;
       setShouldLoad(true);
       return;
     }
+    node.muted = false;
     void node.play();
   };
 
@@ -119,16 +189,24 @@ export default function VideoCard({
           <video
             ref={setVideoNode}
             style={{ opacity: ready ? 1 : 0 }}
-            src={video.src}
+            src={`${video.src}#t=0.001`}
             playsInline
             preload="metadata"
             aria-label={video.title}
-            onLoadedMetadata={() => setReady(true)}
+            onLoadedData={() => {
+              const node = videoRef.current;
+              if (node) revealFrame(node);
+              else setReady(true);
+            }}
             onPlay={() => {
+              if (warming.current) return;
               setPlaying(true);
               onPlay(video.id);
             }}
-            onPause={() => setPlaying(false)}
+            onPause={() => {
+              if (warming.current) return;
+              setPlaying(false);
+            }}
             onEnded={() => setPlaying(false)}
           />
         ) : null}
