@@ -13,30 +13,29 @@ type ShareModalProps = {
   onClose: () => void;
 };
 
+type Platform = "android" | "ios" | "desktop";
+
 type ShareTarget = {
   id: string;
   label: string;
   color: string;
   background?: string;
   icon: IconType;
-  buildHref: (url: string, text: string) => string;
+  webHref: (url: string, text: string) => string;
+  appHref: (url: string, text: string, platform: "android" | "ios") => string;
   nativeShare?: boolean;
 };
 
-function isInstagramBrowser() {
-  return typeof navigator !== "undefined" && /Instagram/i.test(navigator.userAgent);
+function getPlatform(): Platform {
+  if (typeof navigator === "undefined") return "desktop";
+  const ua = navigator.userAgent;
+  if (/Android/i.test(ua)) return "android";
+  if (/iPhone|iPad|iPod/i.test(ua)) return "ios";
+  return "desktop";
 }
 
-function isInAppBrowser() {
-  if (typeof navigator === "undefined") return false;
-  return /Instagram|FBAN|FBAV|FB_IAB|Line\/|Twitter|TikTok|Snapchat|Pinterest/i.test(
-    navigator.userAgent,
-  );
-}
-
-function isDesktop() {
-  if (typeof navigator === "undefined") return true;
-  return !/Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
+function androidIntent(scheme: string, path: string, packageName: string) {
+  return `intent://${path}#Intent;scheme=${scheme};package=${packageName};end`;
 }
 
 function messageWithLink(text: string, url: string) {
@@ -50,16 +49,31 @@ const shareTargets: ShareTarget[] = [
     color: "#00c6ff",
     background: "linear-gradient(to right, #00c6ff, #0072ff)",
     icon: FaFacebookF,
-    buildHref: (url) =>
+    webHref: (url) =>
       `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(url)}`,
+    appHref: (url, _text, platform) => {
+      const sharer = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(url)}`;
+      const path = `facewebmodal/f?href=${encodeURIComponent(sharer)}`;
+      if (platform === "android") {
+        return androidIntent("fb", path, "com.facebook.katana");
+      }
+      return `fb://${path}`;
+    },
   },
   {
     id: "x",
     label: "X",
     color: "#000000",
     icon: FaXTwitter,
-    buildHref: (url, text) =>
+    webHref: (url, text) =>
       `https://x.com/intent/post?url=${encodeURIComponent(url)}&text=${encodeURIComponent(text)}`,
+    appHref: (url, text, platform) => {
+      const message = encodeURIComponent(messageWithLink(text, url));
+      if (platform === "android") {
+        return androidIntent("twitter", `post?message=${message}`, "com.twitter.android");
+      }
+      return `twitter://post?message=${message}`;
+    },
   },
   {
     id: "instagram",
@@ -68,23 +82,42 @@ const shareTargets: ShareTarget[] = [
     background: "linear-gradient(to right, #833ab4, #fd1d1d, #fcb045)",
     icon: FaInstagram,
     nativeShare: true,
-    buildHref: () => "https://www.instagram.com/direct/inbox/",
+    webHref: () => "https://www.instagram.com/direct/inbox/",
+    appHref: () => "instagram://direct-inbox",
   },
   {
     id: "whatsapp",
     label: "WhatsApp",
     color: "#25D366",
     icon: FaWhatsapp,
-    buildHref: (url, text) =>
-      `https://wa.me/?text=${encodeURIComponent(messageWithLink(text, url))}`,
+    webHref: (url, text) => {
+      const message = encodeURIComponent(messageWithLink(text, url));
+      return getPlatform() === "desktop"
+        ? `https://web.whatsapp.com/send?text=${message}`
+        : `whatsapp://send?text=${message}`;
+    },
+    appHref: (url, text, platform) => {
+      const message = encodeURIComponent(messageWithLink(text, url));
+      if (platform === "android") {
+        return androidIntent("whatsapp", `send?text=${message}`, "com.whatsapp");
+      }
+      return `whatsapp://send?text=${message}`;
+    },
   },
   {
     id: "telegram",
     label: "Telegram",
     color: "#2AABEE",
     icon: FaTelegram,
-    buildHref: (url, text) =>
+    webHref: (url, text) =>
       `https://t.me/share/url?url=${encodeURIComponent(url)}&text=${encodeURIComponent(text)}`,
+    appHref: (url, text, platform) => {
+      const path = `msg_url?url=${encodeURIComponent(url)}&text=${encodeURIComponent(text)}`;
+      if (platform === "android") {
+        return androidIntent("tg", path, "org.telegram.messenger");
+      }
+      return `tg://${path}`;
+    },
   },
 ];
 
@@ -100,7 +133,7 @@ export default function ShareModal({
   const [hint, setHint] = useState("");
   const url = `${window.location.origin}${path}`;
   const shareText = message ?? `${title} wedding invitation`;
-  const stayInInstagram = isInstagramBrowser() || isInAppBrowser();
+  const platform = getPlatform();
 
   const copyLink = useCallback(async () => {
     try {
@@ -193,27 +226,33 @@ export default function ShareModal({
           {shareTargets.map((target) => {
             const Icon = target.icon;
             const href =
-              target.id === "whatsapp" && isDesktop()
-                ? `https://web.whatsapp.com/send?text=${encodeURIComponent(messageWithLink(shareText, url))}`
-                : target.buildHref(url, shareText);
-            const useNativeShare = Boolean(target.nativeShare && !isDesktop());
-            const opensInPlace = useNativeShare || stayInInstagram;
+              platform === "desktop"
+                ? target.webHref(url, shareText)
+                : target.appHref(url, shareText, platform);
+            const useNativeShare = Boolean(target.nativeShare && platform !== "desktop");
             return (
               <a
                 key={target.id}
                 href={href}
-                target={opensInPlace ? undefined : "_blank"}
-                rel={opensInPlace ? undefined : "noopener noreferrer"}
+                target={platform === "desktop" && !useNativeShare ? "_blank" : undefined}
+                rel={platform === "desktop" && !useNativeShare ? "noopener noreferrer" : undefined}
                 aria-label={`Share on ${target.label}`}
                 title={target.label}
                 onClick={(event) => {
-                  if (!useNativeShare) return;
+                  if (useNativeShare) {
+                    event.preventDefault();
+                    void openInstagramDirect(shareText, url, () => {
+                      setHint(
+                        "Link copied. Paste it into an Instagram direct message.",
+                      );
+                    });
+                    return;
+                  }
+
+                  if (platform === "desktop") return;
+
                   event.preventDefault();
-                  void openInstagramDirect(shareText, url, stayInInstagram, () => {
-                    setHint(
-                      "Link copied. Paste it into an Instagram direct message.",
-                    );
-                  });
+                  openNativeApp(href);
                 }}
                 style={{
                   backgroundColor: target.color,
@@ -286,10 +325,13 @@ export default function ShareModal({
   );
 }
 
+function openNativeApp(href: string) {
+  window.location.assign(href);
+}
+
 async function openInstagramDirect(
   title: string,
   url: string,
-  stayInApp: boolean,
   onStay: () => void,
 ) {
   const text = messageWithLink(title, url);
@@ -318,9 +360,6 @@ async function openInstagramDirect(
   }
 
   onStay();
-  if (!stayInApp) {
-    window.open("https://www.instagram.com/direct/inbox/", "_blank", "noopener,noreferrer");
-  }
 }
 
 function copyWithTextarea(text: string) {
