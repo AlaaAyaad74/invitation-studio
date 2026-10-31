@@ -27,35 +27,35 @@ export const heritageInvitation = {
   music: "/voices/heritage-script-voice.mp3",
   gallery: [
     {
-      src: "/heritage script/couple/1.webp",
+      src: "/heritage-script/couple/1.webp",
       alt: "Ahmed kisses Menna's temple in a close portrait",
     },
     {
-      src: "/heritage script/couple/2.webp",
+      src: "/heritage-script/couple/2.webp",
       alt: "Menna rests against Ahmed in a close portrait",
     },
     {
-      src: "/heritage script/couple/3.webp",
+      src: "/heritage-script/couple/3.webp",
       alt: "Ahmed and Menna stand forehead to forehead",
     },
     {
-      src: "/heritage script/couple/4.webp",
+      src: "/heritage-script/couple/4.webp",
       alt: "Ahmed holds Menna by the window",
     },
     {
-      src: "/heritage script/couple/5.webp",
+      src: "/heritage-script/couple/5.webp",
       alt: "Menna rides on Ahmed's back beside the window",
     },
     {
-      src: "/heritage script/couple/6.webp",
+      src: "/heritage-script/couple/6.webp",
       alt: "Ahmed and Menna dance beneath the beams",
     },
     {
-      src: "/heritage script/couple/7.webp",
+      src: "/heritage-script/couple/7.webp",
       alt: "Ahmed and Menna laugh together beneath the beams",
     },
     {
-      src: "/heritage script/couple/8.webp",
+      src: "/heritage-script/couple/8.webp",
       alt: "Ahmed and Menna sit together against the wall",
     },
   ],

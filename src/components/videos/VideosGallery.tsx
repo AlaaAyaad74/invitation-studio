@@ -24,7 +24,7 @@ export default function VideosGallery({ videos, highlightId }: VideosGalleryProp
   }, []);
 
   return (
-    <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-3">
+    <div className="grid grid-cols-2 gap-3 sm:gap-8 lg:grid-cols-3">
       {videos.map((video, index) => (
         <VideoCard
           key={video.id}

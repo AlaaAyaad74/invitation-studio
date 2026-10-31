@@ -5,7 +5,7 @@ import { elegantInvitation as data } from "@/data/elegant";
 import { useEffect, useRef, useState } from "react";
 
 const VIDEO_SRC = "/elegant/elegant_hero_video.mp4";
-const POSTER_SRC = "/elegant/hero-poster.webp";
+const POSTER_SRC = "/elegant/elegant-empty-poster.webp";
 
 const PETALS = [
   { className: "left-[18%]", delay: "0.4s", duration: "8.5s" },

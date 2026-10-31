@@ -270,7 +270,7 @@ export default function VideoCard({
       </div>
       <figcaption>
         <p className="text-sm tracking-[0.2em] text-rose uppercase">Film</p>
-        <p className="mt-1 font-display text-2xl leading-tight text-ink">{video.title}</p>
+        <p className="mt-1 font-display text-lg leading-tight text-ink sm:text-2xl">{video.title}</p>
       </figcaption>
     </figure>
   );

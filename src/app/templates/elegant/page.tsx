@@ -1,7 +1,7 @@
-import type { Metadata } from "next";
-import { preload } from "react-dom";
 import ImageWithSkeleton from "@/components/ImageWithSkeleton";
 import Invitation from "@/components/templates/elegant/Invitation";
+import type { Metadata } from "next";
+import { preload } from "react-dom";
 
 const VIDEO_SRC = "/elegant/elegant_hero_video.mp4";
 
@@ -16,7 +16,7 @@ export const metadata: Metadata = {
 };
 
 export default function ElegantTemplatePage() {
-  preload("/elegant/hero-poster.webp", { as: "image" });
+  preload("/elegant/elegant-empty-poster.webp", { as: "image" });
   preload(VIDEO_SRC, { as: "video" });
 
   return (

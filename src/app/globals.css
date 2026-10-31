@@ -188,8 +188,14 @@ body {
 }
 
 .photo-grid {
-  columns: 3;
+  columns: 2;
   column-gap: 0.75rem;
+}
+
+@media (min-width: 640px) {
+  .photo-grid {
+    columns: 3;
+  }
 }
 
 .photo-grid-item {
@@ -274,7 +280,17 @@ body {
 }
 
 .video-card figcaption {
-  padding: 0.9rem 1rem 1rem;
+  padding: 0.55rem 0.6rem 0.7rem;
+}
+
+@media (min-width: 640px) {
+  .video-card figcaption {
+    padding: 0.9rem 1rem 1rem;
+  }
+}
+
+.template-frame {
+  aspect-ratio: 9 / 16;
 }
 
 .video-frame {

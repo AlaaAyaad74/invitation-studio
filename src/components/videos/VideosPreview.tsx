@@ -1,7 +1,7 @@
-import Link from "next/link";
 import Reveal from "@/components/Reveal";
 import VideosGallery from "@/components/videos/VideosGallery";
 import { videos } from "@/data/videos";
+import Link from "next/link";
 
 const previewVideos = videos.slice(0, 3);
 

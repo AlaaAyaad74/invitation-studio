@@ -3,9 +3,9 @@ import Reveal from "@/components/Reveal";
 import Countdown from "@/components/templates/botanical/Countdown";
 import Details from "@/components/templates/botanical/Details";
 import Gallery from "@/components/templates/botanical/Gallery";
+import VideoCover from "@/components/templates/botanical/VideoCover";
 import MusicPlayer from "@/components/templates/MusicPlayer";
 import StudioCredit from "@/components/templates/StudioCredit";
-import VideoCover from "@/components/templates/botanical/VideoCover";
 import { getWhatsAppUrl, type BotanicalContent } from "@/data/botanical";
 
 export default function Invitation({ data }: { data: BotanicalContent }) {
@@ -17,7 +17,6 @@ export default function Invitation({ data }: { data: BotanicalContent }) {
       <Countdown data={data} />
       <Details data={data} />
       <Gallery data={data} />
-
       <section className="relative overflow-hidden px-6 py-16 text-center">
         <Reveal className="relative">
           <p className="text-[11px] tracking-[0.3em] text-gold uppercase">
