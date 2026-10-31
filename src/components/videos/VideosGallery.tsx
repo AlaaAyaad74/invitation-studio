@@ -9,13 +9,19 @@ type VideosGalleryProps = {
   highlightId?: string;
 };
 
-export default function VideosGallery({ videos, highlightId }: VideosGalleryProps) {
+export default function VideosGallery({
+  videos,
+  highlightId,
+}: VideosGalleryProps) {
   const players = useRef(new Map<string, HTMLVideoElement>());
 
-  const register = useCallback((id: string, element: HTMLVideoElement | null) => {
-    if (element) players.current.set(id, element);
-    else players.current.delete(id);
-  }, []);
+  const register = useCallback(
+    (id: string, element: HTMLVideoElement | null) => {
+      if (element) players.current.set(id, element);
+      else players.current.delete(id);
+    },
+    [],
+  );
 
   const handlePlay = useCallback((id: string) => {
     for (const [otherId, element] of players.current) {
