@@ -14,6 +14,16 @@ export type InvitationPhoto = {
 
 export const photos: InvitationPhoto[] = [
   {
+    id: "royal-crimson",
+    title: "Royal Crimson",
+    style: "Formal",
+    description: "A royal crimson arch and flowers for a wedding day.",
+    image: "/photos/royal-crimson.webp",
+    kind: "wedding",
+    arabic: false,
+    span: "tall",
+  },
+  {
     id: "khutubah-garden",
     title: "Khutubah Garden",
     style: "Engagement",
