@@ -33,7 +33,7 @@ export const templates: InvitationTemplate[] = [
     title: "Coastal Light",
     style: "Minimal",
     description: "Airy layouts inspired by seaside vows and soft horizons.",
-    image: "/templates/coastal-light-hero.webp",
+    image: "/coastal-light/coastal-light-card-image.webp",
     comingSoon: false,
     href: "/templates/coastal-light",
   },

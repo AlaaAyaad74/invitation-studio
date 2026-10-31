@@ -1,11 +1,10 @@
-import type { Metadata } from "next";
-import { preload } from "react-dom";
 import ImageWithSkeleton from "@/components/ImageWithSkeleton";
 import Invitation from "@/components/templates/coastal-light/Invitation";
+import type { Metadata } from "next";
+import { preload } from "react-dom";
 import styles from "./shell.module.css";
 
 const VIDEO_SRC = "/minimal/minimal-hero.mp4";
-const POSTER_SRC = "/minimal/hero-poster.webp";
 
 export const metadata: Metadata = {
   title: "Coastal Light",
