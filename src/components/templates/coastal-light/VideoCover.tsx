@@ -143,7 +143,8 @@ export default function VideoCover() {
     };
 
     if (video.readyState >= HTMLMediaElement.HAVE_METADATA) warm();
-    else if (video.networkState === HTMLMediaElement.NETWORK_EMPTY) video.load();
+    else if (video.networkState === HTMLMediaElement.NETWORK_EMPTY)
+      video.load();
 
     video.addEventListener("loadedmetadata", warm);
     video.addEventListener("loadeddata", warm);
@@ -179,7 +180,10 @@ export default function VideoCover() {
     if (!openedRef.current) return;
     setVideoOn(true);
     if (revealId.current != null) return;
-    revealId.current = window.setTimeout(() => setRevealed(true), REVEAL_AFTER_MS);
+    revealId.current = window.setTimeout(
+      () => setRevealed(true),
+      REVEAL_AFTER_MS,
+    );
   };
 
   const onTimeUpdate = () => {
@@ -208,10 +212,7 @@ export default function VideoCover() {
       className={styles.cover}
       aria-label={`${data.couple.first} and ${data.couple.second}`}
     >
-      <div
-        className={styles.frame}
-        data-revealed={revealed ? "true" : "false"}
-      >
+      <div className={styles.frame} data-revealed={revealed ? "true" : "false"}>
         <video
           ref={videoRef}
           className={styles.video}
@@ -244,52 +245,6 @@ export default function VideoCover() {
             </span>
           </button>
         )}
-
-        <div className={styles.copy}>
-          {blooming ? (
-            <div className={styles.flora} aria-hidden="true">
-              {leaves.map((leaf, index) => (
-                <span
-                  key={index}
-                  className={`${styles.piece} ${styles.leaf} ${styles.rose}${leaf.small ? ` ${styles.small}` : ""}`}
-                  style={{
-                    animationDelay: leaf.delay,
-                    animationDuration: leaf.duration,
-                    ["--from-x" as string]: leaf.fromX,
-                    ["--from-y" as string]: leaf.fromY,
-                    ["--mid-x" as string]: leaf.midX,
-                    ["--mid-y" as string]: leaf.midY,
-                    ["--to-x" as string]: leaf.toX,
-                    ["--to-y" as string]: leaf.toY,
-                    ["--spin-from" as string]: leaf.spinFrom,
-                    ["--spin-mid" as string]: leaf.spinMid,
-                    ["--spin-to" as string]: leaf.spinTo,
-                  }}
-                />
-              ))}
-            </div>
-          ) : null}
-          <p className={`${styles.line} ${styles.d1}`}>{data.intro}</p>
-          <h1 className={styles.names}>
-            <span className={`${styles.name} ${styles.d2}`}>
-              {data.couple.first}
-            </span>
-            <span className={`${styles.join} ${styles.d3}`}>
-              <i aria-hidden="true" />
-              <span>&amp;</span>
-              <i aria-hidden="true" />
-            </span>
-            <span className={`${styles.name} ${styles.d4}`}>
-              {data.couple.second}
-            </span>
-          </h1>
-          <p className={`${styles.date} ${styles.d5}`}>
-            <span>{data.dateLabel.weekday}</span>
-            <span>
-              {data.dateLabel.day} {data.dateLabel.month} {data.dateLabel.year}
-            </span>
-          </p>
-        </div>
 
         {finished ? (
           <button
