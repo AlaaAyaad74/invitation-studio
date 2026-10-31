@@ -7,6 +7,8 @@ export const siteConfig = {
   instagram: "invitation.studio0",
   instagramUrl: "https://www.instagram.com/invitation.studio0",
   instagramDmUrl: "https://ig.me/m/invitation.studio0",
+  tiktok: "invitationstudio00",
+  tiktokUrl: "https://www.tiktok.com/@invitationstudio00",
   keywords: [
     "wedding invitation websites",
     "digital wedding invitations",

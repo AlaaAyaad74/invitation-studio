@@ -258,6 +258,14 @@ body {
   transform: translateY(0) scale(1);
 }
 
+.footer-instagram {
+  color: #3f4a3e;
+}
+
+.footer-instagram:hover {
+  color: var(--ink);
+}
+
 .video-card {
   border: 1px solid color-mix(in srgb, var(--ink) 10%, transparent);
   background: #fff;
