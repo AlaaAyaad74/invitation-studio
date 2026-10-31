@@ -3,7 +3,7 @@ import VideosGallery from "@/components/videos/VideosGallery";
 import { videos } from "@/data/videos";
 import Link from "next/link";
 
-const previewVideos = videos.slice(0, 3);
+const previewVideos = videos.slice(0, 4);
 
 export default function VideosPreview() {
   return (
