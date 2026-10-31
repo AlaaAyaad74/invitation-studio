@@ -11,7 +11,7 @@ const links = [
   { href: "/photos", label: "Photos" },
   { href: "/videos", label: "Videos" },
   { href: "/#features", label: "Features" },
-  { href: "/#pricing", label: "Pricing" },
+  // { href: "/#pricing", label: "Pricing" },
   { href: "/#services", label: "Services" },
 ];
 
