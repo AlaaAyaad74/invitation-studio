@@ -18,7 +18,7 @@ export const photos: InvitationPhoto[] = [
     title: "Royal Crimson",
     style: "Formal",
     description: "A royal crimson arch and flowers for a wedding day.",
-    image: "/photos/royal-crimson.webp",
+    image: "/photos/ph-1.webp",
     kind: "wedding",
     arabic: false,
     span: "tall",
