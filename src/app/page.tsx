@@ -4,9 +4,9 @@ import Header from "@/components/Header";
 import Hero from "@/components/Hero";
 import PhotosPreview from "@/components/photos/PhotosPreview";
 // import Pricing from "@/components/Pricing";
-import VideosPreview from "@/components/videos/VideosPreview";
 import Services from "@/components/Services";
 import TemplatesGrid from "@/components/TemplatesGrid";
+import VideosPreview from "@/components/videos/VideosPreview";
 
 export default function Home() {
   return (
@@ -19,6 +19,7 @@ export default function Home() {
         <PhotosPreview />
         <Features />
         {/* <Pricing /> */}
+        {/* test */}
         <Services />
       </main>
       <Footer />
