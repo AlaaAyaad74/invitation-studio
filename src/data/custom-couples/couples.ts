@@ -31,10 +31,10 @@ export const customCouples = [
     attire: "Black tie",
     music: "/voices/omar-salma-voice.mp3",
     cover: {
-      src: "/couples/omar-salma/cover.webp",
+      video: "/couples/omar-salma/cover.mp4",
+      poster: "/couples/omar-salma/cover-poster.webp",
       alt: "Omar and Salma wedding invitation",
     },
-    typingVideo: "/couples/omar-salma/arabic-typing-transparent.webm",
     gateQr: {
       src: "/couples/omar-salma/gate-qr.webp",
       alt: "QR code for gate entry",

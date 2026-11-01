@@ -1,0 +1,118 @@
+.section {
+  position: relative;
+  padding: 1.5rem 1.1rem 1.15rem;
+  overflow: visible;
+  user-select: none;
+}
+
+.flourish {
+  display: flex;
+  justify-content: center;
+  color: #e8c48a;
+  padding-inline: 0.85rem;
+  filter: drop-shadow(0 1px 0 rgba(255, 236, 190, 0.18));
+}
+
+.flourishBottom {
+  transform: scaleY(-1);
+}
+
+.flourishSvg {
+  width: min(100%, 21rem);
+  height: auto;
+  overflow: visible;
+}
+
+.ink {
+  stroke-dasharray: 1;
+  stroke-dashoffset: 1;
+}
+
+.mark {
+  opacity: 0;
+  transform-box: fill-box;
+  transform-origin: center;
+}
+
+.draw .inkOuter {
+  animation: ink 1.15s cubic-bezier(0.42, 0.02, 0.18, 1) forwards;
+}
+
+.draw .inkInner {
+  animation: ink 1.05s cubic-bezier(0.42, 0.02, 0.18, 1) 0.14s forwards;
+}
+
+.draw .inkVine {
+  animation: ink 0.95s cubic-bezier(0.42, 0.02, 0.18, 1) 0.38s forwards;
+}
+
+.draw .inkStem {
+  animation: ink 0.7s cubic-bezier(0.42, 0.02, 0.18, 1) 1s forwards;
+}
+
+.draw .dot {
+  animation: appear 0.35s ease 0.05s forwards;
+}
+
+.draw .leaf {
+  animation: grow 0.55s cubic-bezier(0.22, 1, 0.36, 1) 1.4s forwards;
+}
+
+.draw .petal {
+  animation: grow 0.5s cubic-bezier(0.22, 1, 0.36, 1) 1.55s forwards;
+}
+
+.draw .jewel {
+  animation: grow 0.68s cubic-bezier(0.22, 1, 0.36, 1) 1.62s forwards;
+}
+
+.draw .core {
+  animation: appear 0.35s ease 2.05s forwards;
+}
+
+@keyframes ink {
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+@keyframes appear {
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes grow {
+  from {
+    opacity: 0;
+    transform: scale(0.45);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.message {
+  min-height: 11.5rem;
+  margin-block: 0.35rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .draw .ink,
+  .draw .mark {
+    animation: none;
+  }
+
+  .draw .ink {
+    stroke-dashoffset: 0;
+  }
+
+  .draw .mark {
+    opacity: 1;
+    transform: none;
+  }
+}

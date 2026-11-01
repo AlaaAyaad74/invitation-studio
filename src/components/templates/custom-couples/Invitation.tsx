@@ -2,7 +2,7 @@ import CalendarIcon from "@/app/common/icons/CalendarIcon";
 import AddToCalendar from "@/components/templates/AddToCalendar";
 import Cover from "@/components/templates/custom-couples/Cover";
 import GateQr from "@/components/templates/custom-couples/GateQr";
-import TypingVideo from "@/components/templates/custom-couples/TypingVideo";
+import TypingMessage from "@/components/templates/custom-couples/TypingMessage";
 import MusicPlayer from "@/components/templates/MusicPlayer";
 import StudioCredit from "@/components/templates/StudioCredit";
 import Countdown from "@/components/templates/heritage-script/Countdown";
@@ -19,9 +19,13 @@ export default function Invitation({ data }: { data: CustomCouple }) {
 
   return (
     <div className={styles.root}>
-      <Cover src={data.cover.src} alt={data.cover.alt} />
+      <Cover
+        video={data.cover.video}
+        poster={data.cover.poster}
+        alt={data.cover.alt}
+      />
       <Countdown start={data.start} dateLabel={dateLabel} />
-      <TypingVideo src={data.typingVideo} />
+      <TypingMessage />
 
       <section className={styles.details} aria-label="Celebration details">
         <FadeIn as="h2" className={styles.heading}>

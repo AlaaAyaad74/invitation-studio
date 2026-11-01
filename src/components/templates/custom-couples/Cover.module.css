@@ -1,16 +1,12 @@
 .cover {
-  position: relative;
-  padding: 0;
+  background: #5c0e1c;
 }
 
-.frame {
-  position: relative;
-  overflow: hidden;
-  background: rgba(18, 0, 6, 0.22);
-}
-
-.image {
+.video {
   display: block;
   width: 100%;
   height: auto;
+  aspect-ratio: 1080 / 1334;
+  background: #5c0e1c;
+  object-fit: cover;
 }

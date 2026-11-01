@@ -1,4 +1,9 @@
-import { Cinzel, Cormorant_Garamond, Great_Vibes } from "next/font/google";
+import {
+  Amiri,
+  Cinzel,
+  Cormorant_Garamond,
+  Great_Vibes,
+} from "next/font/google";
 import type { ReactNode } from "react";
 
 const cinzel = Cinzel({
@@ -23,6 +28,13 @@ const script = Great_Vibes({
   weight: "400",
 });
 
+const amiri = Amiri({
+  variable: "--font-amiri",
+  subsets: ["arabic", "latin"],
+  display: "swap",
+  weight: "400",
+});
+
 export default function CustomTemplateLayout({
   children,
 }: {
@@ -30,7 +42,7 @@ export default function CustomTemplateLayout({
 }) {
   return (
     <div
-      className={`${cinzel.variable} ${cormorant.variable} ${script.variable} min-h-full`}
+      className={`${cinzel.variable} ${cormorant.variable} ${script.variable} ${amiri.variable} min-h-full`}
     >
       {children}
     </div>
