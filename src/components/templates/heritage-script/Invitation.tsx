@@ -17,7 +17,7 @@ export default function Invitation() {
   return (
     <div className={styles.root}>
       <LetterCard />
-      <Countdown />
+      <Countdown start={data.start} dateLabel={dateLabel} />
 
       <section className={styles.details} aria-label="Celebration details">
         <FadeIn as="h2" className={styles.heading}>

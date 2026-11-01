@@ -1,5 +1,6 @@
 import { botanicalInvitation } from "@/data/botanical";
 import { couples } from "@/data/couples";
+import { customCouples } from "@/data/custom-couples/couples";
 import { elegantInvitation } from "@/data/elegant";
 import { coastalLightInvitation } from "@/data/coastal-light";
 import { heritageInvitation } from "@/data/heritage-script";
@@ -26,6 +27,19 @@ const events: Record<string, CalendarEvent> = {
     couples.map((couple) => [
       couple.calendarId,
       eventFromInvite(couple.calendarId, couple),
+    ]),
+  ),
+  ...Object.fromEntries(
+    customCouples.map((couple) => [
+      couple.calendarId,
+      eventFromInvite(couple.calendarId, {
+        couple: couple.couple,
+        intro: couple.kicker,
+        tagline: couple.honour,
+        start: couple.start,
+        end: couple.end,
+        venue: couple.venue,
+      }),
     ]),
   ),
 };

@@ -1,7 +1,6 @@
 "use client";
 
 import FadeIn from "@/components/templates/heritage-script/FadeIn";
-import { heritageInvitation as data } from "@/data/heritage-script";
 import { pad, useRemainingTime } from "@/hooks/useRemainingTime";
 import styles from "./Countdown.module.css";
 
@@ -11,9 +10,19 @@ const UNITS = [
   { key: "seconds", label: "Seconds" },
 ] as const;
 
-export default function Countdown() {
-  const remaining = useRemainingTime(data.start);
-  const dateLine = `${data.dateLabel.weekday}, ${data.dateLabel.day} ${data.dateLabel.month} ${data.dateLabel.year}`;
+type CountdownProps = {
+  start: string;
+  dateLabel: {
+    weekday: string;
+    day: string;
+    month: string;
+    year: string;
+  };
+};
+
+export default function Countdown({ start, dateLabel }: CountdownProps) {
+  const remaining = useRemainingTime(start);
+  const dateLine = `${dateLabel.weekday}, ${dateLabel.day} ${dateLabel.month} ${dateLabel.year}`;
 
   return (
     <section className={styles.section} aria-label="Countdown to the wedding">

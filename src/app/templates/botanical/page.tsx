@@ -1,8 +1,8 @@
-import type { Metadata } from "next";
-import { preload } from "react-dom";
 import ImageWithSkeleton from "@/components/ImageWithSkeleton";
 import Invitation from "@/components/templates/botanical/Invitation";
 import { botanicalInvitation } from "@/data/botanical";
+import type { Metadata } from "next";
+import { preload } from "react-dom";
 import styles from "./shell.module.css";
 
 export const metadata: Metadata = {
