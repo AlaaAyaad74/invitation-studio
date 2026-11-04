@@ -1,7 +1,7 @@
 "use client";
 
-import { useState, type ReactNode } from "react";
-import { createPortal } from "react-dom";
+import type { ReactNode } from "react";
+import { androidCalendarUrl, eventFromGoogleUrl } from "@/lib/calendar";
 
 type AddToCalendarProps = {
   template: string;
@@ -33,7 +33,8 @@ function isBlockingInAppBrowser() {
 // Chrome/Firefox/Edge on iOS and in-app browsers silently ignore .ics files.
 function isIosSafari() {
   const ua = navigator.userAgent;
-  const otherBrowser = /CriOS|FxiOS|EdgiOS|OPiOS|OPT\/|YaBrowser|DuckDuckGo|GSA\//i;
+  const otherBrowser =
+    /CriOS|FxiOS|EdgiOS|OPiOS|OPT\/|YaBrowser|DuckDuckGo|GSA\//i;
   const inAppBrowser =
     /FBAN|FBAV|FB_IAB|Instagram|WhatsApp|Line\/|Snapchat|Twitter|TikTok|musical_ly|Telegram|LinkedInApp|Pinterest|MicroMessenger/i;
   return (
@@ -44,167 +45,80 @@ function isIosSafari() {
   );
 }
 
-// Try to reopen the current invitation page in the system browser.
-function openInSystemBrowser() {
-  const { protocol, host, pathname, search, hash } = window.location;
-  if (isAndroid()) {
-    const scheme = protocol.replace(":", "");
-    window.location.href = `intent://${host}${pathname}${search}${hash}#Intent;scheme=${scheme};action=android.intent.action.VIEW;package=com.android.chrome;end`;
-  } else if (isIos()) {
-    window.location.href = `x-safari-${window.location.href}`;
-  }
-}
-
-async function copyText(text: string) {
-  try {
-    await navigator.clipboard.writeText(text);
-    return true;
-  } catch {
-    const input = document.createElement("textarea");
-    input.value = text;
-    input.style.position = "fixed";
-    input.style.opacity = "0";
-    document.body.appendChild(input);
-    input.select();
-    const ok = document.execCommand("copy");
-    input.remove();
-    return ok;
-  }
-}
-
-function InAppBrowserHint({ onClose }: { onClose: () => void }) {
-  const [copied, setCopied] = useState(false);
-
-  const buttonStyle: React.CSSProperties = {
-    width: "100%",
-    padding: "12px 16px",
-    borderRadius: 999,
-    border: "1px solid #1f1f1f",
-    fontSize: 15,
-    fontWeight: 600,
-    cursor: "pointer",
-  };
-
-  return createPortal(
-    <div
-      role="dialog"
-      aria-modal="true"
-      onClick={onClose}
-      style={{
-        position: "fixed",
-        inset: 0,
-        zIndex: 2147483647,
-        background: "rgba(0,0,0,0.55)",
-        display: "flex",
-        alignItems: "flex-end",
-        justifyContent: "center",
-        padding: 16,
-        fontFamily: "system-ui, -apple-system, sans-serif",
-      }}
-    >
-      <div
-        onClick={(event) => event.stopPropagation()}
-        style={{
-          width: "100%",
-          maxWidth: 420,
-          background: "#fff",
-          color: "#1f1f1f",
-          borderRadius: 20,
-          padding: 24,
-          display: "flex",
-          flexDirection: "column",
-          gap: 12,
-          textAlign: "center",
-        }}
-      >
-        <strong style={{ fontSize: 18 }}>Open in your browser</strong>
-        <p style={{ margin: 0, fontSize: 14, lineHeight: 1.5, color: "#555" }}>
-          This app&apos;s browser can&apos;t save calendar events. Tap{" "}
-          <b>⋯</b> at the top right and choose{" "}
-          <b>Open in external browser</b>, then tap{" "}
-          <b>Add to calendar</b> again.
-        </p>
-        <button
-          type="button"
-          onClick={openInSystemBrowser}
-          style={{ ...buttonStyle, background: "#1f1f1f", color: "#fff" }}
-        >
-          Open in browser
-        </button>
-        <button
-          type="button"
-          onClick={async () => setCopied(await copyText(window.location.href))}
-          style={{ ...buttonStyle, background: "#fff", color: "#1f1f1f" }}
-        >
-          {copied ? "Link copied ✓" : "Copy link"}
-        </button>
-        <button
-          type="button"
-          onClick={onClose}
-          style={{
-            ...buttonStyle,
-            border: "none",
-            background: "transparent",
-            color: "#777",
-            fontWeight: 500,
-          }}
-        >
-          Close
-        </button>
-      </div>
-    </div>,
-    document.body,
-  );
-}
-
 export default function AddToCalendar({
   template,
   href,
   className,
   children,
 }: AddToCalendarProps) {
-  const [showHint, setShowHint] = useState(false);
-
   return (
-    <>
-      <a
-        href={href}
-        target="_blank"
-        rel="noreferrer"
-        className={className}
-        onClick={(event) => {
-          if (isBlockingInAppBrowser()) {
-            event.preventDefault();
-            setShowHint(true);
+    <a
+      href={href}
+      target="_blank"
+      rel="noreferrer"
+      className={className}
+      onClick={(event) => {
+        // Instagram/Facebook/... block calendar links: jump straight to
+        // Chrome on Android, which opens the "new event" form.
+        if (isAndroid() && isBlockingInAppBrowser()) {
+          event.preventDefault();
+          const { protocol, host } = window.location;
+          const scheme = protocol.replace(":", "");
+          const chromeIntent = `intent://${host}/calendar/${template}?open=android-page#Intent;scheme=${scheme};action=android.intent.action.VIEW;package=com.android.chrome;end`;
+
+          // 1. Open the calendar "new event" form straight from the app.
+          const calendarEvent = eventFromGoogleUrl(template, href);
+          if (!calendarEvent) {
+            window.location.href = chromeIntent;
             return;
           }
 
-          if (isIos()) {
-            event.preventDefault();
-            const icsUrl = `${window.location.origin}/calendar/${template}.ics`;
+          let left = false;
+          const onHide = () => {
+            left = true;
+          };
+          document.addEventListener("visibilitychange", onHide);
+          window.addEventListener("pagehide", onHide);
+          window.addEventListener("blur", onHide);
+          window.location.href = androidCalendarUrl(calendarEvent, false);
 
-            // Safari shows the prefilled event card (names, date, location)
-            // with an "Add to Calendar" button.
-            if (isIosSafari()) {
-              window.location.href = icsUrl;
-              return;
+          // 2. Still here: the app blocked it. Open Chrome on the calendar
+          //    page, which opens the form (or shows a one-tap button).
+          window.setTimeout(() => {
+            document.removeEventListener("visibilitychange", onHide);
+            window.removeEventListener("pagehide", onHide);
+            window.removeEventListener("blur", onHide);
+            if (!left && document.visibilityState === "visible") {
+              window.location.href = chromeIntent;
             }
+          }, 1200);
+          return;
+        }
 
-            // Chrome / other in-app browsers can't show that card: hand the
-            // same .ics URL to Safari (x-safari-https:// / x-safari-http://).
-            window.location.href = `x-safari-${icsUrl}`;
+        if (isIos()) {
+          event.preventDefault();
+          const icsUrl = `${window.location.origin}/calendar/${template}.ics`;
+
+          // Safari shows the prefilled event card (names, date, location)
+          // with an "Add to Calendar" button.
+          if (isIosSafari()) {
+            window.location.href = icsUrl;
             return;
           }
 
-          if (isAndroid()) {
-            event.preventDefault();
-            window.location.assign(`/calendar/${template}?open=android`);
-          }
-        }}
-      >
-        {children}
-      </a>
-      {showHint && <InAppBrowserHint onClose={() => setShowHint(false)} />}
-    </>
+          // Chrome / in-app browsers (Instagram, ...) can't show that card:
+          // open the .ics URL directly in Safari (x-safari-https://).
+          window.location.href = `x-safari-${icsUrl}`;
+          return;
+        }
+
+        if (isAndroid()) {
+          event.preventDefault();
+          window.location.assign(`/calendar/${template}?open=android`);
+        }
+      }}
+    >
+      {children}
+    </a>
   );
 }

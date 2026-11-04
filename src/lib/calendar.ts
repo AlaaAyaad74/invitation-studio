@@ -46,11 +46,40 @@ export function googleCalendarUrl(event: CalendarEvent) {
   return `https://calendar.google.com/calendar/render?${params.toString()}`;
 }
 
+function fromCalendarStamp(stamp: string) {
+  const m = /^(\d{4})(\d{2})(\d{2})T(\d{2})(\d{2})(\d{2})Z$/.exec(stamp);
+  if (!m) return null;
+  const [, y, mo, d, h, mi, s] = m.map(Number);
+  return new Date(Date.UTC(y, mo - 1, d, h, mi, s)).toISOString();
+}
+
+// Rebuild the event from a googleCalendarUrl() link (used in the browser,
+// where only the link is available).
+export function eventFromGoogleUrl(id: string, url: string): CalendarEvent | null {
+  try {
+    const params = new URL(url).searchParams;
+    const [rawStart, rawEnd] = (params.get("dates") ?? "").split("/");
+    const start = fromCalendarStamp(rawStart ?? "");
+    const end = fromCalendarStamp(rawEnd ?? "");
+    if (!start || !end) return null;
+    return {
+      id,
+      title: params.get("text") ?? "",
+      start,
+      end,
+      location: params.get("location") ?? "",
+      details: params.get("details") ?? "",
+    };
+  } catch {
+    return null;
+  }
+}
+
 function intentValue(value: string) {
   return encodeURIComponent(value);
 }
 
-export function androidCalendarUrl(event: CalendarEvent) {
+export function androidCalendarUrl(event: CalendarEvent, withFallback = true) {
   const start = new Date(event.start).getTime();
   const end = new Date(event.end).getTime();
   const fallback = encodeURIComponent(googleCalendarUrl(event));
@@ -64,7 +93,7 @@ export function androidCalendarUrl(event: CalendarEvent) {
     `S.eventLocation=${intentValue(event.location)}`,
     `l.beginTime=${start}`,
     `l.endTime=${end}`,
-    `S.browser_fallback_url=${fallback}`,
+    ...(withFallback ? [`S.browser_fallback_url=${fallback}`] : []),
     "end",
   ].join(";");
 }
