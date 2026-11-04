@@ -48,7 +48,9 @@ export async function GET(
   request: Request,
   context: { params: Promise<{ template: string }> },
 ) {
-  const { template } = await context.params;
+  const { template: raw } = await context.params;
+  // iOS Safari opens the Calendar sheet most reliably for URLs ending in .ics.
+  const template = raw.replace(/\.ics$/i, "");
   const event = events[template];
   if (!event) {
     return new Response("Calendar event not found", { status: 404 });
