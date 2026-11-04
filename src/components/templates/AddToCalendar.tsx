@@ -51,16 +51,18 @@ export default function AddToCalendar({
       onClick={(event) => {
         if (isIos()) {
           event.preventDefault();
-          const icsPath = `/calendar/${template}.ics`;
+          const icsUrl = `${window.location.origin}/calendar/${template}.ics`;
 
+          // Safari shows the prefilled event card (names, date, location)
+          // with an "Add to Calendar" button.
           if (isIosSafari()) {
-            window.location.href = `${window.location.origin}${icsPath}`;
+            window.location.href = icsUrl;
             return;
           }
 
-          // Other iOS browsers can't import .ics files, but iOS hands
-          // webcal:// links to the Apple Calendar app (as a subscription).
-          window.location.href = `webcal://${window.location.host}${icsPath}`;
+          // Chrome / in-app browsers can't show that card: hand the same
+          // .ics URL to Safari (x-safari-https:// / x-safari-http://).
+          window.location.href = `x-safari-${icsUrl}`;
           return;
         }
 
