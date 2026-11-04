@@ -95,6 +95,8 @@ export function toIcs(event: CalendarEvent) {
     "PRODID:-//Invitation Studio//Wedding//EN",
     "CALSCALE:GREGORIAN",
     "METHOD:PUBLISH",
+    // Name shown when the file is opened as a webcal:// subscription on iOS.
+    `X-WR-CALNAME:${escapeIcs(event.title)}`,
     "BEGIN:VEVENT",
     `UID:${event.id}-wedding@invitation.studio`,
     `DTSTAMP:${toCalendarStamp(new Date().toISOString())}`,

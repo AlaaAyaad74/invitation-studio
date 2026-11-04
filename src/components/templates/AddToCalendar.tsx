@@ -50,11 +50,17 @@ export default function AddToCalendar({
       className={className}
       onClick={(event) => {
         if (isIos()) {
+          event.preventDefault();
+          const icsPath = `/calendar/${template}.ics`;
+
           if (isIosSafari()) {
-            event.preventDefault();
-            window.location.href = `${window.location.origin}/calendar/${template}.ics`;
+            window.location.href = `${window.location.origin}${icsPath}`;
+            return;
           }
-          // Other iOS browsers: let the link open Google Calendar (href).
+
+          // Other iOS browsers can't import .ics files, but iOS hands
+          // webcal:// links to the Apple Calendar app (as a subscription).
+          window.location.href = `webcal://${window.location.host}${icsPath}`;
           return;
         }
 
