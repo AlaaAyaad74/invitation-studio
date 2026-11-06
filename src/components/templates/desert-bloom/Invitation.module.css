@@ -1,0 +1,369 @@
+.root {
+  position: relative;
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font-db-serif), Georgia, serif;
+}
+
+/* ---------- shared ---------- */
+
+.up {
+  opacity: 0;
+  transform: translateY(18px);
+  transition:
+    opacity 0.9s ease,
+    transform 1s cubic-bezier(0.22, 1, 0.36, 1);
+  transition-delay: var(--d, 0ms);
+}
+
+[data-in="true"] .up,
+[data-in="true"].up {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.kicker {
+  margin: 0;
+  color: var(--rose);
+  font-family: var(--font-db-sans), sans-serif;
+  font-size: 0.68rem;
+  font-weight: 500;
+  letter-spacing: 0.38em;
+  text-transform: uppercase;
+}
+
+.heading {
+  margin: 0.4rem 0 0;
+  color: var(--gold);
+  font-family: var(--font-db-script), cursive;
+  font-size: 2.7rem;
+  font-weight: 400;
+  line-height: 1.15;
+}
+
+.lead {
+  max-width: 21rem;
+  margin: 1.25rem auto 0;
+  color: var(--text-muted);
+  font-size: 1.15rem;
+  font-style: italic;
+  line-height: 1.55;
+}
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.7rem;
+  margin-top: 1.9rem;
+}
+
+.primary,
+.secondary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  min-height: 2.9rem;
+  padding: 0 1.3rem;
+  border-radius: 999px;
+  font-family: var(--font-db-sans), sans-serif;
+  font-size: 0.72rem;
+  font-weight: 500;
+  letter-spacing: 0.16em;
+  text-decoration: none;
+  text-transform: uppercase;
+  transition:
+    background 0.25s ease,
+    color 0.25s ease,
+    transform 0.25s ease,
+    box-shadow 0.25s ease;
+}
+
+.primary {
+  position: relative;
+  overflow: hidden;
+  background: var(--gold);
+  color: var(--surface);
+  box-shadow: 0 14px 26px -16px rgba(138, 106, 58, 0.9);
+}
+
+/* Slow shine across the main button. */
+.primary::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(110deg, transparent 30%, rgba(255, 246, 225, 0.45) 50%, transparent 70%);
+  transform: translateX(-120%);
+  animation: shine 4.5s ease-in-out infinite;
+}
+
+@keyframes shine {
+  0%,
+  60% {
+    transform: translateX(-120%);
+  }
+  100% {
+    transform: translateX(120%);
+  }
+}
+
+.secondary {
+  border: 1px solid color-mix(in srgb, var(--rose) 30%, transparent);
+  background: var(--blush);
+  color: var(--text);
+}
+
+.primary:hover {
+  background: var(--rose);
+  transform: translateY(-2px);
+}
+
+.secondary:hover {
+  color: var(--rose);
+  transform: translateY(-2px);
+}
+
+.primary:focus-visible,
+.secondary:focus-visible {
+  outline: 2px solid var(--gold);
+  outline-offset: 3px;
+}
+
+.icon {
+  position: relative;
+  width: 1.05rem;
+  height: 1.05rem;
+  flex-shrink: 0;
+}
+
+.iconStroke {
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.6;
+}
+
+.iconFill {
+  fill: currentColor;
+}
+
+/* ---------- welcome ---------- */
+
+.welcome {
+  position: relative;
+  padding: 5rem 1.75rem 4.5rem;
+  text-align: center;
+  background:
+    radial-gradient(90% 60% at 50% 0%, color-mix(in srgb, var(--peach) 28%, transparent), transparent 70%),
+    var(--bg);
+}
+
+.names {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 1.1rem 0 0;
+  color: var(--gold);
+  font-family: var(--font-db-script), cursive;
+  font-size: clamp(3.6rem, 17vw, 4.8rem);
+  font-weight: 400;
+  line-height: 1.05;
+}
+
+.amp {
+  margin: -0.2rem 0;
+  color: var(--gold-soft);
+  font-size: 0.55em;
+}
+
+.flourish {
+  display: block;
+  width: 13rem;
+  margin: 0.6rem auto 0;
+}
+
+.flourish path {
+  stroke-dasharray: 1;
+  stroke-dashoffset: 1;
+  transition: stroke-dashoffset 2.2s ease 0.6s;
+}
+
+[data-in="true"] .flourish path {
+  stroke-dashoffset: 0;
+}
+
+.tagline {
+  margin: 1.2rem 0 0;
+  color: var(--text);
+  font-family: var(--font-db-sans), sans-serif;
+  font-size: 0.72rem;
+  font-weight: 400;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .primary::after {
+    animation: none;
+  }
+
+  .up {
+    transition: none;
+  }
+}
+
+/* ---------- scroll motion (shared) ---------- */
+
+/* Labels: wide tracking that tightens in as it fades. */
+.kickerIn:not([data-x]) {
+  opacity: 0;
+  letter-spacing: 0.95em;
+  filter: blur(3px);
+  transition:
+    opacity 0.9s ease,
+    letter-spacing 1.3s cubic-bezier(0.22, 1, 0.36, 1),
+    filter 0.9s ease;
+  transition-delay: var(--kd, 0ms);
+}
+
+[data-in="true"] .kickerIn:not([data-x]) {
+  opacity: 1;
+  letter-spacing: 0.38em;
+  filter: blur(0);
+}
+
+/* Script titles: written left to right, like ink. */
+.writeIn {
+  clip-path: inset(-30% 100% -30% -8%);
+  transition: clip-path 1.7s cubic-bezier(0.65, 0, 0.35, 1);
+  transition-delay: var(--wd, 250ms);
+}
+
+[data-in="true"] .writeIn {
+  clip-path: inset(-30% -8% -30% -8%);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .kickerIn:not([data-x]),
+  [data-in="true"] .kickerIn:not([data-x]) {
+    opacity: 1;
+    letter-spacing: 0.38em;
+    filter: none;
+    transition: none;
+  }
+
+  .writeIn,
+  [data-in="true"] .writeIn {
+    clip-path: none;
+    transition: none;
+  }
+}
+
+/* ---------- welcome motion ---------- */
+
+.welcome {
+  overflow: hidden;
+}
+
+/* Warm light that rises behind the names. */
+.sunrise {
+  position: absolute;
+  top: 38%;
+  left: 50%;
+  width: 26rem;
+  height: 26rem;
+  margin: -13rem 0 0 -13rem;
+  border-radius: 50%;
+  background: radial-gradient(circle, color-mix(in srgb, var(--peach) 45%, transparent), transparent 65%);
+  opacity: 0;
+  translate: 0 4rem;
+  scale: 0.6;
+  transition:
+    opacity 1.6s ease,
+    translate 2.2s cubic-bezier(0.22, 1, 0.36, 1),
+    scale 2.2s cubic-bezier(0.22, 1, 0.36, 1);
+  pointer-events: none;
+}
+
+[data-in="true"] .sunrise {
+  opacity: 1;
+  translate: 0 0;
+  scale: 1;
+}
+
+.welcome > :not(.sunrise) {
+  position: relative;
+}
+
+/* Each name is written out left to right, like ink. */
+.name {
+  display: block;
+  clip-path: inset(-30% 100% -30% -10%);
+  translate: 0 0.4rem;
+  transition:
+    clip-path 1.4s cubic-bezier(0.65, 0, 0.35, 1),
+    translate 1.4s cubic-bezier(0.22, 1, 0.36, 1);
+  transition-delay: var(--d);
+}
+
+[data-in="true"] .name {
+  clip-path: inset(-30% -10% -30% -10%);
+  translate: 0 0;
+}
+
+/* The ampersand blooms in between them. */
+.amp {
+  display: block;
+  opacity: 0;
+  scale: 0.3;
+  rotate: -40deg;
+  transition:
+    opacity 0.6s ease,
+    scale 0.9s cubic-bezier(0.34, 1.56, 0.64, 1),
+    rotate 0.9s cubic-bezier(0.34, 1.56, 0.64, 1);
+  transition-delay: var(--d);
+}
+
+[data-in="true"] .amp {
+  opacity: 1;
+  scale: 1;
+  rotate: 0deg;
+}
+
+.welcome .flourish path {
+  transition-delay: 2.6s;
+}
+
+/* The message appears word by word. */
+.word {
+  display: inline-block;
+  opacity: 0;
+  translate: 0 0.5rem;
+  filter: blur(4px);
+  transition:
+    opacity 0.6s ease,
+    translate 0.7s cubic-bezier(0.22, 1, 0.36, 1),
+    filter 0.6s ease;
+  transition-delay: var(--d);
+}
+
+[data-in="true"] .word {
+  opacity: 1;
+  translate: 0 0;
+  filter: blur(0);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .sunrise,
+  .name,
+  .amp,
+  .word {
+    opacity: 1;
+    clip-path: none;
+    translate: none;
+    scale: none;
+    rotate: none;
+    filter: none;
+    transition: none;
+  }
+}

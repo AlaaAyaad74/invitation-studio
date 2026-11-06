@@ -1,0 +1,69 @@
+.layer {
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 50%;
+  z-index: 40;
+  width: min(100%, 480px);
+  overflow: hidden;
+  transform: translateX(-50%);
+  pointer-events: none;
+}
+
+@media (min-width: 720px) {
+  .layer {
+    right: 0;
+    left: auto;
+    width: 480px;
+    transform: none;
+  }
+}
+
+.fall {
+  position: absolute;
+  top: -6%;
+  left: var(--x);
+  animation: fall var(--dur) linear var(--delay) infinite;
+}
+
+.petal {
+  display: block;
+  border-radius: 80% 10% 75% 25%;
+  background: linear-gradient(140deg, #fbe7dc, var(--peach) 55%, #d9a18e);
+  box-shadow: inset -1px -2px 3px rgba(156, 107, 94, 0.25);
+  opacity: 0.78;
+  animation: sway calc(var(--dur) / 3) ease-in-out var(--delay) infinite alternate;
+}
+
+.petal[data-tone="1"] {
+  background: linear-gradient(140deg, #fff1ea, var(--blush) 60%, #d8a99a);
+}
+
+.petal[data-tone="2"] {
+  background: linear-gradient(140deg, #fdf3e8, #f1d8c2 55%, var(--gold-soft));
+  opacity: 0.6;
+}
+
+@keyframes fall {
+  from {
+    transform: translateY(0);
+  }
+  to {
+    transform: translateY(112vh);
+  }
+}
+
+@keyframes sway {
+  from {
+    transform: translateX(calc(var(--sway) * -0.5)) rotate(-25deg) rotateX(0deg);
+  }
+  to {
+    transform: translateX(calc(var(--sway) * 0.5)) rotate(140deg) rotateX(55deg);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .layer {
+    display: none;
+  }
+}

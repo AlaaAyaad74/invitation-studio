@@ -3,6 +3,7 @@ import { couples } from "@/data/couples";
 import { customCouples } from "@/data/custom-couples/couples";
 import { elegantInvitation } from "@/data/elegant";
 import { coastalLightInvitation } from "@/data/coastal-light";
+import { desertBloomEvent } from "@/data/desert-bloom";
 import { heritageInvitation } from "@/data/heritage-script";
 import {
   androidCalendarUrl,
@@ -23,6 +24,7 @@ const events: Record<string, CalendarEvent> = {
     end: heritageInvitation.end,
     venue: heritageInvitation.venue,
   }),
+  "desert-bloom": desertBloomEvent,
   ...Object.fromEntries(
     couples.map((couple) => [
       couple.calendarId,

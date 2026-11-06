@@ -1,0 +1,114 @@
+.frame {
+  position: relative;
+  min-height: 100svh;
+  background: var(--bg);
+}
+
+.cover {
+  display: none;
+}
+
+.stage {
+  position: relative;
+  z-index: 10;
+  width: 100%;
+  min-width: 280px;
+  max-width: 480px;
+  min-height: 100svh;
+  margin-inline: auto;
+  overflow-x: clip;
+  background: var(--bg);
+}
+
+.coverVideo {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  filter: blur(26px) saturate(1.05) brightness(0.92);
+  transform: scale(1.15);
+}
+
+.coverVeil {
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(70% 60% at 50% 50%, color-mix(in srgb, var(--bg) 55%, transparent), transparent 80%),
+    linear-gradient(90deg, transparent 70%, color-mix(in srgb, var(--text) 22%, transparent));
+}
+
+.coverCopy {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+  padding: 2rem;
+  text-align: center;
+}
+
+.coverKicker {
+  margin: 0;
+  color: var(--text-muted);
+  font-family: var(--font-db-sans), sans-serif;
+  font-size: 0.78rem;
+  letter-spacing: 0.38em;
+  text-transform: uppercase;
+}
+
+.coverNames {
+  display: flex;
+  align-items: baseline;
+  gap: 0.35em;
+  margin: 0;
+  color: var(--gold);
+  font-family: var(--font-db-script), cursive;
+  font-size: clamp(4rem, 8vw, 7.5rem);
+  line-height: 1.1;
+}
+
+.coverNames span {
+  color: var(--gold-soft);
+  font-size: 0.6em;
+}
+
+.coverDate {
+  margin: 0;
+  color: var(--text);
+  font-family: var(--font-db-serif), Georgia, serif;
+  font-size: 1.35rem;
+  font-style: italic;
+  letter-spacing: 0.12em;
+}
+
+@media (min-width: 720px) {
+  .cover {
+    position: fixed;
+    inset: 0 480px 0 0;
+    z-index: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+  }
+
+  .cover::after {
+    content: "";
+    position: absolute;
+    inset: 1.5rem;
+    border: 1px solid color-mix(in srgb, var(--gold-soft) 55%, transparent);
+    border-radius: 999px 999px 1.5rem 1.5rem;
+    pointer-events: none;
+  }
+
+  .stage {
+    width: 480px;
+    max-width: none;
+    margin-right: 0;
+    margin-left: auto;
+    box-shadow:
+      -1px 0 0 color-mix(in srgb, var(--gold-soft) 45%, transparent),
+      -32px 0 80px -24px rgba(62, 44, 28, 0.45);
+  }
+}

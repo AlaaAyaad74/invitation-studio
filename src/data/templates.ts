@@ -51,9 +51,11 @@ export const templates: InvitationTemplate[] = [
     id: "desert-bloom",
     title: "Desert Bloom",
     style: "Modern",
-    description: "Warm neutrals and bold geometry for contemporary couples.",
-    image: "/templates/desert-bloom.webp",
-    comingSoon: true,
+    description:
+      "A lace envelope, a wax seal, and peach roses — break the seal to begin.",
+    image: "/desert-bloom/desert-bloom-card-image.webp",
+    comingSoon: false,
+    href: "/templates/desert-bloom",
   },
   {
     id: "atelier-rose",
