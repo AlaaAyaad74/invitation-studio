@@ -1,55 +1,23 @@
-"use client";
-
-import { useEffect, useRef } from "react";
+import Image from "next/image";
 import styles from "./Cover.module.css";
 
 type CoverProps = {
-  video: string;
-  poster: string;
+  image: string;
   alt: string;
 };
 
-export default function Cover({ video, poster, alt }: CoverProps) {
-  const videoRef = useRef<HTMLVideoElement>(null);
-
-  useEffect(() => {
-    const node = videoRef.current;
-    if (!node) return;
-
-    node.muted = true;
-    node.defaultMuted = true;
-    node.playsInline = true;
-
-    let started = false;
-    const start = () => {
-      if (started || node.ended) return;
-      started = true;
-      node.play().catch(() => {
-        started = false;
-      });
-    };
-
-    if (node.readyState >= HTMLMediaElement.HAVE_FUTURE_DATA) start();
-    node.addEventListener("canplay", start);
-
-    return () => node.removeEventListener("canplay", start);
-  }, [video]);
-
+export default function Cover({ image, alt }: CoverProps) {
   return (
     <section className={styles.cover} aria-label={alt}>
-      <video
-        ref={videoRef}
-        className={styles.video}
-        poster={poster}
-        autoPlay
-        muted
-        playsInline
-        preload="auto"
+      <Image
+        src={image}
+        alt={alt}
         width={1080}
-        height={1334}
-      >
-        <source src={video} type="video/mp4" />
-      </video>
+        height={1350}
+        sizes="(max-width: 520px) 100vw, 520px"
+        className={styles.image}
+        preload
+      />
     </section>
   );
 }

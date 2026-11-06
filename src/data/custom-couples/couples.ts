@@ -2,42 +2,38 @@ import { eventFromInvite, googleCalendarUrl } from "@/lib/calendar";
 
 export const customCouples = [
   {
-    slug: "omar&salma",
-    calendarId: "omar-salma",
+    slug: "ahmed&doaa",
+    calendarId: "ahmed-doaa",
     template: "heritage-script" as const,
     couple: {
-      first: "Omar",
-      second: "Salma",
+      first: "Ahmed",
+      second: "Doaa",
     },
     kicker: "Together with their families",
     honour: "request the honour of your presence",
     closing: "at the celebration of their marriage",
     dateLabel: {
-      weekday: "Thursday",
-      day: "5",
+      weekday: "Saturday",
+      day: "14",
       month: "November",
       year: "2026",
     },
-    start: "2026-11-05T18:00:00+02:00",
-    end: "2026-11-06T00:00:00+02:00",
-    timeLabel: "Six o'clock in the evening",
+    start: "2026-11-14T19:00:00+02:00",
+    end: "2026-11-15T00:00:00+02:00",
+    timeLabel: "Seven o'clock in the evening",
     venue: {
-      name: "Palestine Montaza Hotel",
-      city: "Alexandria",
-      address: "Alexandria, Egypt",
+      name: "Lucinda Hall, Family Park",
+      city: "New Cairo",
+      address: "Family Park, Fifth Settlement, New Cairo, Egypt",
+      // TODO: replace with exact Google Maps link
       mapUrl:
-        "https://www.google.com/maps/place/Palestine+Montaza+Hotel/@31.2883843,30.018137,17z/data=!3m1!4b1!4m9!3m8!1s0x14f5d061fc11582d:0x12657103d509ea6c!5m2!4m1!1i2!8m2!3d31.2883843!4d30.018137!16s%2Fg%2F1th8451c?entry=ttu&g_ep=EgoyMDI2MTAyOC4wIKXMDSoASAFQAw%3D%3D",
+        "https://www.google.com/maps/search/?api=1&query=Family+Park+Fifth+Settlement+New+Cairo",
     },
     attire: "Black tie",
     music: "/voices/omar-salma-voice.mp3",
     cover: {
-      video: "/couples/omar-salma/cover.mp4",
-      poster: "/couples/omar-salma/cover-poster.webp",
-      alt: "Omar and Salma wedding invitation",
-    },
-    gateQr: {
-      src: "/couples/omar-salma/gate-qr.webp",
-      alt: "QR code for gate entry",
+      image: "/couples/ahmed-doaa/cover.webp",
+      alt: "Ahmed and Doaa wedding invitation",
     },
   },
 ] as const;

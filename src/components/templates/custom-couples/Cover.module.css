@@ -2,11 +2,11 @@
   background: #5c0e1c;
 }
 
-.video {
+.image {
   display: block;
   width: 100%;
   height: auto;
-  aspect-ratio: 1080 / 1334;
+  aspect-ratio: 1080 / 1350;
   background: #5c0e1c;
   object-fit: cover;
 }
