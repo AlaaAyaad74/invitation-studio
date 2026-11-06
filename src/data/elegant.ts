@@ -1,4 +1,5 @@
 import { eventFromInvite, googleCalendarUrl } from "@/lib/calendar";
+import { whatsappUrl } from "@/lib/whatsapp";
 
 export const elegantInvitation = {
   couple: {
@@ -82,5 +83,5 @@ export function getCalendarUrl(data: ElegantInvitation) {
 }
 
 export function getWhatsAppUrl(data: ElegantInvitation) {
-  return `https://wa.me/${data.rsvp.whatsapp}?text=${encodeURIComponent(data.rsvp.message)}`;
+  return whatsappUrl(data.rsvp.whatsapp, data.rsvp.message);
 }

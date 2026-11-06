@@ -1,5 +1,5 @@
 import WhatsAppIcon from "@/app/common/icons/WhatsAppIcon";
-import { desertBloomInvitation as data, whatsappUrl } from "@/data/desert-bloom";
+import { desertBloomInvitation as data, rsvpUrl } from "@/data/desert-bloom";
 import type { CSSProperties } from "react";
 import InView from "./InView";
 import shared from "./Invitation.module.css";
@@ -31,7 +31,7 @@ export default function Rsvp() {
 
           <div className={styles.actions}>
             <a
-              href={whatsappUrl(rsvp.message)}
+              href={rsvpUrl(rsvp.message)}
               target="_blank"
               rel="noreferrer"
               className={shared.primary}
@@ -40,7 +40,7 @@ export default function Rsvp() {
               Confirm attendance
             </a>
             <a
-              href={whatsappUrl(rsvp.wish)}
+              href={rsvpUrl(rsvp.wish)}
               target="_blank"
               rel="noreferrer"
               className={shared.secondary}
