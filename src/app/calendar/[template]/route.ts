@@ -1,50 +1,5 @@
-import { botanicalInvitation } from "@/data/botanical";
-import { couples } from "@/data/couples";
-import { customCouples } from "@/data/custom-couples/couples";
-import { elegantInvitation } from "@/data/elegant";
-import { coastalLightInvitation } from "@/data/coastal-light";
-import { desertBloomEvent } from "@/data/desert-bloom";
-import { heritageInvitation } from "@/data/heritage-script";
-import {
-  androidCalendarUrl,
-  eventFromInvite,
-  toIcs,
-  type CalendarEvent,
-} from "@/lib/calendar";
-
-const events: Record<string, CalendarEvent> = {
-  botanical: eventFromInvite("botanical", botanicalInvitation),
-  elegant: eventFromInvite("elegant", elegantInvitation),
-  "coastal-light": eventFromInvite("coastal-light", coastalLightInvitation),
-  "heritage-script": eventFromInvite("heritage-script", {
-    couple: heritageInvitation.couple,
-    intro: heritageInvitation.kicker,
-    tagline: heritageInvitation.honour,
-    start: heritageInvitation.start,
-    end: heritageInvitation.end,
-    venue: heritageInvitation.venue,
-  }),
-  "desert-bloom": desertBloomEvent,
-  ...Object.fromEntries(
-    couples.map((couple) => [
-      couple.calendarId,
-      eventFromInvite(couple.calendarId, couple),
-    ]),
-  ),
-  ...Object.fromEntries(
-    customCouples.map((couple) => [
-      couple.calendarId,
-      eventFromInvite(couple.calendarId, {
-        couple: couple.couple,
-        intro: couple.kicker,
-        tagline: couple.honour,
-        start: couple.start,
-        end: couple.end,
-        venue: couple.venue,
-      }),
-    ]),
-  ),
-};
+import { calendarEvents as events } from "@/data/calendar-events";
+import { androidCalendarUrl, toIcs, type CalendarEvent } from "@/lib/calendar";
 
 function escapeHtml(value: string) {
   return value

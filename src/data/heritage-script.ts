@@ -63,16 +63,15 @@ export const heritageInvitation = {
 
 export type HeritageInvitation = typeof heritageInvitation;
 
+export const heritageEvent = eventFromInvite("heritage-script", {
+  couple: heritageInvitation.couple,
+  intro: heritageInvitation.kicker,
+  tagline: heritageInvitation.honour,
+  start: heritageInvitation.start,
+  end: heritageInvitation.end,
+  venue: heritageInvitation.venue,
+});
+
 export function getCalendarUrl() {
-  const { couple, kicker, honour, start, end, venue } = heritageInvitation;
-  return googleCalendarUrl(
-    eventFromInvite("heritage-script", {
-      couple,
-      intro: kicker,
-      tagline: honour,
-      start,
-      end,
-      venue,
-    }),
-  );
+  return googleCalendarUrl(heritageEvent);
 }
