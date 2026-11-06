@@ -61,7 +61,8 @@ export default function VideoCover() {
     };
 
     if (video.readyState >= HTMLMediaElement.HAVE_METADATA) warm();
-    else if (video.networkState === HTMLMediaElement.NETWORK_EMPTY) video.load();
+    else if (video.networkState === HTMLMediaElement.NETWORK_EMPTY)
+      video.load();
 
     video.addEventListener("loadedmetadata", warm);
     video.addEventListener("loadeddata", warm);
@@ -146,8 +147,7 @@ export default function VideoCover() {
               className={styles.seal}
               onClick={play}
               aria-label="Break the seal to open the invitation"
-            >
-            </button>
+            ></button>
             <p className={styles.hint} aria-hidden="true">
               <span className={styles.hintScript}>Tap the seal</span>
               <span className={styles.hintSmall}>to open your invitation</span>

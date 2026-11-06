@@ -4,7 +4,7 @@ import { desertBloomInvitation as data } from "@/data/desert-bloom";
 import { pad, useRemainingTime } from "@/hooks/useRemainingTime";
 import type { CSSProperties } from "react";
 import InView from "./InView";
-import shared from "./Invitation.module.css";
+import motion from "./motion.module.css";
 import { Bloom } from "./Ornaments";
 import styles from "./Countdown.module.css";
 
@@ -20,13 +20,20 @@ export default function Countdown() {
   const ringText = `${couple.first} & ${couple.second} · ${dateLabel.day} ${dateLabel.month} ${dateLabel.year} · `;
 
   return (
-    <InView as="section" className={styles.section} aria-label="Countdown to the wedding">
-      <p className={`${styles.kicker} ${shared.kickerIn}`}>Counting the days</p>
+    <InView
+      as="section"
+      className={styles.section}
+      aria-label="Countdown to the wedding"
+    >
+      <p className={`${styles.kicker} ${motion.kickerIn}`}>Counting the days</p>
 
       <div className={styles.sun}>
         <svg className={styles.ring} viewBox="0 0 200 200" aria-hidden="true">
           <defs>
-            <path id="db-ring" d="M100,100 m-82,0 a82,82 0 1,1 164,0 a82,82 0 1,1 -164,0" />
+            <path
+              id="db-ring"
+              d="M100,100 m-82,0 a82,82 0 1,1 164,0 a82,82 0 1,1 -164,0"
+            />
           </defs>
           <text>
             <textPath href="#db-ring" textLength="512" lengthAdjust="spacing">
@@ -51,11 +58,17 @@ export default function Countdown() {
       </div>
 
       {remaining?.done ? (
-        <p className={styles.doneCopy}>The day has come. Thank you for blooming with us.</p>
+        <p className={styles.doneCopy}>
+          The day has come. Thank you for blooming with us.
+        </p>
       ) : (
         <div className={styles.row}>
           {UNITS.map((unit, index) => (
-            <div key={unit.key} className={styles.arch} style={{ "--i": index } as CSSProperties}>
+            <div
+              key={unit.key}
+              className={styles.arch}
+              style={{ "--i": index } as CSSProperties}
+            >
               <span className={styles.keystone} aria-hidden="true" />
               <span key={remaining?.[unit.key]} className={styles.value}>
                 {remaining ? pad(remaining[unit.key]) : "--"}

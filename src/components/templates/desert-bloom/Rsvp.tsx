@@ -2,7 +2,8 @@ import WhatsAppIcon from "@/app/common/icons/WhatsAppIcon";
 import { desertBloomInvitation as data, rsvpUrl } from "@/data/desert-bloom";
 import type { CSSProperties } from "react";
 import InView from "./InView";
-import shared from "./Invitation.module.css";
+import motion from "./motion.module.css";
+import ui from "./ui.module.css";
 import { Bloom } from "./Ornaments";
 import styles from "./Rsvp.module.css";
 
@@ -18,13 +19,21 @@ export default function Rsvp() {
         <div className={styles.letter}>
           <span className={styles.stamp} aria-hidden="true">
             <Bloom className={styles.stampBloom} />
-            <span>{couple.first[0]}&amp;{couple.second[0]}</span>
+            <span>
+              {couple.first[0]}&amp;{couple.second[0]}
+            </span>
           </span>
 
-          <p className={`${shared.kicker} ${shared.kickerIn}`} style={{ "--kd": "1.7s" } as CSSProperties}>
+          <p
+            className={`${ui.kicker} ${motion.kickerIn}`}
+            style={{ "--kd": "1.7s" } as CSSProperties}
+          >
             Kindly reply
           </p>
-          <h2 className={`${styles.title} ${shared.writeIn}`} style={{ "--wd": "1.9s" } as CSSProperties}>
+          <h2
+            className={`${styles.title} ${motion.writeIn}`}
+            style={{ "--wd": "1.9s" } as CSSProperties}
+          >
             Will you bloom with us?
           </h2>
           <p className={styles.deadline}>{rsvp.deadline}</p>
@@ -34,16 +43,16 @@ export default function Rsvp() {
               href={rsvpUrl(rsvp.message)}
               target="_blank"
               rel="noreferrer"
-              className={shared.primary}
+              className={ui.primary}
             >
-              <WhatsAppIcon className={`${shared.icon} ${shared.iconFill}`} />
+              <WhatsAppIcon className={`${ui.icon} ${ui.iconFill}`} />
               Confirm attendance
             </a>
             <a
               href={rsvpUrl(rsvp.wish)}
               target="_blank"
               rel="noreferrer"
-              className={shared.secondary}
+              className={ui.secondary}
             >
               Send a wish
             </a>

@@ -42,10 +42,34 @@ export function Branch({ className }: { className?: string }) {
     >
       <path d="M4 14h62M114 14h62" stroke="var(--gold-soft)" strokeWidth="1" />
       <g fill="var(--sage)" opacity="0.75">
-        <ellipse cx="38" cy="9.5" rx="5" ry="2.1" transform="rotate(-28 38 9.5)" />
-        <ellipse cx="50" cy="18.5" rx="5" ry="2.1" transform="rotate(28 50 18.5)" />
-        <ellipse cx="142" cy="9.5" rx="5" ry="2.1" transform="rotate(28 142 9.5)" />
-        <ellipse cx="130" cy="18.5" rx="5" ry="2.1" transform="rotate(-28 130 18.5)" />
+        <ellipse
+          cx="38"
+          cy="9.5"
+          rx="5"
+          ry="2.1"
+          transform="rotate(-28 38 9.5)"
+        />
+        <ellipse
+          cx="50"
+          cy="18.5"
+          rx="5"
+          ry="2.1"
+          transform="rotate(28 50 18.5)"
+        />
+        <ellipse
+          cx="142"
+          cy="9.5"
+          rx="5"
+          ry="2.1"
+          transform="rotate(28 142 9.5)"
+        />
+        <ellipse
+          cx="130"
+          cy="18.5"
+          rx="5"
+          ry="2.1"
+          transform="rotate(-28 130 18.5)"
+        />
       </g>
       <g fill="var(--peach)">
         {[0, 72, 144, 216, 288].map((angle) => (
