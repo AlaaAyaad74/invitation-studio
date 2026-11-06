@@ -1,6 +1,7 @@
 "use client";
 
-import { useEffect, useRef, type CSSProperties, type ReactNode } from "react";
+import { useInView } from "@/hooks/useInView";
+import { useRef, type CSSProperties, type ReactNode } from "react";
 
 type RevealProps = {
   children: ReactNode;
@@ -17,25 +18,13 @@ export default function Reveal({
 }: RevealProps) {
   const ref = useRef<HTMLDivElement>(null);
 
-  useEffect(() => {
-    const node = ref.current;
-    if (!node) return;
-
-    const observer = new IntersectionObserver(
-      (entries) => {
-        for (const entry of entries) {
-          if (entry.isIntersecting) {
-            node.dataset.revealed = "true";
-            observer.unobserve(node);
-          }
-        }
-      },
-      { threshold: 0.14, rootMargin: "0px 0px -6% 0px" },
-    );
-
-    observer.observe(node);
-    return () => observer.disconnect();
-  }, []);
+  useInView(
+    ref,
+    () => {
+      if (ref.current) ref.current.dataset.revealed = "true";
+    },
+    { threshold: 0.14, rootMargin: "0px 0px -6% 0px", once: true },
+  );
 
   return (
     <div

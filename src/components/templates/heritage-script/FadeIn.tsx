@@ -1,9 +1,11 @@
 "use client";
 
+import { useInView } from "@/hooks/useInView";
 import {
-  useEffect,
+  useRef,
   useState,
   type CSSProperties,
+  type ElementType,
   type ReactNode,
 } from "react";
 import styles from "./FadeIn.module.css";
@@ -21,29 +23,15 @@ export default function FadeIn({
   className,
   delay = 0,
 }: FadeInProps) {
-  const [node, setNode] = useState<HTMLElement | null>(null);
+  const ref = useRef<HTMLElement>(null);
   const [play, setPlay] = useState(false);
-  const Tag = as;
+  const Tag = as as ElementType;
 
-  useEffect(() => {
-    if (!node) return;
-
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (!entry?.isIntersecting) return;
-        setPlay(true);
-        observer.disconnect();
-      },
-      { threshold: 0.2 },
-    );
-
-    observer.observe(node);
-    return () => observer.disconnect();
-  }, [node]);
+  useInView(ref, () => setPlay(true), { threshold: 0.2, once: true });
 
   return (
     <Tag
-      ref={setNode}
+      ref={ref}
       className={[styles.fade, play ? styles.play : "", className]
         .filter(Boolean)
         .join(" ")}

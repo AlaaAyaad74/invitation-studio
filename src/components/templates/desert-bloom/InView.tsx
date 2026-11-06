@@ -1,7 +1,7 @@
 "use client";
 
+import { useInView } from "@/hooks/useInView";
 import {
-  useEffect,
   useRef,
   type CSSProperties,
   type ElementType,
@@ -36,32 +36,15 @@ export default function InView({
 }: InViewProps) {
   const ref = useRef<HTMLElement>(null);
 
-  useEffect(() => {
-    const node = ref.current;
-    if (!node) return;
-
-    // Play once the element has scrolled past the bottom quarter of the
-    // screen, so the animation runs where the guest is looking.
-    const enter = new IntersectionObserver(
-      ([entry]) => {
-        if (entry?.isIntersecting) node.dataset.in = "true";
-      },
-      { threshold, rootMargin: `0px 0px -${offset} 0px` },
-    );
-
-    // Reset only when it is fully off screen, so it plays again next time
-    // the guest scrolls back to it (and the reset is never seen).
-    const leave = new IntersectionObserver(([entry]) => {
-      if (entry && !entry.isIntersecting) node.dataset.in = "false";
-    });
-
-    enter.observe(node);
-    leave.observe(node);
-    return () => {
-      enter.disconnect();
-      leave.disconnect();
-    };
-  }, [threshold, offset]);
+  // Play once the element has scrolled past the bottom `offset` of the
+  // screen; reset once it is fully off screen so it replays next time.
+  useInView(
+    ref,
+    (inView) => {
+      if (ref.current) ref.current.dataset.in = inView ? "true" : "false";
+    },
+    { threshold, rootMargin: `0px 0px -${offset} 0px` },
+  );
 
   return (
     <Tag
