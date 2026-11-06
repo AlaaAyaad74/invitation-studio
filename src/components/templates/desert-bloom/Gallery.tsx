@@ -4,7 +4,7 @@ import { desertBloomInvitation as data } from "@/data/desert-bloom";
 import { useHorizontalSwipe } from "@/hooks/useHorizontalSwipe";
 import { useRef, useState, type CSSProperties } from "react";
 import InView from "./InView";
-import shared from "./Invitation.module.css";
+import motion from "./motion.module.css";
 import styles from "./Gallery.module.css";
 
 const TOSS_MS = 520;
@@ -37,10 +37,14 @@ export default function Gallery() {
 
   return (
     <InView as="section" className={styles.section} aria-label="Our moments">
-      <p className={`${styles.kicker} ${shared.kickerIn}`}>Our moments</p>
-      <h2 className={`${styles.title} ${shared.writeIn}`}>Little blooms</h2>
+      <p className={`${styles.kicker} ${motion.kickerIn}`}>Our moments</p>
+      <h2 className={`${styles.title} ${motion.writeIn}`}>Little blooms</h2>
 
-      <div className={styles.stack} data-played={played ? "true" : "false"} {...swipe}>
+      <div
+        className={styles.stack}
+        data-played={played ? "true" : "false"}
+        {...swipe}
+      >
         {order
           .slice(0, 4)
           .reverse()
@@ -59,7 +63,11 @@ export default function Gallery() {
                 onClick={() => isTop && toss("right")}
                 tabIndex={isTop ? 0 : -1}
                 aria-hidden={!isTop}
-                aria-label={isTop ? `Photo ${photoIndex + 1} of ${photos.length}: ${photo.alt}. Next photo` : undefined}
+                aria-label={
+                  isTop
+                    ? `Photo ${photoIndex + 1} of ${photos.length}: ${photo.alt}. Next photo`
+                    : undefined
+                }
               >
                 {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img src={photo.src} alt="" loading="lazy" draggable={false} />
@@ -70,7 +78,8 @@ export default function Gallery() {
 
       <div className={styles.meta}>
         <span className={styles.counter}>
-          {String(top + 1).padStart(2, "0")} / {String(photos.length).padStart(2, "0")}
+          {String(top + 1).padStart(2, "0")} /{" "}
+          {String(photos.length).padStart(2, "0")}
         </span>
         <span className={styles.help}>Tap or swipe the photo</span>
       </div>

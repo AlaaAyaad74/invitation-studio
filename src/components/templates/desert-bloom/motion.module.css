@@ -1,0 +1,49 @@
+/*
+  Shared scroll motion. Each class waits for an ancestor (or itself) to get
+  data-in="true" from <InView>.
+*/
+
+/* Labels: wide tracking that tightens in as it fades. */
+.kickerIn:not([data-x]) {
+  opacity: 0;
+  letter-spacing: 0.95em;
+  filter: blur(3px);
+  transition:
+    opacity 0.9s ease,
+    letter-spacing 1.3s cubic-bezier(0.22, 1, 0.36, 1),
+    filter 0.9s ease;
+  transition-delay: var(--kd, 0ms);
+}
+
+[data-in="true"] .kickerIn:not([data-x]) {
+  opacity: 1;
+  letter-spacing: 0.38em;
+  filter: blur(0);
+}
+
+/* Script titles: written left to right, like ink. */
+.writeIn {
+  clip-path: inset(-30% 100% -30% -8%);
+  transition: clip-path 1.7s cubic-bezier(0.65, 0, 0.35, 1);
+  transition-delay: var(--wd, 250ms);
+}
+
+[data-in="true"] .writeIn {
+  clip-path: inset(-30% -8% -30% -8%);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .kickerIn:not([data-x]),
+  [data-in="true"] .kickerIn:not([data-x]) {
+    opacity: 1;
+    letter-spacing: 0.38em;
+    filter: none;
+    transition: none;
+  }
+
+  .writeIn,
+  [data-in="true"] .writeIn {
+    clip-path: none;
+    transition: none;
+  }
+}

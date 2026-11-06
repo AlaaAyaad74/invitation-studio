@@ -1,4 +1,5 @@
 import { eventFromInvite, googleCalendarUrl } from "@/lib/calendar";
+import { whatsappUrl } from "@/lib/whatsapp";
 
 export const desertBloomInvitation = {
   couple: {
@@ -77,6 +78,6 @@ export function getCalendarUrl() {
   return googleCalendarUrl(desertBloomEvent);
 }
 
-export function whatsappUrl(text: string) {
-  return `https://wa.me/${desertBloomInvitation.rsvp.whatsapp}?text=${encodeURIComponent(text)}`;
+export function rsvpUrl(text: string) {
+  return whatsappUrl(desertBloomInvitation.rsvp.whatsapp, text);
 }

@@ -41,17 +41,19 @@ export const customCouples = [
 
 export type CustomCouple = (typeof customCouples)[number];
 
+export function customCoupleEvent(couple: CustomCouple) {
+  return eventFromInvite(couple.calendarId, {
+    couple: couple.couple,
+    intro: couple.kicker,
+    tagline: couple.honour,
+    start: couple.start,
+    end: couple.end,
+    venue: couple.venue,
+  });
+}
+
 export function getCalendarUrl(couple: CustomCouple) {
-  return googleCalendarUrl(
-    eventFromInvite(couple.calendarId, {
-      couple: couple.couple,
-      intro: couple.kicker,
-      tagline: couple.honour,
-      start: couple.start,
-      end: couple.end,
-      venue: couple.venue,
-    }),
-  );
+  return googleCalendarUrl(customCoupleEvent(couple));
 }
 
 export function getCouple(slug: string) {

@@ -10,7 +10,7 @@ import {
   type PointerEvent,
 } from "react";
 import InView from "./InView";
-import shared from "./Invitation.module.css";
+import motion from "./motion.module.css";
 import { Bloom, Branch } from "./Ornaments";
 import styles from "./ScratchReveal.module.css";
 
@@ -58,7 +58,12 @@ function archPath(
   ctx.closePath();
 }
 
-function embossedBloom(ctx: CanvasRenderingContext2D, x: number, y: number, size: number) {
+function embossedBloom(
+  ctx: CanvasRenderingContext2D,
+  x: number,
+  y: number,
+  size: number,
+) {
   const petals = (dx: number, dy: number, color: string) => {
     ctx.fillStyle = color;
     for (let i = 0; i < 5; i += 1) {
@@ -80,7 +85,13 @@ function embossedBloom(ctx: CanvasRenderingContext2D, x: number, y: number, size
   ctx.fill();
 }
 
-function embossedText(ctx: CanvasRenderingContext2D, text: string, x: number, y: number, ink: string) {
+function embossedText(
+  ctx: CanvasRenderingContext2D,
+  text: string,
+  x: number,
+  y: number,
+  ink: string,
+) {
   // Engraved: a thin light edge under the ink.
   ctx.fillStyle = "rgba(255, 246, 222, 0.7)";
   ctx.fillText(text, x, y + 1);
@@ -115,7 +126,14 @@ function paintFoil(canvas: HTMLCanvasElement) {
   ctx.fillRect(0, 0, width, height);
 
   // Soft light from the top of the arch.
-  const glow = ctx.createRadialGradient(width / 2, height * 0.15, 0, width / 2, height * 0.15, width * 0.7);
+  const glow = ctx.createRadialGradient(
+    width / 2,
+    height * 0.15,
+    0,
+    width / 2,
+    height * 0.15,
+    width * 0.7,
+  );
   glow.addColorStop(0, "rgba(255, 247, 226, 0.55)");
   glow.addColorStop(1, "rgba(255, 247, 226, 0)");
   ctx.fillStyle = glow;
@@ -124,7 +142,8 @@ function paintFoil(canvas: HTMLCanvasElement) {
   // Brushed-metal streaks.
   ctx.lineWidth = 1;
   for (let i = -height; i < width; i += 3) {
-    ctx.strokeStyle = i % 9 === 0 ? "rgba(255, 248, 228, 0.12)" : "rgba(110, 80, 40, 0.05)";
+    ctx.strokeStyle =
+      i % 9 === 0 ? "rgba(255, 248, 228, 0.12)" : "rgba(110, 80, 40, 0.05)";
     ctx.beginPath();
     ctx.moveTo(i, height);
     ctx.lineTo(i + height * 0.6, 0);
@@ -179,7 +198,13 @@ function paintFoil(canvas: HTMLCanvasElement) {
   ctx.restore();
 
   ctx.font = `500 9.5px ${sans}, sans-serif`;
-  embossedText(ctx, "T O   R E V E A L   T H E   D A T E", width / 2, lineY + 20, "rgba(62, 44, 28, 0.62)");
+  embossedText(
+    ctx,
+    "T O   R E V E A L   T H E   D A T E",
+    width / 2,
+    lineY + 20,
+    "rgba(62, 44, 28, 0.62)",
+  );
 
   ctx.restore();
 }
@@ -229,7 +254,12 @@ export default function ScratchReveal() {
     const canvas = canvasRef.current;
     const ctx = canvas?.getContext("2d", { willReadFrequently: true });
     if (!canvas || !ctx) return;
-    const { data: pixels } = ctx.getImageData(0, 0, canvas.width, canvas.height);
+    const { data: pixels } = ctx.getImageData(
+      0,
+      0,
+      canvas.width,
+      canvas.height,
+    );
     let clear = 0;
     let total = 0;
     for (let i = 3; i < pixels.length; i += 4 * 24) {
@@ -252,7 +282,9 @@ export default function ScratchReveal() {
     const fleck = document.createElement("i");
     const drift = ((moves.current * 37) % 40) - 20;
     fleck.style.cssText = `left:${x}px;top:${y}px;--dx:${drift}px;--s:${2 + (moves.current % 3)}px`;
-    fleck.addEventListener("animationend", () => fleck.remove(), { once: true });
+    fleck.addEventListener("animationend", () => fleck.remove(), {
+      once: true,
+    });
     layer.appendChild(fleck);
   };
 
@@ -282,8 +314,8 @@ export default function ScratchReveal() {
 
   return (
     <InView as="section" className={styles.section} aria-label="The date">
-      <p className={`${styles.kicker} ${shared.kickerIn}`}>Save the date</p>
-      <h2 className={`${styles.title} ${shared.writeIn}`}>A little secret</h2>
+      <p className={`${styles.kicker} ${motion.kickerIn}`}>Save the date</p>
+      <h2 className={`${styles.title} ${motion.writeIn}`}>A little secret</h2>
 
       <div className={styles.stage} data-revealed={revealed ? "true" : "false"}>
         <span className={styles.halo} aria-hidden="true">
@@ -319,7 +351,8 @@ export default function ScratchReveal() {
             }}
             onPointerMove={(event) => {
               if (event.buttons === 0 && event.pointerType === "mouse") return;
-              if (!event.currentTarget.hasPointerCapture(event.pointerId)) return;
+              if (!event.currentTarget.hasPointerCapture(event.pointerId))
+                return;
               const { x, y } = point(event);
               scratch(x, y);
             }}
@@ -330,7 +363,11 @@ export default function ScratchReveal() {
           />
 
           {revealed ? null : (
-            <span className={styles.overlay} data-touched={touched ? "true" : "false"} aria-hidden="true">
+            <span
+              className={styles.overlay}
+              data-touched={touched ? "true" : "false"}
+              aria-hidden="true"
+            >
               <span className={styles.shine} />
               {TWINKLES.map((star, index) => (
                 <i

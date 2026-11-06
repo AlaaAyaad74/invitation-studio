@@ -4,7 +4,8 @@ import { desertBloomInvitation as data } from "@/data/desert-bloom";
 import { useEffect, useRef, useState } from "react";
 import InView from "./InView";
 import { Bloom } from "./Ornaments";
-import shared from "./Invitation.module.css";
+import motion from "./motion.module.css";
+import ui from "./ui.module.css";
 import styles from "./Timeline.module.css";
 
 // Where on screen the flower "sits" while the list scrolls past (0 = top).
@@ -80,12 +81,8 @@ export default function Timeline() {
   return (
     <section className={styles.timeline} aria-label="The evening">
       <InView className={styles.head}>
-        <p className={`${shared.kicker} ${shared.kickerIn}`}>The evening</p>
-        <h2
-          className={`${shared.heading} ${shared.writeIn}`}
-        >
-          How it unfolds
-        </h2>
+        <p className={`${ui.kicker} ${motion.kickerIn}`}>The evening</p>
+        <h2 className={`${ui.heading} ${motion.writeIn}`}>How it unfolds</h2>
       </InView>
 
       <div ref={listRef} className={styles.track}>

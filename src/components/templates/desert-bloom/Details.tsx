@@ -5,7 +5,7 @@ import {
   getCalendarUrl,
 } from "@/data/desert-bloom";
 import InView from "./InView";
-import shared from "./Invitation.module.css";
+import ui from "./ui.module.css";
 import { Bloom, Branch } from "./Ornaments";
 import styles from "./Details.module.css";
 
@@ -82,9 +82,9 @@ export default function Details() {
             <AddToCalendar
               template="desert-bloom"
               href={calendarUrl}
-              className={shared.primary}
+              className={ui.primary}
             >
-              <CalendarIcon className={`${shared.icon} ${shared.iconStroke}`} />
+              <CalendarIcon className={`${ui.icon} ${ui.iconStroke}`} />
               Add to calendar
             </AddToCalendar>
           </InView>

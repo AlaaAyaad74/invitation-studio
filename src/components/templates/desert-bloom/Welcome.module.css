@@ -1,0 +1,158 @@
+.welcome {
+  position: relative;
+  overflow: hidden;
+  padding: 5rem 1.75rem 4.5rem;
+  text-align: center;
+  background:
+    radial-gradient(90% 60% at 50% 0%, color-mix(in srgb, var(--peach) 28%, transparent), transparent 70%),
+    var(--bg);
+}
+
+.welcome > :not(.sunrise) {
+  position: relative;
+}
+
+/* Warm light that rises behind the names. */
+.sunrise {
+  position: absolute;
+  top: 38%;
+  left: 50%;
+  width: 26rem;
+  height: 26rem;
+  margin: -13rem 0 0 -13rem;
+  border-radius: 50%;
+  background: radial-gradient(circle, color-mix(in srgb, var(--peach) 45%, transparent), transparent 65%);
+  opacity: 0;
+  translate: 0 4rem;
+  scale: 0.6;
+  transition:
+    opacity 1.6s ease,
+    translate 2.2s cubic-bezier(0.22, 1, 0.36, 1),
+    scale 2.2s cubic-bezier(0.22, 1, 0.36, 1);
+  pointer-events: none;
+}
+
+[data-in="true"] .sunrise {
+  opacity: 1;
+  translate: 0 0;
+  scale: 1;
+}
+
+.names {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 1.1rem 0 0;
+  color: var(--gold);
+  font-family: var(--font-db-script), cursive;
+  font-size: clamp(3.6rem, 17vw, 4.8rem);
+  font-weight: 400;
+  line-height: 1.05;
+}
+
+/* Each name is written out left to right, like ink. */
+.name {
+  display: block;
+  clip-path: inset(-30% 100% -30% -10%);
+  translate: 0 0.4rem;
+  transition:
+    clip-path 1.4s cubic-bezier(0.65, 0, 0.35, 1),
+    translate 1.4s cubic-bezier(0.22, 1, 0.36, 1);
+  transition-delay: var(--d);
+}
+
+[data-in="true"] .name {
+  clip-path: inset(-30% -10% -30% -10%);
+  translate: 0 0;
+}
+
+/* The ampersand blooms in between them. */
+.amp {
+  display: block;
+  margin: -0.2rem 0;
+  color: var(--gold-soft);
+  font-size: 0.55em;
+  opacity: 0;
+  scale: 0.3;
+  rotate: -40deg;
+  transition:
+    opacity 0.6s ease,
+    scale 0.9s cubic-bezier(0.34, 1.56, 0.64, 1),
+    rotate 0.9s cubic-bezier(0.34, 1.56, 0.64, 1);
+  transition-delay: var(--d);
+}
+
+[data-in="true"] .amp {
+  opacity: 1;
+  scale: 1;
+  rotate: 0deg;
+}
+
+.flourish {
+  display: block;
+  width: 13rem;
+  margin: 0.6rem auto 0;
+}
+
+.flourish path {
+  stroke-dasharray: 1;
+  stroke-dashoffset: 1;
+  transition: stroke-dashoffset 2.2s ease 2.6s;
+}
+
+[data-in="true"] .flourish path {
+  stroke-dashoffset: 0;
+}
+
+.tagline {
+  margin: 1.2rem 0 0;
+  color: var(--text);
+  font-family: var(--font-db-sans), sans-serif;
+  font-size: 0.72rem;
+  font-weight: 400;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+}
+
+.lead {
+  max-width: 21rem;
+  margin: 1.25rem auto 0;
+  color: var(--text-muted);
+  font-size: 1.15rem;
+  font-style: italic;
+  line-height: 1.55;
+}
+
+/* The message appears word by word. */
+.word {
+  display: inline-block;
+  opacity: 0;
+  translate: 0 0.5rem;
+  filter: blur(4px);
+  transition:
+    opacity 0.6s ease,
+    translate 0.7s cubic-bezier(0.22, 1, 0.36, 1),
+    filter 0.6s ease;
+  transition-delay: var(--d);
+}
+
+[data-in="true"] .word {
+  opacity: 1;
+  translate: 0 0;
+  filter: blur(0);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .sunrise,
+  .name,
+  .amp,
+  .word {
+    opacity: 1;
+    clip-path: none;
+    translate: none;
+    scale: none;
+    rotate: none;
+    filter: none;
+    transition: none;
+  }
+}

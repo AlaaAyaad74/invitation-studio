@@ -25,7 +25,7 @@ export default async function VideosPage({
   searchParams: Promise<{ film?: string | string[] }>;
 }) {
   const { film } = await searchParams;
-  const highlightId = readFilmId(film);
+  const filmId = readFilmId(film);
   return (
     <>
       <Header />
@@ -50,7 +50,7 @@ export default async function VideosPage({
             </Reveal>
 
             <div className="mt-12">
-              <VideosGallery videos={videos} highlightId={highlightId} />
+              <VideosGallery videos={videos} initialFilmId={filmId} syncUrl />
             </div>
 
             <Reveal className="mt-16 border border-ivory-deep bg-white/70 p-6 backdrop-blur-sm sm:p-8">
