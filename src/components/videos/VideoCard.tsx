@@ -5,6 +5,7 @@ import { createPortal } from "react-dom";
 import { LuShare2 } from "react-icons/lu";
 import ShareModal from "@/components/ShareModal";
 import type { InvitationVideo } from "@/data/videos";
+import { videoSharePath } from "@/lib/video-share";
 
 type VideoCardProps = {
   video: InvitationVideo;
@@ -20,10 +21,6 @@ function PlayIcon() {
       <path d="M8 5.14v13.72a1 1 0 0 0 1.54.84l10.14-6.86a1 1 0 0 0 0-1.68L9.54 4.3A1 1 0 0 0 8 5.14Z" />
     </svg>
   );
-}
-
-function videoSharePath(id: string) {
-  return `/videos?film=${encodeURIComponent(id)}`;
 }
 
 function PauseIcon() {
