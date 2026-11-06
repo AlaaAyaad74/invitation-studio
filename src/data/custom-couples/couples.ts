@@ -32,7 +32,8 @@ export const customCouples = [
     attire: "Black tie",
     music: "/voices/omar-salma-voice.mp3",
     cover: {
-      image: "/couples/ahmed-doaa/cover.webp",
+      video: "/couples/ahmed-doaa/ahmed_doaa_wedding_card.mp4",
+      poster: "/couples/ahmed-doaa/poster_video.webp",
       alt: "Ahmed and Doaa wedding invitation",
     },
   },

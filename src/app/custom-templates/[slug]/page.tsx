@@ -6,6 +6,7 @@ import {
 } from "@/data/custom-couples/couples";
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
+import { preload } from "react-dom";
 import styles from "../../templates/heritage-script/shell.module.css";
 
 type PageProps = {
@@ -35,6 +36,9 @@ export default async function CustomCoupleInvitationPage({ params }: PageProps) 
   const { slug } = await params;
   const couple = getCouple(slug);
   if (!couple) notFound();
+
+  preload(couple.cover.poster, { as: "image" });
+  preload(couple.cover.video, { as: "video" });
 
   const { first, second, dateLabel } = {
     first: couple.couple.first,

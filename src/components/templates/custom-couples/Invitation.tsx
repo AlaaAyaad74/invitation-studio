@@ -17,7 +17,11 @@ export default function Invitation({ data }: { data: CustomCouple }) {
 
   return (
     <div className={styles.root}>
-      <Cover image={data.cover.image} alt={data.cover.alt} />
+      <Cover
+        video={data.cover.video}
+        poster={data.cover.poster}
+        alt={data.cover.alt}
+      />
       <Countdown start={data.start} dateLabel={dateLabel} />
 
       <section className={styles.details} aria-label="Celebration details">
