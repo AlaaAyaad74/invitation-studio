@@ -1,10 +1,33 @@
 import ImageWithSkeleton from "@/components/ImageWithSkeleton";
 import Reveal from "@/components/Reveal";
 import ShareTemplateButton from "@/components/templates/ShareTemplateButton";
-import { templates } from "@/data/templates";
+import { getTemplates } from "@/data/templates";
+import { getLang } from "@/lib/i18n-server";
 import Link from "next/link";
 
-export default function TemplatesGrid() {
+const COPY = {
+  en: {
+    kicker: "Templates",
+    title: "Invitation sites ready for your names.",
+    lead: "Each design is a complete wedding website choose a look, personalize the details, and share a link your guests will love.",
+    alt: (title: string) => `${title} invitation template`,
+    soon: "Coming soon",
+    preview: "Preview & personalize",
+  },
+  ar: {
+    kicker: "التصاميم",
+    title: "مواقع دعوات جاهزة لأسمائكم.",
+    lead: "كل تصميم موقع زفاف متكامل؛ اختاروا الشكل، وخصّصوا التفاصيل، وشاركوا رابطًا سيحبه ضيوفكم.",
+    alt: (title: string) => `تصميم دعوة ${title}`,
+    soon: "قريبًا",
+    preview: "معاينة وتخصيص",
+  },
+} as const;
+
+export default async function TemplatesGrid() {
+  const lang = await getLang();
+  const t = COPY[lang];
+  const templates = getTemplates(lang);
   return (
     <section id="templates" className="relative overflow-hidden py-20 sm:py-28">
       <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-ivory via-ivory-deep/60 to-ivory" />
@@ -13,14 +36,13 @@ export default function TemplatesGrid() {
       <div className="relative mx-auto max-w-6xl px-5 sm:px-8">
         <Reveal className="max-w-2xl">
           <p className="text-sm tracking-[0.2em] text-rose uppercase">
-            Templates
+            {t.kicker}
           </p>
           <h2 className="mt-3 font-display text-4xl leading-tight text-ink sm:text-5xl">
-            Invitation sites ready for your names.
+            {t.title}
           </h2>
           <p className="mt-4 max-w-lg text-ink-muted">
-            Each design is a complete wedding website—choose a look, personalize
-            the details, and share a link your guests will love.
+            {t.lead}
           </p>
         </Reveal>
 
@@ -31,19 +53,19 @@ export default function TemplatesGrid() {
                 <div className="template-frame relative overflow-hidden bg-ivory-deep">
                   <ImageWithSkeleton
                     src={template.image}
-                    alt={`${template.title} invitation template`}
+                    alt={t.alt(template.title)}
                     fill
                     sizes="(max-width: 640px) 50vw, (max-width: 1024px) 50vw, 33vw"
                     className="object-cover object-top transition duration-700 group-hover:scale-[1.04]"
                     wrapperClassName="absolute inset-0"
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-ink/35 via-transparent to-transparent" />
-                  <span className="absolute bottom-3 left-3 text-[10px] tracking-[0.16em] text-white/90 uppercase sm:bottom-4 sm:left-4 sm:text-xs sm:tracking-[0.18em]">
+                  <span className="absolute bottom-3 start-3 text-[10px] tracking-[0.16em] text-white/90 uppercase sm:bottom-4 sm:start-4 sm:text-xs sm:tracking-[0.18em]">
                     {template.style}
                   </span>
                   {template.comingSoon ? (
-                    <span className="absolute right-2 top-2 bg-white/95 px-2 py-1 text-[9px] tracking-[0.14em] text-ink uppercase sm:right-4 sm:top-4 sm:px-3 sm:py-1.5 sm:text-[11px] sm:tracking-[0.16em]">
-                      Coming soon
+                    <span className="absolute end-2 top-2 bg-white/95 px-2 py-1 text-[9px] tracking-[0.14em] text-ink uppercase sm:end-4 sm:top-4 sm:px-3 sm:py-1.5 sm:text-[11px] sm:tracking-[0.16em]">
+                      {t.soon}
                     </span>
                   ) : null}
                 </div>
@@ -55,9 +77,7 @@ export default function TemplatesGrid() {
                     {template.description}
                   </p>
                   <span className="hidden pt-2 text-sm tracking-wide text-ink-muted uppercase transition group-hover:text-ink sm:inline-flex">
-                    {template.comingSoon
-                      ? "Coming soon"
-                      : "Preview & personalize"}
+                    {template.comingSoon ? t.soon : t.preview}
                   </span>
                 </div>
               </>

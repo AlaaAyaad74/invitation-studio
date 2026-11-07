@@ -1,3 +1,5 @@
+import type { Lang } from "@/lib/i18n";
+
 export type InvitationTemplate = {
   id: string;
   title: string;
@@ -8,7 +10,7 @@ export type InvitationTemplate = {
   href?: string;
 };
 
-export const templates: InvitationTemplate[] = [
+const templates: InvitationTemplate[] = [
   {
     id: "garden-vow",
     title: "Botanical",
@@ -67,7 +69,7 @@ export const templates: InvitationTemplate[] = [
   },
 ];
 
-export const features = [
+const features = [
   {
     title: "Ready-to-personalize sites",
     description:
@@ -90,7 +92,7 @@ export const features = [
   },
 ];
 
-export const services = [
+const services: { title: string; description: string; href?: string }[] = [
   {
     title: "Custom couple logo",
     description:
@@ -119,3 +121,105 @@ export const services = [
       "Seating charts, timelines, and guest guides that match your invitation aesthetic.",
   },
 ];
+
+const arabicTemplates: Record<string, Pick<InvitationTemplate, "title" | "style" | "description">> = {
+  "garden-vow": {
+    title: "بوتانيكال",
+    style: "استوديو",
+    description: "تصميم دعوة جديد، جاهز لمحتوى يحكي قصتكم.",
+  },
+  elegant: {
+    title: "إليجانت",
+    style: "أنيق",
+    description: "قوس من الورود وممر في حديقة؛ دعوة تشبه الخطو نحو النور.",
+  },
+  "coastal-light": {
+    title: "ضوء الساحل",
+    style: "بسيط",
+    description: "تصاميم خفيفة مستوحاة من عهود على شاطئ البحر وآفاق هادئة.",
+  },
+  "heritage-script": {
+    title: "الخط التراثي",
+    style: "كلاسيكي",
+    description: "طقم رسمي بلون القرمز؛ خط عربي وذهب وضوء المساء.",
+  },
+  "desert-bloom": {
+    title: "زهرة الصحراء",
+    style: "عصري",
+    description: "ظرف من الدانتيل وختم من الشمع وورود بلون الخوخ؛ اكسروا الختم لتبدأ الحكاية.",
+  },
+  "atelier-rose": {
+    title: "أتيليه الورد",
+    style: "رومانسي",
+    description: "لمسات وردية وطبقات من الورق المزخرف لأيام حميمة.",
+  },
+};
+
+const arabicFeatures = [
+  {
+    title: "مواقع جاهزة للتخصيص",
+    description:
+      "كل تصميم موقع دعوة متكامل، يشمل تأكيد الحضور والبرنامج ومعرض الصور والخريطة.",
+  },
+  {
+    title: "أناقة على الجوال أولًا",
+    description:
+      "يفتح ضيوفكم تجربة راقية على أي هاتف، بتحميل سريع وتنقّل واضح.",
+  },
+  {
+    title: "متابعة تأكيد الحضور مباشرة",
+    description:
+      "اجمعوا تأكيدات الحضور والمرافقين واختيارات الطعام في مكان واحد يمكنكم مشاركته مع منظّم الحفل.",
+  },
+  {
+    title: "دعم عدة لغات",
+    description:
+      "اعرضوا قصتكم باللغات التي تتحدثها عائلاتكم، دون إعادة بناء التصميم.",
+  },
+];
+
+const arabicServices = [
+  {
+    title: "شعار مخصص للعرسان",
+    description:
+      "حروف أولى أو توقيع مصمم حول أسمائكم، يُستخدم في الموقع وبطاقة حفظ الموعد وكل المطبوعات.",
+  },
+  {
+    title: "صور الدعوات",
+    description:
+      "بطاقات دعوة مصممة للواتساب والطباعة ووسائل التواصل، مخصصة بأسمائكم وتاريخكم وتفاصيلكم.",
+    href: "/photos",
+  },
+  {
+    title: "موقع دعوة فريد",
+    description:
+      "نصمم تخطيطًا لا مثيل له من لوحة الإلهام وصور القاعة وتفاصيل الحفل.",
+  },
+  {
+    title: "معرض الصور والفيديو",
+    description:
+      "معارض مختارة لصور الخطوبة ومقاطع سينمائية قصيرة تبدو جزءًا من الدعوة نفسها.",
+    href: "/videos",
+  },
+  {
+    title: "باقة يوم الزفاف الرقمية",
+    description:
+      "مخططات الجلوس وبرنامج الحفل وأدلة الضيوف بنفس روح تصميم دعوتكم.",
+  },
+];
+
+export function getTemplates(lang: Lang): InvitationTemplate[] {
+  if (lang === "en") return templates;
+  return templates.map((template) => ({
+    ...template,
+    ...arabicTemplates[template.id],
+  }));
+}
+
+export function getFeatures(lang: Lang) {
+  return lang === "ar" ? arabicFeatures : features;
+}
+
+export function getServices(lang: Lang) {
+  return lang === "ar" ? arabicServices : services;
+}

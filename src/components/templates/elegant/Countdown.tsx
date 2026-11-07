@@ -1,25 +1,39 @@
 "use client";
 
-import CountdownLines from "@/app/common/icons/CountdownLines";
+import CountdownLinesIcon from "@/components/icons/CountdownLinesIcon";
 import Reveal from "@/components/Reveal";
-import { elegantInvitation as data } from "@/data/elegant";
+import type { ElegantInvitation } from "@/data/elegant";
+import { fullDate, templateCopy } from "@/data/template-copy";
 import { pad, useRemainingTime } from "@/hooks/useRemainingTime";
 
-const UNITS = [
-  { key: "hours", label: "Hours" },
-  { key: "minutes", label: "Minutes" },
-  { key: "seconds", label: "Seconds" },
-] as const;
+const UNITS = ["hours", "minutes", "seconds"] as const;
 
-export default function Countdown() {
+const COPY = {
+  en: {
+    label: "The countdown",
+    title: "until the arch opens",
+    done: "The garden is open",
+    days: "Days",
+  },
+  ar: {
+    label: "العد التنازلي",
+    title: "حتى يُفتح القوس",
+    done: "الحديقة بانتظاركم",
+    days: "يومًا",
+  },
+} as const;
+
+export default function Countdown({ data }: { data: ElegantInvitation }) {
   const remaining = useRemainingTime(data.start);
+  const t = COPY[data.lang];
+  const common = templateCopy(data.lang);
 
-  const dateLine = `${data.dateLabel.weekday}, ${data.dateLabel.day} ${data.dateLabel.month} ${data.dateLabel.year}`;
+  const dateLine = fullDate(data.dateLabel, data.lang);
 
   return (
     <section
       className="relative overflow-hidden px-5 pt-[3.4rem] pb-[2.4rem] text-center"
-      aria-label="Countdown to the wedding"
+      aria-label={common.countdownLabel}
     >
       <div
         className="pointer-events-none absolute top-0"
@@ -31,24 +45,24 @@ export default function Countdown() {
         }}
         aria-hidden="true"
       >
-        <CountdownLines />
+        <CountdownLinesIcon />
       </div>
 
       <Reveal className="relative pt-8" style={{ paddingTop: "2rem" }}>
         <p className="text-[0.68rem] tracking-[0.34em] text-e-rose uppercase">
-          The countdown
+          {t.label}
         </p>
         <h2 className="mt-2 font-pinyon text-[clamp(2.5rem,10vw,3.15rem)] leading-none font-normal text-e-ink">
-          until the arch opens
+          {t.title}
         </h2>
 
         {remaining?.done ? (
           <div className="my-8">
             <p className="font-pinyon text-6xl leading-none text-e-rose">
-              Today
+              {common.today}
             </p>
             <p className="mt-2 text-[0.72rem] tracking-[0.22em] text-e-muted uppercase">
-              The garden is open
+              {t.done}
             </p>
           </div>
         ) : (
@@ -77,22 +91,22 @@ export default function Countdown() {
                   {remaining ? remaining.days : "—"}
                 </span>
                 <span className="mt-2 block text-[0.66rem] tracking-[0.32em] text-e-muted uppercase">
-                  Days
+                  {t.days}
                 </span>
               </p>
             </div>
 
             <div className="mx-auto mt-5 grid max-w-72 grid-cols-3 gap-1.5">
               {UNITS.map((unit) => (
-                <div key={unit.key}>
+                <div key={unit}>
                   <span
-                    key={remaining?.[unit.key] ?? unit.key}
+                    key={remaining?.[unit] ?? unit}
                     className="block animate-e-tick font-bodoni text-[1.85rem] leading-none font-medium text-e-ink"
                   >
-                    {remaining ? pad(remaining[unit.key]) : "—"}
+                    {remaining ? pad(remaining[unit]) : "—"}
                   </span>
                   <span className="mt-1 block text-[0.58rem] tracking-[0.18em] text-e-muted uppercase">
-                    {unit.label}
+                    {common.units[unit]}
                   </span>
                 </div>
               ))}

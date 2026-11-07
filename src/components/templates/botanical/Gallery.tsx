@@ -1,15 +1,23 @@
 "use client";
 
+import WaveOrnamentIcon from "@/components/icons/WaveOrnamentIcon";
 import { useEffect, useState } from "react";
 import ImageWithSkeleton from "@/components/ImageWithSkeleton";
 import Reveal from "@/components/Reveal";
 import { capitalName, type BotanicalContent } from "@/data/botanical";
+import { templateCopy } from "@/data/template-copy";
 import styles from "./Gallery.module.css";
 
 type Photo = BotanicalContent["gallery"][number];
 
 export default function Gallery({ data }: { data: BotanicalContent }) {
   const [active, setActive] = useState<Photo | null>(null);
+  const lang = data.lang ?? "en";
+  const common = templateCopy(lang);
+  const t =
+    lang === "ar"
+      ? { label: "صورنا", hint: "لقطات من المرح" }
+      : { label: "Our gallery", hint: "A few stills from the meadow" };
 
   useEffect(() => {
     if (!active) return;
@@ -28,26 +36,18 @@ export default function Gallery({ data }: { data: BotanicalContent }) {
   }, [active]);
 
   return (
-    <section className={styles.section} aria-label="Photos">
+    <section className={styles.section} aria-label={common.photos}>
       <Reveal className={styles.intro}>
-        <p className={styles.label}>Our gallery</p>
+        <p className={styles.label}>{t.label}</p>
         <p className={`${styles.script} ${styles.brush}`}>
           {capitalName(data.couple.first)} & {capitalName(data.couple.second)}
         </p>
         <div className={styles.ornament} aria-hidden="true">
           <span />
-          <svg width="18" height="10" viewBox="0 0 18 10" fill="none">
-            <path
-              d="M1 5c3.2-4.2 6.4-4.2 8 0 1.6-4.2 4.8-4.2 8 0"
-              stroke="currentColor"
-              strokeWidth="1"
-            />
-          </svg>
+          <WaveOrnamentIcon />
           <span />
         </div>
-        <p className={styles.hint}>
-          {data.galleryHint ?? "A few stills from the meadow"}
-        </p>
+        <p className={styles.hint}>{data.galleryHint ?? t.hint}</p>
       </Reveal>
 
       <div className={styles.masonry}>
@@ -71,7 +71,8 @@ export default function Gallery({ data }: { data: BotanicalContent }) {
                 skeletonClassName="min-h-48"
               />
               <span className={styles.credit}>
-                {capitalName(data.couple.first)} & {capitalName(data.couple.second)}
+                {capitalName(data.couple.first)} &{" "}
+                {capitalName(data.couple.second)}
               </span>
             </button>
           </Reveal>

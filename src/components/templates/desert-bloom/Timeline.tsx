@@ -1,9 +1,9 @@
 "use client";
 
-import { desertBloomInvitation as data } from "@/data/desert-bloom";
+import type { DesertBloomInvitation } from "@/data/desert-bloom";
 import { useEffect, useRef, useState } from "react";
 import InView from "./InView";
-import { Bloom } from "./Ornaments";
+import BloomIcon from "@/components/icons/BloomIcon";
 import motion from "./motion.module.css";
 import ui from "./ui.module.css";
 import styles from "./Timeline.module.css";
@@ -11,7 +11,8 @@ import styles from "./Timeline.module.css";
 // Where on screen the flower "sits" while the list scrolls past (0 = top).
 const ANCHOR = 0.55;
 
-export default function Timeline() {
+export default function Timeline({ data }: { data: DesertBloomInvitation }) {
+  const ar = data.lang === "ar";
   const listRef = useRef<HTMLDivElement>(null);
   const [reached, setReached] = useState(-1);
 
@@ -79,17 +80,21 @@ export default function Timeline() {
   }, []);
 
   return (
-    <section className={styles.timeline} aria-label="The evening">
+    <section className={styles.timeline} aria-label={ar ? "الأمسية" : "The evening"}>
       <InView className={styles.head}>
-        <p className={`${ui.kicker} ${motion.kickerIn}`}>The evening</p>
-        <h2 className={`${ui.heading} ${motion.writeIn}`}>How it unfolds</h2>
+        <p className={`${ui.kicker} ${motion.kickerIn}`}>
+          {ar ? "الأمسية" : "The evening"}
+        </p>
+        <h2 className={`${ui.heading} ${motion.writeIn}`}>
+          {ar ? "كيف تمضي الأمسية" : "How it unfolds"}
+        </h2>
       </InView>
 
       <div ref={listRef} className={styles.track}>
         <span className={styles.rail} aria-hidden="true" />
         <span className={styles.trail} aria-hidden="true" />
         <span className={styles.traveler} aria-hidden="true">
-          <Bloom className={styles.travelerBloom} />
+          <BloomIcon className={styles.travelerBloom} />
         </span>
 
         <ol className={styles.moments}>
@@ -102,7 +107,7 @@ export default function Timeline() {
               data-reached={index <= reached ? "true" : "false"}
             >
               <span className={styles.node} data-node>
-                <Bloom className={styles.nodeBloom} />
+                <BloomIcon className={styles.nodeBloom} />
               </span>
               <span className={styles.time}>{moment.time}</span>
               <strong className={styles.momentTitle}>{moment.title}</strong>

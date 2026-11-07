@@ -1,6 +1,9 @@
 "use client";
 
-import { desertBloomInvitation as data } from "@/data/desert-bloom";
+import ReplayIcon from "@/components/icons/ReplayIcon";
+import ScrollDownCompactIcon from "@/components/icons/ScrollDownCompactIcon";
+import type { DesertBloomInvitation } from "@/data/desert-bloom";
+import { templateCopy } from "@/data/template-copy";
 import { useEffect, useRef, useState, type CSSProperties } from "react";
 import styles from "./VideoCover.module.css";
 
@@ -12,8 +15,28 @@ const SPARKS = Array.from({ length: 14 }, (_, index) => ({
   size: 4 + (index % 4),
 }));
 
-export default function VideoCover() {
+const COPY = {
+  en: {
+    seal: "Break the seal to open the invitation",
+    hint: "Tap the seal",
+    hintSmall: "to open your invitation",
+    replay: "Replay the opening",
+    scroll: "Scroll to the invitation",
+    discover: "Discover",
+  },
+  ar: {
+    seal: "اكسر الختم لفتح الدعوة",
+    hint: "المس الختم",
+    hintSmall: "لتفتح دعوتك",
+    replay: "إعادة مشهد الافتتاح",
+    scroll: "انتقل إلى الدعوة",
+    discover: "اكتشف",
+  },
+} as const;
+
+export default function VideoCover({ data }: { data: DesertBloomInvitation }) {
   const { hero, couple } = data;
+  const t = COPY[data.lang];
   const videoRef = useRef<HTMLVideoElement>(null);
   const coverRef = useRef<HTMLElement>(null);
   const phaseRef = useRef<Phase>("sealed");
@@ -112,7 +135,7 @@ export default function VideoCover() {
     <section
       ref={coverRef}
       className={styles.cover}
-      aria-label={`${couple.first} and ${couple.second}`}
+      aria-label={templateCopy(data.lang).and(couple.first, couple.second)}
       data-phase={phase}
     >
       <video
@@ -146,11 +169,11 @@ export default function VideoCover() {
               type="button"
               className={styles.seal}
               onClick={play}
-              aria-label="Break the seal to open the invitation"
+              aria-label={t.seal}
             ></button>
             <p className={styles.hint} aria-hidden="true">
-              <span className={styles.hintScript}>Tap the seal</span>
-              <span className={styles.hintSmall}>to open your invitation</span>
+              <span className={styles.hintScript}>{t.hint}</span>
+              <span className={styles.hintSmall}>{t.hintSmall}</span>
             </p>
           </>
         ) : null}
@@ -181,34 +204,18 @@ export default function VideoCover() {
             type="button"
             className={styles.replay}
             onClick={play}
-            aria-label="Replay the opening"
+            aria-label={t.replay}
           >
-            <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
-              <path
-                d="M4.5 12a7.5 7.5 0 1 0 2.2-5.3M4.5 4.5v3.8h3.8"
-                stroke="currentColor"
-                strokeWidth="1.8"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              />
-            </svg>
+            <ReplayIcon />
           </button>
           <button
             type="button"
             className={styles.scroll}
             onClick={scrollOn}
-            aria-label="Scroll to the invitation"
+            aria-label={t.scroll}
           >
-            <span>Discover</span>
-            <svg viewBox="0 0 24 28" fill="none" aria-hidden="true">
-              <path
-                d="M6 8 12 14 18 8M6 15 12 21 18 15"
-                stroke="currentColor"
-                strokeWidth="1.8"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              />
-            </svg>
+            <span>{t.discover}</span>
+            <ScrollDownCompactIcon />
           </button>
         </div>
       ) : null}

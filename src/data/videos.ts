@@ -4,6 +4,7 @@ import path from "node:path";
 export type InvitationVideo = {
   id: string;
   title: string;
+  titleAr: string;
   src: string;
 };
 
@@ -34,6 +35,26 @@ const videoTitles: Record<string, string> = {
   "WhatsApp_Video_2026-10-30_at_1_11_04_PM.mp4": "First Dance",
 };
 
+const arabicTitles: Record<string, string> = {
+  "Garden Aisle": "ممر الحديقة",
+  "Gold Arch": "القوس الذهبي",
+  "Rose Procession": "زفة الورود",
+  "Lantern Night": "ليلة الفوانيس",
+  "Palace Courtyard": "فناء القصر",
+  "Blush Canopy": "المظلة الوردية",
+  "Sage Promise": "وعد المريمية",
+  "Henna Hour": "ساعة الحنة",
+  "Floral Gate": "بوابة الزهور",
+  "Candlelit Names": "أسماء على ضوء الشموع",
+  "Terrace Blessing": "بركة الشرفة",
+  "Orchard Light": "ضوء البستان",
+  "Moonlit Entry": "دخول تحت القمر",
+  "Jasmine Frame": "إطار الياسمين",
+  "Velvet Evening": "أمسية مخملية",
+  "Soft Horizon": "أفق ناعم",
+  "First Dance": "الرقصة الأولى",
+};
+
 function readVideos(): InvitationVideo[] {
   const files = readdirSync(VIDEO_DIR)
     .filter((file) => file.toLowerCase().endsWith(".mp4") && !hiddenVideos.has(file))
@@ -46,9 +67,11 @@ function readVideos(): InvitationVideo[] {
       .replace(/[^a-z0-9]+/g, "-")
       .replace(/^-|-$/g, "");
 
+    const title = videoTitles[file];
     return {
       id,
-      title: videoTitles[file] ?? `Film ${index + 1}`,
+      title: title ?? `Film ${index + 1}`,
+      titleAr: (title && arabicTitles[title]) ?? `فيلم ${index + 1}`,
       src: `/videos/compressed/${file}`,
     };
   });

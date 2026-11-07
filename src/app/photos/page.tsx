@@ -4,7 +4,27 @@ import Header from "@/components/Header";
 import Reveal from "@/components/Reveal";
 import PhotosGallery from "@/components/photos/PhotosGallery";
 import { photos } from "@/data/photos";
+import { getLang } from "@/lib/i18n-server";
 import { siteConfig } from "@/lib/site";
+
+const COPY = {
+  en: {
+    kicker: "Invitation photos",
+    title: "A still invitation, made for your story.",
+    lead: "Choose a sample as a starting point. We rewrite the names, date, venue, and language so the card feels like yours—ready for WhatsApp, print, or a save-the-date.",
+    ctaTitle: "Commission an invitation photo",
+    ctaLead: "Send your names, date, venue, and a sample you love. Message us on Instagram and we will reply with a custom quote.",
+    quote: "Request a custom quote",
+  },
+  ar: {
+    kicker: "صور الدعوات",
+    title: "دعوة مصوّرة، مصممة لقصتكم.",
+    lead: "اختاروا نموذجًا كنقطة بداية، ونعيد كتابة الأسماء والتاريخ والمكان واللغة لتصبح البطاقة خاصة بكم؛ جاهزة للواتساب أو الطباعة أو بطاقة حفظ الموعد.",
+    ctaTitle: "اطلبوا صورة دعوتكم",
+    ctaLead: "أرسلوا أسماءكم والتاريخ والمكان ونموذجًا أعجبكم. راسلونا على إنستغرام وسنرد عليكم بعرض سعر مخصص.",
+    quote: "اطلب عرض سعر",
+  },
+} as const;
 
 export const metadata: Metadata = {
   title: "Invitation Photos",
@@ -26,6 +46,7 @@ export default async function PhotosPage({
 }) {
   const { card } = await searchParams;
   const initialCardId = readCardId(card);
+  const t = COPY[await getLang()];
 
   return (
     <>
@@ -39,15 +60,13 @@ export default async function PhotosPage({
           <div className="relative mx-auto max-w-6xl px-5 sm:px-8">
             <Reveal className="max-w-2xl">
               <p className="text-sm tracking-[0.2em] text-rose uppercase">
-                Invitation photos
+                {t.kicker}
               </p>
               <h1 className="mt-3 font-display text-4xl leading-tight text-ink sm:text-5xl">
-                A still invitation, made for your story.
+                {t.title}
               </h1>
               <p className="mt-4 max-w-xl text-ink-muted">
-                Choose a sample as a starting point. We rewrite the names, date,
-                venue, and language so the card feels like yours—ready for
-                WhatsApp, print, or a save-the-date.
+                {t.lead}
               </p>
             </Reveal>
 
@@ -61,11 +80,10 @@ export default async function PhotosPage({
 
             <Reveal className="mt-16 border border-ivory-deep bg-white/70 p-6 backdrop-blur-sm sm:p-8">
               <p className="font-display text-3xl text-ink">
-                Commission an invitation photo
+                {t.ctaTitle}
               </p>
               <p className="mt-3 max-w-xl text-sm leading-relaxed text-ink-muted">
-                Send your names, date, venue, and a sample you love. Message us
-                on Instagram and we will reply with a custom quote.
+                {t.ctaLead}
               </p>
               <a
                 href={siteConfig.instagramDmUrl}
@@ -73,7 +91,7 @@ export default async function PhotosPage({
                 rel="noopener noreferrer"
                 className="mt-6 inline-flex bg-sage-deep px-5 py-3 text-sm text-white transition hover:bg-sage"
               >
-                Request a custom quote
+                {t.quote}
               </a>
             </Reveal>
           </div>

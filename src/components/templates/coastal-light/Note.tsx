@@ -1,14 +1,15 @@
 import Reveal from "@/components/Reveal";
-import { coastalLightInvitation as data } from "@/data/coastal-light";
+import type { CoastalLightInvitation } from "@/data/coastal-light";
 import styles from "./Note.module.css";
 
-export default function Note() {
+export default function Note({ data }: { data: CoastalLightInvitation }) {
+  const label = data.lang === "ar" ? "كلمة" : "A note";
   return (
-    <section className={styles.section} aria-label="A note">
+    <section className={styles.section} aria-label={label}>
       <Reveal>
         <p className={styles.index}>
           <span>03</span>
-          A note
+          {label}
         </p>
       </Reveal>
       <Reveal delayMs={90}>

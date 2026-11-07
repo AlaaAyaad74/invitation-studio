@@ -3,8 +3,13 @@
 import Image from "next/image";
 import { useEffect, useRef, useState, type CSSProperties } from "react";
 import { createPortal } from "react-dom";
+import { useLang } from "@/components/i18n/LangProvider";
 import ShareModal from "@/components/ShareModal";
-import { getPhotoSharePath, type InvitationPhoto } from "@/data/photos";
+import {
+  getPhotoSharePath,
+  photoTitle,
+  type InvitationPhoto,
+} from "@/data/photos";
 import { LuShare2 } from "react-icons/lu";
 
 const ASPECTS = [
@@ -30,6 +35,18 @@ export default function LazyPhotoCard({
   const [shareOpen, setShareOpen] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
   const aspect = ASPECTS[index % ASPECTS.length];
+  const lang = useLang();
+  const title = photoTitle(photo, lang);
+  const t =
+    lang === "ar"
+      ? {
+          alt: `صورة دعوة ${title}`,
+          share: `مشاركة ${title}`,
+        }
+      : {
+          alt: `${title} invitation photo`,
+          share: `Share ${title}`,
+        };
 
   useEffect(() => {
     const node = containerRef.current;
@@ -76,7 +93,7 @@ export default function LazyPhotoCard({
       {shouldLoad ? (
         <Image
           src={photo.image}
-          alt={`${photo.title} invitation photo`}
+          alt={t.alt}
           width={900}
           height={1200}
           sizes="33vw"
@@ -90,7 +107,7 @@ export default function LazyPhotoCard({
       ) : null}
       <button
         type="button"
-        aria-label={`Share ${photo.title}`}
+        aria-label={t.share}
         aria-haspopup="dialog"
         aria-expanded={shareOpen}
         onClick={(event) => {
@@ -99,7 +116,7 @@ export default function LazyPhotoCard({
         }}
         style={{
           top: 10,
-          right: 10,
+          insetInlineEnd: 10,
           width: 36,
           height: 36,
           backgroundColor: "#fff",
@@ -112,9 +129,9 @@ export default function LazyPhotoCard({
       {shareOpen
         ? createPortal(
             <ShareModal
-              title={photo.title}
+              title={title}
               path={getPhotoSharePath(photo.id)}
-              message={`${photo.title} invitation photo`}
+              message={t.alt}
               onClose={() => setShareOpen(false)}
             />,
             document.body,

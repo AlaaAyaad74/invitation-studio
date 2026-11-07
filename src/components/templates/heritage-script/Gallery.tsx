@@ -1,16 +1,20 @@
 "use client";
 
+import WaveOrnamentIcon from "@/components/icons/WaveOrnamentIcon";
 import ImageWithSkeleton from "@/components/ImageWithSkeleton";
 import FadeIn from "@/components/templates/heritage-script/FadeIn";
 import Reveal from "@/components/Reveal";
-import { heritageInvitation as data } from "@/data/heritage-script";
+import type { HeritageInvitation } from "@/data/heritage-script";
+import { templateCopy } from "@/data/template-copy";
 import { useEffect, useState } from "react";
 import styles from "./Gallery.module.css";
 
-type Photo = (typeof data.gallery)[number];
+type Photo = HeritageInvitation["gallery"][number];
 
-export default function Gallery() {
+export default function Gallery({ data }: { data: HeritageInvitation }) {
   const [active, setActive] = useState<Photo | null>(null);
+  const common = templateCopy(data.lang);
+  const ar = data.lang === "ar";
 
   useEffect(() => {
     if (!active) return;
@@ -29,10 +33,10 @@ export default function Gallery() {
   }, [active]);
 
   return (
-    <section className={styles.section} aria-label="Photos">
+    <section className={styles.section} aria-label={common.photos}>
       <div className={styles.intro}>
         <FadeIn>
-          <p className={styles.label}>Our gallery</p>
+          <p className={styles.label}>{ar ? "معرض صورنا" : "Our gallery"}</p>
         </FadeIn>
         <FadeIn delay={220}>
           <p className={styles.script}>
@@ -42,18 +46,14 @@ export default function Gallery() {
         <FadeIn delay={420}>
           <div className={styles.ornament} aria-hidden="true">
             <span />
-            <svg width="18" height="10" viewBox="0 0 18 10" fill="none">
-              <path
-                d="M1 5c3.2-4.2 6.4-4.2 8 0 1.6-4.2 4.8-4.2 8 0"
-                stroke="currentColor"
-                strokeWidth="1"
-              />
-            </svg>
+            <WaveOrnamentIcon />
             <span />
           </div>
         </FadeIn>
         <FadeIn delay={620}>
-          <p className={styles.hint}>A few stills from the evening</p>
+          <p className={styles.hint}>
+            {ar ? "لقطات من الأمسية" : "A few stills from the evening"}
+          </p>
         </FadeIn>
       </div>
 
@@ -63,7 +63,7 @@ export default function Gallery() {
             <button
               type="button"
               className={styles.item}
-              aria-label={`Open photo: ${photo.alt}`}
+              aria-label={common.openPhoto(photo.alt)}
               onClick={() => setActive(photo)}
             >
               <ImageWithSkeleton

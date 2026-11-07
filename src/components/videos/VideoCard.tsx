@@ -1,8 +1,11 @@
 "use client";
 
+import VideoPauseIcon from "@/components/icons/VideoPauseIcon";
+import VideoPlayIcon from "@/components/icons/VideoPlayIcon";
 import { useCallback, useEffect, useRef, useState, type CSSProperties } from "react";
 import { createPortal } from "react-dom";
 import { LuShare2 } from "react-icons/lu";
+import { useLang } from "@/components/i18n/LangProvider";
 import ShareModal from "@/components/ShareModal";
 import type { InvitationVideo } from "@/data/videos";
 import { videoSharePath } from "@/lib/video-share";
@@ -14,22 +17,6 @@ type VideoCardProps = {
   register: (id: string, element: HTMLVideoElement | null) => void;
   onPlay: (id: string) => void;
 };
-
-function PlayIcon() {
-  return (
-    <svg viewBox="0 0 24 24" aria-hidden="true">
-      <path d="M8 5.14v13.72a1 1 0 0 0 1.54.84l10.14-6.86a1 1 0 0 0 0-1.68L9.54 4.3A1 1 0 0 0 8 5.14Z" />
-    </svg>
-  );
-}
-
-function PauseIcon() {
-  return (
-    <svg viewBox="0 0 24 24" aria-hidden="true">
-      <path d="M6.5 5h3.5v14H6.5zM14 5h3.5v14H14z" />
-    </svg>
-  );
-}
 
 export default function VideoCard({
   video,
@@ -48,6 +35,24 @@ export default function VideoCard({
   const [ready, setReady] = useState(false);
   const [playing, setPlaying] = useState(false);
   const [shareOpen, setShareOpen] = useState(false);
+  const lang = useLang();
+  const title = lang === "ar" ? video.titleAr : video.title;
+  const t =
+    lang === "ar"
+      ? {
+          film: "فيلم",
+          play: `تشغيل ${title}`,
+          pause: `إيقاف ${title}`,
+          share: `مشاركة ${title}`,
+          message: `فيديو دعوة ${title}`,
+        }
+      : {
+          film: "Film",
+          play: `Play ${title}`,
+          pause: `Pause ${title}`,
+          share: `Share ${title}`,
+          message: `${title} invitation film`,
+        };
 
   const setVideoNode = useCallback(
     (node: HTMLVideoElement | null) => {
@@ -189,7 +194,7 @@ export default function VideoCard({
             src={`${video.src}#t=0.001`}
             playsInline
             preload="metadata"
-            aria-label={video.title}
+            aria-label={title}
             onLoadedData={() => {
               const node = videoRef.current;
               if (node) revealFrame(node);
@@ -211,29 +216,29 @@ export default function VideoCard({
         {playing ? (
           <button
             type="button"
-            aria-label={`Pause ${video.title}`}
+            aria-label={t.pause}
             onClick={pause}
             className="video-play video-play-pause"
           >
             <span className="video-play-icon">
-              <PauseIcon />
+              <VideoPauseIcon />
             </span>
           </button>
         ) : (
           <button
             type="button"
-            aria-label={`Play ${video.title}`}
+            aria-label={t.play}
             onClick={play}
             className="video-play"
           >
             <span className="video-play-icon">
-              <PlayIcon />
+              <VideoPlayIcon />
             </span>
           </button>
         )}
         <button
           type="button"
-          aria-label={`Share ${video.title}`}
+          aria-label={t.share}
           aria-haspopup="dialog"
           aria-expanded={shareOpen}
           onClick={(event) => {
@@ -242,7 +247,7 @@ export default function VideoCard({
           }}
           style={{
             top: 10,
-            right: 10,
+            insetInlineEnd: 10,
             width: 36,
             height: 36,
             backgroundColor: "#fff",
@@ -256,9 +261,9 @@ export default function VideoCard({
         {shareOpen
           ? createPortal(
               <ShareModal
-                title={video.title}
+                title={title}
                 path={videoSharePath(video.id)}
-                message={`${video.title} invitation film`}
+                message={t.message}
                 onClose={() => setShareOpen(false)}
               />,
               document.body,
@@ -266,8 +271,8 @@ export default function VideoCard({
           : null}
       </div>
       <figcaption>
-        <p className="text-sm tracking-[0.2em] text-rose uppercase">Film</p>
-        <p className="mt-1 font-display text-lg leading-tight text-ink sm:text-2xl">{video.title}</p>
+        <p className="text-sm tracking-[0.2em] text-rose uppercase">{t.film}</p>
+        <p className="mt-1 font-display text-lg leading-tight text-ink sm:text-2xl">{title}</p>
       </figcaption>
     </figure>
   );

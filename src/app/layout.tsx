@@ -1,7 +1,11 @@
 import type { Metadata, Viewport } from "next";
 import { Analytics } from "@vercel/analytics/next";
 import { Cormorant_Garamond, Figtree, Great_Vibes } from "next/font/google";
+import { arabicFontStyle, arabicFontVariables } from "@/app/fonts-ar";
+import { LangProvider } from "@/components/i18n/LangProvider";
 import VisitTracker from "@/components/VisitTracker";
+import { dirOf } from "@/lib/i18n";
+import { getLang } from "@/lib/i18n-server";
 import { getSiteUrl, siteConfig } from "@/lib/site";
 import "./globals.css";
 
@@ -141,16 +145,24 @@ const jsonLd = {
   ],
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const lang = await getLang();
+
   return (
     <html
-      lang="en"
+      lang={lang}
+      dir={dirOf(lang)}
       data-scroll-behavior="smooth"
-      className={`${figtree.variable} ${cormorant.variable} ${greatVibes.variable} h-full antialiased`}
+      className={`${figtree.variable} ${cormorant.variable} ${greatVibes.variable} ${arabicFontVariables} h-full antialiased`}
+      style={arabicFontStyle(lang, {
+        "--font-figtree": ["sans", figtree],
+        "--font-cormorant": ["serif", cormorant],
+        "--font-great-vibes": ["script", greatVibes],
+      })}
       suppressHydrationWarning
     >
       <body className="min-h-full flex flex-col font-sans" suppressHydrationWarning>
@@ -158,7 +170,7 @@ export default function RootLayout({
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
         />
-        {children}
+        <LangProvider lang={lang}>{children}</LangProvider>
         <VisitTracker />
         <Analytics />
       </body>

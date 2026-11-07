@@ -1,5 +1,6 @@
 "use client";
 
+import { useLang } from "@/components/i18n/LangProvider";
 import { photoFilters, type PhotoFilterId } from "@/data/photos";
 
 type PhotosFiltersProps = {
@@ -8,11 +9,12 @@ type PhotosFiltersProps = {
 };
 
 export default function PhotosFilters({ value, onChange }: PhotosFiltersProps) {
+  const lang = useLang();
   return (
     <div
       className="flex flex-wrap gap-2"
       role="group"
-      aria-label="Filter invitation photos"
+      aria-label={lang === "ar" ? "تصفية صور الدعوات" : "Filter invitation photos"}
     >
       {photoFilters.map((item) => {
         const selected = value === item.id;
@@ -28,7 +30,7 @@ export default function PhotosFilters({ value, onChange }: PhotosFiltersProps) {
                 : "bg-white text-ink-muted hover:text-ink"
             }`}
           >
-            {item.label}
+            {item.label[lang]}
           </button>
         );
       })}

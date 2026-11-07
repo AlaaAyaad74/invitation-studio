@@ -4,7 +4,23 @@ import { useEffect, useId } from "react";
 import ImageWithSkeleton from "@/components/ImageWithSkeleton";
 import { useHorizontalSwipe } from "@/hooks/useHorizontalSwipe";
 import { LuChevronLeft, LuChevronRight, LuX } from "react-icons/lu";
-import type { InvitationPhoto } from "@/data/photos";
+import { useLang } from "@/components/i18n/LangProvider";
+import { photoTitle, type InvitationPhoto } from "@/data/photos";
+
+const COPY = {
+  en: {
+    close: "Close",
+    previous: "Previous card",
+    next: "Next card",
+    alt: (title: string) => `${title} invitation photo`,
+  },
+  ar: {
+    close: "إغلاق",
+    previous: "البطاقة السابقة",
+    next: "البطاقة التالية",
+    alt: (title: string) => `صورة دعوة ${title}`,
+  },
+} as const;
 
 type PhotoModalProps = {
   photo: InvitationPhoto;
@@ -20,6 +36,9 @@ export default function PhotoModal({
   onNext,
 }: PhotoModalProps) {
   const titleId = useId();
+  const lang = useLang();
+  const t = COPY[lang];
+  const title = photoTitle(photo, lang);
   const swipe = useHorizontalSwipe(onNext, onPrevious);
 
   useEffect(() => {
@@ -52,7 +71,7 @@ export default function PhotoModal({
       onClickCapture={swipe.onClickCapture}
     >
       <h2 id={titleId} className="sr-only">
-        {photo.title}
+        {title}
       </h2>
 
       <div className="absolute right-4 top-4 z-20 sm:right-6 sm:top-6">
@@ -62,7 +81,7 @@ export default function PhotoModal({
             event.stopPropagation();
             onClose();
           }}
-          aria-label="Close"
+          aria-label={t.close}
           className="inline-flex h-11 w-11 items-center justify-center rounded-full bg-white text-ink shadow-[0_10px_30px_-8px_rgba(0,0,0,0.45)] transition hover:bg-ivory"
         >
           <LuX className="h-6 w-6" strokeWidth={2.6} />
@@ -75,7 +94,7 @@ export default function PhotoModal({
           event.stopPropagation();
           onPrevious();
         }}
-        aria-label="Previous card"
+        aria-label={t.previous}
         className="absolute left-3 top-1/2 z-20 hidden h-11 w-11 -translate-y-1/2 items-center justify-center rounded-full bg-white text-ink shadow-[0_10px_30px_-8px_rgba(0,0,0,0.45)] transition hover:bg-ivory sm:left-6 sm:h-12 sm:w-12 md:flex"
       >
         <LuChevronLeft className="h-6 w-6" strokeWidth={2.4} />
@@ -87,7 +106,7 @@ export default function PhotoModal({
           event.stopPropagation();
           onNext();
         }}
-        aria-label="Next card"
+        aria-label={t.next}
         className="absolute right-3 top-1/2 z-20 hidden h-11 w-11 -translate-y-1/2 items-center justify-center rounded-full bg-white text-ink shadow-[0_10px_30px_-8px_rgba(0,0,0,0.45)] transition hover:bg-ivory sm:right-6 sm:h-12 sm:w-12 md:flex"
       >
         <LuChevronRight className="h-6 w-6" strokeWidth={2.4} />
@@ -99,7 +118,7 @@ export default function PhotoModal({
       >
         <ImageWithSkeleton
           src={photo.image}
-          alt={`${photo.title} invitation photo`}
+          alt={t.alt(title)}
           width={900}
           height={1200}
           sizes="(max-width: 768px) 80vw, 384px"

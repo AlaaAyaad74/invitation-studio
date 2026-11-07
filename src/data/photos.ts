@@ -1,6 +1,8 @@
 export type PhotoKind = "wedding" | "engagement";
 export type PhotoSpan = "normal" | "tall" | "wide" | "hero";
 
+import type { Lang } from "@/lib/i18n";
+
 export type InvitationPhoto = {
   id: string;
   title: string;
@@ -247,11 +249,42 @@ export const photos: InvitationPhoto[] = [
 ];
 
 export const photoFilters = [
-  { id: "all", label: "All" },
-  { id: "wedding", label: "Wedding" },
-  { id: "engagement", label: "Engagement" },
-  { id: "arabic", label: "Arabic" },
+  { id: "all", label: { en: "All", ar: "الكل" } },
+  { id: "wedding", label: { en: "Wedding", ar: "زفاف" } },
+  { id: "engagement", label: { en: "Engagement", ar: "خطوبة" } },
+  { id: "arabic", label: { en: "Arabic", ar: "عربي" } },
 ] as const;
+
+const arabicTitles: Record<string, string> = {
+  "royal-crimson": "القرمزي الملكي",
+  "khutubah-garden": "حديقة الخطوبة",
+  "sage-bouquet": "باقة المريمية",
+  "ivory-arch": "القوس العاجي",
+  "vintage-rose": "الوردة العتيقة",
+  "terracotta-hibiscus": "كركديه التيراكوتا",
+  "nikkah-gazebo": "عريشة كتب الكتاب",
+  "walima-crimson": "وليمة قرمزية",
+  "lace-keepsake": "تذكار الدانتيل",
+  "meadow-table": "مائدة المرج",
+  "palace-promise": "وعد القصر",
+  "garden-commitment": "عهد الحديقة",
+  "lemon-vine": "كرمة الليمون",
+  "sage-naskh": "نسخ المريمية",
+  "floral-canopy": "مظلة الزهور",
+  "blush-peony": "الفاوانيا الوردية",
+  "peach-lantern": "فانوس الخوخ",
+  "wine-lantern": "الفانوس العنابي",
+  "lotus-blue": "اللوتس الأزرق",
+  "dove-oval": "بيضاوي الحمام",
+  "henna-night": "ليلة الحنة",
+  "palace-arabic": "القصر العربي",
+  "palace-blessing": "بركة القصر",
+};
+
+/** The card's title in the visitor's language. */
+export function photoTitle(photo: InvitationPhoto, lang: Lang) {
+  return lang === "ar" ? (arabicTitles[photo.id] ?? photo.title) : photo.title;
+}
 
 export type PhotoFilterId = (typeof photoFilters)[number]["id"];
 

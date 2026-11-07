@@ -1,5 +1,7 @@
 import ImageWithSkeleton from "@/components/ImageWithSkeleton";
 import Invitation from "@/components/templates/elegant/Invitation";
+import { elegantInvitations } from "@/data/elegant";
+import { getLang } from "@/lib/i18n-server";
 import type { Metadata } from "next";
 import { preload } from "react-dom";
 
@@ -15,7 +17,8 @@ export const metadata: Metadata = {
   },
 };
 
-export default function ElegantTemplatePage() {
+export default async function ElegantTemplatePage() {
+  const data = elegantInvitations[await getLang()];
   preload("/elegant/elegant-empty-poster.webp", { as: "image" });
   preload(VIDEO_SRC, { as: "video" });
 
@@ -34,7 +37,7 @@ export default function ElegantTemplatePage() {
       </aside>
 
       <main className="relative z-10 mx-auto min-h-svh w-full min-w-[280px] max-w-[480px] overflow-x-hidden bg-e-cream min-[720px]:mr-0 min-[720px]:ml-auto min-[720px]:w-[480px] min-[720px]:max-w-none min-[720px]:shadow-[-28px_0_70px_-24px_rgba(8,18,16,0.55)]">
-        <Invitation />
+        <Invitation data={data} />
       </main>
     </div>
   );

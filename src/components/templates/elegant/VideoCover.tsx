@@ -1,7 +1,7 @@
 "use client";
 
 import ImageWithSkeleton from "@/components/ImageWithSkeleton";
-import { elegantInvitation as data } from "@/data/elegant";
+import type { ElegantInvitation } from "@/data/elegant";
 import { useEffect, useRef, useState } from "react";
 
 const VIDEO_SRC = "/elegant/elegant_hero_video.mp4";
@@ -36,7 +36,7 @@ function cue(animation = "animate-e-rise", extra = "") {
     .join(" ");
 }
 
-export default function VideoCover() {
+export default function VideoCover({ data }: { data: ElegantInvitation }) {
   const videoRef = useRef<HTMLVideoElement>(null);
   const [ready, setReady] = useState(false);
   const [videoOn, setVideoOn] = useState(false);

@@ -1,12 +1,15 @@
-import { heritageInvitation as data } from "@/data/heritage-script";
+import type { HeritageInvitation } from "@/data/heritage-script";
+import { fullDate } from "@/data/template-copy";
 import Image from "next/image";
 import styles from "./LetterCard.module.css";
 
-const DATE = `${data.dateLabel.weekday}, ${data.dateLabel.day} ${data.dateLabel.month} ${data.dateLabel.year}`;
-
-export default function LetterCard() {
+export default function LetterCard({ data }: { data: HeritageInvitation }) {
+  const DATE = fullDate(data.dateLabel, data.lang);
   return (
-    <section className={styles.card} aria-label="Invitation">
+    <section
+      className={styles.card}
+      aria-label={data.lang === "ar" ? "الدعوة" : "Invitation"}
+    >
       <p className={styles.srOnly}>
         {data.kicker} {data.honour} {data.couple.first} & {data.couple.second}{" "}
         {DATE}

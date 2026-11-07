@@ -1,11 +1,30 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import { useLang } from "@/components/i18n/LangProvider";
 import { siteConfig } from "@/lib/site";
 
 const POSTER_SRC = "/videos/hero-poster.jpg";
 
+const COPY = {
+  en: {
+    brand: "Invitation Studio",
+    title: "Invitation websites that feel like the day itself.",
+    lead: "Browse invitation websites, photos, and films, then make them yours or let us craft a custom site with your couple logo and story.",
+    templates: "View templates",
+    custom: "Custom services",
+  },
+  ar: {
+    brand: "استوديو الدعوات",
+    title: "مواقع دعوات تحمل إحساس يومكم المميز.",
+    lead: "تصفّحوا مواقع الدعوات والصور والفيديوهات، واجعلوها خاصة بكم، أو دعونا نصمم لكم موقعًا فريدًا بشعاركما وقصتكما.",
+    templates: "تصفّح التصاميم",
+    custom: "خدمات مخصصة",
+  },
+} as const;
+
 export default function Hero() {
+  const t = COPY[useLang()];
   const videoRef = useRef<HTMLVideoElement>(null);
   const [playing, setPlaying] = useState(false);
 
@@ -35,7 +54,10 @@ export default function Hero() {
     video.addEventListener("canplay", tryPlay);
     document.addEventListener("visibilitychange", onVisible);
     window.addEventListener("pageshow", tryPlay);
-    window.addEventListener("touchstart", tryPlay, { once: true, passive: true });
+    window.addEventListener("touchstart", tryPlay, {
+      once: true,
+      passive: true,
+    });
 
     return () => {
       video.removeEventListener("loadeddata", tryPlay);
@@ -85,22 +107,21 @@ export default function Hero() {
 
       <div className="relative z-10 mx-auto w-full max-w-6xl px-5 pb-16 pt-32 sm:px-8 sm:pb-24">
         <p className="animate-fade-up font-display text-4xl leading-[0.95] tracking-[0.04em] text-white sm:text-6xl md:text-7xl">
-          Invitation Studio
+          {t.brand}
         </p>
         <h1 className="animate-fade-up delay-1 mt-5 max-w-xl font-display text-2xl leading-snug text-white/95 sm:text-3xl md:text-4xl">
           <span className="sr-only">{siteConfig.name}. </span>
-          Invitation websites that feel like the day itself.
+          {t.title}
         </h1>
         <p className="animate-fade-up delay-2 mt-4 max-w-md text-base leading-relaxed text-white/80 sm:text-lg">
-          Browse invitation websites, photos, and films, then make them
-          yours—or let us craft a custom site with your couple logo and story.
+          {t.lead}
         </p>
         <div className="animate-fade-up delay-3 mt-8 flex flex-wrap gap-3">
           <a
             href="#templates"
             className="bg-white px-6 py-3 text-sm tracking-wide text-ink transition hover:bg-ivory"
           >
-            View templates
+            {t.templates}
           </a>
           <a
             href={siteConfig.instagramDmUrl}
@@ -108,7 +129,7 @@ export default function Hero() {
             rel="noopener noreferrer"
             className="border border-white/50 px-6 py-3 text-sm tracking-wide text-white transition hover:bg-white/10"
           >
-            Custom services
+            {t.custom}
           </a>
         </div>
       </div>

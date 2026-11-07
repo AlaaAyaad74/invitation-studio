@@ -1,5 +1,5 @@
 import MusicPlayer from "@/components/templates/MusicPlayer";
-import { desertBloomInvitation as data } from "@/data/desert-bloom";
+import type { DesertBloomInvitation } from "@/data/desert-bloom";
 import Countdown from "./Countdown";
 import Details from "./Details";
 import Footer from "./Footer";
@@ -12,23 +12,23 @@ import VideoCover from "./VideoCover";
 import Welcome from "./Welcome";
 import styles from "./Invitation.module.css";
 
-export default function Invitation() {
+export default function Invitation({ data }: { data: DesertBloomInvitation }) {
   return (
     <div className={styles.root}>
-      <VideoCover />
+      <VideoCover data={data} />
 
-      <Welcome />
+      <Welcome data={data} />
 
-      <ScratchReveal />
-      <Countdown />
+      <ScratchReveal data={data} />
+      <Countdown data={data} />
 
-      <Timeline />
+      <Timeline data={data} />
 
-      <Details />
+      <Details data={data} />
 
-      <Gallery />
+      <Gallery data={data} />
 
-      <Rsvp />
+      <Rsvp data={data} />
 
       <Footer />
 

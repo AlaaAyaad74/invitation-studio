@@ -1,6 +1,9 @@
 "use client";
 
+import MusicPauseIcon from "@/components/icons/MusicPauseIcon";
+import MusicPlayIcon from "@/components/icons/MusicPlayIcon";
 import { useEffect, useRef, useState } from "react";
+import { useLang } from "@/components/i18n/LangProvider";
 import styles from "./MusicPlayer.module.css";
 
 type MusicPlayerProps = {
@@ -19,10 +22,9 @@ const GESTURE_EVENTS = [
 
 const SCROLL_EVENTS = ["scroll", "wheel"] as const;
 
-export default function MusicPlayer({
-  src,
-  label = "Invitation music",
-}: MusicPlayerProps) {
+export default function MusicPlayer({ src, label }: MusicPlayerProps) {
+  const ar = useLang() === "ar";
+  const name = label ?? (ar ? "موسيقى الدعوة" : "Invitation music");
   const audioRef = useRef<HTMLAudioElement>(null);
   const buttonRef = useRef<HTMLButtonElement>(null);
   const userPaused = useRef(false);
@@ -182,41 +184,24 @@ export default function MusicPlayer({
         type="button"
         className={styles.control}
         onClick={toggle}
-        aria-label={playing ? `Pause ${label}` : `Play ${label}`}
+        aria-label={
+          ar
+            ? `${playing ? "إيقاف" : "تشغيل"} ${name}`
+            : `${playing ? "Pause" : "Play"} ${name}`
+        }
         aria-pressed={playing}
       >
         <span className={styles.glyph}>
-          <PlayIcon active={!playing} />
-          <PauseIcon active={playing} />
+          <MusicPlayIcon
+            className={styles.icon}
+            data-active={!playing ? "true" : "false"}
+          />
+          <MusicPauseIcon
+            className={styles.icon}
+            data-active={playing ? "true" : "false"}
+          />
         </span>
       </button>
     </>
-  );
-}
-
-function PlayIcon({ active }: { active: boolean }) {
-  return (
-    <svg
-      className={styles.icon}
-      data-active={active ? "true" : "false"}
-      viewBox="0 0 24 24"
-      aria-hidden="true"
-    >
-      <path d="M5 5a2 2 0 0 1 3.008-1.728l11.997 6.998a2 2 0 0 1 .003 3.458l-12 7A2 2 0 0 1 5 19z" />
-    </svg>
-  );
-}
-
-function PauseIcon({ active }: { active: boolean }) {
-  return (
-    <svg
-      className={styles.icon}
-      data-active={active ? "true" : "false"}
-      viewBox="0 0 24 24"
-      aria-hidden="true"
-    >
-      <rect x="14" y="3" width="5" height="18" rx="1" />
-      <rect x="5" y="3" width="5" height="18" rx="1" />
-    </svg>
   );
 }

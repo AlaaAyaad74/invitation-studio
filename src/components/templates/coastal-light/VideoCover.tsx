@@ -1,14 +1,17 @@
 "use client";
 
+import ScrollDownIcon from "@/components/icons/ScrollDownIcon";
 import ImageWithSkeleton from "@/components/ImageWithSkeleton";
-import { coastalLightInvitation as data } from "@/data/coastal-light";
+import type { CoastalLightInvitation } from "@/data/coastal-light";
+import { templateCopy } from "@/data/template-copy";
 import { useEffect, useRef, useState } from "react";
 import styles from "./VideoCover.module.css";
 
 const VIDEO_SRC = "/minimal/minimal-hero.mp4";
 const POSTER_SRC = "/minimal/hero-poster.webp";
 
-export default function VideoCover() {
+export default function VideoCover({ data }: { data: CoastalLightInvitation }) {
+  const common = templateCopy(data.lang);
   const videoRef = useRef<HTMLVideoElement>(null);
   const coverRef = useRef<HTMLElement>(null);
   const openedRef = useRef(false);
@@ -109,7 +112,7 @@ export default function VideoCover() {
     <section
       ref={coverRef}
       className={styles.cover}
-      aria-label={`${data.couple.first} and ${data.couple.second}`}
+      aria-label={common.and(data.couple.first, data.couple.second)}
     >
       <div className={styles.frame}>
         <video
@@ -139,7 +142,7 @@ export default function VideoCover() {
         {opened ? null : (
           <button type="button" className={styles.seal} onClick={open}>
             <span>
-              <em>Tap to open</em>
+              <em>{data.lang === "ar" ? "اضغط للفتح" : "Tap to open"}</em>
               <i aria-hidden="true" />
             </span>
           </button>
@@ -150,24 +153,9 @@ export default function VideoCover() {
             type="button"
             className={styles.scroll}
             onClick={scrollOn}
-            aria-label="Scroll down"
+            aria-label={common.scrollDown}
           >
-            <svg viewBox="0 0 24 28" fill="none" aria-hidden="true">
-              <path
-                d="M6 6.5 12 12.5 18 6.5"
-                stroke="currentColor"
-                strokeWidth="2.2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              />
-              <path
-                d="M6 14.5 12 20.5 18 14.5"
-                stroke="currentColor"
-                strokeWidth="2.2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              />
-            </svg>
+            <ScrollDownIcon strokeWidth={2.2} />
           </button>
         ) : null}
       </div>

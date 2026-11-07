@@ -11,9 +11,12 @@ function escapeHtml(value: string) {
 
 function androidLandingPage(event: CalendarEvent) {
   const intent = androidCalendarUrl(event);
+  // Arabic invitations register their events as "<template>-ar".
+  const ar = event.id.endsWith("-ar");
+  const lang = ar ? "ar" : "en";
 
   return `<!DOCTYPE html>
-<html lang="en">
+<html lang="${lang}" dir="${ar ? "rtl" : "ltr"}">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -35,11 +38,11 @@ function androidLandingPage(event: CalendarEvent) {
   <h1>${escapeHtml(event.title)}</h1>
   <p id="date"></p>
   <p>${escapeHtml(event.location)}</p>
-  <a id="add" href="${escapeHtml(intent)}">Add to calendar</a>
+  <a id="add" href="${escapeHtml(intent)}">${ar ? "أضف إلى التقويم" : "Add to calendar"}</a>
 </main>
 <script>
   var start = new Date(${JSON.stringify(event.start)});
-  document.getElementById("date").textContent = start.toLocaleString(undefined, { dateStyle: "full", timeStyle: "short" });
+  document.getElementById("date").textContent = start.toLocaleString(${ar ? '"ar-EG"' : "undefined"}, { dateStyle: "full", timeStyle: "short" });
   window.location.href = document.getElementById("add").href;
 </script>
 </body>

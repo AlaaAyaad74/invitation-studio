@@ -4,7 +4,27 @@ import Header from "@/components/Header";
 import Reveal from "@/components/Reveal";
 import VideosGallery from "@/components/videos/VideosGallery";
 import { videos } from "@/data/videos";
+import { getLang } from "@/lib/i18n-server";
 import { siteConfig } from "@/lib/site";
+
+const COPY = {
+  en: {
+    kicker: "Invitation videos",
+    title: "A moving invitation, ready to share.",
+    lead: "Press play on any film. Starting another pauses the one that was running, so only one video plays at a time.",
+    ctaTitle: "Commission an invitation film",
+    ctaLead: "Send your names, date, and a sample you love. Message us on Instagram and we will reply with a custom quote.",
+    quote: "Request a custom quote",
+  },
+  ar: {
+    kicker: "فيديوهات الدعوات",
+    title: "دعوة نابضة بالحياة، جاهزة للمشاركة.",
+    lead: "شغّلوا أي فيلم، وعند تشغيل فيلم آخر يتوقف الأول تلقائيًا، فلا يعمل إلا فيديو واحد في كل مرة.",
+    ctaTitle: "اطلبوا فيديو دعوتكم",
+    ctaLead: "أرسلوا أسماءكم والتاريخ ونموذجًا أعجبكم. راسلونا على إنستغرام وسنرد عليكم بعرض سعر مخصص.",
+    quote: "اطلب عرض سعر",
+  },
+} as const;
 
 export const metadata: Metadata = {
   title: "Invitation Videos",
@@ -26,6 +46,7 @@ export default async function VideosPage({
 }) {
   const { film } = await searchParams;
   const filmId = readFilmId(film);
+  const t = COPY[await getLang()];
   return (
     <>
       <Header />
@@ -38,14 +59,13 @@ export default async function VideosPage({
           <div className="relative mx-auto max-w-6xl px-5 sm:px-8">
             <Reveal className="max-w-2xl">
               <p className="text-sm tracking-[0.2em] text-rose uppercase">
-                Invitation videos
+                {t.kicker}
               </p>
               <h1 className="mt-3 font-display text-4xl leading-tight text-ink sm:text-5xl">
-                A moving invitation, ready to share.
+                {t.title}
               </h1>
               <p className="mt-4 max-w-xl text-ink-muted">
-                Press play on any film. Starting another pauses the one that
-                was running, so only one video plays at a time.
+                {t.lead}
               </p>
             </Reveal>
 
@@ -55,11 +75,10 @@ export default async function VideosPage({
 
             <Reveal className="mt-16 border border-ivory-deep bg-white/70 p-6 backdrop-blur-sm sm:p-8">
               <p className="font-display text-3xl text-ink">
-                Commission an invitation film
+                {t.ctaTitle}
               </p>
               <p className="mt-3 max-w-xl text-sm leading-relaxed text-ink-muted">
-                Send your names, date, and a sample you love. Message us on
-                Instagram and we will reply with a custom quote.
+                {t.ctaLead}
               </p>
               <a
                 href={siteConfig.instagramDmUrl}
@@ -67,7 +86,7 @@ export default async function VideosPage({
                 rel="noopener noreferrer"
                 className="mt-6 inline-flex bg-sage-deep px-5 py-3 text-sm text-white transition hover:bg-sage"
               >
-                Request a custom quote
+                {t.quote}
               </a>
             </Reveal>
           </div>

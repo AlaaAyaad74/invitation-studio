@@ -1,39 +1,48 @@
 "use client";
 
+import CornerFlourishIcon from "@/components/icons/CornerFlourishIcon";
+import WaveOrnamentIcon from "@/components/icons/WaveOrnamentIcon";
 import { type BotanicalContent } from "@/data/botanical";
+import { fullDate, templateCopy } from "@/data/template-copy";
 import Reveal from "@/components/Reveal";
 import { pad, useRemainingTime } from "@/hooks/useRemainingTime";
 import styles from "./Countdown.module.css";
 
-const UNITS = [
-  { key: "hours", label: "Hours" },
-  { key: "minutes", label: "Minutes" },
-  { key: "seconds", label: "Seconds" },
-] as const;
+const UNITS = ["hours", "minutes", "seconds"] as const;
+
+const COPY = {
+  en: {
+    label: "The countdown",
+    script: "until we say I do",
+    done: "We are married",
+    daysToGo: "Days to go",
+  },
+  ar: {
+    label: "العد التنازلي",
+    script: "حتى نقول تمت",
+    done: "لقد تزوجنا",
+    daysToGo: "يومًا متبقيًا",
+  },
+} as const;
 
 function Corner({ className }: { className: string }) {
   return (
     <span className={`${styles.corner} ${className}`} aria-hidden="true">
-      <svg viewBox="0 0 24 24" fill="none">
-        <path d="M3 21C3 12 12 3 21 3" stroke="currentColor" strokeWidth="1.2" />
-        <path
-          d="M7 21c0-6.2 6.3-13 14-14"
-          stroke="currentColor"
-          strokeWidth="1.2"
-          opacity="0.55"
-        />
-      </svg>
+      <CornerFlourishIcon />
     </span>
   );
 }
 
 export default function Countdown({ data }: { data: BotanicalContent }) {
   const remaining = useRemainingTime(data.start);
+  const lang = data.lang ?? "en";
+  const t = COPY[lang];
+  const common = templateCopy(lang);
 
-  const dateLine = `${data.dateLabel.weekday}, ${data.dateLabel.day} ${data.dateLabel.month} ${data.dateLabel.year}`;
+  const dateLine = fullDate(data.dateLabel, lang);
 
   return (
-    <section className={styles.section} aria-label="Countdown to the wedding">
+    <section className={styles.section} aria-label={common.countdownLabel}>
       <div className={styles.glow} />
       <div className={styles.petal} />
       <div className={styles.petalTwo} />
@@ -44,24 +53,18 @@ export default function Countdown({ data }: { data: BotanicalContent }) {
         <Corner className={styles.bl} />
         <Corner className={styles.br} />
 
-        <p className={styles.label}>The countdown</p>
-        <p className={styles.script}>until we say I do</p>
+        <p className={styles.label}>{t.label}</p>
+        <p className={styles.script}>{t.script}</p>
         <div className={styles.ornament} aria-hidden="true">
           <span />
-          <svg width="18" height="10" viewBox="0 0 18 10" fill="none">
-            <path
-              d="M1 5c3.2-4.2 6.4-4.2 8 0 1.6-4.2 4.8-4.2 8 0"
-              stroke="currentColor"
-              strokeWidth="1"
-            />
-          </svg>
+          <WaveOrnamentIcon />
           <span />
         </div>
 
         {remaining?.done ? (
           <div className={styles.done}>
-            <p className={styles.doneTitle}>Today</p>
-            <p className={styles.doneCopy}>We are married</p>
+            <p className={styles.doneTitle}>{common.today}</p>
+            <p className={styles.doneCopy}>{t.done}</p>
           </div>
         ) : (
           <>
@@ -72,19 +75,19 @@ export default function Countdown({ data }: { data: BotanicalContent }) {
               >
                 {remaining ? remaining.days : "—"}
               </span>
-              <span className={styles.daysLabel}>Days to go</span>
+              <span className={styles.daysLabel}>{t.daysToGo}</span>
             </p>
 
             <div className={styles.row}>
               {UNITS.map((unit) => (
-                <div key={unit.key} className={styles.unit}>
+                <div key={unit} className={styles.unit}>
                   <span
-                    key={remaining?.[unit.key] ?? unit.key}
+                    key={remaining?.[unit] ?? unit}
                     className={`${styles.unitValue} ${styles.tick}`}
                   >
-                    {remaining ? pad(remaining[unit.key]) : "—"}
+                    {remaining ? pad(remaining[unit]) : "—"}
                   </span>
-                  <span className={styles.unitLabel}>{unit.label}</span>
+                  <span className={styles.unitLabel}>{common.units[unit]}</span>
                 </div>
               ))}
             </div>

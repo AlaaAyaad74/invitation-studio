@@ -3,6 +3,7 @@
 import { useCallback, useState } from "react";
 import { createPortal } from "react-dom";
 import { LuShare2 } from "react-icons/lu";
+import { useLang } from "@/components/i18n/LangProvider";
 import ShareModal from "@/components/ShareModal";
 
 type ShareTemplateButtonProps = {
@@ -16,6 +17,7 @@ export default function ShareTemplateButton({
 }: ShareTemplateButtonProps) {
   const [open, setOpen] = useState(false);
   const close = useCallback(() => setOpen(false), []);
+  const lang = useLang();
 
   return (
     <>
@@ -23,11 +25,11 @@ export default function ShareTemplateButton({
         type="button"
         aria-haspopup="dialog"
         aria-expanded={open}
-        aria-label={`Share ${title}`}
+        aria-label={lang === "ar" ? `مشاركة ${title}` : `Share ${title}`}
         onClick={() => setOpen(true)}
         style={{
           top: 10,
-          left: 10,
+          insetInlineStart: 10,
           width: 36,
           height: 36,
           backgroundColor: "#fff",

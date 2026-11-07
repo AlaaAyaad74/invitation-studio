@@ -1,5 +1,5 @@
 import {
-  Amiri,
+  Almarai,
   Cinzel,
   Cormorant_Garamond,
   Great_Vibes,
@@ -28,7 +28,7 @@ const script = Great_Vibes({
   weight: "400",
 });
 
-const amiri = Amiri({
+const almarai = Almarai({
   variable: "--font-amiri",
   subsets: ["arabic", "latin"],
   display: "swap",
@@ -42,7 +42,7 @@ export default function CustomTemplateLayout({
 }) {
   return (
     <div
-      className={`${cinzel.variable} ${cormorant.variable} ${script.variable} ${amiri.variable} min-h-full`}
+      className={`${cinzel.variable} ${cormorant.variable} ${script.variable} ${almarai.variable} min-h-full`}
     >
       {children}
     </div>

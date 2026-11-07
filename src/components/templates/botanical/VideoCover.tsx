@@ -1,7 +1,9 @@
 "use client";
 
+import ScrollDownIcon from "@/components/icons/ScrollDownIcon";
 import { useEffect, useState } from "react";
 import { capitalName, type BotanicalContent } from "@/data/botanical";
+import { templateCopy } from "@/data/template-copy";
 import styles from "./VideoCover.module.css";
 
 const VIDEO_SRC = "/botanical/Botanical.mp4";
@@ -93,29 +95,9 @@ export default function VideoCover({ data }: { data: BotanicalContent }) {
 
       <div
         className={`${styles.line} ${styles.d8} ${styles.scroll}`}
-        aria-label="Scroll"
+        aria-label={templateCopy(data.lang ?? "en").scroll}
       >
-        <svg
-          className={styles.arrow}
-          viewBox="0 0 24 28"
-          fill="none"
-          aria-hidden="true"
-        >
-          <path
-            d="M6 6.5 12 12.5 18 6.5"
-            stroke="currentColor"
-            strokeWidth="1.4"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-          />
-          <path
-            d="M6 14.5 12 20.5 18 14.5"
-            stroke="currentColor"
-            strokeWidth="1.4"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-          />
-        </svg>
+        <ScrollDownIcon className={styles.arrow} />
       </div>
     </section>
   );
