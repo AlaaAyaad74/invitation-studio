@@ -1,9 +1,9 @@
 "use client";
 
+import PauseIcon from "@/app/common/icons/PauseIcon";
+import PlayIcon from "@/app/common/icons/PlayIcon";
 import { useCallback, useEffect, useRef, useState, type CSSProperties } from "react";
-import { createPortal } from "react-dom";
-import { LuShare2 } from "react-icons/lu";
-import ShareModal from "@/components/ShareModal";
+import ShareButton from "@/components/ShareButton";
 import type { InvitationVideo } from "@/data/videos";
 import { videoSharePath } from "@/lib/video-share";
 
@@ -15,21 +15,19 @@ type VideoCardProps = {
   onPlay: (id: string) => void;
 };
 
-function PlayIcon() {
-  return (
-    <svg viewBox="0 0 24 24" aria-hidden="true">
-      <path d="M8 5.14v13.72a1 1 0 0 0 1.54.84l10.14-6.86a1 1 0 0 0 0-1.68L9.54 4.3A1 1 0 0 0 8 5.14Z" />
-    </svg>
-  );
-}
-
-function PauseIcon() {
-  return (
-    <svg viewBox="0 0 24 24" aria-hidden="true">
-      <path d="M6.5 5h3.5v14H6.5zM14 5h3.5v14H14z" />
-    </svg>
-  );
-}
+const styles = {
+  card: "photo-reveal border border-ink/10 bg-[#fff] p-0 shadow-[0_22px_50px_-30px_color-mix(in_srgb,var(--ink)_70%,transparent)]",
+  frame: "relative aspect-[9/16] overflow-hidden bg-ivory-deep",
+  video: "video-no-controls absolute inset-0 h-full w-full bg-ink object-cover",
+  skeleton: "image-skeleton absolute inset-0 h-full w-full",
+  play: "group absolute inset-0 z-10 flex cursor-pointer items-center justify-center bg-ink/18",
+  pause: "group absolute inset-0 z-10 flex cursor-pointer items-center justify-center bg-transparent",
+  icon: "flex h-10 w-10 shrink-0 items-center justify-center rounded-full border border-gold/55 bg-ink/82 text-[#fff] shadow-[0_8px_16px_-8px_rgba(0,0,0,0.8)] transition-transform duration-300 ease-[ease] group-hover:scale-[1.05] motion-reduce:transition-none motion-reduce:group-hover:scale-none [&_svg]:ml-[0.12rem] [&_svg]:h-[0.9rem] [&_svg]:w-[0.9rem] [&_svg]:fill-current",
+  // Only real hover shows the pause icon: a tap on a phone leaves :hover
+  // stuck, which kept the icon on top of a playing film.
+  pauseIcon: "opacity-0 group-focus-visible:opacity-100 [@media(hover:hover)]:group-hover:opacity-100 [&_svg]:ml-0",
+  caption: "px-[0.6rem] pt-[0.55rem] pb-[0.7rem] sm:px-4 sm:pt-[0.9rem] sm:pb-4",
+};
 
 export default function VideoCard({
   video,
@@ -47,7 +45,6 @@ export default function VideoCard({
   const [shouldLoad, setShouldLoad] = useState(index < 3 || highlighted);
   const [ready, setReady] = useState(false);
   const [playing, setPlaying] = useState(false);
-  const [shareOpen, setShareOpen] = useState(false);
 
   const setVideoNode = useCallback(
     (node: HTMLVideoElement | null) => {
@@ -178,13 +175,14 @@ export default function VideoCard({
   return (
     <figure
       ref={containerRef}
-      className="video-card photo-reveal"
+      className={styles.card}
       style={{ "--reveal-delay": `${(index % 3) * 80}ms` } as CSSProperties}
     >
-      <div className="video-frame">
+      <div className={styles.frame}>
         {shouldLoad ? (
           <video
             ref={setVideoNode}
+            className={styles.video}
             style={{ opacity: ready ? 1 : 0 }}
             src={`${video.src}#t=0.001`}
             playsInline
@@ -207,15 +205,15 @@ export default function VideoCard({
             onEnded={() => setPlaying(false)}
           />
         ) : null}
-        {ready ? null : <div aria-hidden className="image-skeleton" />}
+        {ready ? null : <div aria-hidden className={styles.skeleton} />}
         {playing ? (
           <button
             type="button"
             aria-label={`Pause ${video.title}`}
             onClick={pause}
-            className="video-play video-play-pause"
+            className={styles.pause}
           >
-            <span className="video-play-icon">
+            <span className={`${styles.icon} ${styles.pauseIcon}`}>
               <PauseIcon />
             </span>
           </button>
@@ -224,48 +222,21 @@ export default function VideoCard({
             type="button"
             aria-label={`Play ${video.title}`}
             onClick={play}
-            className="video-play"
+            className={styles.play}
           >
-            <span className="video-play-icon">
+            <span className={styles.icon}>
               <PlayIcon />
             </span>
           </button>
         )}
-        <button
-          type="button"
-          aria-label={`Share ${video.title}`}
-          aria-haspopup="dialog"
-          aria-expanded={shareOpen}
-          onClick={(event) => {
-            event.stopPropagation();
-            setShareOpen(true);
-          }}
-          style={{
-            top: 10,
-            right: 10,
-            width: 36,
-            height: 36,
-            backgroundColor: "#fff",
-            cursor: "pointer",
-            zIndex: 20,
-          }}
-          className="absolute inline-flex items-center justify-center rounded-full text-ink shadow-[0_8px_18px_-10px_rgba(0,0,0,0.55)]"
-        >
-          <LuShare2 className="h-4 w-4" strokeWidth={2.2} />
-        </button>
-        {shareOpen
-          ? createPortal(
-              <ShareModal
-                title={video.title}
-                path={videoSharePath(video.id)}
-                message={`${video.title} invitation film`}
-                onClose={() => setShareOpen(false)}
-              />,
-              document.body,
-            )
-          : null}
+        <ShareButton
+          title={video.title}
+          path={videoSharePath(video.id)}
+          message={`${video.title} invitation film`}
+          zIndex={20}
+        />
       </div>
-      <figcaption>
+      <figcaption className={styles.caption}>
         <p className="text-sm tracking-[0.2em] text-rose uppercase">Film</p>
         <p className="mt-1 font-display text-lg leading-tight text-ink sm:text-2xl">{video.title}</p>
       </figcaption>

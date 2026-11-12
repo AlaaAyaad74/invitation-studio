@@ -1,3 +1,4 @@
+import MapPinIcon from "@/app/common/icons/MapPinIcon";
 import CalendarIcon from "@/app/common/icons/CalendarIcon";
 import Reveal from "@/components/Reveal";
 import AddToCalendar from "@/components/templates/AddToCalendar";
@@ -152,7 +153,7 @@ export default function Journey() {
             rel="noreferrer"
             className={`${actionClass} border-l border-e-leaf/15`}
           >
-            <MapIcon />
+            <MapPinIcon className="size-4" />
             Open the map
           </a>
         </div>
@@ -167,23 +168,4 @@ function MomentMark({ label }: { label: string }) {
   if (label === "Celebration") return <TbGlassFull {...iconProps} />;
   if (label === "Attire") return <PiDressLight {...iconProps} />;
   return <LuWatch {...iconProps} />;
-}
-
-function MapIcon() {
-  return (
-    <svg viewBox="0 0 24 24" className="size-4" fill="none" aria-hidden="true">
-      <path
-        d="M12 20.5s5.5-4.7 5.5-9.2a5.5 5.5 0 1 0-11 0c0 4.5 5.5 9.2 5.5 9.2Z"
-        stroke="currentColor"
-        strokeWidth="1.6"
-      />
-      <circle
-        cx="12"
-        cy="11.2"
-        r="1.7"
-        stroke="currentColor"
-        strokeWidth="1.6"
-      />
-    </svg>
-  );
 }

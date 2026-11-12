@@ -1,3 +1,4 @@
+import MapPinIcon from "@/app/common/icons/MapPinIcon";
 import CalendarIcon from "@/app/common/icons/CalendarIcon";
 import Reveal from "@/components/Reveal";
 import AddToCalendar from "@/components/templates/AddToCalendar";
@@ -77,25 +78,12 @@ export default function Schedule() {
             className={styles.action}
           >
             <span className={styles.badge}>
-              <MapIcon />
+              <MapPinIcon className={styles.icon} />
             </span>
             Open map
           </a>
         </Reveal>
       </div>
     </section>
-  );
-}
-
-function MapIcon() {
-  return (
-    <svg viewBox="0 0 24 24" className={styles.icon} fill="none" aria-hidden="true">
-      <path
-        d="M12 20.5s5.5-4.7 5.5-9.2a5.5 5.5 0 1 0-11 0c0 4.5 5.5 9.2 5.5 9.2Z"
-        stroke="currentColor"
-        strokeWidth="1.6"
-      />
-      <circle cx="12" cy="11.2" r="1.7" stroke="currentColor" strokeWidth="1.6" />
-    </svg>
   );
 }

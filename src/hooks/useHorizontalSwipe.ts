@@ -1,6 +1,12 @@
 "use client";
 
-import { useCallback, useRef, type MouseEvent, type TouchEvent } from "react";
+import {
+  useCallback,
+  useLayoutEffect,
+  useRef,
+  type MouseEvent,
+  type TouchEvent,
+} from "react";
 
 const SWIPE_THRESHOLD = 48;
 
@@ -12,8 +18,11 @@ export function useHorizontalSwipe(
   const swiped = useRef(false);
   const onSwipeLeftRef = useRef(onSwipeLeft);
   const onSwipeRightRef = useRef(onSwipeRight);
-  onSwipeLeftRef.current = onSwipeLeft;
-  onSwipeRightRef.current = onSwipeRight;
+  // Keep the latest callbacks without re-creating the touch handlers.
+  useLayoutEffect(() => {
+    onSwipeLeftRef.current = onSwipeLeft;
+    onSwipeRightRef.current = onSwipeRight;
+  });
 
   const onTouchStart = useCallback((event: TouchEvent) => {
     swiped.current = false;

@@ -9,17 +9,26 @@ import StudioCredit from "@/components/templates/StudioCredit";
 import { coastalLightInvitation as data } from "@/data/coastal-light";
 import styles from "./Invitation.module.css";
 
+// Palette for this template, scoped to its root.
+const root = [
+  "[--paper:#fffbfa] [--ink:#2a1520] [--mute:#6a4550] [--line:rgba(42,21,32,0.16)]",
+  "[--blue:#6f4448] [--blue-deep:#3a222c] [--seal:#e4b6ae] [--seal-deep:#d4a39b] [--seal-ink:#9a5c52]",
+  "bg-transparent font-[family-name:var(--font-minimal-script),'Segoe_Script',cursive] text-(--ink)",
+].join(" ");
+const credit =
+  "px-6 pt-1 pb-9 text-center font-[family-name:var(--font-minimal-serif),Georgia,serif] text-[1.15rem] font-medium tracking-[0] normal-case text-(--mute)";
+
 export default function Invitation() {
   return (
-    <div className={styles.root}>
+    <div className={`${styles.revealScope} ${root}`}>
       <VideoCover />
-      <div className={styles.sheet}>
+      <div className="bg-[linear-gradient(180deg,#fffbfa_0%,#fdf4f2_52%,#fbeeea_100%)]">
         <Countdown />
         <Schedule />
         <Note />
         <Gallery />
         <Reply />
-        <StudioCredit className={styles.credit} />
+        <StudioCredit className={credit} />
       </div>
       <MusicPlayer src={data.music} />
     </div>

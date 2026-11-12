@@ -10,11 +10,10 @@ import ScratchReveal from "./ScratchReveal";
 import Timeline from "./Timeline";
 import VideoCover from "./VideoCover";
 import Welcome from "./Welcome";
-import styles from "./Invitation.module.css";
 
 export default function Invitation() {
   return (
-    <div className={styles.root}>
+    <div className="relative bg-(--bg) font-[family-name:var(--font-db-serif),Georgia,serif] text-(--text)">
       <VideoCover />
 
       <Welcome />

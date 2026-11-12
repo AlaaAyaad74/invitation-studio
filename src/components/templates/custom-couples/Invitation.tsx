@@ -1,3 +1,4 @@
+import MapPinIcon from "@/app/common/icons/MapPinIcon";
 import CalendarIcon from "@/app/common/icons/CalendarIcon";
 import AddToCalendar from "@/components/templates/AddToCalendar";
 import Cover from "@/components/templates/custom-couples/Cover";
@@ -9,7 +10,7 @@ import {
   getCalendarUrl,
   type CustomCouple,
 } from "@/data/custom-couples/couples";
-import styles from "@/components/templates/heritage-script/Invitation.module.css";
+import styles from "@/components/templates/heritage-script/invitationStyles";
 
 export default function Invitation({ data }: { data: CustomCouple }) {
   const { dateLabel, venue } = data;
@@ -54,7 +55,7 @@ export default function Invitation({ data }: { data: CustomCouple }) {
               rel="noreferrer"
               className={styles.link}
             >
-              <MapIcon />
+              <MapPinIcon className={styles.linkIcon} />
               Open location
             </a>
           </FadeIn>
@@ -72,18 +73,5 @@ export default function Invitation({ data }: { data: CustomCouple }) {
 
       <MusicPlayer src={data.music} />
     </div>
-  );
-}
-
-function MapIcon() {
-  return (
-    <svg viewBox="0 0 24 24" className={styles.linkIcon} fill="none" aria-hidden="true">
-      <path
-        d="M12 20.5s5.5-4.7 5.5-9.2a5.5 5.5 0 1 0-11 0c0 4.5 5.5 9.2 5.5 9.2Z"
-        stroke="currentColor"
-        strokeWidth="1.6"
-      />
-      <circle cx="12" cy="11.2" r="1.7" stroke="currentColor" strokeWidth="1.6" />
-    </svg>
   );
 }

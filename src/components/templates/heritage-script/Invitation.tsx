@@ -1,3 +1,4 @@
+import MapPinIcon from "@/app/common/icons/MapPinIcon";
 import CalendarIcon from "@/app/common/icons/CalendarIcon";
 import AddToCalendar from "@/components/templates/AddToCalendar";
 import MusicPlayer from "@/components/templates/MusicPlayer";
@@ -7,7 +8,7 @@ import FadeIn from "@/components/templates/heritage-script/FadeIn";
 import Gallery from "@/components/templates/heritage-script/Gallery";
 import LetterCard from "@/components/templates/heritage-script/LetterCard";
 import { getCalendarUrl, heritageInvitation as data } from "@/data/heritage-script";
-import styles from "./Invitation.module.css";
+import styles from "./invitationStyles";
 
 const calendarUrl = getCalendarUrl();
 
@@ -49,7 +50,7 @@ export default function Invitation() {
               rel="noreferrer"
               className={styles.link}
             >
-              <MapIcon />
+              <MapPinIcon className={styles.linkIcon} />
               Open location
             </a>
           </FadeIn>
@@ -69,18 +70,5 @@ export default function Invitation() {
 
       <MusicPlayer src={data.music} />
     </div>
-  );
-}
-
-function MapIcon() {
-  return (
-    <svg viewBox="0 0 24 24" className={styles.linkIcon} fill="none" aria-hidden="true">
-      <path
-        d="M12 20.5s5.5-4.7 5.5-9.2a5.5 5.5 0 1 0-11 0c0 4.5 5.5 9.2 5.5 9.2Z"
-        stroke="currentColor"
-        strokeWidth="1.6"
-      />
-      <circle cx="12" cy="11.2" r="1.7" stroke="currentColor" strokeWidth="1.6" />
-    </svg>
   );
 }

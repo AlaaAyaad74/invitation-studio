@@ -1,7 +1,6 @@
 "use client";
 
 import { useEffect, useRef } from "react";
-import styles from "./Cover.module.css";
 
 type CoverProps = {
   video: string;
@@ -36,10 +35,10 @@ export default function Cover({ video, poster, alt }: CoverProps) {
   }, [video]);
 
   return (
-    <section className={styles.cover} aria-label={alt}>
+    <section className="bg-[#5c0e1c]" aria-label={alt}>
       <video
         ref={videoRef}
-        className={styles.video}
+        className="block aspect-[1080/1350] h-auto w-full bg-[#5c0e1c] object-cover"
         poster={poster}
         autoPlay
         muted

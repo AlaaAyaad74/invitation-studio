@@ -1,11 +1,10 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { preload } from "react-dom";
-import ImageWithSkeleton from "@/components/ImageWithSkeleton";
+import TemplateShell from "@/components/templates/TemplateShell";
 import Invitation from "@/components/templates/botanical/Invitation";
 import { capitalName } from "@/data/botanical";
 import { getCouple, couples } from "@/data/couples";
-import styles from "../../templates/botanical/shell.module.css";
 
 type PageProps = {
   params: Promise<{ slug: string }>;
@@ -38,22 +37,12 @@ export default async function CoupleInvitationPage({ params }: PageProps) {
   preload("/botanical/Botanical.mp4", { as: "video" });
 
   return (
-    <div className={styles.frame}>
-      <aside className={styles.cover}>
-        <ImageWithSkeleton
-          native
-          cover
-          src="/templates/botanical.webp"
-          alt=""
-          className={styles.image}
-          wrapperClassName="absolute inset-0"
-        />
-        <div className={styles.veil} />
-      </aside>
-
-      <main className={styles.stage}>
-        <Invitation data={couple} />
-      </main>
-    </div>
+    <TemplateShell
+      coverSrc="/templates/botanical.webp"
+      coverAlt=""
+      stageBackground="bg-[#fff]"
+    >
+      <Invitation data={couple} />
+    </TemplateShell>
   );
 }

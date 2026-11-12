@@ -1,5 +1,6 @@
 "use client";
 
+import PlayIcon from "@/app/common/icons/PlayIcon";
 import {
   useEffect,
   useId,
@@ -10,6 +11,7 @@ import {
 } from "react";
 import { LuChevronLeft, LuChevronRight, LuX } from "react-icons/lu";
 import type { InvitationVideo } from "@/data/videos";
+import { useDialog } from "@/hooks/useDialog";
 import { useHorizontalSwipe } from "@/hooks/useHorizontalSwipe";
 
 type VideoModalProps = {
@@ -21,14 +23,6 @@ type VideoModalProps = {
 
 const roundButton =
   "inline-flex h-11 w-11 items-center justify-center rounded-full bg-white text-ink shadow-[0_10px_30px_-8px_rgba(0,0,0,0.45)] transition hover:bg-ivory sm:h-12 sm:w-12";
-
-function PlayIcon() {
-  return (
-    <svg viewBox="0 0 24 24" aria-hidden="true" className="ml-0.5 h-6 w-6 fill-current">
-      <path d="M8 5.14v13.72a1 1 0 0 0 1.54.84l10.14-6.86a1 1 0 0 0 0-1.68L9.54 4.3A1 1 0 0 0 8 5.14Z" />
-    </svg>
-  );
-}
 
 export default function VideoModal({
   video,
@@ -44,26 +38,15 @@ export default function VideoModal({
   const [progress, setProgress] = useState(0);
   const swipe = useHorizontalSwipe(onNext, onPrevious);
 
-  useEffect(() => {
-    const previousOverflow = document.body.style.overflow;
-    document.body.style.overflow = "hidden";
-
-    const onKeyDown = (event: KeyboardEvent) => {
-      if (event.key === "Escape") onClose();
-      if (event.key === "ArrowLeft") onPrevious();
-      if (event.key === "ArrowRight") onNext();
-      if (event.key === " ") {
-        event.preventDefault();
-        toggle();
-      }
-    };
-
-    window.addEventListener("keydown", onKeyDown);
-    return () => {
-      document.body.style.overflow = previousOverflow;
-      window.removeEventListener("keydown", onKeyDown);
-    };
-  }, [onClose, onNext, onPrevious]);
+  useDialog({
+    Escape: onClose,
+    ArrowLeft: onPrevious,
+    ArrowRight: onNext,
+    " ": (event) => {
+      event.preventDefault();
+      toggle();
+    },
+  });
 
   // Try to start the film with sound. Browsers block that on a fresh page
   // load (no tap yet), so the film then waits on the play button. The
@@ -170,7 +153,7 @@ export default function VideoModal({
               className="absolute inset-0 flex items-center justify-center bg-ink/15"
             >
               <span className="flex h-16 w-16 items-center justify-center rounded-full border border-gold/60 bg-ink/80 text-white shadow-[0_12px_24px_-10px_rgba(0,0,0,0.8)] transition hover:scale-105">
-                <PlayIcon />
+                <PlayIcon className="ml-0.5 h-6 w-6 fill-current" />
               </span>
             </button>
           )}

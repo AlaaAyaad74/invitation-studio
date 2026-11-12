@@ -1,5 +1,6 @@
 "use client";
 
+import WaveOrnamentIcon from "@/app/common/icons/WaveOrnamentIcon";
 import { type BotanicalContent } from "@/data/botanical";
 import Reveal from "@/components/Reveal";
 import { pad, useRemainingTime } from "@/hooks/useRemainingTime";
@@ -48,13 +49,7 @@ export default function Countdown({ data }: { data: BotanicalContent }) {
         <p className={styles.script}>until we say I do</p>
         <div className={styles.ornament} aria-hidden="true">
           <span />
-          <svg width="18" height="10" viewBox="0 0 18 10" fill="none">
-            <path
-              d="M1 5c3.2-4.2 6.4-4.2 8 0 1.6-4.2 4.8-4.2 8 0"
-              stroke="currentColor"
-              strokeWidth="1"
-            />
-          </svg>
+          <WaveOrnamentIcon />
           <span />
         </div>
 

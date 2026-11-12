@@ -1,7 +1,8 @@
 "use client";
 
-import { useEffect, useId } from "react";
+import { useId } from "react";
 import ImageWithSkeleton from "@/components/ImageWithSkeleton";
+import { useDialog } from "@/hooks/useDialog";
 import { useHorizontalSwipe } from "@/hooks/useHorizontalSwipe";
 import { LuChevronLeft, LuChevronRight, LuX } from "react-icons/lu";
 import type { InvitationPhoto } from "@/data/photos";
@@ -22,22 +23,11 @@ export default function PhotoModal({
   const titleId = useId();
   const swipe = useHorizontalSwipe(onNext, onPrevious);
 
-  useEffect(() => {
-    const previousOverflow = document.body.style.overflow;
-    document.body.style.overflow = "hidden";
-
-    const onKeyDown = (event: KeyboardEvent) => {
-      if (event.key === "Escape") onClose();
-      if (event.key === "ArrowLeft") onPrevious();
-      if (event.key === "ArrowRight") onNext();
-    };
-
-    window.addEventListener("keydown", onKeyDown);
-    return () => {
-      document.body.style.overflow = previousOverflow;
-      window.removeEventListener("keydown", onKeyDown);
-    };
-  }, [onClose, onNext, onPrevious]);
+  useDialog({
+    Escape: onClose,
+    ArrowLeft: onPrevious,
+    ArrowRight: onNext,
+  });
 
   return (
     <div

@@ -1,3 +1,5 @@
+import ClockIcon from "@/app/common/icons/ClockIcon";
+import MapPinIcon from "@/app/common/icons/MapPinIcon";
 import CalendarIcon from "@/app/common/icons/CalendarIcon";
 import AddToCalendar from "@/components/templates/AddToCalendar";
 import {
@@ -47,7 +49,7 @@ export default function Details() {
 
           <InView className={`${styles.block} ${styles.item}`}>
             <span className={styles.medallion}>
-              <PinIcon className={styles.medallionIcon} />
+              <MapPinIcon className={styles.medallionIcon} />
             </span>
             <span className={styles.label}>Where</span>
             <strong className={styles.value}>{venue.name}</strong>
@@ -305,44 +307,6 @@ function MapArt() {
         />
         <circle cx="0" cy="-20" r="4" fill="var(--surface)" />
       </g>
-    </svg>
-  );
-}
-
-function PinIcon({ className }: { className?: string }) {
-  return (
-    <svg
-      viewBox="0 0 24 24"
-      className={className}
-      fill="none"
-      aria-hidden="true"
-    >
-      <path
-        d="M12 20.5s5.5-4.7 5.5-9.2a5.5 5.5 0 1 0-11 0c0 4.5 5.5 9.2 5.5 9.2Z"
-        stroke="currentColor"
-        strokeWidth="1.6"
-      />
-      <circle
-        cx="12"
-        cy="11.2"
-        r="1.7"
-        stroke="currentColor"
-        strokeWidth="1.6"
-      />
-    </svg>
-  );
-}
-
-function ClockIcon() {
-  return (
-    <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
-      <circle cx="12" cy="12" r="8" stroke="currentColor" strokeWidth="1.6" />
-      <path
-        d="M12 7.5V12l3 2"
-        stroke="currentColor"
-        strokeWidth="1.6"
-        strokeLinecap="round"
-      />
     </svg>
   );
 }

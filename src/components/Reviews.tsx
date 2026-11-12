@@ -1,3 +1,4 @@
+import StarIcon from "@/app/common/icons/StarIcon";
 import { Amiri } from "next/font/google";
 import Reveal from "@/components/Reveal";
 import ReviewProof from "@/components/ReviewProof";
@@ -14,9 +15,7 @@ function Stars({ className = "h-3.5 w-3.5" }: { className?: string }) {
   return (
     <span className="flex gap-0.5 text-gold" role="img" aria-label="Rated 5 out of 5">
       {Array.from({ length: 5 }, (_, i) => (
-        <svg key={i} viewBox="0 0 20 20" aria-hidden="true" className={`${className} fill-current`}>
-          <path d="M10 1.5l2.6 5.3 5.9.9-4.25 4.1 1 5.85L10 14.9l-5.25 2.75 1-5.85L1.5 7.7l5.9-.9L10 1.5z" />
-        </svg>
+        <StarIcon key={i} className={`${className} fill-current`} />
       ))}
     </span>
   );

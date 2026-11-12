@@ -1,6 +1,6 @@
 import ImageWithSkeleton from "@/components/ImageWithSkeleton";
 import Reveal from "@/components/Reveal";
-import ShareTemplateButton from "@/components/templates/ShareTemplateButton";
+import ShareButton from "@/components/ShareButton";
 import { templates } from "@/data/templates";
 import Link from "next/link";
 
@@ -28,7 +28,7 @@ export default function TemplatesGrid() {
           {templates.map((template, index) => {
             const card = (
               <>
-                <div className="template-frame relative overflow-hidden bg-ivory-deep">
+                <div className="relative aspect-[9/16] overflow-hidden bg-ivory-deep">
                   <ImageWithSkeleton
                     src={template.image}
                     alt={`${template.title} invitation template`}
@@ -77,9 +77,10 @@ export default function TemplatesGrid() {
                     card
                   )}
                   {template.href && !template.comingSoon ? (
-                    <ShareTemplateButton
+                    <ShareButton
                       title={template.title}
                       path={template.href}
+                      side="left"
                     />
                   ) : null}
                 </article>

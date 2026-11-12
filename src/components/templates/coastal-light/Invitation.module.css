@@ -1,23 +1,6 @@
-.root {
-  --paper: #fffbfa;
-  --ink: #2a1520;
-  --mute: #6a4550;
-  --line: rgba(42, 21, 32, 0.16);
-  --blue: #6f4448;
-  --blue-deep: #3a222c;
-  --seal: #e4b6ae;
-  --seal-deep: #d4a39b;
-  --seal-ink: #9a5c52;
-  background: transparent;
-  color: var(--ink);
-  font-family: var(--font-minimal-script), "Segoe Script", cursive;
-}
-
-.sheet {
-  background: linear-gradient(180deg, #fffbfa 0%, #fdf4f2 52%, #fbeeea 100%);
-}
-
-.root :global(.reveal) {
+/* Slower, softer reveal for this template. Kept as plain CSS: it has to
+   out-rank the global .reveal rule, which a layered utility cannot. */
+.revealScope :global(.reveal) {
   opacity: 0;
   transform: translateY(22px);
   transition:
@@ -26,18 +9,7 @@
   transition-delay: var(--reveal-delay, 0ms);
 }
 
-.root :global(.reveal[data-revealed="true"]) {
+.revealScope :global(.reveal[data-revealed="true"]) {
   opacity: 1;
   transform: none;
-}
-
-.credit {
-  padding: 0.25rem 1.5rem 2.25rem;
-  color: var(--mute);
-  font-family: var(--font-minimal-serif), Georgia, serif;
-  font-size: 1.15rem;
-  font-weight: 500;
-  letter-spacing: 0;
-  text-align: center;
-  text-transform: none;
 }

@@ -2,7 +2,8 @@
 
 import ImageWithSkeleton from "@/components/ImageWithSkeleton";
 import type { ReviewShot } from "@/data/reviews";
-import { useEffect, useState } from "react";
+import { useDialog } from "@/hooks/useDialog";
+import { useState } from "react";
 import { createPortal } from "react-dom";
 import { LuX, LuZoomIn } from "react-icons/lu";
 
@@ -15,19 +16,7 @@ type ReviewProofProps = {
 export default function ReviewProof({ couple, shots }: ReviewProofProps) {
   const [open, setOpen] = useState(false);
 
-  useEffect(() => {
-    if (!open) return;
-    const previousOverflow = document.body.style.overflow;
-    document.body.style.overflow = "hidden";
-    const onKeyDown = (event: KeyboardEvent) => {
-      if (event.key === "Escape") setOpen(false);
-    };
-    window.addEventListener("keydown", onKeyDown);
-    return () => {
-      document.body.style.overflow = previousOverflow;
-      window.removeEventListener("keydown", onKeyDown);
-    };
-  }, [open]);
+  useDialog({ Escape: () => setOpen(false) }, open);
 
   return (
     <>

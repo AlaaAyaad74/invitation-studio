@@ -1,7 +1,25 @@
 "use client";
 
+import RoundPauseIcon from "@/app/common/icons/RoundPauseIcon";
+import RoundPlayIcon from "@/app/common/icons/RoundPlayIcon";
 import { useEffect, useRef, useState } from "react";
-import styles from "./MusicPlayer.module.css";
+
+const styles = {
+  control: [
+    "group fixed right-[1.15rem] bottom-[max(1.15rem,env(safe-area-inset-bottom))] z-[90] grid h-12 w-12 cursor-pointer place-items-center rounded-full",
+    "border border-[color-mix(in_srgb,var(--gold)_65%,transparent)] bg-[color-mix(in_srgb,#f6f0e6_90%,transparent)] text-(--ink)",
+    "shadow-[0_12px_28px_-16px_rgba(42,38,35,0.6)] backdrop-blur-[8px] [transition:background_200ms_ease,color_200ms_ease]",
+    "hover:bg-(--ink) hover:text-(--white) focus-visible:bg-(--ink) focus-visible:text-(--white) focus-visible:outline-2 focus-visible:outline-offset-3 focus-visible:outline-(--ink)",
+  ].join(" "),
+  glyph: "relative block h-[1.55rem] w-[1.55rem]",
+  // The two icons cross-fade: the inactive one shrinks and tilts away.
+  icon: [
+    "absolute inset-0 m-0 block h-[1.55rem] w-[1.55rem] fill-black opacity-0 [transform:scale(0.72)_rotate(-12deg)]",
+    "[transition:opacity_280ms_ease,transform_320ms_cubic-bezier(0.22,1,0.36,1),fill_200ms_ease] motion-reduce:[transition:none]",
+    "data-[active=true]:opacity-100 data-[active=true]:[transform:scale(1)_rotate(0deg)]",
+    "group-hover:fill-(--white) group-focus-visible:fill-(--white)",
+  ].join(" "),
+};
 
 type MusicPlayerProps = {
   src: string;
@@ -186,37 +204,10 @@ export default function MusicPlayer({
         aria-pressed={playing}
       >
         <span className={styles.glyph}>
-          <PlayIcon active={!playing} />
-          <PauseIcon active={playing} />
+          <RoundPlayIcon className={styles.icon} data-active={!playing ? "true" : "false"} />
+          <RoundPauseIcon className={styles.icon} data-active={playing ? "true" : "false"} />
         </span>
       </button>
     </>
-  );
-}
-
-function PlayIcon({ active }: { active: boolean }) {
-  return (
-    <svg
-      className={styles.icon}
-      data-active={active ? "true" : "false"}
-      viewBox="0 0 24 24"
-      aria-hidden="true"
-    >
-      <path d="M5 5a2 2 0 0 1 3.008-1.728l11.997 6.998a2 2 0 0 1 .003 3.458l-12 7A2 2 0 0 1 5 19z" />
-    </svg>
-  );
-}
-
-function PauseIcon({ active }: { active: boolean }) {
-  return (
-    <svg
-      className={styles.icon}
-      data-active={active ? "true" : "false"}
-      viewBox="0 0 24 24"
-      aria-hidden="true"
-    >
-      <rect x="14" y="3" width="5" height="18" rx="1" />
-      <rect x="5" y="3" width="5" height="18" rx="1" />
-    </svg>
   );
 }

@@ -4,6 +4,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 import ImageWithSkeleton from "@/components/ImageWithSkeleton";
+import { useDialog } from "@/hooks/useDialog";
 import { siteConfig } from "@/lib/site";
 
 const links = [
@@ -29,22 +30,7 @@ export default function Header() {
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
-  useEffect(() => {
-    if (!open) return;
-
-    const previousOverflow = document.body.style.overflow;
-    document.body.style.overflow = "hidden";
-
-    const onKeyDown = (event: KeyboardEvent) => {
-      if (event.key === "Escape") setOpen(false);
-    };
-
-    window.addEventListener("keydown", onKeyDown);
-    return () => {
-      document.body.style.overflow = previousOverflow;
-      window.removeEventListener("keydown", onKeyDown);
-    };
-  }, [open]);
+  useDialog({ Escape: () => setOpen(false) }, open);
 
   const solidBar = !isHome || scrolled || open;
 

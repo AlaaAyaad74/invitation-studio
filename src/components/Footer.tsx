@@ -4,7 +4,7 @@ import Reveal from "@/components/Reveal";
 import { siteConfig } from "@/lib/site";
 
 const socialClassName =
-  "footer-instagram inline-flex items-center gap-2 text-sm font-semibold text-sage-deep underline underline-offset-4 transition hover:text-ink";
+  "inline-flex items-center gap-2 text-sm font-semibold text-[#3f4a3e] underline underline-offset-4 transition hover:text-ink";
 
 export default function Footer() {
   return (

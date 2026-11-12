@@ -1,5 +1,6 @@
 "use client";
 
+import WaveOrnamentIcon from "@/app/common/icons/WaveOrnamentIcon";
 import { useEffect, useState } from "react";
 import ImageWithSkeleton from "@/components/ImageWithSkeleton";
 import Reveal from "@/components/Reveal";
@@ -36,13 +37,7 @@ export default function Gallery({ data }: { data: BotanicalContent }) {
         </p>
         <div className={styles.ornament} aria-hidden="true">
           <span />
-          <svg width="18" height="10" viewBox="0 0 18 10" fill="none">
-            <path
-              d="M1 5c3.2-4.2 6.4-4.2 8 0 1.6-4.2 4.8-4.2 8 0"
-              stroke="currentColor"
-              strokeWidth="1"
-            />
-          </svg>
+          <WaveOrnamentIcon />
           <span />
         </div>
         <p className={styles.hint}>
