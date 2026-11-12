@@ -1,6 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import { Analytics } from "@vercel/analytics/next";
 import { Cormorant_Garamond, Figtree, Great_Vibes } from "next/font/google";
+import DevtoolsGuard from "@/components/DevtoolsGuard";
 import VisitTracker from "@/components/VisitTracker";
 import { getSiteUrl, siteConfig } from "@/lib/site";
 import "./globals.css";
@@ -160,6 +161,7 @@ export default function RootLayout({
         />
         {children}
         <VisitTracker />
+        <DevtoolsGuard />
         <Analytics />
       </body>
     </html>

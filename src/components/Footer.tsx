@@ -18,7 +18,7 @@ export default function Footer() {
           height={160}
           className="h-36 w-36 shrink-0 object-contain sm:h-40 sm:w-40"
           wrapperClassName="shrink-0"
-          skeletonClassName="min-h-36 w-36 rounded-md sm:min-h-40 sm:w-40"
+          skeletonClassName="logo-skeleton min-h-36 w-36 sm:min-h-40 sm:w-40"
         />
         <p className="max-w-sm text-center text-sm text-ink-muted sm:max-w-none sm:text-left">
           Wedding invitation websites, invitation photos, films & custom couple branding.

@@ -10,6 +10,7 @@ const links = [
   { href: "/#templates", label: "Templates" },
   { href: "/photos", label: "Photos" },
   { href: "/videos", label: "Videos" },
+  { href: "/#reviews", label: "Reviews" },
   { href: "/#features", label: "Features" },
   // { href: "/#pricing", label: "Pricing" },
   { href: "/#services", label: "Services" },
@@ -71,9 +72,11 @@ export default function Header() {
               alt="Invitation Studio"
               width={96}
               height={96}
+              loading="eager"
+              fetchPriority="high"
               className="h-20 w-auto sm:h-24"
               wrapperClassName="inline-block"
-              skeletonClassName="min-h-20 w-20 rounded-md sm:min-h-24 sm:w-24"
+              skeletonClassName="logo-skeleton min-h-20 w-20 sm:min-h-24 sm:w-24"
             />
           </Link>
 
@@ -83,11 +86,7 @@ export default function Header() {
                 solidBar ? "text-ink-muted" : "text-white/85"
               }`;
 
-              return link.href.includes("#") ? (
-                <a key={link.href} href={link.href} className={className}>
-                  {link.label}
-                </a>
-              ) : (
+              return (
                 <Link key={link.href} href={link.href} className={className}>
                   {link.label}
                 </Link>
@@ -167,17 +166,7 @@ export default function Header() {
                 transitionDelay: open ? `${120 + index * 70}ms` : "0ms",
               };
 
-              return link.href.includes("#") ? (
-                <a
-                  key={link.href}
-                  href={link.href}
-                  onClick={() => setOpen(false)}
-                  className={className}
-                  style={style}
-                >
-                  {link.label}
-                </a>
-              ) : (
+              return (
                 <Link
                   key={link.href}
                   href={link.href}

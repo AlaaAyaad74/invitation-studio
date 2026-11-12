@@ -209,22 +209,51 @@ body {
 
 @keyframes image-shimmer {
   0% {
-    background-position: 200% 0;
+    background-position: 160% 0, 0 0;
   }
   100% {
-    background-position: -200% 0;
+    background-position: -60% 0, 0 0;
   }
 }
 
+@keyframes skeleton-breathe {
+  0%,
+  100% {
+    opacity: 0.55;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+
+/* Warm paper base with a soft light sweep across it. */
 .image-skeleton {
-  background: linear-gradient(
-    110deg,
-    #e2d8cc 0%,
-    #f3ebe3 38%,
-    #ddd2c4 72%
+  background-color: #e9e0d4;
+  background-image:
+    linear-gradient(
+      100deg,
+      transparent 30%,
+      rgb(255 255 255 / 0.55) 50%,
+      transparent 70%
+    ),
+    linear-gradient(160deg, #efe7dc 0%, #e4d8c9 60%, #ddd0bf 100%);
+  background-size: 250% 100%, 100% 100%;
+  background-repeat: no-repeat;
+  animation: image-shimmer 1.6s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+}
+
+/* The logo is transparent gold: a soft gold glow instead of a grey box. */
+.image-skeleton.logo-skeleton {
+  border-radius: 999px;
+  background-image: radial-gradient(
+    circle at 50% 50%,
+    color-mix(in srgb, var(--gold) 38%, transparent) 0%,
+    color-mix(in srgb, var(--gold) 12%, transparent) 45%,
+    transparent 70%
   );
-  background-size: 220% 100%;
-  animation: image-shimmer 1.2s ease-in-out infinite;
+  background-color: transparent;
+  background-size: 100% 100%;
+  animation: skeleton-breathe 1.4s ease-in-out infinite;
 }
 
 .texture-grain {
@@ -357,7 +386,14 @@ body {
   opacity: 0;
 }
 
-.video-play-pause:hover .video-play-icon,
+/* Only real hover shows the pause icon: a tap on a phone leaves :hover stuck,
+   which kept the icon on top of a playing film. */
+@media (hover: hover) {
+  .video-play-pause:hover .video-play-icon {
+    opacity: 1;
+  }
+}
+
 .video-play-pause:focus-visible .video-play-icon {
   opacity: 1;
 }

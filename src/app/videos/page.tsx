@@ -15,17 +15,7 @@ export const metadata: Metadata = {
   },
 };
 
-function readFilmId(value: string | string[] | undefined) {
-  return typeof value === "string" ? value : value?.[0];
-}
-
-export default async function VideosPage({
-  searchParams,
-}: {
-  searchParams: Promise<{ film?: string | string[] }>;
-}) {
-  const { film } = await searchParams;
-  const filmId = readFilmId(film);
+export default function VideosPage() {
   return (
     <>
       <Header />
@@ -50,7 +40,7 @@ export default async function VideosPage({
             </Reveal>
 
             <div className="mt-12">
-              <VideosGallery videos={videos} initialFilmId={filmId} syncUrl />
+              <VideosGallery videos={videos} syncUrl />
             </div>
 
             <Reveal className="mt-16 border border-ivory-deep bg-white/70 p-6 backdrop-blur-sm sm:p-8">

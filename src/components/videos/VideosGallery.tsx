@@ -4,27 +4,28 @@ import VideoCard from "@/components/videos/VideoCard";
 import VideoModal from "@/components/videos/VideoModal";
 import type { InvitationVideo } from "@/data/videos";
 import { videoSharePath } from "@/lib/video-share";
+import { useSearchParamOnLoad } from "@/hooks/useSearchParamOnLoad";
 import { useCallback, useRef, useState } from "react";
 
 type VideosGalleryProps = {
   videos: InvitationVideo[];
-  /** Film to open in the modal on first render (from ?film=). */
-  initialFilmId?: string;
-  /** Keep ?film= in the address bar in step with the open film. */
+  /** Open ?film= on load and keep it in step with the open film. */
   syncUrl?: boolean;
 };
 
 export default function VideosGallery({
   videos,
-  initialFilmId,
   syncUrl = false,
 }: VideosGalleryProps) {
   const players = useRef(new Map<string, HTMLVideoElement>());
-  const [activeId, setActiveId] = useState<string | null>(
-    videos.some((video) => video.id === initialFilmId)
-      ? (initialFilmId ?? null)
-      : null,
-  );
+  // ?film= is read in the browser so the page itself stays static.
+  const filmParam = useSearchParamOnLoad("film", syncUrl);
+  const highlightId = videos.some((video) => video.id === filmParam)
+    ? filmParam
+    : null;
+  // undefined = nothing picked yet, so fall back to the film in the URL.
+  const [pickedId, setActiveId] = useState<string | null | undefined>();
+  const activeId = pickedId === undefined ? highlightId : pickedId;
   const active = videos.find((video) => video.id === activeId) ?? null;
 
   const register = useCallback(
@@ -73,7 +74,7 @@ export default function VideosGallery({
             key={video.id}
             video={video}
             index={index}
-            highlighted={video.id === initialFilmId}
+            highlighted={video.id === highlightId}
             register={register}
             onPlay={handlePlay}
           />
@@ -82,6 +83,7 @@ export default function VideosGallery({
 
       {active ? (
         <VideoModal
+          key={active.id}
           video={active}
           onClose={close}
           onPrevious={showPrevious}

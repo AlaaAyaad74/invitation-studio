@@ -88,6 +88,11 @@ export default function LazyPhotoCard({
           onLoad={() => setIsLoaded(true)}
         />
       ) : null}
+      {photo.isNew ? (
+        <span className="pointer-events-none absolute left-2.5 top-2.5 z-10 bg-rose px-2 py-1 text-[10px] tracking-[0.16em] text-white uppercase shadow-[0_8px_18px_-10px_rgba(0,0,0,0.55)]">
+          New
+        </span>
+      ) : null}
       <button
         type="button"
         aria-label={`Share ${photo.title}`}

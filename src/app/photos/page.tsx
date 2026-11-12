@@ -15,18 +15,7 @@ export const metadata: Metadata = {
   },
 };
 
-function readCardId(value: string | string[] | undefined) {
-  return typeof value === "string" ? value : value?.[0];
-}
-
-export default async function PhotosPage({
-  searchParams,
-}: {
-  searchParams: Promise<{ card?: string | string[] }>;
-}) {
-  const { card } = await searchParams;
-  const initialCardId = readCardId(card);
-
+export default function PhotosPage() {
   return (
     <>
       <Header />
@@ -52,11 +41,7 @@ export default async function PhotosPage({
             </Reveal>
 
             <div className="mt-12">
-              <PhotosGallery
-                photos={photos}
-                initialCardId={initialCardId}
-                syncUrl
-              />
+              <PhotosGallery photos={photos} syncUrl />
             </div>
 
             <Reveal className="mt-16 border border-ivory-deep bg-white/70 p-6 backdrop-blur-sm sm:p-8">

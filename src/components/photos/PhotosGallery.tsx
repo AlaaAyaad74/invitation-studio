@@ -10,25 +10,27 @@ import {
   type InvitationPhoto,
   type PhotoFilterId,
 } from "@/data/photos";
+import { useSearchParamOnLoad } from "@/hooks/useSearchParamOnLoad";
 import { useCallback, useState } from "react";
 
 type PhotosGalleryProps = {
   photos: InvitationPhoto[];
   showFilters?: boolean;
-  initialCardId?: string;
   syncUrl?: boolean;
 };
 
 export default function PhotosGallery({
   photos,
   showFilters = true,
-  initialCardId,
   syncUrl = false,
 }: PhotosGalleryProps) {
   const [filter, setFilter] = useState<PhotoFilterId>("all");
-  const [activeId, setActiveId] = useState<string | null>(
-    getPhotoById(initialCardId)?.id ?? null,
-  );
+  // ?card= is read in the browser so the page itself stays static.
+  const cardParam = useSearchParamOnLoad("card", syncUrl);
+  // undefined = nothing picked yet, so fall back to the card in the URL.
+  const [pickedId, setActiveId] = useState<string | null | undefined>();
+  const activeId =
+    pickedId === undefined ? (getPhotoById(cardParam)?.id ?? null) : pickedId;
 
   const visible = showFilters ? filterPhotos(photos, filter) : photos;
   const active = getPhotoById(activeId) ?? null;

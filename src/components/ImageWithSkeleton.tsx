@@ -3,6 +3,7 @@
 import Image, { type ImageProps } from "next/image";
 import {
   useEffect,
+  useLayoutEffect,
   useRef,
   useState,
   type CSSProperties,
@@ -39,6 +40,10 @@ export type ImageWithSkeletonProps =
   | NextImageWithSkeletonProps
   | NativeImageWithSkeletonProps;
 
+// useLayoutEffect warns during SSR; it only matters in the browser.
+const useBrowserLayoutEffect =
+  typeof window === "undefined" ? useEffect : useLayoutEffect;
+
 export function ImageSkeleton({ className = "" }: { className?: string }) {
   return <span aria-hidden className={`image-skeleton block ${className}`} />;
 }
@@ -55,19 +60,19 @@ export default function ImageWithSkeleton(props: ImageWithSkeletonProps) {
   } = props;
 
   const [loaded, setLoaded] = useState(false);
+  // True when the image was already cached on mount: show it at once, no fade.
+  const [instant, setInstant] = useState(false);
   const imgRef = useRef<HTMLImageElement>(null);
   const fill = !props.native && "fill" in props && Boolean(props.fill);
   const isCover = fill || cover;
 
-  useEffect(() => {
-    setLoaded(false);
-  }, [src]);
-
-  useEffect(() => {
+  // Runs before paint, so a cached image (e.g. the header logo after a
+  // client-side navigation) never flashes its skeleton.
+  useBrowserLayoutEffect(() => {
     const image = imgRef.current;
-    if (image?.complete && image.naturalWidth > 0) {
-      setLoaded(true);
-    }
+    const cached = Boolean(image?.complete && image.naturalWidth > 0);
+    setInstant(cached);
+    setLoaded(cached);
   }, [src]);
 
   const markLoaded = (event?: SyntheticEvent<HTMLImageElement, Event>) => {
@@ -78,7 +83,7 @@ export default function ImageWithSkeleton(props: ImageWithSkeletonProps) {
   };
 
   const imageClassName = [
-    "transition-opacity duration-500 motion-reduce:transition-none",
+    instant ? "" : "transition-opacity duration-500 motion-reduce:transition-none",
     loaded ? "opacity-100" : "opacity-0",
     className,
   ]
