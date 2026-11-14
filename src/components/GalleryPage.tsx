@@ -33,7 +33,7 @@ export default function GalleryPage({
     <>
       <Header />
       <main className="flex-1">
-        <section className="relative overflow-hidden pt-32 pb-20 sm:pt-36 sm:pb-28">
+        <section className="relative overflow-hidden pt-32 pb-14 sm:pt-36 sm:pb-16">
           <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-ivory-deep/70 via-ivory to-ivory" />
           <div className={`pointer-events-none absolute -right-24 top-24 h-72 w-72 rounded-full ${rightGlow} blur-3xl`} />
           <div className={`pointer-events-none absolute -left-16 bottom-10 h-64 w-64 rounded-full ${leftGlow} blur-3xl`} />

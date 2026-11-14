@@ -7,7 +7,7 @@ const previewVideos = videos.slice(0, 6);
 
 export default function VideosPreview() {
   return (
-    <section id="videos" className="relative overflow-hidden py-20 sm:py-28">
+    <section id="videos" className="relative overflow-hidden py-10 sm:py-14 lg:py-16">
       <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-ivory via-white/40 to-ivory" />
       <div className="pointer-events-none absolute -right-20 top-16 h-72 w-72 rounded-full bg-gold/15 blur-3xl" />
       <div className="pointer-events-none absolute -left-16 bottom-8 h-64 w-64 rounded-full bg-rose/10 blur-3xl" />

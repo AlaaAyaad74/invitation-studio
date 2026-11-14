@@ -5,7 +5,7 @@ import { siteConfig } from "@/lib/site";
 
 export default function Services() {
   return (
-    <section id="services" className="relative overflow-hidden py-20 sm:py-28">
+    <section id="services" className="relative overflow-hidden py-10 sm:py-14 lg:py-16">
       <div className="pointer-events-none absolute -right-24 top-10 h-72 w-72 rounded-full bg-rose/10 blur-3xl" />
       <div className="pointer-events-none absolute -left-16 bottom-0 h-64 w-64 rounded-full bg-gold/15 blur-3xl" />
 

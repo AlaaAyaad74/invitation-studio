@@ -3,7 +3,7 @@ import { features } from "@/data/templates";
 
 export default function Features() {
   return (
-    <section id="features" className="relative py-20 sm:py-28">
+    <section id="features" className="relative py-10 sm:py-14 lg:py-16">
       <div className="absolute inset-0 bg-sage-deep" />
       <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,color-mix(in_srgb,var(--gold)_28%,transparent),transparent_45%)]" />
       <div className="absolute inset-0 bg-[radial-gradient(circle_at_bottom_left,color-mix(in_srgb,var(--rose)_18%,transparent),transparent_40%)]" />

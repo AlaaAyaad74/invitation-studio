@@ -6,7 +6,7 @@ import Link from "next/link";
 
 export default function TemplatesGrid() {
   return (
-    <section id="templates" className="relative overflow-hidden py-20 sm:py-28">
+    <section id="templates" className="relative overflow-hidden py-10 sm:py-14 lg:py-16">
       <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-ivory via-ivory-deep/60 to-ivory" />
       <div className="texture-grain pointer-events-none absolute inset-0 opacity-40" />
 

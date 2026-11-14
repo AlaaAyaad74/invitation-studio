@@ -30,7 +30,7 @@ function initials(couple: string) {
 
 export default function Reviews() {
   return (
-    <section id="reviews" className="relative overflow-hidden py-20 sm:py-28">
+    <section id="reviews" className="relative overflow-hidden py-10 sm:py-14 lg:py-16">
       <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-ivory via-ivory-deep/60 to-ivory" />
       <div className="texture-grain pointer-events-none absolute inset-0 opacity-40" />
       <div className="pointer-events-none absolute -left-20 top-16 h-72 w-72 rounded-full bg-rose/10 blur-3xl" />

@@ -114,6 +114,15 @@
 
 html {
   scroll-behavior: smooth;
+  /* Anchor jumps (/#reviews…) land below the fixed header, which is in its
+     compact scrolled size then (h-16 / sm:h-[4.5rem]). */
+  scroll-padding-top: 4rem;
+}
+
+@media (min-width: 40rem) {
+  html {
+    scroll-padding-top: 4.5rem;
+  }
 }
 
 body {

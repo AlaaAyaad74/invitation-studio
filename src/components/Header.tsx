@@ -8,6 +8,7 @@ import { useDialog } from "@/hooks/useDialog";
 import { siteConfig } from "@/lib/site";
 
 const links = [
+  { href: "/", label: "Home" },
   { href: "/#templates", label: "Templates" },
   { href: "/photos", label: "Photos" },
   { href: "/videos", label: "Videos" },
@@ -23,34 +24,65 @@ export default function Header() {
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
 
+  const [hidden, setHidden] = useState(false);
+
   useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 24);
-    onScroll();
+    let lastY = window.scrollY;
+    let frame = 0;
+    const update = () => {
+      frame = 0;
+      const y = window.scrollY;
+      setScrolled(y > 24);
+      // Hide while reading downward, show again on any upward scroll.
+      // Small moves (< 8px) are ignored so trackpad jitter doesn't flicker it.
+      const delta = y - lastY;
+      if (y < 120) setHidden(false);
+      else if (delta > 8) setHidden(true);
+      else if (delta < -8) setHidden(false);
+      if (Math.abs(delta) > 8 || y < 120) lastY = y;
+    };
+    const onScroll = () => {
+      if (!frame) frame = requestAnimationFrame(update);
+    };
+    update();
     window.addEventListener("scroll", onScroll, { passive: true });
-    return () => window.removeEventListener("scroll", onScroll);
+    return () => {
+      window.removeEventListener("scroll", onScroll);
+      cancelAnimationFrame(frame);
+    };
   }, []);
 
   useDialog({ Escape: () => setOpen(false) }, open);
 
   const solidBar = !isHome || scrolled || open;
+  // Once the page scrolls, the bar and logo shrink to give content more room.
+  const compact = scrolled && !open;
 
   return (
     <header className="fixed inset-x-0 top-0 z-50">
       <div
-        className={`relative z-50 transition-[background-color,box-shadow,backdrop-filter] duration-500 ease-out ${
+        // The bar slides (not <header>): a transform on <header> would trap the
+        // full-screen mobile menu inside it.
+        // A short slide stays on even with "reduce motion": it is small, and
+        // jumping the bar in and out is more jarring than easing it.
+        className={`relative z-50 [transition-property:background-color,box-shadow,translate] [transition-duration:500ms,500ms,450ms] [transition-timing-function:ease-out,ease-out,cubic-bezier(0.22,1,0.36,1)] focus-within:translate-y-0 ${
+          hidden && !open ? "-translate-y-full" : ""
+        } ${
           solidBar
             ? "bg-ivory/95 shadow-[0_1px_0_color-mix(in_srgb,var(--ink)_8%,transparent)] backdrop-blur-md"
             : "bg-transparent"
         }`}
       >
-        <div className="mx-auto flex h-24 max-w-6xl items-center justify-between px-5 sm:h-28 sm:px-8">
+        <div
+          className={`mx-auto flex max-w-6xl items-center justify-between px-5 transition-[height] duration-[450ms] ease-[cubic-bezier(0.22,1,0.36,1)] sm:px-8 ${
+            compact ? "h-16 sm:h-[4.5rem]" : "h-24 sm:h-28"
+          }`}
+        >
           <Link
             href="/"
             aria-label="Invitation Studio home"
             onClick={() => setOpen(false)}
-            className={`font-display text-2xl tracking-[0.04em] transition-colors duration-300 sm:text-3xl ${
-              solidBar ? "text-ink" : "text-white"
-            }`}
+            className="flex shrink-0 items-center"
           >
             <ImageWithSkeleton
               native
@@ -60,9 +92,12 @@ export default function Header() {
               height={96}
               loading="eager"
               fetchPriority="high"
-              className="h-20 w-auto sm:h-24"
-              wrapperClassName="inline-block"
-              skeletonClassName="logo-skeleton min-h-20 w-20 sm:min-h-24 sm:w-24"
+              className={`block w-auto [transition:height_450ms_cubic-bezier(0.22,1,0.36,1),opacity_500ms] motion-reduce:[transition-property:height]! ${
+                compact ? "h-12 sm:h-14" : "h-20 sm:h-24"
+              }`}
+              wrapperClassName="block"
+              // The image already reserves its height, so the skeleton just fills it.
+              skeletonClassName="logo-skeleton min-h-0"
             />
           </Link>
 

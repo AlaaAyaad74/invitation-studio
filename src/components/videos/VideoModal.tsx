@@ -33,6 +33,8 @@ export default function VideoModal({
   const titleId = useId();
   const playerRef = useRef<HTMLVideoElement>(null);
   const [ready, setReady] = useState(false);
+  // A poster can show at once; otherwise wait for the first frame.
+  const visible = ready || Boolean(video.poster);
   const [playing, setPlaying] = useState(false);
   const [waiting, setWaiting] = useState(false);
   const [progress, setProgress] = useState(0);
@@ -112,6 +114,7 @@ export default function VideoModal({
           <video
             ref={playerRef}
             src={video.src}
+            poster={video.poster}
             playsInline
             preload="auto"
             aria-label={video.title}
@@ -128,16 +131,16 @@ export default function VideoModal({
               if (node.duration) setProgress(node.currentTime / node.duration);
             }}
             className={`h-full w-full cursor-pointer object-contain transition-opacity duration-500 ${
-              ready ? "opacity-100" : "opacity-0"
+              visible ? "opacity-100" : "opacity-0"
             }`}
           />
 
-          {ready ? null : (
+          {visible ? null : (
             <div aria-hidden className="image-skeleton absolute inset-0" />
           )}
 
           {/* Small, quiet loader while buffering — never on top of the play button. */}
-          {ready && waiting && playing ? (
+          {visible && waiting && playing ? (
             <span
               aria-hidden
               className="pointer-events-none absolute right-3 top-3 h-6 w-6 animate-spin rounded-full border-2 border-white/30 border-t-white"

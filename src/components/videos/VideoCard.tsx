@@ -16,10 +16,11 @@ type VideoCardProps = {
 };
 
 const styles = {
-  card: "photo-reveal border border-ink/10 bg-[#fff] p-0 shadow-[0_22px_50px_-30px_color-mix(in_srgb,var(--ink)_70%,transparent)]",
-  frame: "relative aspect-[9/16] overflow-hidden bg-ivory-deep",
+  card: "photo-reveal mb-3 border border-ink/10 bg-[#fff] p-0 shadow-[0_22px_50px_-30px_color-mix(in_srgb,var(--ink)_70%,transparent)] sm:mb-8",
+  frame: "relative overflow-hidden bg-ivory-deep",
   video: "video-no-controls absolute inset-0 h-full w-full bg-ink object-cover",
   skeleton: "image-skeleton absolute inset-0 h-full w-full",
+  poster: "absolute inset-0 h-full w-full object-cover",
   play: "group absolute inset-0 z-10 flex cursor-pointer items-center justify-center bg-ink/18",
   pause: "group absolute inset-0 z-10 flex cursor-pointer items-center justify-center bg-transparent",
   icon: "flex h-10 w-10 shrink-0 items-center justify-center rounded-full border border-gold/55 bg-ink/82 text-[#fff] shadow-[0_8px_16px_-8px_rgba(0,0,0,0.8)] transition-transform duration-300 ease-[ease] group-hover:scale-[1.05] motion-reduce:transition-none motion-reduce:group-hover:scale-none [&_svg]:h-[0.9rem] [&_svg]:w-[0.9rem] [&_svg]:fill-current",
@@ -45,6 +46,8 @@ export default function VideoCard({
   const [shouldLoad, setShouldLoad] = useState(index < 3 || highlighted);
   const [ready, setReady] = useState(false);
   const [playing, setPlaying] = useState(false);
+  // Poster stays over the film until playback actually begins.
+  const [started, setStarted] = useState(false);
 
   const setVideoNode = useCallback(
     (node: HTMLVideoElement | null) => {
@@ -178,7 +181,7 @@ export default function VideoCard({
       className={styles.card}
       style={{ "--reveal-delay": `${(index % 3) * 80}ms` } as CSSProperties}
     >
-      <div className={styles.frame}>
+      <div className={styles.frame} style={{ aspectRatio: video.aspect }}>
         {shouldLoad ? (
           <video
             ref={setVideoNode}
@@ -186,11 +189,12 @@ export default function VideoCard({
             style={{ opacity: ready ? 1 : 0 }}
             src={`${video.src}#t=0.001`}
             playsInline
-            preload="metadata"
+            // With a poster the card needs no frame, so nothing downloads until play.
+            preload={video.poster ? "none" : "metadata"}
             aria-label={video.title}
             onLoadedData={() => {
               const node = videoRef.current;
-              if (node) revealFrame(node);
+              if (node && !video.poster) revealFrame(node);
               else setReady(true);
             }}
             onPlay={() => {
@@ -202,10 +206,24 @@ export default function VideoCard({
               if (warming.current) return;
               setPlaying(false);
             }}
+            onPlaying={() => {
+              if (!warming.current) setStarted(true);
+            }}
             onEnded={() => setPlaying(false)}
           />
         ) : null}
         {ready ? null : <div aria-hidden className={styles.skeleton} />}
+        {video.poster && !started ? (
+          // eslint-disable-next-line @next/next/no-img-element -- small pre-sized still; next/image adds nothing here
+          <img
+            src={video.poster}
+            alt=""
+            aria-hidden
+            loading={index < 3 ? "eager" : "lazy"}
+            decoding="async"
+            className={styles.poster}
+          />
+        ) : null}
         {playing ? (
           <button
             type="button"
