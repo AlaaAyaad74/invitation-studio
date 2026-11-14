@@ -22,7 +22,7 @@ const styles = {
   skeleton: "image-skeleton absolute inset-0 h-full w-full",
   play: "group absolute inset-0 z-10 flex cursor-pointer items-center justify-center bg-ink/18",
   pause: "group absolute inset-0 z-10 flex cursor-pointer items-center justify-center bg-transparent",
-  icon: "flex h-10 w-10 shrink-0 items-center justify-center rounded-full border border-gold/55 bg-ink/82 text-[#fff] shadow-[0_8px_16px_-8px_rgba(0,0,0,0.8)] transition-transform duration-300 ease-[ease] group-hover:scale-[1.05] motion-reduce:transition-none motion-reduce:group-hover:scale-none [&_svg]:ml-[0.12rem] [&_svg]:h-[0.9rem] [&_svg]:w-[0.9rem] [&_svg]:fill-current",
+  icon: "flex h-10 w-10 shrink-0 items-center justify-center rounded-full border border-gold/55 bg-ink/82 text-[#fff] shadow-[0_8px_16px_-8px_rgba(0,0,0,0.8)] transition-transform duration-300 ease-[ease] group-hover:scale-[1.05] motion-reduce:transition-none motion-reduce:group-hover:scale-none [&_svg]:h-[0.9rem] [&_svg]:w-[0.9rem] [&_svg]:fill-current",
   // Only real hover shows the pause icon: a tap on a phone leaves :hover
   // stuck, which kept the icon on top of a playing film.
   pauseIcon: "opacity-0 group-focus-visible:opacity-100 [@media(hover:hover)]:group-hover:opacity-100 [&_svg]:ml-0",

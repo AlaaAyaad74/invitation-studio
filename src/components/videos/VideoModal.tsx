@@ -153,7 +153,7 @@ export default function VideoModal({
               className="absolute inset-0 flex items-center justify-center bg-ink/15"
             >
               <span className="flex h-16 w-16 items-center justify-center rounded-full border border-gold/60 bg-ink/80 text-white shadow-[0_12px_24px_-10px_rgba(0,0,0,0.8)] transition hover:scale-105">
-                <PlayIcon className="ml-0.5 h-6 w-6 fill-current" />
+                <PlayIcon className="h-6 w-6 fill-current" />
               </span>
             </button>
           )}
