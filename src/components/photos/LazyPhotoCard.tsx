@@ -59,7 +59,7 @@ export default function LazyPhotoCard({
   return (
     <div
       ref={containerRef}
-      className="photo-reveal relative mb-3 w-full cursor-zoom-in break-inside-avoid overflow-hidden bg-ivory-deep"
+      className="photo-reveal relative mb-2 sm:mb-3 w-full cursor-zoom-in break-inside-avoid overflow-hidden bg-ivory-deep"
       style={
         {
           "--reveal-delay": `${(index % 4) * 80}ms`,

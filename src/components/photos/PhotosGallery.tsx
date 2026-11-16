@@ -69,7 +69,7 @@ export default function PhotosGallery({
       ) : null}
 
       <div
-        className={`mx-auto max-w-7xl columns-2 gap-3 sm:columns-3 space-y-4 py-4 ${showFilters ? "mt-6" : ""}`}
+        className={`mx-auto max-w-7xl columns-2 gap-2 sm:columns-3 sm:gap-3 sm:space-y-4 py-4 ${showFilters ? "mt-6" : ""}`}
       >
         {visible.map((photo, index) => (
           <LazyPhotoCard

@@ -12,7 +12,7 @@ export default function PhotosPreview() {
       <div className="pointer-events-none absolute -left-20 top-16 h-72 w-72 rounded-full bg-rose/10 blur-3xl" />
       <div className="pointer-events-none absolute -right-16 bottom-8 h-64 w-64 rounded-full bg-gold/15 blur-3xl" />
 
-      <div className="relative mx-auto max-w-6xl px-5 sm:px-8">
+      <div className="relative mx-auto max-w-6xl px-3 sm:px-8">
         <Reveal className="max-w-2xl">
           <p className="text-sm tracking-[0.2em] text-rose uppercase">
             Invitation photos
@@ -22,7 +22,7 @@ export default function PhotosPreview() {
           </h2>
           <p className="mt-4 max-w-lg text-ink-muted">
             Beyond invitation websites, we design still invitation photos for
-            WhatsApp, print, and social—personalized with your names and day.
+            WhatsApp, print, and social, personalized with your names and day.
           </p>
         </Reveal>
 

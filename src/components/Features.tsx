@@ -8,7 +8,7 @@ export default function Features() {
       <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,color-mix(in_srgb,var(--gold)_28%,transparent),transparent_45%)]" />
       <div className="absolute inset-0 bg-[radial-gradient(circle_at_bottom_left,color-mix(in_srgb,var(--rose)_18%,transparent),transparent_40%)]" />
 
-      <div className="relative mx-auto max-w-6xl px-5 sm:px-8">
+      <div className="relative mx-auto max-w-6xl px-3 sm:px-8">
         <Reveal className="max-w-2xl">
           <p className="text-sm tracking-[0.2em] text-rose-soft uppercase">
             Our features
@@ -17,7 +17,7 @@ export default function Features() {
             Everything guests need, beautifully arranged.
           </h2>
           <p className="mt-4 max-w-lg text-white/75">
-            Templates are more than pretty pages—they help you invite, inform,
+            Templates are more than pretty pages: they help you invite, inform,
             and celebrate without the spreadsheet chaos.
           </p>
         </Reveal>

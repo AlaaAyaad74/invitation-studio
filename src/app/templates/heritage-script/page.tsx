@@ -6,7 +6,7 @@ import styles from "./shell.module.css";
 export const metadata: Metadata = {
   title: "Heritage Script",
   description:
-    "A crimson formal wedding invitation — calligraphy, gold, and evening light.",
+    "A crimson formal wedding invitation: calligraphy, gold, and evening light.",
   robots: {
     index: false,
     follow: true,

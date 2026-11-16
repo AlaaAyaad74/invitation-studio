@@ -74,7 +74,7 @@ export default function Header() {
         }`}
       >
         <div
-          className={`mx-auto flex max-w-6xl items-center justify-between px-5 transition-[height] duration-[450ms] ease-[cubic-bezier(0.22,1,0.36,1)] sm:px-8 ${
+          className={`mx-auto flex max-w-6xl items-center justify-between px-3 transition-[height] duration-[450ms] ease-[cubic-bezier(0.22,1,0.36,1)] sm:px-8 ${
             compact ? "h-16 sm:h-[4.5rem]" : "h-24 sm:h-28"
           }`}
         >

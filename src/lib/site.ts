@@ -2,7 +2,7 @@ export const siteConfig = {
   name: "Invitation Studio",
   tagline: "Invitation websites that feel like the day itself.",
   description:
-    "Browse wedding invitation website templates, invitation photos, and invitation videos, then make them yours—or commission custom couple logos and bespoke invitation sites.",
+    "Browse wedding invitation website templates, invitation photos, and invitation videos, then make them yours, or commission custom couple logos and bespoke invitation sites.",
   email: "hello@vowcraft.studio",
   instagram: "invitation.studio0",
   instagramUrl: "https://www.instagram.com/invitation.studio0",

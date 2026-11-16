@@ -8,7 +8,7 @@ const VIDEO_SRC = "/elegant/elegant_hero_video.mp4";
 export const metadata: Metadata = {
   title: "Elegant",
   description:
-    "An elegant wedding invitation — a rose arch, a garden path, and an evening made of light.",
+    "An elegant wedding invitation: a rose arch, a garden path, and an evening made of light.",
   robots: {
     index: false,
     follow: true,

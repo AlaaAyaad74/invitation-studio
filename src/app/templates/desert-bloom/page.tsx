@@ -7,7 +7,7 @@ import styles from "./shell.module.css";
 export const metadata: Metadata = {
   title: "Desert Bloom",
   description:
-    "Lace, wax seal, and peach roses — a warm, interactive wedding invitation.",
+    "Lace, wax seal, and peach roses, a warm, interactive wedding invitation.",
   robots: {
     index: false,
     follow: true,

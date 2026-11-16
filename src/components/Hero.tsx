@@ -83,7 +83,7 @@ export default function Hero() {
       <div className="absolute inset-0 bg-gradient-to-t from-ink/55 via-ink/22 to-ink/10" />
       <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,transparent_32%,color-mix(in_srgb,var(--ink)_28%,transparent)_100%)]" />
 
-      <div className="relative z-10 mx-auto w-full max-w-6xl px-5 pb-16 pt-32 sm:px-8 sm:pb-24">
+      <div className="relative z-10 mx-auto w-full max-w-6xl px-3 pb-16 pt-32 sm:px-8 sm:pb-24">
         <p className="animate-fade-up font-display text-4xl leading-[0.95] tracking-[0.04em] text-white sm:text-6xl md:text-7xl">
           Invitation Studio
         </p>
@@ -93,7 +93,7 @@ export default function Hero() {
         </h1>
         <p className="animate-fade-up delay-2 mt-4 max-w-md text-base leading-relaxed text-white/80 sm:text-lg">
           Browse invitation websites, photos, and films, then make them
-          yours—or let us craft a custom site with your couple logo and story.
+          yours, or let us craft a custom site with your couple logo and story.
         </p>
         <div className="animate-fade-up delay-3 mt-8 flex flex-wrap gap-3">
           <a

@@ -16,7 +16,7 @@ type VideoCardProps = {
 };
 
 const styles = {
-  card: "photo-reveal mb-3 border border-ink/10 bg-[#fff] p-0 shadow-[0_22px_50px_-30px_color-mix(in_srgb,var(--ink)_70%,transparent)] sm:mb-8",
+  card: "photo-reveal mb-2 border border-ink/10 bg-[#fff] p-0 shadow-[0_22px_50px_-30px_color-mix(in_srgb,var(--ink)_70%,transparent)] sm:mb-8",
   frame: "relative overflow-hidden bg-ivory-deep",
   video: "video-no-controls absolute inset-0 h-full w-full bg-ink object-cover",
   skeleton: "image-skeleton absolute inset-0 h-full w-full",

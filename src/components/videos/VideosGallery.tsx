@@ -93,7 +93,7 @@ export default function VideosGallery({
   return (
     <>
       {/* Masonry: each card keeps its film's shape; cards fill left to right. */}
-      <div className="flex items-start gap-3 sm:gap-8">
+      <div className="flex items-start gap-2 sm:gap-8">
         {columns.map((column, c) => (
           <div key={c} className="flex min-w-0 flex-1 flex-col">
             {column.map(({ video, index }) => (

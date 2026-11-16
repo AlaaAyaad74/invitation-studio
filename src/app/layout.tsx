@@ -28,7 +28,7 @@ const siteUrl = getSiteUrl();
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
   title: {
-    default: `${siteConfig.name} — Wedding Invitation Websites`,
+    default: `${siteConfig.name} | Wedding Invitation Websites`,
     template: `%s | ${siteConfig.name}`,
   },
   description: siteConfig.description,
@@ -65,7 +65,7 @@ export const metadata: Metadata = {
     locale: "en_US",
     url: "/",
     siteName: siteConfig.name,
-    title: `${siteConfig.name} — Wedding Invitation Websites`,
+    title: `${siteConfig.name} | Wedding Invitation Websites`,
     description: siteConfig.description,
     images: [
       {
@@ -86,7 +86,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: `${siteConfig.name} — Wedding Invitation Websites`,
+    title: `${siteConfig.name} | Wedding Invitation Websites`,
     description: siteConfig.description,
     images: ["/og.png"],
   },

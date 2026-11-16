@@ -13,7 +13,7 @@ export const templates: InvitationTemplate[] = [
     id: "garden-vow",
     title: "Botanical",
     style: "Studio",
-    description: "A new invitation template — ready for fresh content.",
+    description: "A new invitation template, ready for fresh content.",
     image: "/botanical/botanical-card-image.webp",
     comingSoon: false,
     href: "/templates/botanical",
@@ -23,7 +23,7 @@ export const templates: InvitationTemplate[] = [
     title: "Elegant",
     style: "Elegant",
     description:
-      "A rose arch and a garden path — an invitation that feels like stepping into the light.",
+      "A rose arch and a garden path, an invitation that feels like stepping into the light.",
     image: "/elegant/elegant-card-image.webp",
     comingSoon: false,
     href: "/templates/elegant",
@@ -42,7 +42,7 @@ export const templates: InvitationTemplate[] = [
     title: "Heritage Script",
     style: "Classic",
     description:
-      "A crimson formal suite — calligraphy, gold, and evening light.",
+      "A crimson formal suite: calligraphy, gold, and evening light.",
     image: "/heritage-script/heritage-script-card-image.webp",
     comingSoon: false,
     href: "/templates/heritage-script",
@@ -52,7 +52,7 @@ export const templates: InvitationTemplate[] = [
     title: "Desert Bloom",
     style: "Modern",
     description:
-      "A lace envelope, a wax seal, and peach roses — break the seal to begin.",
+      "A lace envelope, a wax seal, and peach roses. Break the seal to begin.",
     image: "/desert-bloom/desert-bloom-card-image.webp",
     comingSoon: false,
     href: "/templates/desert-bloom",
@@ -71,7 +71,7 @@ export const features = [
   {
     title: "Ready-to-personalize sites",
     description:
-      "Every template ships as a full invitation website—RSVP, schedule, gallery, and map included.",
+      "Every template ships as a full invitation website: RSVP, schedule, gallery, and map included.",
   },
   {
     title: "Mobile-first elegance",
@@ -99,7 +99,7 @@ export const services = [
   {
     title: "Invitation photos",
     description:
-      "Still invitation cards designed for WhatsApp, print, and social—personalized with your names, date, and details.",
+      "Still invitation cards designed for WhatsApp, print, and social, personalized with your names, date, and details.",
     href: "/photos",
   },
   {

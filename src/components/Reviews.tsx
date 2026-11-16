@@ -36,7 +36,7 @@ export default function Reviews() {
       <div className="pointer-events-none absolute -left-20 top-16 h-72 w-72 rounded-full bg-rose/10 blur-3xl" />
       <div className="pointer-events-none absolute -right-16 bottom-10 h-64 w-64 rounded-full bg-gold/15 blur-3xl" />
 
-      <div className="relative mx-auto max-w-6xl px-5 sm:px-8">
+      <div className="relative mx-auto max-w-6xl px-3 sm:px-8">
         <div className="flex flex-col gap-8 md:flex-row md:items-end md:justify-between">
           <Reveal className="max-w-2xl">
             <p className="text-sm tracking-[0.2em] text-rose uppercase">
@@ -46,7 +46,7 @@ export default function Reviews() {
               Kind words from our couples.
             </h2>
             <p className="mt-4 max-w-lg text-ink-muted">
-              Real messages sent to us after the invitation went out—shared
+              Real messages sent to us after the invitation went out, shared
               with love, exactly as they arrived.
             </p>
           </Reveal>
@@ -65,7 +65,7 @@ export default function Reviews() {
         </div>
 
         {/* Swipe on phones, three equal cards from md up. */}
-        <div className="-mx-5 mt-12 flex snap-x snap-mandatory gap-4 overflow-x-auto px-5 pb-4 [scrollbar-width:none] sm:-mx-8 sm:px-8 md:mx-0 md:grid md:grid-cols-3 md:gap-6 md:overflow-visible md:px-0 md:pb-0 [&::-webkit-scrollbar]:hidden">
+        <div className="-mx-3 mt-12 flex snap-x snap-mandatory gap-4 overflow-x-auto px-3 pb-4 [scrollbar-width:none] sm:-mx-8 sm:px-8 md:mx-0 md:grid md:grid-cols-3 md:gap-6 md:overflow-visible md:px-0 md:pb-0 [&::-webkit-scrollbar]:hidden">
           {reviews.map((review, index) => {
             const isWhatsApp = review.platform === "WhatsApp";
             const PlatformIcon = isWhatsApp ? FaWhatsapp : FaInstagram;

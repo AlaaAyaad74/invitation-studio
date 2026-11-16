@@ -9,7 +9,7 @@ export default function Services() {
       <div className="pointer-events-none absolute -right-24 top-10 h-72 w-72 rounded-full bg-rose/10 blur-3xl" />
       <div className="pointer-events-none absolute -left-16 bottom-0 h-64 w-64 rounded-full bg-gold/15 blur-3xl" />
 
-      <div className="relative mx-auto max-w-6xl px-5 sm:px-8">
+      <div className="relative mx-auto max-w-6xl px-3 sm:px-8">
         <div className="grid gap-12 lg:grid-cols-[1.1fr_0.9fr] lg:items-end">
           <Reveal>
             <p className="text-sm tracking-[0.2em] text-rose uppercase">
@@ -29,7 +29,7 @@ export default function Services() {
             <div className="animate-soft-float border border-ivory-deep bg-white/70 p-6 backdrop-blur-sm sm:p-8">
               <p className="font-display text-3xl text-ink">Couple logo studio</p>
               <p className="mt-3 text-sm leading-relaxed text-ink-muted">
-                Start with a monogram, crest, or wordmark—then carry it through
+                Start with a monogram, crest, or wordmark, then carry it through
                 your invitation site, envelopes, and thank-you notes.
               </p>
               <a

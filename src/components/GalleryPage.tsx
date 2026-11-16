@@ -38,7 +38,7 @@ export default function GalleryPage({
           <div className={`pointer-events-none absolute -right-24 top-24 h-72 w-72 rounded-full ${rightGlow} blur-3xl`} />
           <div className={`pointer-events-none absolute -left-16 bottom-10 h-64 w-64 rounded-full ${leftGlow} blur-3xl`} />
 
-          <div className="relative mx-auto max-w-6xl px-5 sm:px-8">
+          <div className="relative mx-auto max-w-6xl px-3 sm:px-8">
             <Reveal className="max-w-2xl">
               <p className="text-sm tracking-[0.2em] text-rose uppercase">
                 {eyebrow}

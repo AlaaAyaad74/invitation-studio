@@ -23,7 +23,7 @@ export function eventFromInvite(id: string, data: InviteCalendar): CalendarEvent
 
   return {
     id,
-    title: `${data.couple.first} & ${data.couple.second} — Wedding`,
+    title: `${data.couple.first} & ${data.couple.second} Wedding`,
     start: data.start,
     end: data.end,
     location,

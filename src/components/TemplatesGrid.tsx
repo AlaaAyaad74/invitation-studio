@@ -10,7 +10,7 @@ export default function TemplatesGrid() {
       <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-ivory via-ivory-deep/60 to-ivory" />
       <div className="texture-grain pointer-events-none absolute inset-0 opacity-40" />
 
-      <div className="relative mx-auto max-w-6xl px-5 sm:px-8">
+      <div className="relative mx-auto max-w-6xl px-3 sm:px-8">
         <Reveal className="max-w-2xl">
           <p className="text-sm tracking-[0.2em] text-rose uppercase">
             Templates
@@ -19,12 +19,12 @@ export default function TemplatesGrid() {
             Invitation sites ready for your names.
           </h2>
           <p className="mt-4 max-w-lg text-ink-muted">
-            Each design is a complete wedding website—choose a look, personalize
+            Each design is a complete wedding website: choose a look, personalize
             the details, and share a link your guests will love.
           </p>
         </Reveal>
 
-        <div className="mt-12 grid grid-cols-2 gap-3 sm:gap-6 lg:grid-cols-3">
+        <div className="mt-12 grid grid-cols-2 gap-2 sm:gap-6 lg:grid-cols-3">
           {templates.map((template, index) => {
             const card = (
               <>
