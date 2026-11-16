@@ -2,6 +2,7 @@
 
 import PauseIcon from "@/app/common/icons/PauseIcon";
 import PlayIcon from "@/app/common/icons/PlayIcon";
+import Image from "next/image";
 import { useCallback, useEffect, useRef, useState, type CSSProperties } from "react";
 import ShareButton from "@/components/ShareButton";
 import type { InvitationVideo } from "@/data/videos";
@@ -214,13 +215,15 @@ export default function VideoCard({
         ) : null}
         {ready ? null : <div aria-hidden className={styles.skeleton} />}
         {video.poster && !started ? (
-          // eslint-disable-next-line @next/next/no-img-element -- small pre-sized still; next/image adds nothing here
-          <img
+          // Resized to the card width (2 columns, 3 from 1024px; max-w-6xl page).
+          <Image
             src={video.poster}
             alt=""
             aria-hidden
+            fill
+            sizes="(min-width: 1152px) 360px, (min-width: 1024px) 30vw, 50vw"
             loading={index < 3 ? "eager" : "lazy"}
-            decoding="async"
+            fetchPriority={index < 2 ? "high" : "auto"}
             className={styles.poster}
           />
         ) : null}

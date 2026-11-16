@@ -1,6 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import { Analytics } from "@vercel/analytics/next";
-import { Cormorant_Garamond, Figtree, Great_Vibes } from "next/font/google";
+import { SpeedInsights } from "@vercel/speed-insights/next";
+import { Alex_Brush, Cormorant_Garamond, Figtree, Great_Vibes } from "next/font/google";
 import DevtoolsGuard from "@/components/DevtoolsGuard";
 import VisitTracker from "@/components/VisitTracker";
 import { getSiteUrl, siteConfig } from "@/lib/site";
@@ -21,6 +22,15 @@ const greatVibes = Great_Vibes({
   variable: "--font-great-vibes",
   subsets: ["latin"],
   weight: "400",
+});
+
+// Self-hosted (was a render-blocking Google Fonts @import). Only the Botanical
+// and Heritage templates use it, so it is not preloaded on every page.
+const alexBrush = Alex_Brush({
+  variable: "--font-alex-brush",
+  subsets: ["latin"],
+  weight: "400",
+  preload: false,
 });
 
 const siteUrl = getSiteUrl();
@@ -151,7 +161,7 @@ export default function RootLayout({
     <html
       lang="en"
       data-scroll-behavior="smooth"
-      className={`${figtree.variable} ${cormorant.variable} ${greatVibes.variable} h-full antialiased`}
+      className={`${figtree.variable} ${cormorant.variable} ${greatVibes.variable} ${alexBrush.variable} h-full antialiased`}
       suppressHydrationWarning
     >
       <body className="min-h-full flex flex-col font-sans" suppressHydrationWarning>
@@ -163,6 +173,8 @@ export default function RootLayout({
         <VisitTracker />
         <DevtoolsGuard />
         <Analytics />
+        {/* Real-visitor load timings (Core Web Vitals) in the Vercel dashboard. */}
+        <SpeedInsights />
       </body>
     </html>
   );

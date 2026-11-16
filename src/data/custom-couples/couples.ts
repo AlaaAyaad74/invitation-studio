@@ -1,45 +1,31 @@
 import { eventFromInvite, googleCalendarUrl } from "@/lib/calendar";
 
-export const customCouples = [
-  {
-    slug: "ahmed&doaa",
-    calendarId: "ahmed-doaa",
-    template: "heritage-script" as const,
-    couple: {
-      first: "Ahmed",
-      second: "Doaa",
-    },
-    kicker: "Together with their families",
-    honour: "request the honour of your presence",
-    closing: "at the celebration of their marriage",
-    dateLabel: {
-      weekday: "Saturday",
-      day: "14",
-      month: "November",
-      year: "2026",
-    },
-    start: "2026-11-14T19:00:00+02:00",
-    end: "2026-11-15T00:00:00+02:00",
-    timeLabel: "Seven o'clock in the evening",
-    venue: {
-      name: "Lucinda Hall, Family Park",
-      city: "New Cairo",
-      address: "Family Park, Fifth Settlement, New Cairo, Egypt",
-      // TODO: replace with exact Google Maps link
-      mapUrl:
-        "https://www.google.com/maps/search/?api=1&query=Family+Park+Fifth+Settlement+New+Cairo",
-    },
-    attire: "Black tie",
-    music: "/voices/omar-salma-voice.mp3",
-    cover: {
-      video: "/couples/ahmed-doaa/ahmed_doaa_wedding_card.mp4",
-      poster: "/couples/ahmed-doaa/poster_video.webp",
-      alt: "Ahmed and Doaa wedding invitation",
-    },
-  },
-] as const;
+/** One bespoke couple invitation, served at /custom-templates/<slug>. */
+export type CustomCouple = {
+  /** URL segment, e.g. "omar&salma". */
+  slug: string;
+  /** Id for /calendar/<calendarId>. */
+  calendarId: string;
+  template: "heritage-script";
+  couple: { first: string; second: string };
+  kicker: string;
+  honour: string;
+  closing: string;
+  dateLabel: { weekday: string; day: string; month: string; year: string };
+  /** ISO date-time with offset, e.g. "2026-11-14T19:00:00+02:00". */
+  start: string;
+  end: string;
+  timeLabel: string;
+  venue: { name: string; city: string; address: string; mapUrl: string };
+  attire: string;
+  /** Path under public/. */
+  music: string;
+  /** Paths under public/couples/<name>/. */
+  cover: { video: string; poster: string; alt: string };
+};
 
-export type CustomCouple = (typeof customCouples)[number];
+/** Add a couple here to publish their invitation page. */
+export const customCouples: readonly CustomCouple[] = [];
 
 export function customCoupleEvent(couple: CustomCouple) {
   return eventFromInvite(couple.calendarId, {

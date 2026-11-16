@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef } from "react";
+import { useDeferredVideo } from "@/hooks/useDeferredVideo";
 
 type CoverProps = {
   video: string;
@@ -10,6 +11,9 @@ type CoverProps = {
 
 export default function Cover({ video, poster, alt }: CoverProps) {
   const videoRef = useRef<HTMLVideoElement>(null);
+  // The film is the card itself, so it always loads, but only after the page
+  // is in: the poster shows the card meanwhile.
+  const loadVideo = useDeferredVideo();
 
   useEffect(() => {
     const node = videoRef.current;
@@ -46,9 +50,8 @@ export default function Cover({ video, poster, alt }: CoverProps) {
         preload="auto"
         width={1080}
         height={1350}
-      >
-        <source src={video} type="video/mp4" />
-      </video>
+        src={loadVideo ? video : undefined}
+      />
     </section>
   );
 }

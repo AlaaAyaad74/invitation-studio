@@ -11,7 +11,6 @@ export default function Footer() {
     <footer className="border-t border-ink/10 bg-ivory-deep/70 py-10">
       <Reveal className="mx-auto flex max-w-6xl flex-col items-center gap-4 px-3 sm:flex-row sm:justify-between sm:px-8">
         <ImageWithSkeleton
-          native
           src="/logo.webp"
           alt="Invitation Studio"
           width={160}

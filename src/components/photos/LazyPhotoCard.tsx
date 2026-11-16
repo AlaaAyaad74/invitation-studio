@@ -76,7 +76,10 @@ export default function LazyPhotoCard({
           alt={`${photo.title} invitation photo`}
           width={900}
           height={1200}
-          sizes="33vw"
+          sizes="(min-width: 640px) 33vw, 50vw"
+          // First row is on screen at load: fetch it right away.
+          loading={index < 4 ? "eager" : "lazy"}
+          fetchPriority={index < 2 ? "high" : "auto"}
           className={`w-full object-cover transition duration-300 hover:scale-105 ${
             isLoaded
               ? "relative h-auto opacity-100"

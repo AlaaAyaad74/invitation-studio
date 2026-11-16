@@ -17,7 +17,7 @@ export default function LetterCard() {
           alt=""
           width={500}
           height={500}
-          priority
+          preload
           className={styles.bow}
         />
         <div className={styles.letter}>
@@ -86,6 +86,8 @@ export default function LetterCard() {
             alt=""
             width={375}
             height={666}
+            // Largest element on first screen: fetch early, never lazy.
+            preload
             className={styles.laceImg}
           />
         </div>

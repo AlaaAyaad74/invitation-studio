@@ -107,11 +107,11 @@ export default function Gallery() {
                   }}
                 >
                   <ImageWithSkeleton
-                    native
-                    cover
+                    // Optimized and resized for the 480px invitation column.
+                    fill
+                    sizes="(min-width: 480px) 480px, 100vw"
                     src={item.src}
                     alt=""
-                    loading="lazy"
                     className="absolute inset-0 size-full object-cover"
                     wrapperClassName="absolute inset-0"
                   />

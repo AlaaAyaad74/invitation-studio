@@ -58,10 +58,14 @@ export default function Gallery({ data }: { data: BotanicalContent }) {
               onClick={() => setActive(photo)}
             >
               <ImageWithSkeleton
-                native
+                // Optimized; width/height only seed the ratio, h-auto keeps
+                // each photo's natural shape.
                 src={photo.src}
                 alt={photo.alt}
-                loading="lazy"
+                width={800}
+                height={1000}
+                sizes="(min-width: 480px) 480px, 100vw"
+                className="h-auto w-full"
                 wrapperClassName="w-full"
                 skeletonClassName="min-h-48"
               />

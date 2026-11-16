@@ -3,8 +3,6 @@ import Invitation from "@/components/templates/elegant/Invitation";
 import type { Metadata } from "next";
 import { preload } from "react-dom";
 
-const VIDEO_SRC = "/elegant/elegant_hero_video.mp4";
-
 export const metadata: Metadata = {
   title: "Elegant",
   description:
@@ -16,8 +14,8 @@ export const metadata: Metadata = {
 };
 
 export default function ElegantTemplatePage() {
+  // Poster only: the cover video waits for page load (see VideoCover).
   preload("/elegant/elegant-empty-poster.webp", { as: "image" });
-  preload(VIDEO_SRC, { as: "video" });
 
   return (
     <div className="relative min-h-svh bg-ivory">
@@ -27,6 +25,8 @@ export default function ElegantTemplatePage() {
           cover
           src="/templates/midnight-silk.webp"
           alt=""
+          // Hidden below 720px; lazy keeps phones from downloading it.
+          loading="lazy"
           className="size-full object-cover object-[center_72%] brightness-[1.12] contrast-[1.06] saturate-[1.05]"
           wrapperClassName="absolute inset-0"
         />

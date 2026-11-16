@@ -192,7 +192,8 @@ export default function MusicPlayer({
         ref={audioRef}
         src={src}
         loop
-        preload="auto"
+        // Fetch the track only when playback starts, not with the page.
+        preload="none"
         playsInline
       />
       <button

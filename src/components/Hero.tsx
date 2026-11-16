@@ -2,12 +2,16 @@
 
 import { useEffect, useRef, useState } from "react";
 import { siteConfig } from "@/lib/site";
+import { useDeferredVideo } from "@/hooks/useDeferredVideo";
 
 const POSTER_SRC = "/videos/hero-poster.jpg";
 
 export default function Hero() {
   const videoRef = useRef<HTMLVideoElement>(null);
   const [playing, setPlaying] = useState(false);
+  // The poster carries the hero until the page has loaded; on Save-Data or
+  // slow connections the 7 MB film is skipped entirely.
+  const loadVideo = useDeferredVideo({ skipOnSlowNetwork: true });
 
   useEffect(() => {
     const video = videoRef.current;
@@ -66,11 +70,10 @@ export default function Hero() {
         loop
         playsInline
         preload="auto"
+        src={loadVideo ? "/videos/hero-video.mp4" : undefined}
         onPlaying={reveal}
         onTimeUpdate={reveal}
-      >
-        <source src="/videos/hero-video.mp4" type="video/mp4" />
-      </video>
+      />
       <img
         src={POSTER_SRC}
         alt=""

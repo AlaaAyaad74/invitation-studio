@@ -85,13 +85,12 @@ export default function Header() {
             className="flex shrink-0 items-center"
           >
             <ImageWithSkeleton
-              native
+              // Optimized: the 1254px, 214 KB source is resized for a 96px slot.
               src="/logo.webp"
               alt="Invitation Studio"
               width={96}
               height={96}
-              loading="eager"
-              fetchPriority="high"
+              preload
               className={`block w-auto [transition:height_450ms_cubic-bezier(0.22,1,0.36,1),opacity_500ms] motion-reduce:[transition-property:height]! ${
                 compact ? "h-12 sm:h-14" : "h-20 sm:h-24"
               }`}

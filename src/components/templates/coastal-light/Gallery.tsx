@@ -278,11 +278,11 @@ export default function Gallery() {
                 onClick={() => setActive(piece.photo)}
               >
                 <ImageWithSkeleton
-                  native
-                  cover
+                  // Optimized and resized for the 480px invitation column.
+                  fill
+                  sizes="(min-width: 480px) 480px, 100vw"
                   src={piece.photo.src}
                   alt=""
-                  loading="lazy"
                   draggable={false}
                   className="size-full object-cover"
                   wrapperClassName="relative size-full"

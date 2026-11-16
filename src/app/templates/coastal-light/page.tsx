@@ -1,9 +1,6 @@
 import TemplateShell from "@/components/templates/TemplateShell";
 import Invitation from "@/components/templates/coastal-light/Invitation";
 import type { Metadata } from "next";
-import { preload } from "react-dom";
-
-const VIDEO_SRC = "/minimal/minimal-hero.mp4";
 
 export const metadata: Metadata = {
   title: "Coastal Light",
@@ -15,8 +12,8 @@ export const metadata: Metadata = {
 };
 
 export default function CoastalLightTemplatePage() {
-  preload(VIDEO_SRC, { as: "video" });
-
+  // No head preload for the cover video: the <video> element loads it itself,
+  // after fonts, scripts and the poster instead of ahead of them.
   return (
     <TemplateShell
       coverSrc="/templates/coastal-light.webp"

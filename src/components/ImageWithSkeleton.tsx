@@ -132,6 +132,7 @@ export default function ImageWithSkeleton(props: ImageWithSkeletonProps) {
         />
       ) : (
         <Image
+          ref={imgRef}
           src={src}
           alt={alt}
           className={imageClassName}
@@ -139,8 +140,10 @@ export default function ImageWithSkeleton(props: ImageWithSkeletonProps) {
           {...(fill
             ? {
                 fill: true as const,
+                draggable: props.draggable,
                 sizes: props.sizes,
                 priority: props.priority,
+                preload: props.preload,
                 unoptimized: props.unoptimized,
                 quality: props.quality,
                 style: props.style,
@@ -150,6 +153,7 @@ export default function ImageWithSkeleton(props: ImageWithSkeletonProps) {
                 height: props.height,
                 sizes: props.sizes,
                 priority: props.priority,
+                preload: props.preload,
                 unoptimized: props.unoptimized,
                 quality: props.quality,
                 style: props.style,

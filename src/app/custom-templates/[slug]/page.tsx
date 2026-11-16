@@ -37,8 +37,8 @@ export default async function CustomCoupleInvitationPage({ params }: PageProps) 
   const couple = getCouple(slug);
   if (!couple) notFound();
 
+  // Poster only: the cover film waits for page load (see Cover).
   preload(couple.cover.poster, { as: "image" });
-  preload(couple.cover.video, { as: "video" });
 
   const { first, second, dateLabel } = {
     first: couple.couple.first,

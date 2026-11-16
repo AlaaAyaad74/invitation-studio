@@ -1,4 +1,4 @@
-@import url("https://fonts.googleapis.com/css2?family=Alex+Brush&display=swap");
+/* Alex Brush is self-hosted via next/font in app/layout.tsx (--font-alex-brush). */
 @import "tailwindcss";
 @source "../components";
 
@@ -191,7 +191,7 @@ body {
 }
 
 .alex-brush-regular {
-  font-family: "Alex Brush", cursive;
+  font-family: var(--font-alex-brush), "Alex Brush", cursive;
   font-weight: 400;
   font-style: normal;
 }

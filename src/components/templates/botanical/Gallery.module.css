@@ -25,7 +25,7 @@
 }
 
 .script.brush {
-  font-family: "Alex Brush", cursive;
+  font-family: var(--font-alex-brush), "Alex Brush", cursive;
   font-weight: 400;
 }
 

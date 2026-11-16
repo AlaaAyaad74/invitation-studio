@@ -3,6 +3,7 @@
 import ImageWithSkeleton from "@/components/ImageWithSkeleton";
 import { elegantInvitation as data } from "@/data/elegant";
 import { useEffect, useRef, useState } from "react";
+import { useDeferredVideo } from "@/hooks/useDeferredVideo";
 
 const VIDEO_SRC = "/elegant/elegant_hero_video.mp4";
 const POSTER_SRC = "/elegant/elegant-empty-poster.webp";
@@ -22,12 +23,12 @@ const PETALS = [
   },
 ];
 
+// Cover text animates in from first paint (pure CSS) rather than waiting for
+// hydration plus a timer, so names show quickly over the poster on slow links.
 function cue(animation = "animate-e-rise", extra = "") {
   return [
     animation,
     "opacity-0",
-    "[animation-play-state:paused]",
-    "group-data-[ready=true]:[animation-play-state:running]",
     "motion-reduce:animate-none",
     "motion-reduce:opacity-100",
     extra,
@@ -40,6 +41,8 @@ export default function VideoCover() {
   const videoRef = useRef<HTMLVideoElement>(null);
   const [ready, setReady] = useState(false);
   const [videoOn, setVideoOn] = useState(false);
+  // Decorative loop: wait for the page to load, skip it on slow connections.
+  const loadVideo = useDeferredVideo({ skipOnSlowNetwork: true });
 
   useEffect(() => {
     const id = window.setTimeout(() => setReady(true), 1400);
@@ -76,12 +79,11 @@ export default function VideoCover() {
         playsInline
         preload="auto"
         aria-hidden="true"
+        src={loadVideo ? VIDEO_SRC : undefined}
         onCanPlay={() => setReady(true)}
         onPlaying={() => setVideoOn(true)}
         onError={() => setVideoOn(false)}
-      >
-        <source src={VIDEO_SRC} type="video/mp4" />
-      </video>
+      />
       <ImageWithSkeleton
         native
         cover

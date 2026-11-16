@@ -41,6 +41,8 @@ export default function TemplateShell({
           cover
           src={coverSrc}
           alt={coverAlt}
+          // Hidden below 720px; lazy keeps phones from downloading it.
+          loading="lazy"
           className={styles.image}
           wrapperClassName="absolute inset-0"
         />
