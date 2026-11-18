@@ -1,0 +1,382 @@
+.section {
+  background:
+    var(--grain),
+    radial-gradient(80% 50% at 50% 100%, var(--blush), transparent 75%),
+    var(--paper);
+}
+
+.desk {
+  position: relative;
+  max-width: 21rem;
+  margin: 2.4rem auto 0;
+}
+
+/* ---------- The note ---------- */
+
+.note {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 1.15rem;
+  padding: 2rem 1.4rem 1.6rem;
+  border-radius: 0.3rem;
+  text-align: left;
+  /* Ruled writing paper. */
+  background:
+    var(--grain),
+    repeating-linear-gradient(180deg, transparent 0 1.9rem, color-mix(in srgb, var(--rose) 14%, transparent) 1.9rem calc(1.9rem + 1px)),
+    var(--card);
+  box-shadow:
+    0 26px 44px -30px rgba(75, 43, 48, 0.7),
+    0 2px 6px -3px rgba(75, 43, 48, 0.22);
+  transform-origin: 50% 40%;
+  transition:
+    transform 0.7s cubic-bezier(0.55, 0, 0.6, 1),
+    opacity 0.55s ease 0.1s,
+    clip-path 0.7s cubic-bezier(0.55, 0, 0.6, 1);
+  clip-path: polygon(-20% -20%, 120% -20%, 120% 120%, -20% 120%);
+}
+
+/* Margin rule, like a letter pad. */
+.note::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0.85rem;
+  width: 1px;
+  background: color-mix(in srgb, var(--rose) 30%, transparent);
+}
+
+.desk[data-stage="folding"] .note,
+.desk[data-stage="flying"] .note,
+.desk[data-stage="sent"] .note {
+  opacity: 0;
+  pointer-events: none;
+  clip-path: polygon(50% 0, 100% 40%, 50% 100%, 0 40%);
+  transform: perspective(900px) rotateX(55deg) rotateZ(-20deg) scale(0.18);
+}
+
+.desk[data-stage="sent"] .note {
+  visibility: hidden;
+}
+
+.noteRose {
+  position: absolute;
+  top: -1.6rem;
+  right: -1.4rem;
+  width: 4.4rem;
+}
+
+.noteSprig {
+  position: absolute;
+  top: -1.4rem;
+  right: 2.2rem;
+  width: 3.6rem;
+  transform: rotate(-60deg);
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+}
+
+.label {
+  padding: 0;
+  color: var(--muted);
+  font-family: var(--font-ar-sans), sans-serif;
+  font-size: 0.6rem;
+  letter-spacing: 0.26em;
+  text-transform: uppercase;
+}
+
+.input {
+  width: 100%;
+  padding: 0.25rem 0 0.35rem;
+  border: 0;
+  border-bottom: 1px solid var(--blush-deep);
+  border-radius: 0;
+  background: transparent;
+  color: var(--rose-deep);
+  font-family: var(--font-ar-script), cursive;
+  font-size: 1.7rem;
+  line-height: 1.3;
+  outline: none;
+  transition: border-color 0.2s ease;
+}
+
+.input::placeholder {
+  color: color-mix(in srgb, var(--muted) 45%, transparent);
+}
+
+.input:focus {
+  border-bottom-color: var(--rose-deep);
+}
+
+.textarea {
+  resize: none;
+  font-size: 1.4rem;
+  line-height: 1.9rem;
+}
+
+.choice {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+
+.choice legend {
+  margin-bottom: 0.5rem;
+}
+
+.chip {
+  position: relative;
+  cursor: pointer;
+}
+
+.chip input {
+  position: absolute;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.chip span {
+  display: inline-block;
+  padding: 0.5rem 1rem;
+  border: 1px solid var(--blush-deep);
+  border-radius: 999px;
+  background: var(--card);
+  color: var(--ink);
+  font-family: var(--font-ar-serif), Georgia, serif;
+  font-size: 1.02rem;
+  font-style: italic;
+  transition:
+    background 0.2s ease,
+    color 0.2s ease,
+    border-color 0.2s ease;
+}
+
+.chip input:checked + span {
+  border-color: var(--rose-deep);
+  background: var(--rose-deep);
+  color: var(--white);
+}
+
+.chip input:focus-visible + span {
+  outline: 2px solid var(--rose-deep);
+  outline-offset: 2px;
+}
+
+.guests {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  max-height: 3rem;
+  overflow: hidden;
+  transition:
+    max-height 0.4s ease,
+    opacity 0.3s ease,
+    margin 0.4s ease;
+}
+
+.guests[data-hidden="true"] {
+  max-height: 0;
+  margin-top: -1.15rem;
+  opacity: 0;
+  visibility: hidden;
+}
+
+.stepper {
+  display: flex;
+  align-items: center;
+  gap: 0.2rem;
+  border: 1px solid var(--blush-deep);
+  border-radius: 999px;
+  background: var(--card);
+}
+
+.stepper button {
+  width: 2.3rem;
+  height: 2.3rem;
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+  background: none;
+  color: var(--rose-deep);
+  font-size: 1.15rem;
+  cursor: pointer;
+}
+
+.stepper button:disabled {
+  opacity: 0.3;
+  cursor: default;
+}
+
+.stepper output {
+  min-width: 1.2rem;
+  color: var(--rose-deep);
+  font-family: var(--font-ar-display), serif;
+  font-size: 1.25rem;
+  text-align: center;
+}
+
+.submit {
+  align-self: center;
+  margin-top: 0.4rem;
+}
+
+/* ---------- Paper plane ---------- */
+
+.flight {
+  position: absolute;
+  inset: -2rem -1.5rem;
+  pointer-events: none;
+}
+
+.trail {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+  opacity: 0;
+  clip-path: inset(100% 0 0 0);
+  transition:
+    clip-path 1.3s cubic-bezier(0.45, 0, 0.3, 1),
+    opacity 0.4s ease;
+}
+
+.trail path {
+  fill: none;
+  stroke: var(--rose);
+  stroke-width: 1.4;
+  stroke-dasharray: 3 7;
+  stroke-linecap: round;
+  vector-effect: non-scaling-stroke;
+}
+
+.desk[data-stage="flying"] .trail {
+  opacity: 0.7;
+  clip-path: inset(0 0 0 0);
+}
+
+.desk[data-stage="sent"] .trail {
+  opacity: 0;
+  clip-path: inset(0 0 0 0);
+}
+
+.plane {
+  position: absolute;
+  top: 40%;
+  left: 50%;
+  width: 4.6rem;
+  height: auto;
+  margin: -1.7rem 0 0 -2.3rem;
+  opacity: 0;
+  filter: drop-shadow(0 10px 10px rgba(75, 43, 48, 0.3));
+  transform: scale(0.3) rotate(-30deg);
+  transition:
+    opacity 0.3s ease 0.35s,
+    transform 0.45s cubic-bezier(0.34, 1.6, 0.6, 1) 0.35s;
+}
+
+.desk[data-stage="folding"] .plane {
+  opacity: 1;
+  transform: scale(1) rotate(-12deg);
+}
+
+.desk[data-stage="flying"] .plane {
+  opacity: 1;
+  animation: fly 1.35s cubic-bezier(0.45, 0, 0.3, 1) forwards;
+}
+
+@keyframes fly {
+  0% {
+    transform: scale(1) rotate(-12deg);
+  }
+  25% {
+    transform: translate(-4.5rem, 2.5rem) scale(0.95) rotate(-55deg);
+  }
+  55% {
+    transform: translate(-1rem, -3rem) scale(0.85) rotate(10deg);
+  }
+  100% {
+    opacity: 0;
+    transform: translate(11rem, -15rem) scale(0.35) rotate(-20deg);
+  }
+}
+
+/* ---------- Sent ---------- */
+
+.sent {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.8rem;
+  pointer-events: none;
+}
+
+.desk[data-stage="sent"] .sent {
+  pointer-events: auto;
+  animation: settle 0.8s ease both;
+}
+
+@keyframes settle {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+}
+
+.sentTitle {
+  margin: 0;
+  color: var(--rose-deep);
+  font-family: var(--font-ar-script), cursive;
+  font-size: 2.3rem;
+  line-height: 1.2;
+}
+
+.sentCopy {
+  max-width: 16rem;
+  margin: 0 0 0.6rem;
+  color: var(--muted);
+  font-family: var(--font-ar-serif), Georgia, serif;
+  font-size: 1.05rem;
+  font-style: italic;
+}
+
+.again {
+  padding: 0.4rem;
+  border: 0;
+  background: none;
+  color: var(--muted);
+  font-family: var(--font-ar-sans), sans-serif;
+  font-size: 0.6rem;
+  letter-spacing: 0.24em;
+  text-decoration: underline;
+  text-underline-offset: 4px;
+  text-transform: uppercase;
+  cursor: pointer;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .note,
+  .plane,
+  .trail,
+  .guests {
+    transition: none;
+  }
+
+  .desk[data-stage="flying"] .plane {
+    animation: none;
+    opacity: 0;
+  }
+}

@@ -1,0 +1,278 @@
+.section {
+  --edge: var(--paper-2);
+  background:
+    var(--grain),
+    radial-gradient(60% 40% at 50% 55%, color-mix(in srgb, var(--blush) 80%, transparent), transparent 75%),
+    var(--paper-2);
+}
+
+.stage {
+  position: relative;
+  display: grid;
+  place-items: center;
+  margin: 2rem auto 0;
+}
+
+/* ---------- The bud ---------- */
+
+.bud {
+  --p: 0;
+  position: relative;
+  display: grid;
+  place-items: center;
+  width: 15rem;
+  height: 15rem;
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+  background: radial-gradient(circle, var(--card) 0%, transparent 70%);
+  cursor: pointer;
+  touch-action: none;
+  user-select: none;
+  -webkit-user-select: none;
+  -webkit-touch-callout: none;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.bud:focus-visible {
+  outline: 2px solid var(--rose-deep);
+  outline-offset: 4px;
+}
+
+.bud:disabled {
+  cursor: default;
+}
+
+.ring {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  transform: rotate(-90deg);
+  transition: opacity 0.6s ease;
+}
+
+.ringTrack {
+  fill: none;
+  stroke: var(--blush-deep);
+  stroke-width: 0.6;
+  stroke-dasharray: 1 3;
+}
+
+.ringFill {
+  fill: none;
+  stroke: var(--rose-deep);
+  stroke-width: 1.4;
+  stroke-linecap: round;
+}
+
+.stage[data-bloomed="true"] .ring {
+  opacity: 0;
+}
+
+.rose {
+  width: 11rem;
+  height: 11rem;
+  overflow: visible;
+  /* Gentle breathing while it waits to be pressed. */
+  animation: breathe 3s ease-in-out infinite;
+}
+
+.stage[data-bloomed="true"] .rose {
+  animation: open-up 0.9s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+}
+
+@keyframes breathe {
+  50% {
+    transform: scale(1.04);
+  }
+}
+
+@keyframes open-up {
+  0% {
+    transform: scale(1);
+  }
+  40% {
+    transform: scale(1.18) rotate(8deg);
+  }
+  100% {
+    transform: scale(1.08) rotate(0deg);
+  }
+}
+
+/* Each ring opens once --p passes its --start. Before that it sits furled
+   behind the bud: small, twisted, and transparent. */
+.petals {
+  --open: clamp(0, calc((var(--p) - var(--start)) * 3.2), 1);
+  transform-box: view-box;
+  transform-origin: 0 0; /* view-box origin is the rose centre (0,0) */
+  transform: scale(calc(0.18 + var(--open) * 0.82)) rotate(calc((1 - var(--open)) * -70deg));
+  opacity: calc(0.25 + var(--open) * 0.75);
+}
+
+/* The bud itself (first ring) is always fully visible. */
+.petals:last-of-type {
+  --open: clamp(0.55, calc(0.55 + var(--p) * 2), 1);
+  opacity: 1;
+}
+
+.stage[data-bloomed="true"] .petals {
+  --open: 1;
+  transition: transform 0.6s ease;
+}
+
+.press {
+  position: absolute;
+  bottom: 1.2rem;
+  color: var(--rose-deep);
+  font-family: var(--font-ar-sans), sans-serif;
+  font-size: 0.56rem;
+  letter-spacing: 0.4em;
+  text-transform: uppercase;
+  animation: blink 2s ease-in-out infinite;
+}
+
+@keyframes blink {
+  50% {
+    opacity: 0.4;
+  }
+}
+
+/* ---------- Petal burst ---------- */
+
+.burst {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  pointer-events: none;
+}
+
+.burst i {
+  position: absolute;
+  width: 0.8rem;
+  height: 1.05rem;
+  border-radius: 80% 0 80% 0;
+  background: #ecc3ba;
+  opacity: 0;
+}
+
+.burst i[data-tone="1"] {
+  background: #f6d5bf;
+}
+
+.burst i[data-tone="2"] {
+  width: 0.45rem;
+  height: 0.45rem;
+  border-radius: 50%;
+  background: var(--gold);
+}
+
+.stage[data-bloomed="true"] .burst i {
+  animation: scatter 1.5s cubic-bezier(0.2, 0.7, 0.3, 1) var(--delay) forwards;
+}
+
+@keyframes scatter {
+  0% {
+    opacity: 1;
+    transform: translate(0, 0) rotate(0deg) scale(0.3);
+  }
+  70% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+    transform: translate(var(--x), calc(var(--y) + 80px)) rotate(var(--spin)) scale(1);
+  }
+}
+
+/* ---------- Dress code card ---------- */
+
+.card {
+  max-width: 20rem;
+  min-height: 1px;
+  margin: 1.4rem auto 0;
+}
+
+.card[data-bloomed="true"] {
+  animation: card-in 0.9s cubic-bezier(0.22, 1, 0.36, 1) 0.35s both;
+}
+
+@keyframes card-in {
+  from {
+    opacity: 0;
+    transform: translateY(16px) scale(0.96);
+  }
+}
+
+.cardTitle {
+  margin: 0;
+  color: var(--rose-deep);
+  font-family: var(--font-ar-display), serif;
+  font-size: 1.6rem;
+  font-style: italic;
+}
+
+.swatches {
+  display: flex;
+  justify-content: center;
+  gap: 0.75rem;
+  margin: 1.1rem 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.swatches li {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.4rem;
+  animation: swatch-pop 0.6s cubic-bezier(0.34, 1.7, 0.64, 1) calc(0.6s + var(--i) * 90ms) both;
+}
+
+@keyframes swatch-pop {
+  from {
+    opacity: 0;
+    transform: translateY(10px) scale(0.4);
+  }
+}
+
+.swatch {
+  width: 2.4rem;
+  height: 2.4rem;
+  border-radius: 50%;
+  box-shadow:
+    0 0 0 3px var(--card),
+    0 0 0 4px var(--line),
+    0 10px 16px -10px rgba(75, 43, 48, 0.6);
+}
+
+.swatchName {
+  color: var(--muted);
+  font-family: var(--font-ar-sans), sans-serif;
+  font-size: 0.52rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+}
+
+.cardNote {
+  margin: 1.2rem 0 0;
+  color: var(--ink);
+  font-family: var(--font-ar-serif), Georgia, serif;
+  font-size: 1.08rem;
+  font-style: italic;
+  line-height: 1.5;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .rose,
+  .press,
+  .swatches li,
+  .card[data-bloomed="true"],
+  .stage[data-bloomed="true"] .rose {
+    animation: none;
+  }
+
+  .burst {
+    display: none;
+  }
+}

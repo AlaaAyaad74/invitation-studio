@@ -1,3 +1,4 @@
+import { atelierRoseEvent } from "@/data/atelier-rose";
 import { botanicalInvitation } from "@/data/botanical";
 import { coastalLightInvitation } from "@/data/coastal-light";
 import { couples } from "@/data/couples";
@@ -17,6 +18,7 @@ const allEvents: CalendarEvent[] = [
   eventFromInvite("coastal-light", coastalLightInvitation),
   heritageEvent,
   desertBloomEvent,
+  atelierRoseEvent,
   ...couples.map((couple) => eventFromInvite(couple.calendarId, couple)),
   ...customCouples.map(customCoupleEvent),
 ];

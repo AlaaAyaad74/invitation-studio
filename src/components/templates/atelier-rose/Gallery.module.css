@@ -1,0 +1,155 @@
+.section {
+  padding-inline: 0;
+  overflow: hidden;
+  background: var(--grain), var(--paper);
+}
+
+/* Photos pegged along a line, scrolled sideways with snap. */
+.strip {
+  position: relative;
+  display: flex;
+  gap: 1.3rem;
+  margin-top: 2rem;
+  padding: 2.4rem 2.5rem 3rem;
+  overflow-x: auto;
+  overscroll-behavior-x: contain;
+  scroll-snap-type: x mandatory;
+  scroll-padding-inline: 2.5rem;
+  scrollbar-width: none;
+}
+
+.strip::-webkit-scrollbar {
+  display: none;
+}
+
+.line {
+  position: absolute;
+  top: 2.2rem;
+  left: 0;
+  width: calc(100% + 100rem);
+  height: 1px;
+  background: #b89a7c;
+}
+
+.polaroid {
+  position: relative;
+  flex: 0 0 13rem;
+  margin: 0;
+  padding: 0.75rem 0.75rem 0;
+  border: 0;
+  background: var(--grain), #fffdfa;
+  box-shadow:
+    0 22px 34px -24px rgba(75, 43, 48, 0.6),
+    0 2px 5px -2px rgba(75, 43, 48, 0.2);
+  scroll-snap-align: start;
+  transform: rotate(var(--tilt));
+  transform-origin: 50% 0;
+  transition: transform 0.55s cubic-bezier(0.34, 1.4, 0.5, 1);
+  cursor: pointer;
+  animation: sway 5s ease-in-out infinite alternate;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.polaroid:nth-child(odd) {
+  animation-delay: -2.5s;
+}
+
+@keyframes sway {
+  to {
+    rotate: calc(var(--tilt) * -0.4);
+  }
+}
+
+.polaroid[data-lifted="true"] {
+  z-index: 2;
+  animation: none;
+  transform: rotate(0deg) scale(1.08) translateY(-0.4rem);
+}
+
+.polaroid:focus-visible {
+  outline: 2px solid var(--rose-deep);
+  outline-offset: 4px;
+}
+
+/* Washi tape holding the photo to the line. */
+.tape {
+  position: absolute;
+  top: -0.85rem;
+  left: 50%;
+  z-index: 1;
+  width: 4.4rem;
+  height: 1.5rem;
+  background:
+    repeating-linear-gradient(
+      -45deg,
+      rgba(255, 255, 255, 0.35) 0 4px,
+      transparent 4px 8px
+    ),
+    color-mix(in srgb, var(--blush-deep) 75%, transparent);
+  clip-path: polygon(3% 0, 97% 4%, 100% 50%, 96% 100%, 2% 96%, 0 50%);
+  transform: translateX(-50%) rotate(-4deg);
+}
+
+.polaroid:nth-child(odd) .tape {
+  background:
+    repeating-linear-gradient(90deg, rgba(255, 255, 255, 0.3) 0 3px, transparent 3px 9px),
+    color-mix(in srgb, var(--sage) 70%, transparent);
+  transform: translateX(-50%) rotate(5deg);
+}
+
+.frame {
+  position: relative;
+  display: block;
+  aspect-ratio: 1;
+  overflow: hidden;
+  background: #2d2224;
+}
+
+/* Developing: washed-out and blurry, then the colour comes through. */
+.image {
+  object-fit: cover;
+  filter: sepia(0.8) saturate(0.3) brightness(1.5) contrast(0.55) blur(4px);
+  transform: scale(1.06);
+  transition:
+    filter 3.2s ease-out,
+    transform 3.2s ease-out;
+}
+
+.haze {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at 50% 45%, #f4ece6 0%, #e9e1db 70%);
+  opacity: 0.92;
+  transition: opacity 2.6s ease-out;
+}
+
+[data-developed="true"] .image {
+  filter: none;
+  transform: none;
+}
+
+[data-developed="true"] .haze {
+  opacity: 0;
+}
+
+.caption {
+  display: block;
+  padding: 0.7rem 0 0.9rem;
+  color: var(--ink);
+  font-family: var(--font-ar-script), cursive;
+  font-size: 1.5rem;
+  line-height: 1.2;
+  text-align: center;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .polaroid {
+    animation: none;
+    transition: none;
+  }
+
+  .image,
+  .haze {
+    transition: none;
+  }
+}

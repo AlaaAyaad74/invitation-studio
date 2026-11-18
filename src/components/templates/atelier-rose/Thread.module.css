@@ -1,0 +1,65 @@
+/* Pinned to the left edge of the invitation column (480px, docked right on
+   desktop). --sp is the page's scroll progress, 0..1. */
+.thread {
+  --sp: 0;
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: max(0px, calc(50% - 240px));
+  z-index: 45;
+  width: 1.4rem;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.8s ease 1.8s;
+}
+
+@media (min-width: 720px) {
+  .thread {
+    left: calc(100% - 480px);
+  }
+}
+
+.thread[data-active="true"] {
+  opacity: 1;
+}
+
+.line,
+.fill {
+  position: absolute;
+  top: 1.2rem;
+  bottom: 1.2rem;
+  left: 0.65rem;
+  width: 1px;
+}
+
+.line {
+  background: repeating-linear-gradient(180deg, color-mix(in srgb, var(--rose) 35%, transparent) 0 4px, transparent 4px 7px);
+}
+
+.fill {
+  bottom: auto;
+  height: calc((100% - 2.4rem) * var(--sp));
+  background: linear-gradient(180deg, transparent, var(--rose));
+}
+
+.bead {
+  position: absolute;
+  top: calc(1.2rem + (100% - 2.4rem) * var(--sp));
+  left: 0.65rem;
+  width: 1.15rem;
+  height: 1.15rem;
+  translate: -50% -50%;
+  rotate: calc(var(--sp) * 720deg);
+}
+
+.rose {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .bead {
+    rotate: 0deg;
+  }
+}

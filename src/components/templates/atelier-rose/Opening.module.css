@@ -1,0 +1,461 @@
+/* Gatefold card tied with a satin ribbon. Untie it and the two doors swing
+   open onto the invitation underneath. */
+
+.overlay {
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 50%;
+  z-index: 100;
+  width: 100%;
+  min-width: 280px;
+  max-width: 480px;
+  transform: translateX(-50%);
+  touch-action: none;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+@media (min-width: 720px) {
+  .overlay {
+    right: 0;
+    left: auto;
+    width: 480px;
+    transform: none;
+  }
+}
+
+.scene {
+  position: absolute;
+  inset: 0;
+  perspective: 1600px;
+  perspective-origin: 50% 45%;
+}
+
+/* ---------- Doors ---------- */
+
+.door {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 50%;
+  overflow: hidden;
+  transform-style: preserve-3d;
+  transition:
+    transform 1.45s cubic-bezier(0.65, 0, 0.25, 1),
+    box-shadow 1.45s ease;
+  will-change: transform;
+}
+
+.left {
+  left: 0;
+  transform-origin: left center;
+  box-shadow: inset -10px 0 18px -14px rgba(75, 43, 48, 0.45);
+}
+
+.right {
+  right: 0;
+  transform-origin: right center;
+  box-shadow: inset 10px 0 18px -14px rgba(75, 43, 48, 0.45);
+}
+
+/* The face is drawn at full width; each door clips its own half. */
+.face {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 200%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background:
+    var(--grain),
+    radial-gradient(120% 70% at 50% 40%, #fbeae5 0%, var(--blush) 60%, var(--blush-deep) 130%);
+}
+
+.left .face {
+  left: 0;
+}
+
+.right .face {
+  right: 0;
+}
+
+/* Fine deckled seam where the doors meet. */
+.left::after,
+.right::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 1px;
+  background: rgba(255, 250, 247, 0.85);
+  box-shadow: 0 0 6px rgba(143, 76, 83, 0.25);
+}
+
+.left::after {
+  right: 0;
+}
+
+.right::after {
+  left: 0;
+}
+
+[data-phase="opening"] .left {
+  transform: rotateY(-112deg);
+  box-shadow: inset -40px 0 50px -20px rgba(75, 43, 48, 0.5);
+}
+
+[data-phase="opening"] .right {
+  transform: rotateY(112deg);
+  box-shadow: inset 40px 0 50px -20px rgba(75, 43, 48, 0.5);
+}
+
+.overlay[data-phase="opening"] {
+  pointer-events: none;
+}
+
+/* ---------- Face artwork ---------- */
+
+.cornerRose {
+  position: absolute;
+  height: auto;
+  animation: sway 7s ease-in-out infinite alternate;
+}
+
+.roseA {
+  top: -2.2rem;
+  left: -1.6rem;
+  width: 9.5rem;
+}
+
+.roseB {
+  top: 3.6rem;
+  left: 4.6rem;
+  width: 4.6rem;
+  animation-delay: -2s;
+}
+
+.roseC {
+  right: -1.8rem;
+  bottom: -2rem;
+  width: 10rem;
+  animation-delay: -4s;
+}
+
+.sprig {
+  position: absolute;
+  width: 6rem;
+  height: auto;
+}
+
+.sprigA {
+  top: 6.5rem;
+  left: 0.4rem;
+  transform: rotate(10deg);
+}
+
+.sprigB {
+  right: 5.2rem;
+  bottom: 1.2rem;
+  transform: rotate(190deg);
+}
+
+@keyframes sway {
+  to {
+    transform: rotate(6deg) translateY(-3px);
+  }
+}
+
+.atelier {
+  margin: 0 0 0.5rem;
+  color: var(--rose-deep);
+  font-family: var(--font-ar-sans), sans-serif;
+  font-size: 0.66rem;
+  letter-spacing: 0.5em;
+  text-transform: uppercase;
+}
+
+.monogram {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.2rem;
+  width: 9.5rem;
+  height: 9.5rem;
+  border-radius: 50%;
+  background: var(--grain), var(--card);
+  box-shadow:
+    0 0 0 6px color-mix(in srgb, var(--card) 70%, transparent),
+    0 0 0 7px var(--blush-deep),
+    0 22px 40px -22px rgba(75, 43, 48, 0.55);
+}
+
+.monogram::before {
+  content: "";
+  position: absolute;
+  inset: 0.5rem;
+  border: 1px dashed color-mix(in srgb, var(--gold) 70%, transparent);
+  border-radius: 50%;
+}
+
+.initial {
+  color: var(--rose-deep);
+  font-family: var(--font-ar-display), serif;
+  font-size: 2.9rem;
+  font-style: italic;
+  line-height: 1;
+}
+
+.amp {
+  margin: 0.6rem 0.1rem 0;
+  color: var(--gold);
+  font-family: var(--font-ar-script), cursive;
+  font-size: 2rem;
+}
+
+.to {
+  margin: 0 0 1.4rem;
+  color: var(--rose-deep);
+  font-family: var(--font-ar-script), cursive;
+  font-size: 1.9rem;
+}
+
+/* The gap under the monogram holds the ribbon, bow and hint. */
+.date {
+  margin: 11rem 0 0;
+  color: var(--muted);
+  font-family: var(--font-ar-sans), sans-serif;
+  font-size: 0.7rem;
+  letter-spacing: 0.42em;
+}
+
+/* ---------- Ribbon ---------- */
+
+.band {
+  position: absolute;
+  top: calc(50% + 3.2rem);
+  z-index: 2;
+  width: 50%;
+  height: 1.35rem;
+  background:
+    linear-gradient(180deg, rgba(255, 244, 239, 0.55) 0 1px, transparent 1px calc(100% - 1px), rgba(90, 46, 51, 0.25) calc(100% - 1px)),
+    linear-gradient(180deg, #d99a92 0%, #c98680 45%, #f0cbc3 58%, #b8746f 100%);
+  box-shadow: 0 6px 10px -6px rgba(75, 43, 48, 0.55);
+  transition:
+    transform 0.7s cubic-bezier(0.55, 0, 0.6, 1),
+    opacity 0.5s ease 0.25s;
+}
+
+.band[data-side="left"] {
+  left: 0;
+  transform-origin: left center;
+}
+
+.band[data-side="right"] {
+  right: 0;
+  transform-origin: right center;
+}
+
+[data-phase="untying"] .band[data-side="left"],
+[data-phase="opening"] .band[data-side="left"] {
+  transform: translateX(-105%) rotate(-8deg);
+  opacity: 0;
+}
+
+[data-phase="untying"] .band[data-side="right"],
+[data-phase="opening"] .band[data-side="right"] {
+  transform: translateX(105%) rotate(8deg);
+  opacity: 0;
+}
+
+.knot {
+  position: absolute;
+  top: calc(50% + 3.875rem);
+  left: 50%;
+  z-index: 3;
+  width: 8.5rem;
+  height: 7rem;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  background: none;
+  cursor: grab;
+  transform: translate(-50%, calc(-36% + var(--pull, 0px)));
+  transition: transform 0.45s cubic-bezier(0.34, 1.56, 0.64, 1);
+  touch-action: none;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.knot[data-dragging="true"] {
+  cursor: grabbing;
+  transition: none;
+}
+
+.knot:focus-visible {
+  outline: 2px solid var(--rose-deep);
+  outline-offset: 4px;
+  border-radius: 1rem;
+}
+
+.bow {
+  display: block;
+  width: 100%;
+  height: 100%;
+  transform-origin: 50% 36%;
+  animation: tug 2.4s ease-in-out 1.2s infinite;
+}
+
+.knot[data-dragging="true"] .bow {
+  animation: none;
+  transform: scaleY(1.08);
+}
+
+@keyframes tug {
+  0%,
+  70%,
+  100% {
+    transform: none;
+  }
+  78% {
+    transform: translateY(5px) scaleY(1.06);
+  }
+  86% {
+    transform: translateY(-2px);
+  }
+}
+
+[data-phase="untying"] .bow,
+[data-phase="opening"] .bow {
+  animation: loosen 0.9s cubic-bezier(0.5, 0, 0.75, 0) forwards;
+}
+
+@keyframes loosen {
+  0% {
+    transform: none;
+  }
+  25% {
+    transform: scale(1.15, 0.9);
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(260px) rotate(34deg) scale(0.7);
+  }
+}
+
+.hint {
+  position: absolute;
+  top: calc(50% + 8.8rem);
+  left: 50%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.35rem;
+  margin: 0;
+  color: var(--rose-deep);
+  font-family: var(--font-ar-sans), sans-serif;
+  font-size: 0.64rem;
+  letter-spacing: 0.36em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  pointer-events: none;
+  transform: translateX(-50%);
+  animation: hint 2.4s ease-in-out 1.2s infinite;
+  transition: opacity 0.3s ease;
+}
+
+.hintArrow {
+  width: 0.7rem;
+  height: 1.1rem;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.3;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+@keyframes hint {
+  0%,
+  100% {
+    opacity: 0.55;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+
+[data-phase="untying"] .hint,
+[data-phase="opening"] .hint {
+  animation: none;
+  opacity: 0;
+}
+
+/* ---------- Petal burst when the bow comes loose ---------- */
+
+.burst {
+  position: absolute;
+  top: calc(50% + 3.875rem);
+  left: 50%;
+  z-index: 4;
+  pointer-events: none;
+}
+
+.burst i {
+  position: absolute;
+  width: 0.7rem;
+  height: 0.95rem;
+  border-radius: 80% 0 80% 0;
+  background: #ecc3ba;
+  opacity: 0;
+}
+
+.burst i[data-tone="1"] {
+  background: #f6d5bf;
+}
+
+.burst i[data-tone="2"] {
+  width: 0.5rem;
+  height: 0.7rem;
+  background: var(--gold);
+}
+
+[data-phase="untying"] .burst i,
+[data-phase="opening"] .burst i {
+  animation: burst 1.4s cubic-bezier(0.2, 0.7, 0.3, 1) var(--delay) forwards;
+}
+
+@keyframes burst {
+  0% {
+    opacity: 1;
+    transform: translate(0, 0) rotate(0deg) scale(0.4);
+  }
+  60% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+    transform: translate(var(--x), calc(var(--y) + 120px)) rotate(var(--spin)) scale(1);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .cornerRose,
+  .bow,
+  .hint {
+    animation: none;
+  }
+
+  .door {
+    transition-duration: 0.3s;
+  }
+
+  [data-phase="opening"] .door {
+    opacity: 0;
+  }
+
+  .burst {
+    display: none;
+  }
+}

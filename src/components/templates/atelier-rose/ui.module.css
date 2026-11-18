@@ -1,0 +1,146 @@
+/* Shared Atelier Rose type, buttons and reveal motion. */
+
+.section {
+  position: relative;
+  padding: 5rem 1.5rem;
+  text-align: center;
+}
+
+.kicker {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.8rem;
+  margin: 0;
+  color: var(--muted);
+  font-family: var(--font-ar-sans), sans-serif;
+  font-size: 0.68rem;
+  font-weight: 400;
+  letter-spacing: 0.42em;
+  text-transform: uppercase;
+}
+
+.kicker::before,
+.kicker::after {
+  content: "";
+  width: 1.6rem;
+  height: 1px;
+  background: var(--blush-deep);
+}
+
+.title {
+  margin: 0.4rem 0 0;
+  color: var(--rose-deep);
+  font-family: var(--font-ar-script), cursive;
+  font-size: clamp(2.5rem, 11vw, 3.1rem);
+  font-weight: 400;
+  line-height: 1.15;
+}
+
+.lead {
+  max-width: 22rem;
+  margin: 0.9rem auto 0;
+  color: var(--muted);
+  font-family: var(--font-ar-serif), Georgia, serif;
+  font-size: 1.12rem;
+  font-style: italic;
+  line-height: 1.55;
+}
+
+/* Rises in when an ancestor Reveal reports data-in="true". --d delays it. */
+.rise {
+  opacity: 0;
+  transform: translateY(18px);
+  transition:
+    opacity 0.9s ease var(--d, 0ms),
+    transform 1s cubic-bezier(0.22, 1, 0.36, 1) var(--d, 0ms);
+}
+
+[data-in="true"] .rise {
+  opacity: 1;
+  transform: none;
+}
+
+.button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.55rem;
+  min-height: 3rem;
+  padding: 0 1.5rem;
+  border: 1px solid var(--rose-deep);
+  border-radius: 999px;
+  background: var(--rose-deep);
+  color: var(--white);
+  font-family: var(--font-ar-sans), sans-serif;
+  font-size: 0.78rem;
+  font-weight: 500;
+  letter-spacing: 0.2em;
+  text-decoration: none;
+  text-transform: uppercase;
+  cursor: pointer;
+  box-shadow: 0 14px 26px -18px rgba(143, 76, 83, 0.9);
+  transition:
+    transform 0.25s ease,
+    background 0.25s ease,
+    color 0.25s ease;
+}
+
+.button:hover {
+  transform: translateY(-2px);
+}
+
+.button:focus-visible {
+  outline: 2px solid var(--rose-deep);
+  outline-offset: 3px;
+}
+
+.ghost {
+  background: transparent;
+  color: var(--rose-deep);
+  box-shadow: none;
+}
+
+.ghost:hover {
+  background: var(--rose-deep);
+  color: var(--white);
+}
+
+.icon {
+  width: 1.05rem;
+  height: 1.05rem;
+  flex-shrink: 0;
+}
+
+/* Paper sheet: grain over a flat card colour with a soft cast shadow. */
+.sheet {
+  background: var(--grain), var(--card);
+  box-shadow:
+    0 1px 0 rgba(255, 255, 255, 0.8) inset,
+    0 18px 36px -24px rgba(75, 43, 48, 0.45),
+    0 2px 6px -3px rgba(75, 43, 48, 0.2);
+}
+
+/* Scalloped paper edge that pokes up into the section above. Set --edge
+   to the section's flat paper colour. */
+.scallop::before {
+  content: "";
+  position: absolute;
+  top: -11px;
+  left: 0;
+  right: 0;
+  z-index: 1;
+  height: 12px;
+  background: var(--edge, var(--paper-2));
+  -webkit-mask: radial-gradient(circle at 10px 12px, #000 9.5px, transparent 10px) 0 0 / 20px 12px repeat-x;
+  mask: radial-gradient(circle at 10px 12px, #000 9.5px, transparent 10px) 0 0 / 20px 12px repeat-x;
+  filter: drop-shadow(0 -2px 2px rgba(75, 43, 48, 0.08));
+  pointer-events: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .rise {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+}

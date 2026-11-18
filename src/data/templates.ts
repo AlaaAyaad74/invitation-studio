@@ -61,9 +61,11 @@ export const templates: InvitationTemplate[] = [
     id: "atelier-rose",
     title: "Atelier Rose",
     style: "Romantic",
-    description: "Blush accents and layered paper textures for intimate days.",
+    description:
+      "Untie the ribbon: layered paper, blush roses, and a note that flies home.",
     image: "/templates/atelier-rose.webp",
-    comingSoon: true,
+    comingSoon: false,
+    href: "/templates/atelier-rose",
   },
 ];
 

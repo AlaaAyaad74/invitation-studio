@@ -1,0 +1,262 @@
+.section {
+  --edge: var(--paper-2);
+  background:
+    var(--grain),
+    radial-gradient(80% 45% at 50% 62%, var(--blush), transparent 70%),
+    var(--paper-2);
+}
+
+/* ---------- Date tag ---------- */
+
+.tag {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 11rem;
+  margin: 2.2rem auto 0;
+  padding: 1.6rem 1rem 1.4rem;
+  border-radius: 0.4rem;
+  background: var(--grain), var(--card);
+  box-shadow:
+    0 22px 36px -26px rgba(75, 43, 48, 0.6),
+    0 2px 6px -3px rgba(75, 43, 48, 0.2);
+  /* Stamped down onto the page when the section comes into view. */
+  rotate: -2deg;
+  scale: 1.7;
+  opacity: 0;
+  transition:
+    scale 0.42s cubic-bezier(0.55, 0, 0.8, 0.3) 0.3s,
+    opacity 0.2s ease 0.3s;
+}
+
+[data-in="true"] .tag {
+  scale: 1;
+  opacity: 1;
+  animation: thud 0.5s ease-out 0.72s;
+}
+
+@keyframes thud {
+  20% {
+    translate: 0 2px;
+    rotate: -3.4deg;
+  }
+  50% {
+    translate: 0 -1px;
+    rotate: -1.4deg;
+  }
+}
+
+/* Stitching around the edge. */
+.tag::before {
+  content: "";
+  position: absolute;
+  inset: 0.45rem;
+  border: 1px dashed var(--rose);
+  border-radius: 0.2rem;
+  opacity: 0.6;
+}
+
+.tagRose {
+  position: absolute;
+  top: -1.4rem;
+  right: -1.3rem;
+  width: 3.6rem;
+  rotate: -200deg;
+  scale: 0;
+  transition:
+    rotate 1s cubic-bezier(0.22, 1, 0.36, 1) 0.9s,
+    scale 0.8s cubic-bezier(0.34, 1.56, 0.64, 1) 0.9s;
+}
+
+[data-in="true"] .tagRose {
+  rotate: 0deg;
+  scale: 1;
+}
+
+.tagWeekday,
+.tagMonth,
+.tagTime {
+  color: var(--muted);
+  font-family: var(--font-ar-sans), sans-serif;
+  font-size: 0.62rem;
+  letter-spacing: 0.34em;
+  text-transform: uppercase;
+}
+
+.tagDay {
+  margin: 0.2rem 0 0.1rem;
+  color: var(--rose-deep);
+  font-family: var(--font-ar-display), serif;
+  font-size: 4.2rem;
+  line-height: 1;
+}
+
+.tagTime {
+  margin-top: 0.6rem;
+  color: var(--rose-deep);
+  font-family: var(--font-ar-serif), Georgia, serif;
+  font-size: 1rem;
+  font-style: italic;
+  letter-spacing: 0.05em;
+  text-transform: none;
+}
+
+/* ---------- Split-flap ---------- */
+
+.row {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 0.6rem;
+  max-width: 22rem;
+  margin: 2.8rem auto 0;
+}
+
+.unit {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.6rem;
+}
+
+.flap {
+  --h: 4.4rem;
+  position: relative;
+  width: 100%;
+  height: var(--h);
+  perspective: 300px;
+  font-family: var(--font-ar-display), serif;
+  font-size: 2.1rem;
+  color: var(--rose-deep);
+}
+
+.flap[data-wide="true"] {
+  font-size: 1.65rem;
+}
+
+.half {
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 50%;
+  overflow: hidden;
+  background: var(--grain), var(--card);
+}
+
+.half b {
+  display: block;
+  height: var(--h);
+  font-weight: 400;
+  line-height: var(--h);
+  text-align: center;
+}
+
+.top {
+  top: 0;
+  border-radius: 0.45rem 0.45rem 0 0;
+  box-shadow: inset 0 -10px 12px -12px rgba(75, 43, 48, 0.35);
+}
+
+.bottom {
+  bottom: 0;
+  border-radius: 0 0 0.45rem 0.45rem;
+  box-shadow:
+    0 14px 20px -16px rgba(75, 43, 48, 0.55),
+    0 2px 3px -1px rgba(75, 43, 48, 0.18);
+}
+
+.bottom b {
+  transform: translateY(-50%);
+}
+
+/* Folding leaves. */
+.stale,
+.leafDown,
+.leafUp {
+  position: absolute;
+  inset: 0;
+  transform-style: preserve-3d;
+}
+
+.leafDown .half {
+  transform-origin: 50% 100%;
+  backface-visibility: hidden;
+  animation: fold-down 0.42s cubic-bezier(0.55, 0, 0.75, 0.4) forwards;
+}
+
+.leafUp .half {
+  transform-origin: 50% 0%;
+  backface-visibility: hidden;
+  transform: rotateX(90deg);
+  animation: fold-up 0.42s cubic-bezier(0.25, 0.6, 0.45, 1.25) 0.4s forwards;
+}
+
+@keyframes fold-down {
+  to {
+    transform: rotateX(-90deg);
+    filter: brightness(0.85);
+  }
+}
+
+@keyframes fold-up {
+  from {
+    transform: rotateX(90deg);
+    filter: brightness(0.9);
+  }
+  to {
+    transform: rotateX(0deg);
+  }
+}
+
+.hinge {
+  position: absolute;
+  top: calc(50% - 0.5px);
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: rgba(75, 43, 48, 0.18);
+}
+
+.hinge::before,
+.hinge::after {
+  content: "";
+  position: absolute;
+  top: -2px;
+  width: 4px;
+  height: 5px;
+  border-radius: 1px;
+  background: var(--blush-deep);
+}
+
+.hinge::before {
+  left: -1px;
+}
+
+.hinge::after {
+  right: -1px;
+}
+
+.label {
+  color: var(--muted);
+  font-family: var(--font-ar-sans), sans-serif;
+  font-size: 0.56rem;
+  letter-spacing: 0.26em;
+  text-transform: uppercase;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .tag,
+  .tagRose {
+    scale: 1;
+    rotate: 0deg;
+    opacity: 1;
+    transition: none;
+    animation: none;
+  }
+
+  .stale,
+  .leafDown,
+  .leafUp {
+    display: none;
+  }
+}

@@ -1,0 +1,189 @@
+.section {
+  overflow: hidden;
+  background: var(--grain), var(--paper);
+}
+
+.deck {
+  position: relative;
+  width: min(100%, 17.5rem);
+  height: 19rem;
+  margin: 2.6rem auto 0;
+  touch-action: pan-y;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+/* Cards stack downwards and shrink a little with depth; the top card follows
+   the finger (--dx) and flies off when released past the threshold. */
+.card {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 1.6rem 1.4rem;
+  border-radius: 0.6rem;
+  background: var(--grain), var(--card);
+  box-shadow:
+    0 22px 40px -28px rgba(75, 43, 48, 0.65),
+    0 2px 6px -3px rgba(75, 43, 48, 0.22);
+  transform:
+    translate(var(--dx, 0px), calc(var(--depth) * 0.75rem))
+    rotate(calc(var(--tilt) + var(--rot, 0deg)))
+    scale(calc(1 - var(--depth) * 0.05));
+  transition:
+    transform 0.55s cubic-bezier(0.22, 1, 0.36, 1),
+    opacity 0.4s ease;
+  cursor: grab;
+}
+
+.card::before {
+  content: "";
+  position: absolute;
+  inset: 0.55rem;
+  border: 1px solid var(--line);
+  border-radius: 0.35rem;
+  pointer-events: none;
+}
+
+.card[data-top="false"] > * {
+  opacity: 0.4;
+}
+
+.card[data-dragging="true"] {
+  transition: none;
+  cursor: grabbing;
+}
+
+.card[data-leaving="true"] {
+  opacity: 0;
+  transition:
+    transform 0.4s cubic-bezier(0.5, 0, 0.75, 0),
+    opacity 0.35s ease 0.05s;
+}
+
+.number {
+  position: absolute;
+  top: 1.2rem;
+  left: 1.3rem;
+  color: var(--muted);
+  font-family: var(--font-ar-sans), sans-serif;
+  font-size: 0.56rem;
+  letter-spacing: 0.24em;
+}
+
+.icon {
+  width: 2.2rem;
+  height: 2.2rem;
+  fill: none;
+  stroke: var(--sage-deep);
+  stroke-width: 1.1;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.time {
+  margin: 0.9rem 0 0;
+  color: var(--rose-deep);
+  font-family: var(--font-ar-display), serif;
+  font-size: 2.3rem;
+  line-height: 1;
+}
+
+.title {
+  margin: 0.6rem 0 0;
+  color: var(--ink);
+  font-family: var(--font-ar-script), cursive;
+  font-size: 1.95rem;
+  font-weight: 400;
+  line-height: 1.15;
+}
+
+.detail {
+  margin: 0.6rem 0 0;
+  color: var(--muted);
+  font-family: var(--font-ar-serif), Georgia, serif;
+  font-size: 1.02rem;
+  font-style: italic;
+  line-height: 1.4;
+}
+
+.cornerRose {
+  position: absolute;
+  right: -1rem;
+  bottom: -1rem;
+  width: 3.6rem;
+}
+
+.controls {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1.2rem;
+  margin-top: 3rem;
+}
+
+.arrow {
+  display: grid;
+  place-items: center;
+  width: 2.6rem;
+  height: 2.6rem;
+  padding: 0;
+  border: 1px solid var(--blush-deep);
+  border-radius: 50%;
+  background: var(--card);
+  color: var(--rose-deep);
+  cursor: pointer;
+  transition: background 0.2s ease, color 0.2s ease;
+}
+
+.arrow:hover,
+.arrow:focus-visible {
+  background: var(--rose-deep);
+  color: var(--white);
+  outline: none;
+}
+
+.arrow svg {
+  width: 1rem;
+  height: 1rem;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.6;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.dots {
+  display: flex;
+  gap: 0.45rem;
+}
+
+.dots i {
+  width: 0.4rem;
+  height: 0.4rem;
+  border-radius: 50%;
+  background: var(--blush-deep);
+  transition: transform 0.3s ease, background 0.3s ease;
+}
+
+.dots i[data-on="true"] {
+  background: var(--rose-deep);
+  transform: scale(1.4);
+}
+
+.hint {
+  margin: 0.9rem 0 0;
+  color: var(--muted);
+  font-family: var(--font-ar-sans), sans-serif;
+  font-size: 0.56rem;
+  letter-spacing: 0.32em;
+  text-transform: uppercase;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .card {
+    transition: none;
+  }
+}

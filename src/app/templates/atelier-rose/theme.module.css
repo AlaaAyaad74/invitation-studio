@@ -1,0 +1,24 @@
+/* Atelier Rose palette. Scoped to the template so the global tokens stay
+   untouched elsewhere. --gold / --ink / --white also feed MusicPlayer. */
+.theme {
+  --paper: #fbf6f1; /* page background */
+  --paper-2: #f5ebe5; /* second paper layer */
+  --card: #fffaf7; /* cards, forms */
+  --blush: #f2dbd4; /* soft fills */
+  --blush-deep: #e5bcb3; /* layered paper, borders */
+  --rose: #c27f7b; /* accents, links */
+  --rose-deep: #8f4c53; /* headings, main button */
+  --ink: #4b2b30; /* main text */
+  --muted: #8d706c; /* secondary text */
+  --sage: #9aab8e; /* leaves */
+  --sage-deep: #61745a; /* leaf veins, small icons */
+  --gold: #b9945f; /* foil details */
+  --white: #fffaf7;
+  --line: #ecdcd5; /* hairlines */
+
+  /* Paper grain, tiled over every paper surface. */
+  --grain: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .35 0 0 0 0 .2 0 0 0 0 .2 0 0 0 .09 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+
+  background: var(--paper);
+  color: var(--ink);
+}

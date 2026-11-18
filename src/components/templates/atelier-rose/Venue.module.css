@@ -1,0 +1,303 @@
+.section {
+  --edge: var(--paper-2);
+  background:
+    var(--grain),
+    radial-gradient(70% 40% at 50% 100%, color-mix(in srgb, var(--sage) 22%, transparent), transparent 70%),
+    var(--paper-2);
+}
+
+/* A tri-fold paper map. Panel 2 hangs from panel 1's bottom edge and panel 3
+   from panel 2's; closed, they fold up behind panel 1 like an accordion. */
+.map {
+  --h: 10.5rem;
+  position: relative;
+  width: min(100%, 20rem);
+  height: var(--h);
+  margin: 2.4rem auto 0;
+  perspective: 1400px;
+  transition: height 0.9s cubic-bezier(0.22, 1, 0.36, 1) 0.35s;
+}
+
+.map[data-open="true"] {
+  height: calc(var(--h) * 3);
+  transition-delay: 0s;
+}
+
+.panel {
+  height: var(--h);
+  transform-style: preserve-3d;
+}
+
+.p1 {
+  position: relative;
+}
+
+.p2,
+.p3 {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  transform-origin: 50% 0;
+  transition: transform 0.85s cubic-bezier(0.55, 0, 0.25, 1);
+}
+
+.p2 {
+  transform: rotateX(-180deg);
+  transition-delay: 0.45s;
+}
+
+.p3 {
+  transform: rotateX(180deg);
+  transition-delay: 0s;
+}
+
+.map[data-open="true"] .p2 {
+  transform: rotateX(0deg);
+  transition-delay: 0s;
+}
+
+.map[data-open="true"] .p3 {
+  transform: rotateX(0deg);
+  transition-delay: 0.5s;
+}
+
+.face {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  background: var(--grain), var(--card);
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+}
+
+/* Lifted a hair so the folded panels behind it never show through. */
+.p1 > .face {
+  z-index: 1;
+  transform: translateZ(2px);
+  border-radius: 0.5rem 0.5rem 0 0;
+  box-shadow: 0 22px 40px -26px rgba(75, 43, 48, 0.6);
+}
+
+.map[data-open="false"] .p1 > .face {
+  border-radius: 0.5rem;
+}
+
+.p3 > .face {
+  border-radius: 0 0 0.5rem 0.5rem;
+  box-shadow: 0 26px 40px -26px rgba(75, 43, 48, 0.6);
+}
+
+/* Shade on the folding panels, gone once they lie flat. */
+.p2 > .face::after,
+.p3 > .face::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(75, 43, 48, 0.28), rgba(75, 43, 48, 0.05));
+  opacity: 1;
+  pointer-events: none;
+  transition: opacity 0.85s ease;
+}
+
+.map[data-open="true"] .p2 > .face::after {
+  opacity: 0;
+}
+
+.map[data-open="true"] .p3 > .face::after {
+  opacity: 0;
+  transition-delay: 0.5s;
+}
+
+/* Fold creases. */
+.p2 > .face,
+.p3 > .face {
+  border-top: 1px solid rgba(75, 43, 48, 0.1);
+}
+
+.back {
+  position: absolute;
+  inset: 0;
+  background: var(--grain), var(--blush);
+  transform: rotateX(180deg);
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+}
+
+/* ---------- Panel 1 ---------- */
+
+.panelRose {
+  position: absolute;
+  top: -1.4rem;
+  left: -1.4rem;
+  width: 4.4rem;
+}
+
+.panelKicker {
+  color: var(--muted);
+  font-family: var(--font-ar-sans), sans-serif;
+  font-size: 0.56rem;
+  letter-spacing: 0.26em;
+  text-transform: uppercase;
+}
+
+.venueName {
+  margin: 0.4rem 0 0;
+  color: var(--rose-deep);
+  font-family: var(--font-ar-display), serif;
+  font-size: 1.45rem;
+  font-style: italic;
+  font-weight: 400;
+}
+
+.city {
+  margin-top: 0.15rem;
+  color: var(--ink);
+  font-family: var(--font-ar-serif), Georgia, serif;
+  font-size: 1rem;
+}
+
+.unfold {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  margin-top: 0.8rem;
+  padding: 0.4rem 0.9rem;
+  border: 1px dashed var(--rose);
+  border-radius: 999px;
+  background: none;
+  color: var(--rose-deep);
+  font-family: var(--font-ar-sans), sans-serif;
+  font-size: 0.6rem;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+  cursor: pointer;
+}
+
+.unfold:focus-visible {
+  outline: 2px solid var(--rose-deep);
+  outline-offset: 3px;
+}
+
+.unfold svg {
+  width: 0.9rem;
+  height: 0.9rem;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.6;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  transition: transform 0.4s ease;
+}
+
+.map[data-open="true"] .unfold svg {
+  transform: rotate(180deg);
+}
+
+/* ---------- Panel 2: the map ---------- */
+
+.street {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.mapLabel {
+  fill: var(--muted);
+  font-family: var(--font-ar-serif), Georgia, serif;
+  font-size: 10px;
+  font-style: italic;
+}
+
+.route {
+  stroke-dashoffset: 120;
+  transition: stroke-dashoffset 1.6s ease 1s;
+}
+
+.map[data-open="true"] .route {
+  stroke-dashoffset: 0;
+}
+
+.pin {
+  position: absolute;
+  top: 57%;
+  left: 50%;
+  display: grid;
+  place-items: center;
+  width: 2.4rem;
+  height: 2.4rem;
+  border-radius: 50%;
+  background: var(--rose-deep);
+  color: var(--white);
+  box-shadow: 0 10px 18px -10px rgba(75, 43, 48, 0.8);
+  transform: translate(-50%, -50%);
+}
+
+.pin::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  border: 1.5px solid var(--rose);
+  animation: pulse 2.2s ease-out infinite;
+}
+
+@keyframes pulse {
+  from {
+    opacity: 0.9;
+    transform: scale(1);
+  }
+  to {
+    opacity: 0;
+    transform: scale(2.4);
+  }
+}
+
+.pinIcon {
+  width: 1.2rem;
+  height: 1.2rem;
+}
+
+/* ---------- Panel 3 ---------- */
+
+.address {
+  margin: 0;
+  color: var(--ink);
+  font-family: var(--font-ar-serif), Georgia, serif;
+  font-size: 1.05rem;
+  font-style: italic;
+}
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.6rem;
+  margin-top: 1rem;
+}
+
+.actions > * {
+  min-height: 2.6rem;
+  padding: 0 1.1rem;
+  font-size: 0.66rem;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .map,
+  .p2,
+  .p3,
+  .route,
+  .p2 > .face::after,
+  .p3 > .face::after {
+    transition: none;
+  }
+
+  .pin::before {
+    animation: none;
+  }
+}
