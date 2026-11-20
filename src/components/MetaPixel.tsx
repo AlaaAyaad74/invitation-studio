@@ -41,7 +41,9 @@ function trackPageEvents(pathname: string) {
 /**
  * Contact / Lead on outbound links, through one delegated listener so the
  * (mostly server-rendered) components keep their markup unchanged.
- * A link gets Lead when it carries data-meta-lead="<service name>".
+ * A link gets Lead when it carries data-meta-lead="<service name>", and
+ * data-meta-content-name="<name>" adds content_name to its Contact event.
+ * data-meta-cta marks our own contact buttons (see lib/contact.ts).
  */
 function onDocumentClick(event: MouseEvent) {
   const target = event.target;
@@ -54,9 +56,11 @@ function onDocumentClick(event: MouseEvent) {
   if (getGuestInvitation(pathname)) return;
 
   const channel = getContactChannel(link.href);
-  // WhatsApp links on template demos are the sample couple's RSVP, not us.
-  const isDemoRsvp = channel === "whatsapp" && pathname.startsWith("/templates/");
-  if (channel && !isDemoRsvp) trackContact(channel);
+  const isOurCta = link.dataset.metaCta !== undefined;
+  // Other WhatsApp links on template demos are the sample couple's RSVP, not us.
+  const isDemoRsvp =
+    !isOurCta && channel === "whatsapp" && pathname.startsWith("/templates/");
+  if (channel && !isDemoRsvp) trackContact(channel, link.dataset.metaContentName);
 
   const leadService = link.dataset.metaLead;
   if (leadService) trackLead(leadService);

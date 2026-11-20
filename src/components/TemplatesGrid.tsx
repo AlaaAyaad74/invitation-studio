@@ -4,6 +4,9 @@ import ShareButton from "@/components/ShareButton";
 import { templates } from "@/data/templates";
 import Link from "next/link";
 
+// "Coming soon" designs stay in the data but are not shown publicly.
+const publicTemplates = templates.filter((template) => !template.comingSoon);
+
 export default function TemplatesGrid() {
   return (
     <section id="templates" className="relative overflow-hidden py-10 sm:py-14 lg:py-16">
@@ -25,7 +28,7 @@ export default function TemplatesGrid() {
         </Reveal>
 
         <div className="mt-12 grid grid-cols-2 gap-2 sm:gap-6 lg:grid-cols-3">
-          {templates.map((template, index) => {
+          {publicTemplates.map((template, index) => {
             const card = (
               <>
                 <div className="relative aspect-[9/16] overflow-hidden bg-ivory-deep">

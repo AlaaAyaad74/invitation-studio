@@ -68,7 +68,10 @@ export default function Invitation({ data }: { data: CustomCouple }) {
       </section>
 
       <FadeIn>
-        <StudioCredit className={styles.credit} />
+        <StudioCredit
+          className={styles.credit}
+          guest={{ campaign: data.slug, hidden: data.hideBranding }}
+        />
       </FadeIn>
 
       <MusicPlayer src={data.music} />

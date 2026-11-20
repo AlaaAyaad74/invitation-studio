@@ -2,7 +2,7 @@ import type { ReactNode } from "react";
 import Footer from "@/components/Footer";
 import Header from "@/components/Header";
 import Reveal from "@/components/Reveal";
-import { siteConfig } from "@/lib/site";
+import { contactLinkProps, ctaLabels } from "@/lib/contact";
 
 type GalleryPageProps = {
   eyebrow: string;
@@ -60,13 +60,11 @@ export default function GalleryPage({
                 {ctaBody}
               </p>
               <a
-                href={siteConfig.instagramDmUrl}
-                target="_blank"
-                rel="noopener noreferrer"
+                {...contactLinkProps()}
                 data-meta-lead={leadService}
                 className="mt-6 inline-flex bg-sage-deep px-5 py-3 text-sm text-white transition hover:bg-sage"
               >
-                Request a custom quote
+                {ctaLabels.requestQuote}
               </a>
             </Reveal>
           </div>

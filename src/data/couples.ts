@@ -4,6 +4,8 @@ export type CoupleInvitation = BotanicalContent & {
   slug: string;
   calendarId: string;
   template: "botanical";
+  /** Paid option: hide the "Made with ♡ by Invitation Studio" line. */
+  hideBranding?: boolean;
 };
 
 export const couples: CoupleInvitation[] = [];

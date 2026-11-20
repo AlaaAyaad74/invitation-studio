@@ -7,6 +7,8 @@ export type CustomCouple = {
   /** Id for /calendar/<calendarId>. */
   calendarId: string;
   template: "heritage-script";
+  /** Paid option: hide the "Made with ♡ by Invitation Studio" line. */
+  hideBranding?: boolean;
   couple: { first: string; second: string };
   kicker: string;
   honour: string;

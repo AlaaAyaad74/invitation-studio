@@ -42,7 +42,10 @@ export default async function CoupleInvitationPage({ params }: PageProps) {
       coverAlt=""
       stageBackground="bg-[#fff]"
     >
-      <Invitation data={couple} />
+      <Invitation
+        data={couple}
+        guestBranding={{ campaign: couple.slug, hidden: couple.hideBranding }}
+      />
     </TemplateShell>
   );
 }

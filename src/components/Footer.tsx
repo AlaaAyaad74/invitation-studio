@@ -2,6 +2,7 @@ import { FaInstagram, FaTiktok } from "react-icons/fa6";
 import ImageWithSkeleton from "@/components/ImageWithSkeleton";
 import Reveal from "@/components/Reveal";
 import { siteConfig } from "@/lib/site";
+import { contactLinkProps, instagramContact } from "@/lib/contact";
 
 const socialClassName =
   "inline-flex items-center gap-2 text-sm font-semibold text-[#3f4a3e] underline underline-offset-4 transition hover:text-ink";
@@ -24,9 +25,7 @@ export default function Footer() {
         </p>
         <div className="flex flex-row items-center gap-2">
           <a
-            href={siteConfig.instagramDmUrl}
-            target="_blank"
-            rel="noopener noreferrer"
+            {...contactLinkProps(instagramContact)}
             className={socialClassName}
           >
             <FaInstagram className="h-4 w-4" aria-hidden />

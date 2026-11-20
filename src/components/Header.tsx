@@ -5,7 +5,7 @@ import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 import ImageWithSkeleton from "@/components/ImageWithSkeleton";
 import { useDialog } from "@/hooks/useDialog";
-import { siteConfig } from "@/lib/site";
+import { contactLinkProps, ctaLabels } from "@/lib/contact";
 
 const links = [
   { href: "/", label: "Home" },
@@ -16,6 +16,7 @@ const links = [
   { href: "/#features", label: "Features" },
   // { href: "/#pricing", label: "Pricing" },
   { href: "/#services", label: "Services" },
+  { href: "/#faq", label: "FAQ" },
 ];
 
 export default function Header() {
@@ -100,7 +101,7 @@ export default function Header() {
             />
           </Link>
 
-          <nav className="hidden items-center gap-5 md:flex lg:gap-8">
+          <nav className="hidden items-center gap-3 md:flex lg:gap-8">
             {links.map((link) => {
               const className = `text-sm tracking-wide transition-colors hover:opacity-80 ${
                 solidBar ? "text-ink-muted" : "text-white/85"
@@ -113,16 +114,14 @@ export default function Header() {
               );
             })}
             <a
-              href={siteConfig.instagramDmUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              className={`rounded-sm px-4 py-2 text-sm tracking-wide transition-colors ${
+              {...contactLinkProps()}
+              className={`rounded-sm px-3 py-2 text-sm tracking-wide whitespace-nowrap transition-colors lg:px-4 ${
                 solidBar
                   ? "bg-sage-deep text-white hover:bg-sage"
                   : "bg-white/95 text-ink hover:bg-white"
               }`}
             >
-              Start custom
+              {ctaLabels.startCustom}
             </a>
           </nav>
 
@@ -200,16 +199,15 @@ export default function Header() {
             })}
 
             <a
-              href={siteConfig.instagramDmUrl}
-              target="_blank"
-              rel="noopener noreferrer"
+              {...contactLinkProps()}
               onClick={() => setOpen(false)}
               className={`mt-8 inline-flex w-fit bg-sage-deep px-6 py-3.5 text-sm tracking-wide text-white transition-all duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] hover:bg-sage ${
                 open ? "translate-y-0 opacity-100" : "translate-y-4 opacity-0"
               }`}
-              style={{ transitionDelay: open ? "330ms" : "0ms" }}
+              // After the last link has slid in.
+              style={{ transitionDelay: open ? `${120 + links.length * 70}ms` : "0ms" }}
             >
-              Start custom
+              {ctaLabels.startCustom}
             </a>
           </nav>
         </div>

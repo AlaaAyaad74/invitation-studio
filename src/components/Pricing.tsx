@@ -1,5 +1,5 @@
 import Reveal from "@/components/Reveal";
-import { siteConfig } from "@/lib/site";
+import { contactLinkProps } from "@/lib/contact";
 
 const plans = [
   {
@@ -89,9 +89,7 @@ export default function Pricing() {
                   <span className="mb-1 text-sm tracking-wide text-ink-muted">EGP</span>
                 </p>
                 <a
-                  href={siteConfig.instagramDmUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
+                  {...contactLinkProps()}
                   className="mt-8 inline-flex w-fit bg-sage-deep px-5 py-3 text-sm tracking-wide text-white transition hover:bg-sage"
                 >
                   Order on Instagram

@@ -5,10 +5,17 @@ import Details from "@/components/templates/botanical/Details";
 import Gallery from "@/components/templates/botanical/Gallery";
 import VideoCover from "@/components/templates/botanical/VideoCover";
 import MusicPlayer from "@/components/templates/MusicPlayer";
-import StudioCredit from "@/components/templates/StudioCredit";
+import StudioCredit, { type GuestBranding } from "@/components/templates/StudioCredit";
 import { getWhatsAppUrl, type BotanicalContent } from "@/data/botanical";
 
-export default function Invitation({ data }: { data: BotanicalContent }) {
+export default function Invitation({
+  data,
+  guestBranding,
+}: {
+  data: BotanicalContent;
+  /** Only on a couple's live invitation (/template/<slug>). */
+  guestBranding?: GuestBranding;
+}) {
   const whatsappUrl = data.rsvp ? getWhatsAppUrl(data.rsvp) : null;
 
   return (
@@ -42,7 +49,10 @@ export default function Invitation({ data }: { data: BotanicalContent }) {
         </Reveal>
       </section>
 
-      <StudioCredit className="px-6 py-8 text-center text-[10px] tracking-[0.24em] text-ink-muted uppercase" />
+      <StudioCredit
+        className="px-6 py-8 text-center text-[10px] tracking-[0.24em] text-ink-muted uppercase"
+        guest={guestBranding}
+      />
 
       {data.music ? <MusicPlayer src={data.music} /> : null}
     </div>

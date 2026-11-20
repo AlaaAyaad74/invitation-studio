@@ -1,7 +1,7 @@
 import Link from "next/link";
 import Reveal from "@/components/Reveal";
 import { services } from "@/data/templates";
-import { siteConfig } from "@/lib/site";
+import { contactLinkProps, ctaLabels } from "@/lib/contact";
 
 export default function Services() {
   return (
@@ -33,13 +33,11 @@ export default function Services() {
                 your invitation site, envelopes, and thank-you notes.
               </p>
               <a
-                href={siteConfig.instagramDmUrl}
-                target="_blank"
-                rel="noopener noreferrer"
+                {...contactLinkProps()}
                 data-meta-lead="Couple logo"
                 className="mt-6 inline-flex bg-sage-deep px-5 py-3 text-sm text-white transition hover:bg-sage"
               >
-                Request a custom quote
+                {ctaLabels.requestQuote}
               </a>
             </div>
           </Reveal>

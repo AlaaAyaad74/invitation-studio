@@ -1,6 +1,40 @@
+import Link from "next/link";
 import { siteConfig } from "@/lib/site";
 
-export default function StudioCredit({ className }: { className: string }) {
+/** Set on customers' live invitations (not on the template demos). */
+export type GuestBranding = {
+  /** utm_campaign value: the couple's slug. */
+  campaign: string;
+  /** Paid option: remove the "Made with" line entirely. */
+  hidden?: boolean;
+};
+
+export default function StudioCredit({
+  className,
+  guest,
+}: {
+  className: string;
+  guest?: GuestBranding;
+}) {
+  if (guest) {
+    if (guest.hidden) return null;
+    const params = new URLSearchParams({
+      utm_source: "invitation",
+      utm_medium: "guest",
+      utm_campaign: guest.campaign,
+    });
+    return (
+      <footer className={className}>
+        <Link
+          href={`/?${params.toString()}`}
+          className="opacity-70 transition-opacity hover:opacity-100"
+        >
+          Made with ♡ by Invitation Studio
+        </Link>
+      </footer>
+    );
+  }
+
   return (
     <footer className={className}>
       <a

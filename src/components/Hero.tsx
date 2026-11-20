@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 import { siteConfig } from "@/lib/site";
 import { useDeferredVideo } from "@/hooks/useDeferredVideo";
+import { contactLinkProps, ctaLabels, startingPrice } from "@/lib/contact";
 
 const POSTER_SRC = "/videos/hero-poster.jpg";
 
@@ -106,14 +107,15 @@ export default function Hero() {
             View templates
           </a>
           <a
-            href={siteConfig.instagramDmUrl}
-            target="_blank"
-            rel="noopener noreferrer"
+            {...contactLinkProps()}
             className="border border-white/50 px-6 py-3 text-sm tracking-wide text-white transition hover:bg-white/10"
           >
-            Custom services
+            {ctaLabels.customServices}
           </a>
         </div>
+        <p className="animate-fade-up delay-3 mt-4 text-sm tracking-wide text-white/85">
+          {startingPrice}
+        </p>
       </div>
     </section>
   );
