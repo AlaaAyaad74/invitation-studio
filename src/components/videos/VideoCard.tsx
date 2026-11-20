@@ -6,6 +6,7 @@ import Image from "next/image";
 import { useCallback, useEffect, useRef, useState, type CSSProperties } from "react";
 import ShareButton from "@/components/ShareButton";
 import type { InvitationVideo } from "@/data/videos";
+import { trackVideoPlay } from "@/lib/metaPixel";
 import { videoSharePath } from "@/lib/video-share";
 
 type VideoCardProps = {
@@ -202,6 +203,7 @@ export default function VideoCard({
               if (warming.current) return;
               setPlaying(true);
               onPlay(video.id);
+              trackVideoPlay(video.id, video.title);
             }}
             onPause={() => {
               if (warming.current) return;

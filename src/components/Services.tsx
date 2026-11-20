@@ -36,6 +36,7 @@ export default function Services() {
                 href={siteConfig.instagramDmUrl}
                 target="_blank"
                 rel="noopener noreferrer"
+                data-meta-lead="Couple logo"
                 className="mt-6 inline-flex bg-sage-deep px-5 py-3 text-sm text-white transition hover:bg-sage"
               >
                 Request a custom quote

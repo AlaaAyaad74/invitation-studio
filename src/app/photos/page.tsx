@@ -19,6 +19,7 @@ export default function PhotosPage() {
       title="A still invitation, made for your story."
       intro="Choose a sample as a starting point. We rewrite the names, date, venue, and language so the card feels like yours, ready for WhatsApp, print, or a save-the-date."
       ctaTitle="Commission an invitation photo"
+      leadService="Invitation photo"
       ctaBody="Send your names, date, venue, and a sample you love. Message us on Instagram and we will reply with a custom quote."
     >
       <PhotosGallery photos={photos} syncUrl />

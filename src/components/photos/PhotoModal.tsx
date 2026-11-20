@@ -1,9 +1,10 @@
 "use client";
 
-import { useId } from "react";
+import { useEffect, useId, useRef } from "react";
 import ImageWithSkeleton from "@/components/ImageWithSkeleton";
 import { useDialog } from "@/hooks/useDialog";
 import { useHorizontalSwipe } from "@/hooks/useHorizontalSwipe";
+import { trackViewContent } from "@/lib/metaPixel";
 import { LuChevronLeft, LuChevronRight, LuX } from "react-icons/lu";
 import type { InvitationPhoto } from "@/data/photos";
 
@@ -22,6 +23,15 @@ export default function PhotoModal({
 }: PhotoModalProps) {
   const titleId = useId();
   const swipe = useHorizontalSwipe(onNext, onPrevious);
+  // One ViewContent per photo shown (prev/next reuse this modal); the ref
+  // keeps StrictMode's second effect run from firing it twice.
+  const lastTrackedPhoto = useRef<string | null>(null);
+
+  useEffect(() => {
+    if (lastTrackedPhoto.current === photo.id) return;
+    lastTrackedPhoto.current = photo.id;
+    trackViewContent(photo.title, "invitation_photo");
+  }, [photo.id, photo.title]);
 
   useDialog({
     Escape: onClose,

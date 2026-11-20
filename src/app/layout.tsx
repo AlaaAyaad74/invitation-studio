@@ -3,6 +3,7 @@ import { Analytics } from "@vercel/analytics/next";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import { Alex_Brush, Cormorant_Garamond, Figtree, Great_Vibes } from "next/font/google";
 import DevtoolsGuard from "@/components/DevtoolsGuard";
+import MetaPixel from "@/components/MetaPixel";
 import VisitTracker from "@/components/VisitTracker";
 import { getSiteUrl, siteConfig } from "@/lib/site";
 import "./globals.css";
@@ -175,6 +176,8 @@ export default function RootLayout({
         <Analytics />
         {/* Real-visitor load timings (Core Web Vitals) in the Vercel dashboard. */}
         <SpeedInsights />
+        {/* Meta Pixel for Instagram ads; off unless NEXT_PUBLIC_META_PIXEL_ID is set. */}
+        <MetaPixel />
       </body>
     </html>
   );

@@ -20,6 +20,7 @@ export default function VideosPage() {
       intro="Press play on any film. Starting another pauses the one that was running, so only one video plays at a time."
       ctaTitle="Commission an invitation film"
       ctaBody="Send your names, date, and a sample you love. Message us on Instagram and we will reply with a custom quote."
+      leadService="Invitation video"
       glow="gold-first"
     >
       <VideosGallery videos={videos} syncUrl />

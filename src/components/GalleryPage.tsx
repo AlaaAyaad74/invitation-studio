@@ -10,6 +10,8 @@ type GalleryPageProps = {
   intro: ReactNode;
   ctaTitle: string;
   ctaBody: ReactNode;
+  /** Service name sent with the Meta Pixel Lead event on the quote button. */
+  leadService: string;
   /** Swaps which corner gets the rose glow and which the gold one. */
   glow?: "rose-first" | "gold-first";
   children: ReactNode;
@@ -22,6 +24,7 @@ export default function GalleryPage({
   intro,
   ctaTitle,
   ctaBody,
+  leadService,
   glow = "rose-first",
   children,
 }: GalleryPageProps) {
@@ -60,6 +63,7 @@ export default function GalleryPage({
                 href={siteConfig.instagramDmUrl}
                 target="_blank"
                 rel="noopener noreferrer"
+                data-meta-lead={leadService}
                 className="mt-6 inline-flex bg-sage-deep px-5 py-3 text-sm text-white transition hover:bg-sage"
               >
                 Request a custom quote

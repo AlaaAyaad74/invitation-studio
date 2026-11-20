@@ -13,6 +13,7 @@ import { LuChevronLeft, LuChevronRight, LuX } from "react-icons/lu";
 import type { InvitationVideo } from "@/data/videos";
 import { useDialog } from "@/hooks/useDialog";
 import { useHorizontalSwipe } from "@/hooks/useHorizontalSwipe";
+import { trackVideoPlay, trackViewContent } from "@/lib/metaPixel";
 
 type VideoModalProps = {
   video: InvitationVideo;
@@ -39,6 +40,15 @@ export default function VideoModal({
   const [waiting, setWaiting] = useState(false);
   const [progress, setProgress] = useState(0);
   const swipe = useHorizontalSwipe(onNext, onPrevious);
+  // The gallery keys this modal by film, so this fires once per film opened
+  // (the ref keeps StrictMode's second effect run from firing it again).
+  const viewTracked = useRef(false);
+
+  useEffect(() => {
+    if (viewTracked.current) return;
+    viewTracked.current = true;
+    trackViewContent(video.title, "invitation_video");
+  }, [video.title]);
 
   useDialog({
     Escape: onClose,
@@ -120,7 +130,10 @@ export default function VideoModal({
             aria-label={video.title}
             onClick={toggle}
             onLoadedData={() => setReady(true)}
-            onPlay={() => setPlaying(true)}
+            onPlay={() => {
+              setPlaying(true);
+              trackVideoPlay(video.id, video.title);
+            }}
             onPlaying={() => setWaiting(false)}
             onPause={() => setPlaying(false)}
             onEnded={() => setPlaying(false)}
