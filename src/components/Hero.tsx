@@ -3,7 +3,12 @@
 import { useEffect, useRef, useState } from "react";
 import { siteConfig } from "@/lib/site";
 import { useDeferredVideo } from "@/hooks/useDeferredVideo";
-import { contactLinkProps, ctaLabels, startingPrice } from "@/lib/contact";
+import {
+  contactLinkProps,
+  ctaLabels,
+  startingPriceAmount,
+  startingPriceCurrency,
+} from "@/lib/contact";
 
 const POSTER_SRC = "/videos/hero-poster.jpg";
 
@@ -113,9 +118,21 @@ export default function Hero() {
             {ctaLabels.customServices}
           </a>
         </div>
-        <p className="animate-fade-up delay-3 mt-4 text-sm tracking-wide text-white/85">
-          {startingPrice}
-        </p>
+        {/* Price pill: pulsing dot, breathing gold glow, light sweep and a
+            shine on the amount, all looping (still with reduced motion). */}
+        <div className="animate-fade-up delay-3 mt-5">
+          <p className="price-pill relative inline-flex items-center gap-2.5 overflow-hidden rounded-full border border-gold/60 bg-ink/35 py-2 pr-4 pl-3.5 text-sm tracking-wide text-white/90 backdrop-blur-md">
+            <span aria-hidden className="relative flex h-2.5 w-2.5">
+              <span className="absolute inset-0 rounded-full bg-gold opacity-75 motion-safe:animate-ping" />
+              <span className="relative h-2.5 w-2.5 rounded-full bg-gold" />
+            </span>
+            <span>Prices start from</span>
+            <span className="price-shine font-display text-2xl leading-none font-semibold [font-variant-numeric:lining-nums]">
+              {startingPriceAmount}
+              <span className="ml-1 text-sm tracking-[0.18em]">{startingPriceCurrency}</span>
+            </span>
+          </p>
+        </div>
       </div>
     </section>
   );
