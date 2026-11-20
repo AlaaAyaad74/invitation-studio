@@ -6,7 +6,9 @@ export const siteConfig = {
   email: "hello@vowcraft.studio",
   instagram: "invitation.studio0",
   instagramUrl: "https://www.instagram.com/invitation.studio0",
-  instagramDmUrl: "https://ig.me/m/invitation.studio0",
+  // Web DM link (not ig.me): logged-out visitors get Instagram's login page,
+  // which returns them to this chat after signing in.
+  instagramDmUrl: "https://www.instagram.com/m/invitation.studio0/",
   tiktok: "invitationstudio00",
   tiktokUrl: "https://www.tiktok.com/@invitationstudio00",
   keywords: [
