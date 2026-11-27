@@ -19,7 +19,8 @@
     0 6px 14px -10px rgba(42, 38, 35, 0.45);
   color: #6e6d73;
   cursor: pointer;
-  font-family: var(--font-figtree), system-ui, sans-serif;
+  /* Latin only: the Arabic font's metrics would push "AR" off-center. */
+  font-family: var(--font-figtree-latin, var(--font-figtree)), system-ui, sans-serif;
   -webkit-tap-highlight-color: transparent;
   transition:
     box-shadow 200ms ease,

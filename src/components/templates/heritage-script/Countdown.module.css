@@ -45,7 +45,7 @@
 .daysValue {
   display: block;
   color: #fffaf3;
-  font-family: var(--font-heritage-serif), Georgia, serif;
+  font-family: var(--font-heritage-serif-latin, var(--font-heritage-serif)), Georgia, serif;
   font-size: 4.6rem;
   font-weight: 500;
   font-style: italic;
@@ -79,7 +79,7 @@
 .unitValue {
   display: block;
   color: #fffaf3;
-  font-family: var(--font-heritage-serif), Georgia, serif;
+  font-family: var(--font-heritage-serif-latin, var(--font-heritage-serif)), Georgia, serif;
   font-size: 1.85rem;
   font-style: italic;
   line-height: 1;

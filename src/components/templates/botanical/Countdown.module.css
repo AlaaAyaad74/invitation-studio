@@ -131,7 +131,7 @@
 
 .daysValue {
   display: block;
-  font-family: var(--font-cormorant), serif;
+  font-family: var(--font-cormorant-latin, var(--font-cormorant)), serif;
   font-size: 5.15rem;
   font-weight: 500;
   line-height: 0.85;
@@ -164,7 +164,7 @@
 
 .unitValue {
   display: block;
-  font-family: var(--font-cormorant), serif;
+  font-family: var(--font-cormorant-latin, var(--font-cormorant)), serif;
   font-size: 1.9rem;
   line-height: 1;
   color: var(--ink);

@@ -61,8 +61,19 @@ export const arabicFontVariables = Object.values(arabic)
   .join(" ");
 
 /**
+ * The Arabic font's own family, without the "<Name> Fallback" face next/font
+ * adds. That face is local(Arial) with the Arabic font's uneven metrics, and
+ * it covers digits and Latin letters, so they would skip the template's Latin
+ * font and sit off-center (most visibly on Android, where Arial is replaced).
+ */
+function arabicOnly(font: LoadedFont) {
+  return font.style.fontFamily.split(",")[0].trim();
+}
+
+/**
  * Inline style that puts the matching Arabic font in front of each Latin
- * font variable. Empty for English, so the Latin fonts stay untouched.
+ * font variable, and adds `<name>-latin` with the Latin font alone. Empty for
+ * English, so the Latin fonts stay untouched.
  */
 export function arabicFontStyle(
   lang: Lang,
@@ -72,7 +83,11 @@ export function arabicFontStyle(
 
   const style: Record<string, string> = {};
   for (const [variable, [kind, latin]] of Object.entries(fonts)) {
-    style[variable] = `${arabic[kind].style.fontFamily}, ${latin.style.fontFamily}`;
+    style[variable] = `${arabicOnly(arabic[kind])}, ${latin.style.fontFamily}`;
+    // The Arabic fonts also carry Latin letters and digits, with their own
+    // (uneven) line metrics. Numbers and Latin labels that must sit exactly
+    // centered use `var(<name>-latin, var(<name>))` to skip the Arabic font.
+    style[`${variable}-latin`] = latin.style.fontFamily;
   }
   return style as CSSProperties;
 }
