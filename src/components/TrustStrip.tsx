@@ -3,7 +3,9 @@ import { LuCalendarCheck, LuClock3, LuStar } from "react-icons/lu";
 import { IoCashOutline } from "react-icons/io5";
 import StarIcon from "@/components/icons/StarIcon";
 import Reveal from "@/components/Reveal";
-import { startingPriceAmount, startingPriceCurrency } from "@/lib/contact";
+import { contactCopy, startingPriceAmount } from "@/lib/contact";
+import { getLang } from "@/lib/i18n-server";
+import type { Lang } from "@/lib/i18n";
 
 type TrustItem = {
   icon: IconType;
@@ -16,23 +18,50 @@ type TrustItem = {
   stars?: boolean;
 };
 
-const items: TrustItem[] = [
-  {
-    icon: IoCashOutline,
-    value: startingPriceAmount,
-    unit: startingPriceCurrency,
-    caption: "Starting price",
+const COPY = {
+  en: {
+    heading: "Why couples choose us",
+    hrs: "hrs",
+    price: "Starting price",
+    delivery: "Delivery time",
+    rsvpValue: "RSVP",
+    rsvp: "Online guest replies",
+    rated: "Rated by our couples",
+    stars: "5 out of 5 stars",
   },
-  { icon: LuClock3, value: "24:48", unit: "hrs", caption: "Delivery time" },
-  { icon: LuCalendarCheck, value: "RSVP", caption: "Online guest replies" },
-  { icon: LuStar, value: "5.0", caption: "Rated by our couples", stars: true },
-];
+  ar: {
+    heading: "ليه العرسان بيختارونا",
+    hrs: "ساعة",
+    price: "يبدأ السعر من",
+    delivery: "وقت التسليم",
+    rsvpValue: "تأكيد",
+    rsvp: "حضور الضيوف أونلاين",
+    rated: "تقييم عرساننا",
+    stars: "5 من 5 نجوم",
+  },
+} as const;
+
+function itemsFor(lang: Lang): TrustItem[] {
+  const t = COPY[lang];
+  return [
+    {
+      icon: IoCashOutline,
+      value: startingPriceAmount,
+      unit: contactCopy[lang].currency,
+      caption: t.price,
+    },
+    { icon: LuClock3, value: "24:48", unit: t.hrs, caption: t.delivery },
+    { icon: LuCalendarCheck, value: t.rsvpValue, caption: t.rsvp },
+    { icon: LuStar, value: "5.0", caption: t.rated, stars: true },
+  ];
+}
 
 // Hairline dividers: a 2 × 2 grid on phones, one row of four from md.
+// Logical sides (border-e) so the grid mirrors in right-to-left.
 const cellBorders = [
-  "border-r border-b md:border-b-0",
-  "border-b md:border-b-0 md:border-r",
-  "border-r md:border-r",
+  "border-e border-b md:border-b-0",
+  "border-b md:border-b-0 md:border-e",
+  "border-e md:border-e",
   "",
 ];
 
@@ -43,7 +72,7 @@ const cellBorders = [
 function Figure({ value }: { value: string }) {
   const parts = value.split(/([:.])/);
   return (
-    <span className="inline-flex items-baseline">
+    <span dir="ltr" className="inline-flex items-baseline">
       {parts.map((part, i) =>
         part === ":" || part === "." ? (
           <span
@@ -75,10 +104,14 @@ function GoldRule({ flip = false }: { flip?: boolean }) {
  * Short reasons to trust us, styled like a stationery card: it rises over the
  * bottom of the hero, with an inner gold frame and a script heading.
  */
-export default function TrustStrip() {
+export default async function TrustStrip() {
+  const lang = await getLang();
+  const t = COPY[lang];
+  const items = itemsFor(lang);
+
   return (
     <section
-      aria-label="Why couples choose us"
+      aria-label={t.heading}
       className="relative z-20 -mt-8 px-3 sm:-mt-12 sm:px-8"
     >
       <Reveal className="mx-auto max-w-5xl">
@@ -105,7 +138,7 @@ export default function TrustStrip() {
           <div className="relative flex items-center justify-center gap-2 pt-5 min-[360px]:gap-3 sm:pt-7">
             <GoldRule />
             <p className="font-script text-[1.4rem] leading-none whitespace-nowrap text-rose min-[360px]:text-[1.65rem] sm:text-3xl">
-              Why couples choose us
+              {t.heading}
             </p>
             <GoldRule flip />
           </div>
@@ -142,9 +175,9 @@ export default function TrustStrip() {
                       Hidden on phones, where the cell is too narrow. */}
                   {stars ? (
                     <span
-                      className="ml-0.5 hidden gap-0.5 self-center text-gold sm:flex"
+                      className="ms-0.5 hidden gap-0.5 self-center text-gold sm:flex"
                       role="img"
-                      aria-label="5 out of 5 stars"
+                      aria-label={t.stars}
                     >
                       {Array.from({ length: 5 }, (_, i) => (
                         <StarIcon key={i} className="h-2.5 w-2.5 fill-current" />

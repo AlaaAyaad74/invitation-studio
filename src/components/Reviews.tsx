@@ -4,6 +4,26 @@ import Reveal from "@/components/Reveal";
 import ReviewProof from "@/components/ReviewProof";
 import { reviews } from "@/data/reviews";
 import { FaInstagram, FaWhatsapp } from "react-icons/fa";
+import { getLang } from "@/lib/i18n-server";
+
+const COPY = {
+  en: {
+    kicker: "Reviews",
+    title: "Kind words from our couples.",
+    lead: "Real messages sent to us after the invitation went out, shared with love, exactly as they arrived.",
+    everyCouple: "From every couple",
+    rated: "Rated 5 out of 5",
+    sentOn: { WhatsApp: "Sent on WhatsApp", Instagram: "Sent on Instagram" },
+  },
+  ar: {
+    kicker: "آراء العملاء",
+    title: "كلام حلو من عرساننا.",
+    lead: "رسايل حقيقية وصلتنا بعد ما الدعوة اتبعتت، منشورة بحب وزي ما وصلتنا بالظبط.",
+    everyCouple: "من كل العرسان",
+    rated: "تقييم 5 من 5",
+    sentOn: { WhatsApp: "اتبعتت على واتساب", Instagram: "اتبعتت على إنستجرام" },
+  },
+} as const;
 
 const arabic = Amiri({
   subsets: ["arabic"],
@@ -11,9 +31,9 @@ const arabic = Amiri({
   display: "swap",
 });
 
-function Stars({ className = "h-3.5 w-3.5" }: { className?: string }) {
+function Stars({ className = "h-3.5 w-3.5", label }: { className?: string; label: string }) {
   return (
-    <span className="flex gap-0.5 text-gold" role="img" aria-label="Rated 5 out of 5">
+    <span className="flex gap-0.5 text-gold" role="img" aria-label={label}>
       {Array.from({ length: 5 }, (_, i) => (
         <StarIcon key={i} className={`${className} fill-current`} />
       ))}
@@ -23,12 +43,15 @@ function Stars({ className = "h-3.5 w-3.5" }: { className?: string }) {
 
 function initials(couple: string) {
   return couple
-    .split("&")
+    .split(/&| و/)
     .map((name) => name.trim()[0])
     .join("&");
 }
 
-export default function Reviews() {
+export default async function Reviews() {
+  const lang = await getLang();
+  const t = COPY[lang];
+
   return (
     <section id="reviews" className="relative overflow-hidden py-10 sm:py-14 lg:py-16">
       <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-ivory via-ivory-deep/60 to-ivory" />
@@ -40,14 +63,13 @@ export default function Reviews() {
         <div className="flex flex-col gap-8 md:flex-row md:items-end md:justify-between">
           <Reveal className="max-w-2xl">
             <p className="text-sm tracking-[0.2em] text-rose uppercase">
-              Reviews
+              {t.kicker}
             </p>
             <h2 className="mt-3 font-display text-4xl leading-tight text-ink sm:text-5xl">
-              Kind words from our couples.
+              {t.title}
             </h2>
             <p className="mt-4 max-w-lg text-ink-muted">
-              Real messages sent to us after the invitation went out, shared
-              with love, exactly as they arrived.
+              {t.lead}
             </p>
           </Reveal>
 
@@ -55,9 +77,9 @@ export default function Reviews() {
             <div className="inline-flex items-center gap-4 border border-ivory-deep bg-white/70 px-5 py-4 backdrop-blur-sm">
               <span className="font-display text-5xl leading-none text-ink">5.0</span>
               <span className="space-y-1.5">
-                <Stars className="h-4 w-4" />
+                <Stars className="h-4 w-4" label={t.rated} />
                 <span className="block text-xs tracking-[0.14em] text-ink-muted uppercase">
-                  From every couple
+                  {t.everyCouple}
                 </span>
               </span>
             </div>
@@ -69,6 +91,7 @@ export default function Reviews() {
           {reviews.map((review, index) => {
             const isWhatsApp = review.platform === "WhatsApp";
             const PlatformIcon = isWhatsApp ? FaWhatsapp : FaInstagram;
+            const couple = lang === "ar" ? review.coupleAr : review.couple;
 
             return (
               <Reveal
@@ -86,7 +109,7 @@ export default function Reviews() {
                     >
                       &ldquo;
                     </span>
-                    <Stars />
+                    <Stars label={t.rated} />
                   </div>
 
                   <blockquote
@@ -98,7 +121,7 @@ export default function Reviews() {
                   </blockquote>
 
                   <div className="mt-6">
-                    <ReviewProof couple={review.couple} shots={review.shots} />
+                    <ReviewProof couple={couple} shots={review.shots} />
                   </div>
 
                   <figcaption className="mt-6 flex items-center gap-3 border-t border-ivory-deep pt-5">
@@ -106,18 +129,18 @@ export default function Reviews() {
                       aria-hidden
                       className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full border border-gold/40 bg-ivory font-display text-base text-ink"
                     >
-                      {initials(review.couple)}
+                      {initials(couple)}
                     </span>
                     <span className="min-w-0 flex-1">
                       <span className="block font-display text-xl leading-tight text-ink sm:text-2xl">
-                        {review.couple}
+                        {couple}
                       </span>
                       <span className="mt-0.5 flex items-center gap-1.5 text-xs text-ink-muted">
                         <PlatformIcon
                           aria-hidden
                           className={`h-3.5 w-3.5 ${isWhatsApp ? "text-[#25d366]" : "text-[#e1306c]"}`}
                         />
-                        Sent on {review.platform}
+                        {t.sentOn[review.platform]}
                       </span>
                     </span>
                   </figcaption>

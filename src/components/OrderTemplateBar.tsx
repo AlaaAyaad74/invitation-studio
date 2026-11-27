@@ -4,13 +4,10 @@ import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 import { LuArrowRight } from "react-icons/lu";
+import { useLang } from "@/components/i18n/LangProvider";
 import OrderButton, { channelIcons } from "@/components/OrderButton";
-import { templates } from "@/data/templates";
-import {
-  primaryContact,
-  startingPriceAmount,
-  startingPriceCurrency,
-} from "@/lib/contact";
+import { getTemplates, templates } from "@/data/templates";
+import { contactCopy, primaryContact, startingPriceAmount } from "@/lib/contact";
 
 /**
  * Floating "Order" pill for the /templates/<slug> demos.
@@ -24,9 +21,14 @@ import {
  */
 export default function OrderTemplateBar() {
   const pathname = usePathname();
-  const template = templates.find(
-    (t) => t.href && !t.comingSoon && t.href === pathname.replace(/\/$/, ""),
+  const lang = useLang();
+  const copy = contactCopy[lang];
+  const current = pathname.replace(/\/$/, "");
+  const template = getTemplates(lang).find(
+    (t) => t.href && !t.comingSoon && t.href === current,
   );
+  // The order message names the template in English, so we know which one.
+  const orderName = templates.find((t) => t.id === template?.id)?.title ?? template?.title ?? "";
   const [visible, setVisible] = useState(false);
 
   useEffect(() => {
@@ -63,7 +65,7 @@ export default function OrderTemplateBar() {
         inert={!visible}
       >
         {/* Same height as the music button beside it (48px). */}
-        <div className="flex h-12 items-center gap-2.5 rounded-full border border-gold/50 bg-ink/90 py-1 pr-1 pl-1 shadow-[0_14px_32px_-14px_rgba(0,0,0,0.6)] backdrop-blur-md">
+        <div className="flex h-12 items-center gap-2.5 rounded-full border border-gold/50 bg-ink/90 p-1 shadow-[0_14px_32px_-14px_rgba(0,0,0,0.6)] backdrop-blur-md">
           <span className="relative h-10 w-10 shrink-0 overflow-hidden rounded-full ring-1 ring-gold/60">
             <Image
               src={template.image}
@@ -79,24 +81,24 @@ export default function OrderTemplateBar() {
               {template.title}
             </p>
             <p className="mt-0.5 text-[10px] tracking-[0.14em] whitespace-nowrap text-white/60 uppercase">
-              From{" "}
+              {copy.from}{" "}
               <span className="text-gold [font-variant-numeric:lining-nums]">
-                {startingPriceAmount} {startingPriceCurrency}
+                {startingPriceAmount} {copy.currency}
               </span>
             </p>
           </div>
 
           <OrderButton
             kind="template"
-            name={template.title}
+            name={orderName}
             path={template.href}
             className="shine-sweep group/order inline-flex h-10 shrink-0 items-center gap-1.5 rounded-full bg-gold px-3.5 text-[13px] font-medium tracking-wide whitespace-nowrap text-ink transition hover:bg-white"
           >
             <ChannelIcon aria-hidden className="h-3.5 w-3.5" />
-            Order
+            {copy.order}
             <LuArrowRight
               aria-hidden
-              className="h-3.5 w-3.5 transition-transform group-hover/order:translate-x-0.5"
+              className="h-3.5 w-3.5 transition-transform group-hover/order:translate-x-0.5 rtl:-scale-x-100 rtl:group-hover/order:-translate-x-0.5"
             />
           </OrderButton>
         </div>

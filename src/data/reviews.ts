@@ -9,6 +9,8 @@ export type ReviewShot = {
 export type Review = {
   id: string;
   couple: string;
+  /** The couple's names in Arabic. */
+  coupleAr: string;
   /** The line we pull out of their message, shown large on the card. */
   quote: string;
   /** Where the message came from. */
@@ -20,6 +22,7 @@ export const reviews: Review[] = [
   {
     id: "omar-salma",
     couple: "Omar & Salma",
+    coupleAr: "عمر وسلمى",
     quote: "تسلم إيدك بجد… جميل أوي أوي",
     platform: "Instagram",
     shots: [
@@ -40,6 +43,7 @@ export const reviews: Review[] = [
   {
     id: "ziad-samira",
     couple: "Ziad & Samira",
+    coupleAr: "زياد وسميرة",
     quote: "عجبت الكل، محدش شافها غير وقال عليها إيه الواو ده",
     platform: "WhatsApp",
     shots: [
@@ -54,6 +58,7 @@ export const reviews: Review[] = [
   {
     id: "ahmed-doaa",
     couple: "Ahmed & Doaa",
+    coupleAr: "أحمد ودعاء",
     quote: "شكرًا جدًا، تحفة ما شاء الله",
     platform: "WhatsApp",
     shots: [

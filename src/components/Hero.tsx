@@ -5,9 +5,9 @@ import { useLang } from "@/components/i18n/LangProvider";
 import { siteConfig } from "@/lib/site";
 import { useDeferredVideo } from "@/hooks/useDeferredVideo";
 import {
+  contactCopy,
   contactLinkProps,
   startingPriceAmount,
-  startingPriceCurrency,
 } from "@/lib/contact";
 
 const POSTER_SRC = "/videos/hero-poster.jpg";
@@ -30,7 +30,9 @@ const COPY = {
 } as const;
 
 export default function Hero() {
-  const t = COPY[useLang()];
+  const lang = useLang();
+  const t = COPY[lang];
+  const price = contactCopy[lang];
   const videoRef = useRef<HTMLVideoElement>(null);
   const [playing, setPlaying] = useState(false);
   // The poster carries the hero until the page has loaded; on Save-Data or
@@ -118,7 +120,7 @@ export default function Hero() {
           {t.brand}
         </p>
         <h1 className="animate-fade-up delay-1 mt-5 max-w-xl font-display text-2xl leading-snug text-white/95 sm:text-3xl md:text-4xl">
-          <span className="sr-only">{siteConfig.name}. </span>
+          <span className="sr-only">{lang === "ar" ? t.brand : siteConfig.name}. </span>
           {t.title}
         </h1>
         <p className="animate-fade-up delay-2 mt-4 max-w-md text-base leading-relaxed text-white/80 sm:text-lg">
@@ -141,15 +143,15 @@ export default function Hero() {
         {/* Price pill: pulsing dot, breathing gold glow, light sweep and a
             shine on the amount, all looping (still with reduced motion). */}
         <div className="animate-fade-up delay-3 mt-5">
-          <p className="price-pill relative inline-flex items-center gap-2.5 overflow-hidden rounded-full border border-gold/60 bg-ink/35 py-2 pr-4 pl-3.5 text-sm tracking-wide text-white/90 backdrop-blur-md">
+          <p className="price-pill relative inline-flex items-center gap-2.5 overflow-hidden rounded-full border border-gold/60 bg-ink/35 py-2 pe-4 ps-3.5 text-sm tracking-wide text-white/90 backdrop-blur-md">
             <span aria-hidden className="relative flex h-2.5 w-2.5">
               <span className="absolute inset-0 rounded-full bg-gold opacity-75 motion-safe:animate-ping" />
               <span className="relative h-2.5 w-2.5 rounded-full bg-gold" />
             </span>
-            <span>Prices start from</span>
+            <span>{price.pricesFrom}</span>
             <span className="price-shine font-display text-2xl leading-none font-semibold [font-variant-numeric:lining-nums]">
               {startingPriceAmount}
-              <span className="ml-1 text-sm tracking-[0.18em]">{startingPriceCurrency}</span>
+              <span className="ms-1 text-sm tracking-[0.18em]">{price.currency}</span>
             </span>
           </p>
         </div>

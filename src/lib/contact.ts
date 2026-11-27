@@ -5,6 +5,7 @@
  * uncomment it, and set `primaryContact = whatsappContact`. The Meta Pixel
  * picks the channel up from the link itself, so tracking keeps working.
  */
+import type { Lang } from "@/lib/i18n";
 import type { ContactChannel } from "@/lib/metaPixel";
 // import { whatsappUrl } from "@/lib/whatsapp";
 
@@ -40,24 +41,62 @@ export const instagramContact: ContactOption = {
 /** The channel every order / contact button uses. */
 export const primaryContact: ContactOption = instagramContact;
 
-/** Button labels used by the order / contact buttons. */
-export const ctaLabels = {
-  startCustom: "Start custom",
-  customServices: "Custom services",
-  requestQuote: "Request a custom quote",
-} as const;
-
 /** What an order button orders: drives its label and the message sent. */
 export type OrderKind = "template" | "video" | "photo";
 
-export const orderLabels: Record<OrderKind, string> = {
-  template: "Order this template",
-  video: "Order this video",
-  photo: "Order this design",
-};
+/** Labels for the contact, order and price UI, per language. */
+export const contactCopy = {
+  en: {
+    contactLabel: "Message us on Instagram",
+    startCustom: "Start custom",
+    customServices: "Custom services",
+    requestQuote: "Request a custom quote",
+    orderLabels: {
+      template: "Order this template",
+      video: "Order this video",
+      photo: "Order this design",
+    },
+    order: "Order",
+    pricesFrom: "Prices start from",
+    from: "From",
+    currency: "EGP",
+  },
+  ar: {
+    contactLabel: "كلمونا على إنستجرام",
+    startCustom: "اطلب دعوتك",
+    customServices: "تصميم مخصوص",
+    requestQuote: "اعرف السعر",
+    orderLabels: {
+      template: "اطلب التصميم ده",
+      video: "اطلب الفيديو ده",
+      photo: "اطلب التصميم ده",
+    },
+    order: "اطلب",
+    pricesFrom: "الأسعار تبدأ من",
+    from: "يبدأ من",
+    currency: "جنيه",
+  },
+} as const satisfies Record<Lang, { orderLabels: Record<OrderKind, string> } & Record<string, unknown>>;
+
+/** Button labels used by the order / contact buttons (English). */
+export const ctaLabels = {
+  startCustom: contactCopy.en.startCustom,
+  customServices: contactCopy.en.customServices,
+  requestQuote: contactCopy.en.requestQuote,
+} as const;
+
+export const orderLabels: Record<OrderKind, string> = contactCopy.en.orderLabels;
 
 /** The message the visitor sends us from an order button. */
-export function orderMessage(kind: OrderKind, name: string, url: string) {
+export function orderMessage(kind: OrderKind, name: string, url: string, lang: Lang = "en") {
+  if (lang === "ar") {
+    const item = {
+      template: `تصميم الدعوة "${name}"`,
+      video: `فيديو دعوة زي "${name}"`,
+      photo: `صورة دعوة زي "${name}"`,
+    }[kind];
+    return `أهلًا استوديو الدعوات! حابين نطلب ${item}.\n${url}`;
+  }
   const item = {
     template: `the "${name}" invitation template`,
     video: `an invitation video like "${name}"`,

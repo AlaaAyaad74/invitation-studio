@@ -1,23 +1,45 @@
 import { LuPlus } from "react-icons/lu";
 import Reveal from "@/components/Reveal";
-import { faq } from "@/data/faq";
-import { contactLinkProps, primaryContact } from "@/lib/contact";
+import { getFaq } from "@/data/faq";
+import { contactCopy, contactLinkProps } from "@/lib/contact";
+import { getLang } from "@/lib/i18n-server";
 
-const faqJsonLd = {
-  "@context": "https://schema.org",
-  "@type": "FAQPage",
-  mainEntity: faq.map((item) => ({
-    "@type": "Question",
-    name: item.question,
-    acceptedAnswer: { "@type": "Answer", text: item.answer },
-  })),
-};
+const COPY = {
+  en: {
+    kicker: "FAQ",
+    title: "Questions couples ask us.",
+    lead: "Everything about how your invitation is made, shared, and answered by your guests.",
+    stillTitle: "Still wondering?",
+    stillLead: "Send us your date and the look you love, and we will answer within the day.",
+  },
+  ar: {
+    kicker: "الأسئلة الشائعة",
+    title: "أسئلة بيسألوهالنا العرسان.",
+    lead: "كل حاجة عن الدعوة: بتتعمل إزاي، بتتبعت إزاي، وضيوفكم بيردوا عليها إزاي.",
+    stillTitle: "لسه عندكم سؤال؟",
+    stillLead: "ابعتولنا ميعاد الفرح والشكل اللي عاجبكم، وهنرد عليكم في نفس اليوم.",
+  },
+} as const;
 
 /**
  * FAQ accordion (native <details>, no JS). From md: two columns, a sticky
  * intro with the contact card on the left, the questions on the right.
  */
-export default function FAQ() {
+export default async function FAQ() {
+  const lang = await getLang();
+  const t = COPY[lang];
+  const contactLabel = contactCopy[lang].contactLabel;
+  const faq = getFaq(lang);
+  const faqJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    mainEntity: faq.map((item) => ({
+      "@type": "Question",
+      name: item.question,
+      acceptedAnswer: { "@type": "Answer", text: item.answer },
+    })),
+  };
+
   return (
     <section id="faq" className="relative overflow-hidden py-10 sm:py-14 lg:py-16">
       <script
@@ -31,13 +53,12 @@ export default function FAQ() {
       <div className="relative mx-auto grid max-w-6xl gap-10 px-3 sm:px-8 md:grid-cols-2 md:gap-12 lg:grid-cols-[0.85fr_1.15fr] lg:gap-20">
         <div className="md:sticky md:top-28 md:self-start">
           <Reveal>
-            <p className="text-sm tracking-[0.2em] text-rose uppercase">FAQ</p>
+            <p className="text-sm tracking-[0.2em] text-rose uppercase">{t.kicker}</p>
             <h2 className="mt-3 font-display text-4xl leading-tight text-balance text-ink sm:text-5xl">
-              Questions couples ask us.
+              {t.title}
             </h2>
             <p className="mt-4 max-w-md text-ink-muted">
-              Everything about how your invitation is made, shared, and
-              answered by your guests.
+              {t.lead}
             </p>
           </Reveal>
 
@@ -47,16 +68,15 @@ export default function FAQ() {
                 aria-hidden
                 className="absolute inset-x-0 top-0 h-1 bg-gradient-to-r from-rose/60 via-gold to-sage/70"
               />
-              <p className="font-display text-3xl text-ink">Still wondering?</p>
+              <p className="font-display text-3xl text-ink">{t.stillTitle}</p>
               <p className="mt-3 text-sm leading-relaxed text-ink-muted">
-                Send us your date and the look you love, and we will answer
-                within the day.
+                {t.stillLead}
               </p>
               <a
                 {...contactLinkProps()}
                 className="mt-6 inline-flex bg-sage-deep px-5 py-3 text-sm text-white transition hover:bg-sage"
               >
-                {primaryContact.label}
+                {contactLabel}
               </a>
             </div>
           </Reveal>
@@ -78,7 +98,7 @@ export default function FAQ() {
                     <LuPlus aria-hidden className="h-4 w-4" />
                   </span>
                 </summary>
-                <p className="pr-4 pb-5 pl-14 text-sm leading-relaxed text-ink-muted sm:pr-16 sm:pl-[3.75rem] sm:text-base">
+                <p className="pe-4 pb-5 ps-14 text-sm leading-relaxed text-ink-muted sm:pe-16 sm:ps-[3.75rem] sm:text-base">
                   {item.answer}
                 </p>
               </details>
@@ -90,7 +110,7 @@ export default function FAQ() {
             {...contactLinkProps()}
             className="mt-8 inline-flex bg-sage-deep px-5 py-3 text-sm text-white transition hover:bg-sage md:hidden"
           >
-            {primaryContact.label}
+            {contactLabel}
           </a>
         </div>
       </div>

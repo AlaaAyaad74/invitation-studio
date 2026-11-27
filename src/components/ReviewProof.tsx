@@ -1,5 +1,6 @@
 "use client";
 
+import { useLang } from "@/components/i18n/LangProvider";
 import ImageWithSkeleton from "@/components/ImageWithSkeleton";
 import type { ReviewShot } from "@/data/reviews";
 import { useDialog } from "@/hooks/useDialog";
@@ -15,6 +16,7 @@ type ReviewProofProps = {
 /** The original message screenshots; tap to read them full size. */
 export default function ReviewProof({ couple, shots }: ReviewProofProps) {
   const [open, setOpen] = useState(false);
+  const ar = useLang() === "ar";
 
   useDialog({ Escape: () => setOpen(false) }, open);
 
@@ -23,8 +25,8 @@ export default function ReviewProof({ couple, shots }: ReviewProofProps) {
       <button
         type="button"
         onClick={() => setOpen(true)}
-        aria-label={`Read the original message from ${couple}`}
-        className="group/proof relative block w-full cursor-zoom-in overflow-hidden rounded-xl border border-ivory-deep bg-ivory text-left"
+        aria-label={ar ? `اقرا الرسالة الأصلية من ${couple}` : `Read the original message from ${couple}`}
+        className="group/proof relative block w-full cursor-zoom-in overflow-hidden rounded-xl border border-ivory-deep bg-ivory text-start"
       >
         <span className="block max-h-40 space-y-1 overflow-hidden">
           {shots.map((shot) => (
@@ -42,9 +44,9 @@ export default function ReviewProof({ couple, shots }: ReviewProofProps) {
         </span>
         {/* Fade the bottom so taller screenshots read as "more inside". */}
         <span className="pointer-events-none absolute inset-x-0 bottom-0 h-12 bg-gradient-to-t from-white/95 to-transparent" />
-        <span className="absolute bottom-2 right-2 inline-flex items-center gap-1.5 rounded-full bg-white/95 px-2.5 py-1 text-[11px] tracking-wide text-ink shadow-[0_6px_14px_-8px_rgba(0,0,0,0.5)] transition group-hover/proof:bg-white">
+        <span className="absolute bottom-2 end-2 inline-flex items-center gap-1.5 rounded-full bg-white/95 px-2.5 py-1 text-[11px] tracking-wide text-ink shadow-[0_6px_14px_-8px_rgba(0,0,0,0.5)] transition group-hover/proof:bg-white">
           <LuZoomIn className="h-3.5 w-3.5" strokeWidth={2.2} />
-          View message
+          {ar ? "شوف الرسالة" : "View message"}
         </span>
       </button>
 
@@ -53,14 +55,14 @@ export default function ReviewProof({ couple, shots }: ReviewProofProps) {
             <div
               role="dialog"
               aria-modal="true"
-              aria-label={`Message from ${couple}`}
+              aria-label={ar ? `رسالة من ${couple}` : `Message from ${couple}`}
               className="fixed inset-0 z-[80] flex items-center justify-center bg-ink/80 p-4 backdrop-blur-md sm:p-8"
               onClick={() => setOpen(false)}
             >
               <button
                 type="button"
                 onClick={() => setOpen(false)}
-                aria-label="Close"
+                aria-label={ar ? "اقفل" : "Close"}
                 className="absolute right-4 top-4 inline-flex h-11 w-11 items-center justify-center rounded-full bg-white text-ink shadow-[0_10px_30px_-8px_rgba(0,0,0,0.45)] transition hover:bg-ivory sm:right-6 sm:top-6"
               >
                 <LuX className="h-6 w-6" strokeWidth={2.6} />

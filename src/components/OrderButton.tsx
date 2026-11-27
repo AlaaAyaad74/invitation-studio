@@ -5,10 +5,12 @@ import { createPortal } from "react-dom";
 import type { IconType } from "react-icons";
 import { FaInstagram, FaTiktok, FaWhatsapp } from "react-icons/fa6";
 import { LuCheck, LuCopy, LuSend, LuX } from "react-icons/lu";
+import { useLang } from "@/components/i18n/LangProvider";
 import { useDialog } from "@/hooks/useDialog";
+import type { Lang } from "@/lib/i18n";
 import {
+  contactCopy,
   contactLinkProps,
-  orderLabels,
   orderMessage,
   primaryContact,
   type OrderKind,
@@ -23,11 +25,37 @@ export const channelIcons: Record<ContactChannel, IconType> = {
   tiktok: FaTiktok,
 };
 
-const channelNames: Record<ContactChannel, string> = {
-  instagram: "Instagram",
-  whatsapp: "WhatsApp",
-  tiktok: "TikTok",
+const channelNames: Record<Lang, Record<ContactChannel, string>> = {
+  en: { instagram: "Instagram", whatsapp: "WhatsApp", tiktok: "TikTok" },
+  ar: { instagram: "إنستجرام", whatsapp: "واتساب", tiktok: "تيك توك" },
 };
+
+const SHEET = {
+  en: {
+    close: "Close",
+    kicker: "Your order",
+    title: "Send it in 3 taps",
+    copied: "Message copied",
+    message: "Your message",
+    copy: "Copy",
+    copyAgain: "Copy again",
+    shareTo: (channel: string) => `Share to ${channel}`,
+    openChat: (channel: string) => `Open ${channel} chat`,
+    orOpenChat: (channel: string) => `Or open our ${channel} chat and paste it`,
+  },
+  ar: {
+    close: "اقفل",
+    kicker: "طلبك",
+    title: "ابعته في 3 خطوات",
+    copied: "اتنسخت الرسالة",
+    message: "رسالتك",
+    copy: "انسخ",
+    copyAgain: "انسخ تاني",
+    shareTo: (channel: string) => `ابعت على ${channel}`,
+    openChat: (channel: string) => `افتح شات ${channel}`,
+    orOpenChat: (channel: string) => `أو افتح الشات على ${channel} والصقها`,
+  },
+} as const;
 
 const categories: Record<OrderKind, ContentCategory> = {
   template: "template",
@@ -97,6 +125,7 @@ export default function OrderButton({
   withIcon = false,
   children,
 }: OrderButtonProps) {
+  const lang = useLang();
   const ChannelIcon = channelIcons[primaryContact.channel];
   const [message, setMessage] = useState<string | null>(null);
   const [copied, setCopied] = useState(false);
@@ -104,12 +133,12 @@ export default function OrderButton({
   const label = children ?? (
     <>
       {withIcon ? <ChannelIcon aria-hidden className="h-4 w-4 shrink-0" /> : null}
-      {orderLabels[kind]}
+      {contactCopy[lang].orderLabels[kind]}
     </>
   );
 
   const buildMessage = () =>
-    orderMessage(kind, name, new URL(path, window.location.origin).toString());
+    orderMessage(kind, name, new URL(path, window.location.origin).toString(), lang);
 
   const trackingProps = {
     "data-meta-content-name": name,
@@ -148,6 +177,7 @@ export default function OrderButton({
       {message
         ? createPortal(
             <OrderSheet
+              lang={lang}
               message={message}
               copied={copied}
               trackingProps={trackingProps}
@@ -163,6 +193,7 @@ export default function OrderButton({
 }
 
 function OrderSheet({
+  lang,
   message,
   copied,
   trackingProps,
@@ -170,6 +201,7 @@ function OrderSheet({
   onShare,
   onClose,
 }: {
+  lang: Lang;
   message: string;
   copied: boolean;
   trackingProps: Record<string, string>;
@@ -179,7 +211,9 @@ function OrderSheet({
 }) {
   useDialog({ Escape: onClose });
   const ChannelIcon = channelIcons[primaryContact.channel];
-  const channel = channelNames[primaryContact.channel];
+  const channel = channelNames[lang][primaryContact.channel];
+  const t = SHEET[lang];
+  const b = "font-medium text-ink";
   // Phones only: computers can share too, but have no Instagram app to share
   // to. Safe to read here: the sheet only renders in the browser, after a tap.
   const [canShare] = useState(
@@ -197,7 +231,19 @@ function OrderSheet({
     }
   };
 
-  const steps = canShare
+  const steps = lang === "ar"
+    ? canShare
+      ? [
+          <>دوس على <b className={b}>{t.shareTo(channel)}</b> تحت</>,
+          <>اختار <b className={b}>{channel}</b>، وبعدين <b className={b}>Direct</b> (الشات)</>,
+          <>اختار <b className={b}>@{siteConfig.instagram}</b> وابعت. رسالتك مكتوبة جاهزة.</>,
+        ]
+      : [
+          <>دوس على <b className={b}>{t.openChat(channel)}</b> تحت</>,
+          <>الصق الرسالة: <b className={b}>Ctrl+V</b>، أو دوس مطوّل واختار <b className={b}>لصق</b></>,
+          <>ابعت، وهنرد عليكم بالتفاصيل والسعر.</>,
+        ]
+    : canShare
     ? [
         <>Tap <b className="font-medium text-ink">Share to {channel}</b> below</>,
         <>Choose <b className="font-medium text-ink">{channel}</b>, then <b className="font-medium text-ink">Direct</b> (Chats)</>,
@@ -225,7 +271,7 @@ function OrderSheet({
       }
     >
       <ChannelIcon aria-hidden className={primary ? "h-4 w-4" : "h-3.5 w-3.5"} />
-      {primary ? `Open ${channel} chat` : `Or open our ${channel} chat and paste it`}
+      {primary ? t.openChat(channel) : t.orOpenChat(channel)}
     </a>
   );
 
@@ -251,15 +297,15 @@ function OrderSheet({
         <button
           type="button"
           onClick={onClose}
-          aria-label="Close"
-          className="absolute top-3 right-3 grid h-9 w-9 place-items-center rounded-full text-ink-muted transition hover:bg-ivory-deep hover:text-ink"
+          aria-label={t.close}
+          className="absolute top-3 end-3 grid h-9 w-9 place-items-center rounded-full text-ink-muted transition hover:bg-ivory-deep hover:text-ink"
         >
           <LuX className="h-5 w-5" />
         </button>
 
-        <p className="text-xs tracking-[0.2em] text-rose uppercase">Your order</p>
+        <p className="text-xs tracking-[0.2em] text-rose uppercase">{t.kicker}</p>
         <h2 id="order-sheet-title" className="mt-1 font-display text-3xl leading-tight text-ink">
-          Send it in 3 taps
+          {t.title}
         </h2>
 
         <ol className="mt-4 space-y-2.5">
@@ -281,10 +327,10 @@ function OrderSheet({
             {copied ? (
               <>
                 <LuCheck aria-hidden className="h-3.5 w-3.5 text-sage" />
-                Message copied
+                {t.copied}
               </>
             ) : (
-              "Your message"
+              t.message
             )}
           </span>
           <button
@@ -293,7 +339,7 @@ function OrderSheet({
             className="flex items-center gap-1 tracking-wide text-sage-deep underline-offset-4 hover:underline"
           >
             <LuCopy aria-hidden className="h-3.5 w-3.5" />
-            {copied ? "Copy again" : "Copy"}
+            {copied ? t.copyAgain : t.copy}
           </button>
         </div>
 
@@ -305,7 +351,7 @@ function OrderSheet({
               className="shine-sweep mt-5 flex h-12 w-full items-center justify-center gap-2 rounded-full bg-sage-deep text-sm font-medium tracking-wide text-white transition hover:bg-sage"
             >
               <LuSend aria-hidden className="h-4 w-4" />
-              Share to {channel}
+              {t.shareTo(channel)}
             </button>
             {chatLink(false)}
           </>
