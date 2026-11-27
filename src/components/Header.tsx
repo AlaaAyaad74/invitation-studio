@@ -26,7 +26,7 @@ const COPY = {
   },
   ar: {
     links: [
-      { href: "/#templates", label: "التصاميم" },
+      { href: "/#templates", label: "التصميمات" },
       { href: "/photos", label: "الصور" },
       { href: "/videos", label: "الفيديوهات" },
       { href: "/#features", label: "المميزات" },
@@ -34,9 +34,9 @@ const COPY = {
     ],
     home: "الصفحة الرئيسية لاستوديو الدعوات",
     logo: "استوديو الدعوات",
-    cta: "اطلب تصميمك",
-    openMenu: "فتح القائمة",
-    closeMenu: "إغلاق القائمة",
+    cta: "اطلب دعوتك",
+    openMenu: "افتح القائمة",
+    closeMenu: "اقفل القائمة",
   },
 } as const;
 

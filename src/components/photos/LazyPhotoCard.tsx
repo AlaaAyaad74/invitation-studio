@@ -41,7 +41,7 @@ export default function LazyPhotoCard({
     lang === "ar"
       ? {
           alt: `صورة دعوة ${title}`,
-          share: `مشاركة ${title}`,
+          share: `شارك ${title}`,
         }
       : {
           alt: `${title} invitation photo`,

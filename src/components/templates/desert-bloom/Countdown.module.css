@@ -337,3 +337,9 @@
     transition: none;
   }
 }
+
+/* Arabic letters must join: no tracking, and a size that reads. */
+.kicker:lang(ar) {
+  font-size: 0.85rem;
+  letter-spacing: 0;
+}

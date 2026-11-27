@@ -7,7 +7,6 @@ import { templateCopy } from "@/data/template-copy";
 import { useEffect, useRef, useState } from "react";
 import styles from "./VideoCover.module.css";
 
-const VIDEO_SRC = "/minimal/minimal-hero.mp4";
 const POSTER_SRC = "/minimal/hero-poster.webp";
 
 export default function VideoCover({ data }: { data: CoastalLightInvitation }) {
@@ -118,7 +117,7 @@ export default function VideoCover({ data }: { data: CoastalLightInvitation }) {
         <video
           ref={videoRef}
           className={styles.video}
-          src={VIDEO_SRC}
+          src={data.video}
           poster={POSTER_SRC}
           muted
           playsInline
@@ -142,7 +141,7 @@ export default function VideoCover({ data }: { data: CoastalLightInvitation }) {
         {opened ? null : (
           <button type="button" className={styles.seal} onClick={open}>
             <span>
-              <em>{data.lang === "ar" ? "اضغط للفتح" : "Tap to open"}</em>
+              <em>{data.lang === "ar" ? "دوس عشان تفتح" : "Tap to open"}</em>
               <i aria-hidden="true" />
             </span>
           </button>

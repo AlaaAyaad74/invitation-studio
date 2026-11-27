@@ -25,14 +25,14 @@ export default function RedirectHome({ seconds }: { seconds: number }) {
   return (
     <>
       <p className="mt-8 text-sm text-ink-muted" aria-live="polite">
-        {ar ? `سننقلك إلى الصفحة الرئيسية خلال ${left}…` : `Taking you home in ${left}…`}
+        {ar ? `هنرجعك للصفحة الرئيسية خلال ${left}…` : `Taking you home in ${left}…`}
       </p>
       <Link
         href="/"
         replace
         className="mt-4 inline-flex bg-sage-deep px-5 py-3 text-sm text-white transition hover:bg-sage"
       >
-        {ar ? "العودة للرئيسية الآن" : "Go home now"}
+        {ar ? "ارجع للرئيسية دلوقتي" : "Go home now"}
       </Link>
     </>
   );

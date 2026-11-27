@@ -25,11 +25,11 @@ const COPY = {
     discover: "Discover",
   },
   ar: {
-    seal: "اكسر الختم لفتح الدعوة",
+    seal: "اكسر الختم وافتح الدعوة",
     hint: "المس الختم",
-    hintSmall: "لتفتح دعوتك",
-    replay: "إعادة مشهد الافتتاح",
-    scroll: "انتقل إلى الدعوة",
+    hintSmall: "وافتح دعوتك",
+    replay: "شوف الافتتاحية تاني",
+    scroll: "انزل للدعوة",
     discover: "اكتشف",
   },
 } as const;

@@ -25,7 +25,7 @@ export default function ShareTemplateButton({
         type="button"
         aria-haspopup="dialog"
         aria-expanded={open}
-        aria-label={lang === "ar" ? `مشاركة ${title}` : `Share ${title}`}
+        aria-label={lang === "ar" ? `شارك ${title}` : `Share ${title}`}
         onClick={() => setOpen(true)}
         style={{
           top: 10,

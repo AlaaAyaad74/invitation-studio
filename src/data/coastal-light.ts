@@ -22,6 +22,7 @@ export const coastalLightInvitation = {
   },
   timeLabel: "Four o'clock in the afternoon",
   music: "/minimal/minimal-voice.mp3",
+  video: "/minimal/wedding-invite-enhanced-15s-5MB.mp4",
   venue: {
     name: "The Marble Court",
     address: "Garden City, Cairo",
@@ -85,7 +86,7 @@ export const coastalLightInvitationAr: CoastalLightInvitation = {
   },
   intro: "بمباركة عائلتيهما",
   tagline: "يتشرفان بدعوتكم لمشاركتهما فرحتهما",
-  note: "لا شيء زائد. فقط هذا اليوم، وأنتم.",
+  note: "كل اللي محتاجينه في اليوم ده… إنكم تكونوا معانا.",
   start: coastalLightInvitation.start,
   end: coastalLightInvitation.end,
   dateLabel: {
@@ -96,6 +97,7 @@ export const coastalLightInvitationAr: CoastalLightInvitation = {
   },
   timeLabel: "الساعة الرابعة عصرًا",
   music: coastalLightInvitation.music,
+  video: "/minimal/wedding-invite-arabic-15s-5MB.mp4",
   venue: {
     name: "القاعة الرخامية",
     address: "جاردن سيتي، القاهرة",
@@ -124,8 +126,8 @@ export const coastalLightInvitationAr: CoastalLightInvitation = {
   ],
   rsvp: {
     whatsapp: coastalLightInvitation.rsvp.whatsapp,
-    message: "مرحبًا! يسعدني تأكيد حضوري حفل زفاف يوسف وهنا.",
-    deadline: "يُرجى تأكيد الحضور قبل 1 سبتمبر 2027",
+    message: "أهلًا! أكيد هحضر فرح يوسف وهنا، ألف مبروك!",
+    deadline: "ياريت تأكدوا حضوركم قبل 1 سبتمبر 2027",
   },
 };
 

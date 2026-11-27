@@ -20,7 +20,7 @@ const SWATCHES = [
 
 const COPY = {
   en: { label: "The day", title: "Walk with us", map: "Open the map" },
-  ar: { label: "اليوم الموعود", title: "امشوا معنا", map: "افتح الخريطة" },
+  ar: { label: "اليوم الموعود", title: "تعالوا امشوا معانا", map: "افتح الخريطة" },
 } as const;
 
 export default function Journey({ data }: { data: ElegantInvitation }) {

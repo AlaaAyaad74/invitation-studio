@@ -83,9 +83,9 @@ export const desertBloomInvitationAr: DesertBloomInvitation = {
     second: "هدى",
   },
   intro: "بمباركة عائلتيهما",
-  tagline: "يدعوانكم لتزهروا معهما",
+  tagline: "مستنيينكم تفرحوا معاهم",
   welcome:
-    "كوردةٍ تتفتح تحت شمس الصحراء، وجدت قصتنا موسمها. تعالوا واحتفلوا بها معنا.",
+    "كوردةٍ تتفتح تحت شمس الصحراء، وجدت قصتنا موسمها. تعالوا احتفلوا بيها معانا.",
   start: desertBloomInvitation.start,
   end: desertBloomInvitation.end,
   dateLabel: {
@@ -96,7 +96,10 @@ export const desertBloomInvitationAr: DesertBloomInvitation = {
   },
   timeLabel: "الساعة السابعة مساءً",
   timeShort: "7:00 مساءً",
-  hero: desertBloomInvitation.hero,
+  hero: {
+    ...desertBloomInvitation.hero,
+    video: "/desert-bloom/save-the-date-arabic-5MB.mp4",
+  },
   music: desertBloomInvitation.music,
   venue: {
     name: "قصر حديقة الورود",
@@ -122,8 +125,8 @@ export const desertBloomInvitationAr: DesertBloomInvitation = {
     },
     {
       time: "10:00 مساءً",
-      title: "الرقصة الأولى والكعكة",
-      detail: "ثم تصبح ساحة الرقص لكم",
+      title: "الرقصة الأولى والحلويات",
+      detail: "وبعدها الساحة كلها ليكم",
     },
   ],
   gallery: [
@@ -135,9 +138,9 @@ export const desertBloomInvitationAr: DesertBloomInvitation = {
   ],
   rsvp: {
     whatsapp: desertBloomInvitation.rsvp.whatsapp,
-    message: "مرحبًا! يسعدني تأكيد حضوري حفل زفاف علي وهدى.",
-    wish: "علي وهدى، نتمنى لكما عمرًا من الحب وأيامًا مزهرة!",
-    deadline: "يُرجى تأكيد الحضور قبل 15 مايو 2027",
+    message: "أهلًا! أكيد هحضر فرح علي وهدى، ألف مبروك!",
+    wish: "علي وهدى، ألف مبروك! ربنا يتمملكم على خير ويسعدكم دايمًا.",
+    deadline: "ياريت تأكدوا حضوركم قبل 15 مايو 2027",
   },
 };
 

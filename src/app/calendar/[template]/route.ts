@@ -38,7 +38,7 @@ function androidLandingPage(event: CalendarEvent) {
   <h1>${escapeHtml(event.title)}</h1>
   <p id="date"></p>
   <p>${escapeHtml(event.location)}</p>
-  <a id="add" href="${escapeHtml(intent)}">${ar ? "أضف إلى التقويم" : "Add to calendar"}</a>
+  <a id="add" href="${escapeHtml(intent)}">${ar ? "ضيف الميعاد للتقويم" : "Add to calendar"}</a>
 </main>
 <script>
   var start = new Date(${JSON.stringify(event.start)});

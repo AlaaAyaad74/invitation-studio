@@ -24,7 +24,7 @@ export default function Details({ data }: { data: DesertBloomInvitation }) {
     <InView
       as="section"
       className={styles.details}
-      aria-label={ar ? "الموعد والمكان" : "When and where"}
+      aria-label={ar ? "الميعاد والمكان" : "When and where"}
     >
       <div className={styles.gate}>
         <div className={styles.card}>
@@ -45,7 +45,7 @@ export default function Details({ data }: { data: DesertBloomInvitation }) {
               {dateLabel.day} {dateLabel.month} {dateLabel.year}
             </strong>
             <span className={styles.note}>
-              {ar ? `مساء ${dateLabel.weekday}` : `${dateLabel.weekday} evening`}
+              {ar ? `${dateLabel.weekday} بالليل` : `${dateLabel.weekday} evening`}
             </span>
             <span className={styles.chip}>
               <ClockIcon />

@@ -6,8 +6,6 @@ import type { Metadata } from "next";
 import { preload } from "react-dom";
 import styles from "./shell.module.css";
 
-const VIDEO_SRC = "/minimal/minimal-hero.mp4";
-
 export const metadata: Metadata = {
   title: "Coastal Light",
   description: "Airy layouts inspired by seaside vows and soft horizons.",
@@ -18,8 +16,9 @@ export const metadata: Metadata = {
 };
 
 export default async function CoastalLightTemplatePage() {
-  preload(VIDEO_SRC, { as: "video" });
   const lang = await getLang();
+  const data = coastalLightInvitations[lang];
+  preload(data.video, { as: "video" });
 
   return (
     <div className={styles.frame}>
@@ -28,7 +27,7 @@ export default async function CoastalLightTemplatePage() {
           native
           cover
           src="/templates/coastal-light.webp"
-          alt={lang === "ar" ? "تصميم دعوة ضوء الساحل" : "Coastal Light invitation template"}
+          alt={lang === "ar" ? "تصميم دعوة الظرف الأبيض" : "Coastal Light invitation template"}
           className={styles.image}
           wrapperClassName="absolute inset-0"
         />
@@ -36,7 +35,7 @@ export default async function CoastalLightTemplatePage() {
       </aside>
 
       <main className={styles.stage}>
-        <Invitation data={coastalLightInvitations[lang]} />
+        <Invitation data={data} />
       </main>
     </div>
   );

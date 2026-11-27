@@ -18,9 +18,9 @@ const COPY = {
     attireNote: "An evening in crimson and gold",
   },
   ar: {
-    section: "تفاصيل الحفل",
-    heading: "الأمسية",
-    attireNote: "أمسية بلون القرمز والذهب",
+    section: "تفاصيل الفرح",
+    heading: "السهرة",
+    attireNote: "سهرة بالأحمر والدهبي",
   },
 } as const;
 

@@ -114,8 +114,8 @@ export const botanicalInvitationAr: BotanicalContent = {
   music: botanicalInvitation.music,
   rsvp: {
     whatsapp: botanicalInvitation.rsvp.whatsapp,
-    message: "مرحبًا! يسعدني تأكيد حضوري حفل زفاف آدم وليلى.",
-    deadline: "يُرجى تأكيد الحضور قبل 1 فبراير 2027",
+    message: "أهلًا! أكيد هحضر فرح آدم وليلى، ألف مبروك!",
+    deadline: "ياريت تأكدوا حضوركم قبل 1 فبراير 2027",
   },
   gallery: [
     { src: "/botanical/gallery/01-meadow.jpg", alt: "آدم وليلى في مرج من الترمس وقت الغروب" },

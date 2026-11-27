@@ -3,7 +3,7 @@ import type { CoastalLightInvitation } from "@/data/coastal-light";
 import styles from "./Note.module.css";
 
 export default function Note({ data }: { data: CoastalLightInvitation }) {
-  const label = data.lang === "ar" ? "كلمة" : "A note";
+  const label = data.lang === "ar" ? "كلمة مننا" : "A note";
   return (
     <section className={styles.section} aria-label={label}>
       <Reveal>

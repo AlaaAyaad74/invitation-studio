@@ -28,7 +28,7 @@ export function eventFromInvite(id: string, data: InviteCalendar): CalendarEvent
     id,
     title:
       data.lang === "ar"
-        ? `زفاف ${data.couple.first} و${data.couple.second}`
+        ? `فرح ${data.couple.first} و${data.couple.second}`
         : `${data.couple.first} & ${data.couple.second} — Wedding`,
     start: data.start,
     end: data.end,

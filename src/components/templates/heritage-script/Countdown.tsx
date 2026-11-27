@@ -18,9 +18,9 @@ const COPY = {
   },
   ar: {
     label: "العد التنازلي",
-    script: "حتى نقول تمت",
-    done: "لقد تزوجنا",
-    daysToGo: "يومًا متبقيًا",
+    script: "حتى يبدأ الاحتفال",
+    done: "خلاص اتجوزنا!",
+    daysToGo: "يوم فاضل",
   },
 } as const;
 

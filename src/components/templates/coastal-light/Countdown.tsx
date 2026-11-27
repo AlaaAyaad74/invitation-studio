@@ -20,7 +20,7 @@ function figures(remaining: ReturnType<typeof useRemainingTime>, key: Unit) {
 function phrase(remaining: ReturnType<typeof useRemainingTime>, lang: Lang) {
   if (!remaining) return "";
   const days = remaining.days;
-  if (lang === "ar") return `${arabicDays(days)} حتى القاعة الرخامية`;
+  if (lang === "ar") return `فاضل ${arabicDays(days)} على القاعة الرخامية`;
   return `${days} ${days === 1 ? "morning" : "mornings"} until the marble court`;
 }
 
@@ -118,7 +118,7 @@ export default function Countdown({ data }: { data: CoastalLightInvitation }) {
       <Reveal>
         <p className={styles.index}>
           <span>01</span>
-          {ar ? "المتبقي" : "Remaining"}
+          {ar ? "فاضل" : "Remaining"}
         </p>
       </Reveal>
 
@@ -152,7 +152,7 @@ export default function Countdown({ data }: { data: CoastalLightInvitation }) {
         <p className={styles.phrase} aria-live="polite">
           {remaining?.done
             ? ar
-              ? "حان اليوم المنتظر"
+              ? "جه اليوم اللي مستنيينه"
               : "The day is here"
             : phrase(remaining, data.lang)}
         </p>

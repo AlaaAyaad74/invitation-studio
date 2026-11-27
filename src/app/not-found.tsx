@@ -8,8 +8,8 @@ const COPY = {
     lead: "The link may have expired or been moved.",
   },
   ar: {
-    title: "تعذّر العثور على هذه الصفحة.",
-    lead: "ربما انتهت صلاحية الرابط أو تم نقله.",
+    title: "الصفحة دي مش موجودة.",
+    lead: "يمكن اللينك خلص أو اتنقل لمكان تاني.",
   },
 } as const;
 

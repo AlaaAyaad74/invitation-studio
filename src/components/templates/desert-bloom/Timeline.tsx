@@ -80,13 +80,13 @@ export default function Timeline({ data }: { data: DesertBloomInvitation }) {
   }, []);
 
   return (
-    <section className={styles.timeline} aria-label={ar ? "الأمسية" : "The evening"}>
+    <section className={styles.timeline} aria-label={ar ? "السهرة" : "The evening"}>
       <InView className={styles.head}>
         <p className={`${ui.kicker} ${motion.kickerIn}`}>
-          {ar ? "الأمسية" : "The evening"}
+          {ar ? "برنامج الليلة" : "The evening"}
         </p>
         <h2 className={`${ui.heading} ${motion.writeIn}`}>
-          {ar ? "كيف تمضي الأمسية" : "How it unfolds"}
+          {ar ? "السهرة هتمشي إزاي" : "How it unfolds"}
         </h2>
       </InView>
 

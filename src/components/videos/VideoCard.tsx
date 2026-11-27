@@ -40,10 +40,10 @@ export default function VideoCard({
   const t =
     lang === "ar"
       ? {
-          film: "فيلم",
-          play: `تشغيل ${title}`,
-          pause: `إيقاف ${title}`,
-          share: `مشاركة ${title}`,
+          film: "فيديو",
+          play: `شغّل ${title}`,
+          pause: `وقّف ${title}`,
+          share: `شارك ${title}`,
           message: `فيديو دعوة ${title}`,
         }
       : {

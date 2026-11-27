@@ -7,7 +7,7 @@ import type { InvitationVideo } from "@/data/videos";
 
 const COPY = {
   en: { close: "Close", previous: "Previous film", next: "Next film", film: "Film" },
-  ar: { close: "إغلاق", previous: "الفيلم السابق", next: "الفيلم التالي", film: "فيلم" },
+  ar: { close: "اقفل", previous: "الفيديو اللي قبله", next: "الفيديو اللي بعده", film: "فيديو" },
 } as const;
 
 type VideoModalProps = {

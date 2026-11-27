@@ -15,9 +15,9 @@ const COPY = {
     alt: (title: string) => `${title} invitation photo`,
   },
   ar: {
-    close: "إغلاق",
-    previous: "البطاقة السابقة",
-    next: "البطاقة التالية",
+    close: "اقفل",
+    previous: "الكارت اللي قبله",
+    next: "الكارت اللي بعده",
     alt: (title: string) => `صورة دعوة ${title}`,
   },
 } as const;

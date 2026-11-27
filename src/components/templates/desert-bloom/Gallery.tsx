@@ -19,8 +19,8 @@ const COPY = {
   },
   ar: {
     kicker: "لحظاتنا",
-    title: "أزهار صغيرة",
-    help: "اضغط على الصورة أو اسحبها",
+    title: "حكايتنا بالصور",
+    help: "دوس على الصورة أو اسحبها",
     photo: (n: number, total: number, alt: string) =>
       `الصورة ${n} من ${total}: ${alt}. الصورة التالية`,
   },

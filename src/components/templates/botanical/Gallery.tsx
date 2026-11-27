@@ -16,7 +16,7 @@ export default function Gallery({ data }: { data: BotanicalContent }) {
   const common = templateCopy(lang);
   const t =
     lang === "ar"
-      ? { label: "صورنا", hint: "لقطات من المرح" }
+      ? { label: "صورنا", hint: "شوية لقطات حلوة" }
       : { label: "Our gallery", hint: "A few stills from the meadow" };
 
   useEffect(() => {

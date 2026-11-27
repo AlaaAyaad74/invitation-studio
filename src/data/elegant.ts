@@ -94,7 +94,7 @@ export const elegantInvitationAr: ElegantInvitation = {
   initials: "ك&أ",
   intro: "بمباركة عائلتيهما",
   tagline: "يدعوانكم إلى يوم زفافهما",
-  verse: "اسمين. حديقة واحدة. وأمسية من نور.",
+  verse: "اسمين. جنينة واحدة. وليلة كلها نور.",
   start: elegantInvitation.start,
   end: elegantInvitation.end,
   dateLabel: {
@@ -125,8 +125,8 @@ export const elegantInvitationAr: ElegantInvitation = {
     },
     {
       kind: "attire",
-      label: "اللباس",
-      time: "رسمي للحديقة",
+      label: "اللبس",
+      time: "رسمي يناسب الجنينة",
       detail: "وردي، عاجي، وأخضر هادئ",
     },
   ],
@@ -146,8 +146,8 @@ export const elegantInvitationAr: ElegantInvitation = {
   ],
   rsvp: {
     whatsapp: elegantInvitation.rsvp.whatsapp,
-    message: "مرحبًا! يسعدني تأكيد حضوري حفل زفاف كريم وأميرة.",
-    deadline: "يُرجى تأكيد الحضور قبل 1 مايو 2027",
+    message: "أهلًا! أكيد هحضر فرح كريم وأميرة، ألف مبروك!",
+    deadline: "ياريت تأكدوا حضوركم قبل 1 مايو 2027",
   },
 };
 

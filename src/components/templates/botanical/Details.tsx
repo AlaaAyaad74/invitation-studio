@@ -14,10 +14,10 @@ const COPY = {
     hint: "in celebration of their wedding",
   },
   ar: {
-    section: "تفاصيل الزفاف",
+    section: "تفاصيل الفرح",
     label: "التفاصيل",
     script: "شاركونا فرحتنا",
-    hint: "احتفالًا بزفافنا",
+    hint: "تعالوا افرحوا معانا",
   },
 } as const;
 

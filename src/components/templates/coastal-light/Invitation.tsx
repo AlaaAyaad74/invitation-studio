@@ -12,7 +12,8 @@ import styles from "./Invitation.module.css";
 export default function Invitation({ data }: { data: CoastalLightInvitation }) {
   return (
     <div className={styles.root}>
-      <VideoCover data={data} />
+      {/* Remount per video so a language switch starts the new film fresh. */}
+      <VideoCover key={data.video} data={data} />
       <div className={styles.sheet}>
         <Countdown data={data} />
         <Schedule data={data} />

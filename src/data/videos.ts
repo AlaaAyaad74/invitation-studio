@@ -71,7 +71,7 @@ function readVideos(): InvitationVideo[] {
     return {
       id,
       title: title ?? `Film ${index + 1}`,
-      titleAr: (title && arabicTitles[title]) ?? `فيلم ${index + 1}`,
+      titleAr: (title && arabicTitles[title]) ?? `فيديو ${index + 1}`,
       src: `/videos/compressed/${file}`,
     };
   });

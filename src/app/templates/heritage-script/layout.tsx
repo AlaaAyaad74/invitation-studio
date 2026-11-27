@@ -1,4 +1,4 @@
-import { Cinzel, Cormorant_Garamond, Great_Vibes } from "next/font/google";
+import { Amiri, Cinzel, Cormorant_Garamond, Great_Vibes } from "next/font/google";
 import type { ReactNode } from "react";
 import { arabicFontStyle } from "@/app/fonts-ar";
 import { getLang } from "@/lib/i18n-server";
@@ -25,6 +25,15 @@ const script = Great_Vibes({
   weight: "400",
 });
 
+/** Arabic naskh for the letter card's lines; Ruqaa reads cramped at that size. */
+const amiri = Amiri({
+  variable: "--font-heritage-ar-naskh",
+  subsets: ["arabic"],
+  display: "swap",
+  weight: ["400", "700"],
+  adjustFontFallback: false,
+});
+
 export default async function HeritageScriptLayout({
   children,
 }: {
@@ -38,7 +47,7 @@ export default async function HeritageScriptLayout({
 
   return (
     <div
-      className={`${cinzel.variable} ${cormorant.variable} ${script.variable} min-h-full`}
+      className={`${cinzel.variable} ${cormorant.variable} ${script.variable} ${amiri.variable} min-h-full`}
       style={style}
     >
       {children}

@@ -9,9 +9,9 @@ const COPY = {
     lead: "Templates are more than pretty pages—they help you invite, inform, and celebrate without the spreadsheet chaos.",
   },
   ar: {
-    kicker: "مميزاتنا",
-    title: "كل ما يحتاجه ضيوفكم، مرتّب بأناقة.",
-    lead: "تصاميمنا أكثر من صفحات جميلة؛ فهي تساعدكم على دعوة ضيوفكم وإبلاغهم بالتفاصيل والاحتفال معهم دون فوضى الجداول.",
+    kicker: "ليه إحنا؟",
+    title: "كل اللي ضيوفكم محتاجينه، مترتب بشياكة.",
+    lead: "تصميماتنا مش مجرد صفحات حلوة؛ دي بتساعدكم تعزموا ضيوفكم، وتوصلولهم كل التفاصيل، وتفرحوا معاهم من غير لخبطة الشيتات.",
   },
 } as const;
 

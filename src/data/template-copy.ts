@@ -36,30 +36,30 @@ const copy = {
     units: {
       days: "أيام",
       hours: "ساعات",
-      minutes: "دقائق",
-      seconds: "ثوانٍ",
+      minutes: "دقايق",
+      seconds: "ثواني",
     },
-    countdownLabel: "العد التنازلي لحفل الزفاف",
-    timeRemaining: "الوقت المتبقي",
+    countdownLabel: "العد التنازلي للفرح",
+    timeRemaining: "الوقت الفاضل",
     today: "اليوم",
-    when: "الموعد",
+    when: "الميعاد",
     where: "المكان",
-    attire: "اللباس",
-    dressCode: "قواعد اللباس",
-    addToCalendar: "أضف إلى التقويم",
+    attire: "اللبس",
+    dressCode: "اللبس المطلوب",
+    addToCalendar: "ضيف الميعاد للتقويم",
     openMap: "افتح الخريطة",
-    openLocation: "افتح الموقع",
-    confirmWhatsApp: "أكّد الحضور عبر واتساب",
+    openLocation: "افتح اللوكيشن",
+    confirmWhatsApp: "أكد حضورك على واتساب",
     photos: "الصور",
     couplePhotos: "صور العروسين",
     openPhoto: (alt: string) => `افتح الصورة: ${alt}`,
-    previousPhoto: "الصورة السابقة",
-    nextPhoto: "الصورة التالية",
+    previousPhoto: "الصورة اللي قبلها",
+    nextPhoto: "الصورة اللي بعدها",
     showPhoto: (n: number) => `اعرض الصورة ${n}`,
-    close: "إغلاق",
-    scroll: "مرّر للأسفل",
-    scrollDown: "مرّر للأسفل",
-    weddingDay: "يوم الزفاف",
+    close: "اقفل",
+    scroll: "انزل تحت",
+    scrollDown: "انزل تحت",
+    weddingDay: "يوم الفرح",
     and: (first: string, second: string) => `${first} و${second}`,
   },
 } as const;
@@ -68,12 +68,12 @@ export function templateCopy(lang: Lang) {
   return copy[lang];
 }
 
-/** Arabic count of days with the right noun form: يوم واحد، يومان، 3 أيام، 11 يومًا. */
+/** Arabic count of days with the right noun form: يوم واحد، يومين، 3 أيام، 11 يوم. */
 export function arabicDays(n: number) {
   if (n === 1) return "يوم واحد";
-  if (n === 2) return "يومان";
+  if (n === 2) return "يومين";
   if (n >= 3 && n <= 10) return `${n} أيام`;
-  return `${n} يومًا`;
+  return `${n} يوم`;
 }
 
 type DateLabel ={ weekday: string; day: string; month: string; year: string };

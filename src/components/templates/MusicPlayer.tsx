@@ -186,7 +186,7 @@ export default function MusicPlayer({ src, label }: MusicPlayerProps) {
         onClick={toggle}
         aria-label={
           ar
-            ? `${playing ? "إيقاف" : "تشغيل"} ${name}`
+            ? `${playing ? "وقّف" : "شغّل"} ${name}`
             : `${playing ? "Pause" : "Play"} ${name}`
         }
         aria-pressed={playing}

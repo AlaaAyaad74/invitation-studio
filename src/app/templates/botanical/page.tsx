@@ -27,7 +27,7 @@ export default async function BotanicalTemplatePage() {
           native
           cover
           src="/templates/botanical.webp"
-          alt={lang === "ar" ? "تصميم دعوة بوتانيكال" : "Botanical invitation template"}
+          alt={lang === "ar" ? "تصميم دعوة بحيرة البجع" : "Botanical invitation template"}
           className={styles.image}
           wrapperClassName="absolute inset-0"
         />

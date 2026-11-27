@@ -12,7 +12,7 @@ import Image from "next/image";
 
 const COPY = {
   en: { rsvp: "RSVP", title: "Save us a place in the garden" },
-  ar: { rsvp: "تأكيد الحضور", title: "احجزوا لكم مكانًا في حديقتنا" },
+  ar: { rsvp: "أكد حضورك", title: "احجزوا مكانكم في جنينتنا" },
 } as const;
 
 export default function Invitation({ data }: { data: ElegantInvitation }) {

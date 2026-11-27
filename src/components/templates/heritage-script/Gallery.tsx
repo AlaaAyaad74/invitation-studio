@@ -36,7 +36,7 @@ export default function Gallery({ data }: { data: HeritageInvitation }) {
     <section className={styles.section} aria-label={common.photos}>
       <div className={styles.intro}>
         <FadeIn>
-          <p className={styles.label}>{ar ? "معرض صورنا" : "Our gallery"}</p>
+          <p className={styles.label}>{ar ? "صورنا" : "Our gallery"}</p>
         </FadeIn>
         <FadeIn delay={220}>
           <p className={styles.script}>
@@ -52,7 +52,7 @@ export default function Gallery({ data }: { data: HeritageInvitation }) {
         </FadeIn>
         <FadeIn delay={620}>
           <p className={styles.hint}>
-            {ar ? "لقطات من الأمسية" : "A few stills from the evening"}
+            {ar ? "لقطات من السهرة" : "A few stills from the evening"}
           </p>
         </FadeIn>
       </div>

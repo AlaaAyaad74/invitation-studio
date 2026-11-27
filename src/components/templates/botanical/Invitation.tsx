@@ -11,7 +11,7 @@ import { templateCopy } from "@/data/template-copy";
 
 const COPY = {
   en: { rsvp: "RSVP", title: "We would love to have you with us" },
-  ar: { rsvp: "تأكيد الحضور", title: "يسعدنا أن تكونوا معنا" },
+  ar: { rsvp: "أكد حضورك", title: "يسعدنا وجودكم معانا" },
 } as const;
 
 export default function Invitation({ data }: { data: BotanicalContent }) {

@@ -5,7 +5,7 @@ import styles from "./Reply.module.css";
 
 const COPY = {
   en: { section: "RSVP", index: "Reply", title: "Will you come?" },
-  ar: { section: "تأكيد الحضور", index: "الرد", title: "هل ستأتون؟" },
+  ar: { section: "تأكيد الحضور", index: "الرد", title: "هتنوّرونا؟" },
 } as const;
 
 export default function Reply({ data }: { data: CoastalLightInvitation }) {

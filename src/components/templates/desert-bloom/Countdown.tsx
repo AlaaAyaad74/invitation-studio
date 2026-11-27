@@ -19,9 +19,9 @@ const COPY = {
     done: "The day has come. Thank you for blooming with us.",
   },
   ar: {
-    kicker: "نعدّ الأيام",
-    daysToGo: "يومًا متبقيًا",
-    done: "حلّ اليوم المنتظر. شكرًا لأنكم أزهرتم معنا.",
+    kicker: "بنعد الأيام",
+    daysToGo: "يوم فاضل",
+    done: "جه اليوم اللي مستنيينه. شكرًا إنكم فرحتوا معانا.",
   },
 } as const;
 

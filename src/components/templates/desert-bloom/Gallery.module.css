@@ -158,3 +158,13 @@
     transition: none;
   }
 }
+
+/* Arabic letters must join: no tracking, and a size that reads. */
+.kicker:lang(ar) {
+  font-size: 0.85rem;
+  letter-spacing: 0;
+}
+/* Arabic script needs room for tall strokes and dots. */
+.title:lang(ar) {
+  line-height: 1.6;
+}
