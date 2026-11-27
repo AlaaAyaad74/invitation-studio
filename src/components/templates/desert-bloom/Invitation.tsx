@@ -1,5 +1,5 @@
 import MusicPlayer from "@/components/templates/MusicPlayer";
-import { desertBloomInvitation as data } from "@/data/desert-bloom";
+import type { DesertBloomInvitation } from "@/data/desert-bloom";
 import Countdown from "./Countdown";
 import Details from "./Details";
 import Footer from "./Footer";
@@ -11,23 +11,24 @@ import Timeline from "./Timeline";
 import VideoCover from "./VideoCover";
 import Welcome from "./Welcome";
 
-export default function Invitation() {
+export default function Invitation({ data }: { data: DesertBloomInvitation }) {
   return (
     <div className="relative bg-(--bg) font-[family-name:var(--font-db-serif),Georgia,serif] text-(--text)">
-      <VideoCover />
+      {/* Remount per video so a language switch starts the new film fresh. */}
+      <VideoCover key={data.hero.video} data={data} />
 
-      <Welcome />
+      <Welcome data={data} />
 
-      <ScratchReveal />
-      <Countdown />
+      <ScratchReveal data={data} />
+      <Countdown data={data} />
 
-      <Timeline />
+      <Timeline data={data} />
 
-      <Details />
+      <Details data={data} />
 
-      <Gallery />
+      <Gallery data={data} />
 
-      <Rsvp />
+      <Rsvp data={data} />
 
       <Footer />
 

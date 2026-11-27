@@ -1,5 +1,6 @@
-import WhatsAppIcon from "@/app/common/icons/WhatsAppIcon";
-import { coastalLightInvitation as data, getWhatsAppUrl } from "@/data/coastal-light";
+import WhatsAppIcon from "@/components/icons/WhatsAppIcon";
+import { getWhatsAppUrl, type CoastalLightInvitation } from "@/data/coastal-light";
+import { templateCopy } from "@/data/template-copy";
 
 const styles = {
   section: "px-6 pt-[2.4rem] pb-6 text-center font-[family-name:var(--font-minimal-serif),Georgia,serif]",
@@ -10,16 +11,21 @@ const styles = {
   icon: "h-4 w-4 fill-current",
 };
 
-const whatsappUrl = getWhatsAppUrl(data);
+const COPY = {
+  en: { section: "RSVP", index: "Reply", title: "Will you come?" },
+  ar: { section: "تأكيد الحضور", index: "الرد", title: "هتنوّرونا؟" },
+} as const;
 
-export default function Reply() {
+export default function Reply({ data }: { data: CoastalLightInvitation }) {
+  const whatsappUrl = getWhatsAppUrl(data);
+  const t = COPY[data.lang];
   return (
-    <section className={styles.section} aria-label="RSVP">
+    <section className={styles.section} aria-label={t.section}>
       <p className={styles.index}>
         <span>05</span>
-        Reply
+        {t.index}
       </p>
-      <h2 className={styles.title}>Will you come?</h2>
+      <h2 className={styles.title}>{t.title}</h2>
       <p className={styles.deadline}>{data.rsvp.deadline}</p>
       <a
         href={whatsappUrl}
@@ -28,7 +34,7 @@ export default function Reply() {
         className={styles.button}
       >
         <WhatsAppIcon className={styles.icon} />
-        Confirm on WhatsApp
+        {templateCopy(data.lang).confirmWhatsApp}
       </a>
     </section>
   );

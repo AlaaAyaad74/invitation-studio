@@ -1,6 +1,7 @@
 import TemplateShell from "@/components/templates/TemplateShell";
 import Invitation from "@/components/templates/botanical/Invitation";
-import { botanicalInvitation } from "@/data/botanical";
+import { botanicalInvitations } from "@/data/botanical";
+import { getLang } from "@/lib/i18n-server";
 import type { Metadata } from "next";
 import { preload } from "react-dom";
 
@@ -14,16 +15,17 @@ export const metadata: Metadata = {
   },
 };
 
-export default function BotanicalTemplatePage() {
+export default async function BotanicalTemplatePage() {
   preload("/botanical/Botanical.mp4", { as: "video" });
+  const lang = await getLang();
 
   return (
     <TemplateShell
       coverSrc="/templates/botanical.webp"
-      coverAlt="Botanical invitation template"
+      coverAlt={lang === "ar" ? "تصميم دعوة بحيرة البجع" : "Botanical invitation template"}
       stageBackground="bg-[#fff]"
     >
-      <Invitation data={botanicalInvitation} />
+      <Invitation data={botanicalInvitations[lang]} />
     </TemplateShell>
   );
 }

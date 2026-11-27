@@ -166,6 +166,33 @@
   line-height: 1;
 }
 
+/* Arabic: naskh for the lines, bold Ruqaa for the names (Alex Brush has no Arabic). */
+.letter:lang(ar) {
+  font-family: var(--font-heritage-ar-naskh), var(--font-heritage-script), serif;
+}
+
+.small:lang(ar) {
+  font-size: clamp(1.2rem, 5cqi, 1.5rem);
+  line-height: 1.7;
+}
+
+.line:lang(ar) {
+  font-size: clamp(1.3rem, 5.4cqi, 1.7rem);
+  font-weight: 700;
+  line-height: 1.7;
+}
+
+.name:lang(ar) {
+  font-family: var(--font-ar-script), "Alex Brush", serif;
+  font-size: clamp(3rem, 14cqi, 4rem);
+  font-weight: 700;
+  line-height: 1.35;
+}
+
+.names:lang(ar) {
+  gap: 0.4rem;
+}
+
 .rule {
   display: flex;
   align-items: center;

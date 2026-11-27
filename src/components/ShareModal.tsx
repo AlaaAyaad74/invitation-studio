@@ -5,6 +5,46 @@ import type { IconType } from "react-icons";
 import { FaFacebookF, FaInstagram, FaTelegram, FaWhatsapp } from "react-icons/fa";
 import { FaXTwitter } from "react-icons/fa6";
 import { LuCheck, LuCopy, LuLink, LuShare, LuX } from "react-icons/lu";
+import { useLang } from "@/components/i18n/LangProvider";
+
+const COPY = {
+  en: {
+    share: "Share",
+    close: "Close",
+    via: "Share this link via",
+    shareAny: "Share with any app",
+    pickApp: "Or pick an app",
+    shareOn: (label: string) => `Share on ${label}`,
+    instagramMenuHint:
+      "In the share menu choose Instagram, then Direct, and pick a chat. The name and link are already typed.",
+    instagramHint:
+      "Message copied. Open an Instagram chat, press and hold the message box and tap Paste.",
+    desktopInstagramHint: "Message copied. Open a chat and paste it (Ctrl+V).",
+    copied: "Link copied",
+    orCopy: "Or copy link",
+    link: "Share link",
+    copy: "Copy link",
+    defaultMessage: (title: string) => `${title} wedding invitation`,
+  },
+  ar: {
+    share: "شارك",
+    close: "اقفل",
+    via: "ابعت اللينك ده على",
+    shareAny: "ابعته على أي تطبيق",
+    pickApp: "أو اختار تطبيق",
+    shareOn: (label: string) => `ابعته على ${label}`,
+    instagramMenuHint:
+      "من قائمة المشاركة اختار إنستجرام، وبعدين Direct واختار الشات. الاسم واللينك مكتوبين جاهزين.",
+    instagramHint:
+      "اتنسخت الرسالة. افتح شات على إنستجرام، دوس مطوّل على خانة الكتابة واختار لصق.",
+    desktopInstagramHint: "اتنسخت الرسالة. افتح الشات والصقها (Ctrl+V).",
+    copied: "اتنسخ اللينك",
+    orCopy: "أو انسخ اللينك",
+    link: "لينك المشاركة",
+    copy: "انسخ اللينك",
+    defaultMessage: (title: string) => `دعوة فرح ${title}`,
+  },
+} as const;
 
 type ShareModalProps = {
   title: string;
@@ -164,11 +204,12 @@ export default function ShareModal({
   onClose,
 }: ShareModalProps) {
   const titleId = useId();
+  const t = COPY[useLang()];
   const closeRef = useRef<HTMLButtonElement>(null);
   const [copied, setCopied] = useState(false);
   const [hint, setHint] = useState("");
   const url = `${window.location.origin}${path}`;
-  const shareText = message ?? `${title} wedding invitation`;
+  const shareText = message ?? t.defaultMessage(title);
   const platform = getPlatform();
   const fullMessage = shareMessage(shareText, url);
   // Read once on open; the modal only renders in the browser.
@@ -253,7 +294,7 @@ export default function ShareModal({
         <div className="flex items-start justify-between gap-4 border-b border-ivory-deep pb-4">
           <div>
             <h2 id={titleId} className="text-lg font-semibold text-ink">
-              Share
+              {t.share}
             </h2>
             <p className="mt-1 text-sm text-ink-muted">{title}</p>
           </div>
@@ -261,7 +302,7 @@ export default function ShareModal({
             ref={closeRef}
             type="button"
             onClick={onClose}
-            aria-label="Close"
+            aria-label={t.close}
             className="inline-flex h-9 w-9 cursor-pointer items-center justify-center rounded-full text-ink-muted transition hover:bg-ivory hover:text-ink"
           >
             <LuX className="h-5 w-5" strokeWidth={2.2} />
@@ -275,14 +316,14 @@ export default function ShareModal({
             className="shine-sweep mt-5 flex h-12 w-full items-center justify-center gap-2 rounded-full bg-sage-deep text-sm font-medium tracking-wide text-white transition hover:bg-sage"
           >
             <LuShare aria-hidden className="h-4 w-4" />
-            Share with any app
+            {t.shareAny}
           </button>
         ) : null}
 
         <p className="mt-5 text-sm text-ink-muted">
-          {deviceShare ? "Or pick an app" : "Share this link via"}
+          {deviceShare ? t.pickApp : t.via}
         </p>
-        <div className="mt-4 flex items-center justify-between">
+        <div className="mt-4 flex items-center justify-between" dir="ltr">
           {shareTargets.map((target) => {
             const Icon = target.icon;
             const href =
@@ -296,26 +337,22 @@ export default function ShareModal({
                 href={href}
                 target={platform === "desktop" && !useNativeShare ? "_blank" : undefined}
                 rel={platform === "desktop" && !useNativeShare ? "noopener noreferrer" : undefined}
-                aria-label={`Share on ${target.label}`}
+                aria-label={t.shareOn(target.label)}
                 title={target.label}
                 onClick={(event) => {
                   if (target.id === "instagram" && platform === "desktop") {
                     // Instagram web opens in a new tab; the message waits on the clipboard.
                     void copyText(fullMessage).then((ok) => {
-                      if (ok) setHint("Message copied. Open a chat and paste it (Ctrl+V).");
+                      if (ok) setHint(t.desktopInstagramHint);
                     });
                     return;
                   }
 
                   if (useNativeShare) {
                     event.preventDefault();
-                    setHint(
-                      "In the share menu choose Instagram, then Direct, and pick a chat. The name and link are already typed.",
-                    );
+                    setHint(t.instagramMenuHint);
                     void openInstagramDirect(fullMessage, () => {
-                      setHint(
-                        "Message copied. Open an Instagram chat, press and hold the message box and tap Paste.",
-                      );
+                      setHint(t.instagramHint);
                     });
                     return;
                   }
@@ -346,12 +383,13 @@ export default function ShareModal({
           })}
         </div>
         <p className="sr-only" aria-live="polite">
-          {copied ? "Link copied" : hint}
+          {copied ? t.copied : hint}
         </p>
         {hint ? <p className="mt-4 text-sm text-sage-deep">{hint}</p> : null}
 
-        <p className="mt-5 text-sm text-ink-muted">Or copy link</p>
+        <p className="mt-5 text-sm text-ink-muted">{t.orCopy}</p>
         <div
+          dir="ltr"
           className="mt-3 flex items-center gap-2 border border-ivory-deep"
           style={{
             height: 48,
@@ -364,7 +402,7 @@ export default function ShareModal({
           <input
             readOnly
             value={url}
-            aria-label="Share link"
+            aria-label={t.link}
             onFocus={(event) => event.currentTarget.select()}
             className="min-w-0 flex-1 truncate border-0 bg-transparent p-0 text-sm leading-5 text-ink-muted outline-none"
           />
@@ -373,7 +411,7 @@ export default function ShareModal({
             onClick={() => {
               void copyLink();
             }}
-            aria-label={copied ? "Link copied" : "Copy link"}
+            aria-label={copied ? t.copied : t.copy}
             style={{
               width: 36,
               height: 36,

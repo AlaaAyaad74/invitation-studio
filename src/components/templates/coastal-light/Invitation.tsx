@@ -6,7 +6,7 @@ import Reply from "@/components/templates/coastal-light/Reply";
 import Schedule from "@/components/templates/coastal-light/Schedule";
 import VideoCover from "@/components/templates/coastal-light/VideoCover";
 import StudioCredit from "@/components/templates/StudioCredit";
-import { coastalLightInvitation as data } from "@/data/coastal-light";
+import type { CoastalLightInvitation } from "@/data/coastal-light";
 import styles from "./Invitation.module.css";
 
 // Palette for this template, scoped to its root.
@@ -18,16 +18,17 @@ const root = [
 const credit =
   "px-6 pt-1 pb-9 text-center font-[family-name:var(--font-minimal-serif),Georgia,serif] text-[1.15rem] font-medium tracking-[0] normal-case text-(--mute)";
 
-export default function Invitation() {
+export default function Invitation({ data }: { data: CoastalLightInvitation }) {
   return (
     <div className={`${styles.revealScope} ${root}`}>
-      <VideoCover />
+      {/* Remount per video so a language switch starts the new film fresh. */}
+      <VideoCover key={data.video} data={data} />
       <div className="bg-[linear-gradient(180deg,#fffbfa_0%,#fdf4f2_52%,#fbeeea_100%)]">
-        <Countdown />
-        <Schedule />
-        <Note />
-        <Gallery />
-        <Reply />
+        <Countdown data={data} />
+        <Schedule data={data} />
+        <Note data={data} />
+        <Gallery data={data} />
+        <Reply data={data} />
         <StudioCredit className={credit} />
       </div>
       <MusicPlayer src={data.music} />

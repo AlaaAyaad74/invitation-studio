@@ -4,6 +4,7 @@ import path from "node:path";
 export type InvitationVideo = {
   id: string;
   title: string;
+  titleAr: string;
   src: string;
   /** Still shown on the card until the first play. */
   poster?: string;
@@ -91,6 +92,26 @@ function rank(file: string) {
   return i === -1 ? newestFirst.length : i;
 }
 
+const arabicTitles: Record<string, string> = {
+  "Garden Aisle": "ممر الحديقة",
+  "Gold Arch": "القوس الذهبي",
+  "Rose Procession": "زفة الورود",
+  "Lantern Night": "ليلة الفوانيس",
+  "Palace Courtyard": "فناء القصر",
+  "Blush Canopy": "المظلة الوردية",
+  "Sage Promise": "وعد المريمية",
+  "Henna Hour": "ساعة الحنة",
+  "Floral Gate": "بوابة الزهور",
+  "Candlelit Names": "أسماء على ضوء الشموع",
+  "Terrace Blessing": "بركة الشرفة",
+  "Orchard Light": "ضوء البستان",
+  "Moonlit Entry": "دخول تحت القمر",
+  "Jasmine Frame": "إطار الياسمين",
+  "Velvet Evening": "أمسية مخملية",
+  "Soft Horizon": "أفق ناعم",
+  "First Dance": "الرقصة الأولى",
+};
+
 function readVideos(): InvitationVideo[] {
   const files = readdirSync(VIDEO_DIR)
     .filter((file) => file.toLowerCase().endsWith(".mp4") && !hiddenVideos.has(file))
@@ -106,9 +127,11 @@ function readVideos(): InvitationVideo[] {
     const posterFile = path.join(POSTER_DIR, `${name}.webp`);
     const hasPoster = existsSync(posterFile);
 
+    const title = videoTitles[file];
     return {
       id,
-      title: videoTitles[file] ?? `Film ${index + 1}`,
+      title: title ?? `Film ${index + 1}`,
+      titleAr: (title && arabicTitles[title]) ?? `فيديو ${index + 1}`,
       src: `/videos/compressed/${file}`,
       aspect: (hasPoster && webpAspect(posterFile)) || DEFAULT_ASPECT,
       ...(hasPoster ? { poster: `/videos/posters/${name}.webp` } : {}),

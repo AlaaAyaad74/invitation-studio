@@ -1,3 +1,5 @@
+import type { Lang } from "@/lib/i18n";
+
 export type CalendarEvent = {
   id: string;
   title: string;
@@ -8,6 +10,7 @@ export type CalendarEvent = {
 };
 
 type InviteCalendar = {
+  lang?: Lang;
   couple: { first: string; second: string };
   intro: string;
   tagline: string;
@@ -23,7 +26,10 @@ export function eventFromInvite(id: string, data: InviteCalendar): CalendarEvent
 
   return {
     id,
-    title: `${data.couple.first} & ${data.couple.second} Wedding`,
+    title:
+      data.lang === "ar"
+        ? `فرح ${data.couple.first} و${data.couple.second}`
+        : `${data.couple.first} & ${data.couple.second} Wedding`,
     start: data.start,
     end: data.end,
     location,

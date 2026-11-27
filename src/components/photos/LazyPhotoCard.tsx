@@ -2,8 +2,13 @@
 
 import Image from "next/image";
 import { useEffect, useRef, useState, type CSSProperties } from "react";
+import { useLang } from "@/components/i18n/LangProvider";
 import ShareButton from "@/components/ShareButton";
-import { getPhotoSharePath, type InvitationPhoto } from "@/data/photos";
+import {
+  getPhotoSharePath,
+  photoTitle,
+  type InvitationPhoto,
+} from "@/data/photos";
 
 const ASPECTS = [
   "aspect-[3/4]",
@@ -27,6 +32,18 @@ export default function LazyPhotoCard({
   const [isLoaded, setIsLoaded] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
   const aspect = ASPECTS[index % ASPECTS.length];
+  const lang = useLang();
+  const title = photoTitle(photo, lang);
+  const t =
+    lang === "ar"
+      ? {
+          alt: `صورة دعوة ${title}`,
+          isNew: "جديد",
+        }
+      : {
+          alt: `${title} invitation photo`,
+          isNew: "New",
+        };
 
   useEffect(() => {
     const node = containerRef.current;
@@ -73,7 +90,7 @@ export default function LazyPhotoCard({
       {shouldLoad ? (
         <Image
           src={photo.image}
-          alt={`${photo.title} invitation photo`}
+          alt={t.alt}
           width={900}
           height={1200}
           sizes="(min-width: 640px) 33vw, 50vw"
@@ -89,14 +106,14 @@ export default function LazyPhotoCard({
         />
       ) : null}
       {photo.isNew ? (
-        <span className="pointer-events-none absolute left-2.5 top-2.5 z-10 bg-rose px-2 py-1 text-[10px] tracking-[0.16em] text-white uppercase shadow-[0_8px_18px_-10px_rgba(0,0,0,0.55)]">
-          New
+        <span className="pointer-events-none absolute start-2.5 top-2.5 z-10 bg-rose px-2 py-1 text-[10px] tracking-[0.16em] text-white uppercase shadow-[0_8px_18px_-10px_rgba(0,0,0,0.55)]">
+          {t.isNew}
         </span>
       ) : null}
       <ShareButton
-        title={photo.title}
+        title={title}
         path={getPhotoSharePath(photo.id)}
-        message={`${photo.title} invitation photo`}
+        message={t.alt}
       />
     </div>
   );

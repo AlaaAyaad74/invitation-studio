@@ -1,5 +1,5 @@
-import MapPinIcon from "@/app/common/icons/MapPinIcon";
-import CalendarIcon from "@/app/common/icons/CalendarIcon";
+import MapPinIcon from "@/components/icons/MapPinIcon";
+import CalendarIcon from "@/components/icons/CalendarIcon";
 import AddToCalendar from "@/components/templates/AddToCalendar";
 import Cover from "@/components/templates/custom-couples/Cover";
 import MusicPlayer from "@/components/templates/MusicPlayer";

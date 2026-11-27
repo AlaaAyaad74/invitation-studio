@@ -1,9 +1,10 @@
 "use client";
 
-import PauseIcon from "@/app/common/icons/PauseIcon";
-import PlayIcon from "@/app/common/icons/PlayIcon";
+import PauseIcon from "@/components/icons/PauseIcon";
+import PlayIcon from "@/components/icons/PlayIcon";
 import Image from "next/image";
 import { useCallback, useEffect, useRef, useState, type CSSProperties } from "react";
+import { useLang } from "@/components/i18n/LangProvider";
 import OrderButton from "@/components/OrderButton";
 import ShareButton from "@/components/ShareButton";
 import type { InvitationVideo } from "@/data/videos";
@@ -51,6 +52,24 @@ export default function VideoCard({
   const [playing, setPlaying] = useState(false);
   // Poster stays over the film until playback actually begins.
   const [started, setStarted] = useState(false);
+  const lang = useLang();
+  const title = lang === "ar" ? video.titleAr : video.title;
+  const t =
+    lang === "ar"
+      ? {
+          film: "فيديو",
+          play: `شغّل ${title}`,
+          pause: `وقّف ${title}`,
+          message: `فيديو دعوة ${title}`,
+          order: "اطلب الفيديو ده",
+        }
+      : {
+          film: "Film",
+          play: `Play ${title}`,
+          pause: `Pause ${title}`,
+          message: `${title} invitation film`,
+          order: "Order this video",
+        };
 
   const setVideoNode = useCallback(
     (node: HTMLVideoElement | null) => {
@@ -194,7 +213,7 @@ export default function VideoCard({
             playsInline
             // With a poster the card needs no frame, so nothing downloads until play.
             preload={video.poster ? "none" : "metadata"}
-            aria-label={video.title}
+            aria-label={title}
             onLoadedData={() => {
               const node = videoRef.current;
               if (node && !video.poster) revealFrame(node);
@@ -233,7 +252,7 @@ export default function VideoCard({
         {playing ? (
           <button
             type="button"
-            aria-label={`Pause ${video.title}`}
+            aria-label={t.pause}
             onClick={pause}
             className={styles.pause}
           >
@@ -244,7 +263,7 @@ export default function VideoCard({
         ) : (
           <button
             type="button"
-            aria-label={`Play ${video.title}`}
+            aria-label={t.play}
             onClick={play}
             className={styles.play}
           >
@@ -254,23 +273,23 @@ export default function VideoCard({
           </button>
         )}
         <ShareButton
-          title={video.title}
+          title={title}
           path={videoSharePath(video.id)}
-          message={`${video.title} invitation film`}
+          message={t.message}
           zIndex={20}
         />
       </div>
       <figcaption className={styles.caption}>
-        <p className="text-sm tracking-[0.2em] text-rose uppercase">Film</p>
-        <p className="mt-1 font-display text-lg leading-tight text-ink sm:text-2xl">{video.title}</p>
+        <p className="text-sm tracking-[0.2em] text-rose uppercase">{t.film}</p>
+        <p className="mt-1 font-display text-lg leading-tight text-ink sm:text-2xl">{title}</p>
         <OrderButton
           kind="video"
           name={video.title}
           path={videoSharePath(video.id)}
           className="mt-2 inline-flex items-center gap-1 text-[10px] tracking-[0.16em] whitespace-nowrap text-sage-deep uppercase underline-offset-4 hover:underline sm:text-xs"
         >
-          Order this video
-          <span aria-hidden>→</span>
+          {t.order}
+          <span aria-hidden className="rtl:-scale-x-100">→</span>
         </OrderButton>
       </figcaption>
     </figure>

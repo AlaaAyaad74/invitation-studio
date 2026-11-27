@@ -32,6 +32,20 @@
   clip-path: inset(-30% -8% -30% -8%);
 }
 
+/* Arabic: fade only (spacing would split the letters), and ink runs right to left. */
+.kickerIn:lang(ar):not([data-x]),
+[data-in="true"] .kickerIn:lang(ar):not([data-x]) {
+  letter-spacing: 0;
+}
+
+.writeIn:lang(ar) {
+  clip-path: inset(-30% -8% -30% 100%);
+}
+
+[data-in="true"] .writeIn:lang(ar) {
+  clip-path: inset(-30% -8% -30% -8%);
+}
+
 @media (prefers-reduced-motion: reduce) {
   .kickerIn:not([data-x]),
   [data-in="true"] .kickerIn:not([data-x]) {

@@ -1,32 +1,41 @@
-import MapPinIcon from "@/app/common/icons/MapPinIcon";
-import CalendarIcon from "@/app/common/icons/CalendarIcon";
+import ArchFrameIcon from "@/components/icons/ArchFrameIcon";
+import MapPinIcon from "@/components/icons/MapPinIcon";
+import CalendarIcon from "@/components/icons/CalendarIcon";
 import Reveal from "@/components/Reveal";
 import AddToCalendar from "@/components/templates/AddToCalendar";
-import { elegantInvitation as data, getCalendarUrl } from "@/data/elegant";
+import { getCalendarUrl, type ElegantInvitation } from "@/data/elegant";
+import { templateCopy } from "@/data/template-copy";
 import { LuWatch } from "react-icons/lu";
 import { PiDressLight } from "react-icons/pi";
 import { TbGlassFull } from "react-icons/tb";
-
-const calendarUrl = getCalendarUrl(data);
 
 const actionClass =
   "inline-flex flex-1 items-center justify-center gap-1.5 px-3 py-3 text-[0.62rem] tracking-[0.12em] whitespace-nowrap text-e-leaf uppercase no-underline transition-colors duration-200 hover:bg-e-blush focus-visible:bg-e-blush focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-e-leaf";
 
 const SWATCHES = [
-  { name: "Blush", className: "bg-e-blush border-e-rose/50" },
-  { name: "Ivory", className: "bg-e-white border-e-gold" },
-  { name: "Green", className: "bg-e-leaf border-e-leaf" },
+  { name: { en: "Blush", ar: "وردي" }, className: "bg-e-blush border-e-rose/50" },
+  { name: { en: "Ivory", ar: "عاجي" }, className: "bg-e-white border-e-gold" },
+  { name: { en: "Green", ar: "أخضر" }, className: "bg-e-leaf border-e-leaf" },
 ] as const;
 
-export default function Journey() {
+const COPY = {
+  en: { label: "The day", title: "Walk with us", map: "Open the map" },
+  ar: { label: "اليوم الموعود", title: "تعالوا امشوا معانا", map: "افتح الخريطة" },
+} as const;
+
+export default function Journey({ data }: { data: ElegantInvitation }) {
+  const calendarUrl = getCalendarUrl(data);
+  const t = COPY[data.lang];
+  const common = templateCopy(data.lang);
+
   return (
-    <section className="px-[1.35rem] pt-5 pb-10" aria-label="Wedding day">
+    <section className="px-[1.35rem] pt-5 pb-10" aria-label={common.weddingDay}>
       <Reveal className="text-center">
         <p className="text-[0.68rem] tracking-[0.34em] text-e-rose uppercase">
-          The day
+          {t.label}
         </p>
         <h2 className="mt-2 font-pinyon text-[clamp(2.6rem,11vw,3.3rem)] leading-none font-normal text-e-ink">
-          Walk with us
+          {t.title}
         </h2>
         <p className="mx-auto mt-3.5 max-w-64 font-bodoni text-[1.15rem] leading-snug text-e-muted italic">
           {data.verse}
@@ -35,26 +44,7 @@ export default function Journey() {
 
       <Reveal>
         <div className="relative mx-auto mt-1.5 grid h-[15.5rem] place-items-center text-e-rose">
-          <svg
-            className="absolute inset-0 size-full"
-            viewBox="0 0 240 168"
-            fill="none"
-            aria-hidden="true"
-          >
-            <path
-              d="M28 166 V78 C28 36 68 14 120 14 C172 14 212 36 212 78 V166"
-              stroke="currentColor"
-              strokeWidth="1.15"
-            />
-            <path
-              d="M44 166 V82 C44 48 76 30 120 30 C164 30 196 48 196 82 V166"
-              stroke="currentColor"
-              strokeWidth="0.7"
-              opacity="0.45"
-            />
-            <circle cx="28" cy="166" r="3" fill="currentColor" />
-            <circle cx="212" cy="166" r="3" fill="currentColor" />
-          </svg>
+          <ArchFrameIcon className="absolute inset-0 size-full" />
           <div className="relative mt-6 text-center text-e-ink">
             <p className="text-[0.66rem] tracking-[0.28em] text-e-muted uppercase">
               {data.dateLabel.weekday}
@@ -84,7 +74,7 @@ export default function Journey() {
       <div className="mt-8">
         <div className="grid gap-3">
           {data.moments.map((moment, index) => (
-            <Reveal key={moment.label} delayMs={index * 90}>
+            <Reveal key={moment.kind} delayMs={index * 90}>
               <article className="flex items-start gap-3">
                 <span
                   className="relative flex shrink-0 justify-center self-stretch"
@@ -108,7 +98,7 @@ export default function Journey() {
                     className="relative z-[1] mt-3 grid place-items-center rounded-full border border-e-rose/70 bg-e-cream text-e-rose shadow-[0_0_0_4px_#fbf6f1]"
                     style={{ width: "2.75rem", height: "2.75rem" }}
                   >
-                    <MomentMark label={moment.label} />
+                    <MomentMark kind={moment.kind} />
                   </span>
                 </span>
                 <div className="min-w-0 flex-1 rounded-2xl bg-e-white px-4 py-3 shadow-[0_18px_34px_-26px_rgba(36,28,26,0.55)]">
@@ -121,15 +111,15 @@ export default function Journey() {
                   <p className="mt-1 text-[0.95rem] leading-snug text-e-muted">
                     {moment.detail}
                   </p>
-                  {moment.label === "Attire" ? (
+                  {moment.kind === "attire" ? (
                     <ul className="mt-3 flex gap-2">
                       {SWATCHES.map((swatch) => (
-                        <li key={swatch.name}>
+                        <li key={swatch.name.en}>
                           <span
                             className={`block size-4 rounded-full border ${swatch.className}`}
-                            title={swatch.name}
+                            title={swatch.name[data.lang]}
                           />
-                          <span className="sr-only">{swatch.name}</span>
+                          <span className="sr-only">{swatch.name[data.lang]}</span>
                         </li>
                       ))}
                     </ul>
@@ -143,18 +133,18 @@ export default function Journey() {
 
       <Reveal className="mt-5">
         <div className="flex overflow-hidden rounded-full border border-e-leaf/15 bg-e-white">
-          <AddToCalendar template="elegant" href={calendarUrl} className={actionClass}>
+          <AddToCalendar template={data.calendarId} href={calendarUrl} className={actionClass}>
             <CalendarIcon className="size-4 fill-none stroke-current stroke-[1.6]" />
-            Add to calendar
+            {common.addToCalendar}
           </AddToCalendar>
           <a
             href={data.venue.mapUrl}
             target="_blank"
             rel="noreferrer"
-            className={`${actionClass} border-l border-e-leaf/15`}
+            className={`${actionClass} border-s border-e-leaf/15`}
           >
             <MapPinIcon className="size-4" />
-            Open the map
+            {t.map}
           </a>
         </div>
       </Reveal>
@@ -162,10 +152,10 @@ export default function Journey() {
   );
 }
 
-function MomentMark({ label }: { label: string }) {
+function MomentMark({ kind }: { kind: string }) {
   const iconProps = { size: "1.55rem", "aria-hidden": true } as const;
 
-  if (label === "Celebration") return <TbGlassFull {...iconProps} />;
-  if (label === "Attire") return <PiDressLight {...iconProps} />;
+  if (kind === "celebration") return <TbGlassFull {...iconProps} />;
+  if (kind === "attire") return <PiDressLight {...iconProps} />;
   return <LuWatch {...iconProps} />;
 }

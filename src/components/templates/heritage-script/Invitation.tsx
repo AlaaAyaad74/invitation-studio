@@ -1,5 +1,5 @@
-import MapPinIcon from "@/app/common/icons/MapPinIcon";
-import CalendarIcon from "@/app/common/icons/CalendarIcon";
+import MapPinIcon from "@/components/icons/MapPinIcon";
+import CalendarIcon from "@/components/icons/CalendarIcon";
 import AddToCalendar from "@/components/templates/AddToCalendar";
 import MusicPlayer from "@/components/templates/MusicPlayer";
 import StudioCredit from "@/components/templates/StudioCredit";
@@ -7,41 +7,58 @@ import Countdown from "@/components/templates/heritage-script/Countdown";
 import FadeIn from "@/components/templates/heritage-script/FadeIn";
 import Gallery from "@/components/templates/heritage-script/Gallery";
 import LetterCard from "@/components/templates/heritage-script/LetterCard";
-import { getCalendarUrl, heritageInvitation as data } from "@/data/heritage-script";
+import { getCalendarUrl, type HeritageInvitation } from "@/data/heritage-script";
+import { templateCopy } from "@/data/template-copy";
 import styles from "./invitationStyles";
 
-const calendarUrl = getCalendarUrl();
+const COPY = {
+  en: {
+    section: "Celebration details",
+    heading: "The evening",
+    attireNote: "An evening in crimson and gold",
+  },
+  ar: {
+    section: "تفاصيل الفرح",
+    heading: "السهرة",
+    attireNote: "سهرة بالأحمر والدهبي",
+  },
+} as const;
 
-export default function Invitation() {
+export default function Invitation({ data }: { data: HeritageInvitation }) {
   const { dateLabel, venue } = data;
+  const calendarUrl = getCalendarUrl(data);
+  const t = COPY[data.lang];
+  const common = templateCopy(data.lang);
+  const comma = data.lang === "ar" ? "،" : ",";
 
   return (
     <div className={styles.root}>
-      <LetterCard />
-      <Countdown start={data.start} dateLabel={dateLabel} />
+      <LetterCard data={data} />
+      <Countdown start={data.start} dateLabel={dateLabel} lang={data.lang} />
 
-      <section className={styles.details} aria-label="Celebration details">
+      <section className={styles.details} aria-label={t.section}>
         <FadeIn as="h2" className={styles.heading}>
-          The evening
+          {t.heading}
         </FadeIn>
         <ul className={styles.list}>
           <FadeIn as="li" className={styles.item} delay={160}>
-            <span className={styles.label}>When</span>
+            <span className={styles.label}>{common.when}</span>
             <strong className={styles.value}>
-              {dateLabel.weekday}, {dateLabel.day} {dateLabel.month}
+              {dateLabel.weekday}
+              {comma} {dateLabel.day} {dateLabel.month}
             </strong>
             <span className={styles.note}>{data.timeLabel}</span>
             <AddToCalendar
-              template="heritage-script"
+              template={data.calendarId}
               href={calendarUrl}
               className={styles.link}
             >
               <CalendarIcon className={styles.linkIcon} />
-              Add to calendar
+              {common.addToCalendar}
             </AddToCalendar>
           </FadeIn>
           <FadeIn as="li" className={styles.item} delay={380}>
-            <span className={styles.label}>Where</span>
+            <span className={styles.label}>{common.where}</span>
             <strong className={styles.value}>{venue.name}</strong>
             <span className={styles.note}>{venue.city}</span>
             <a
@@ -51,18 +68,18 @@ export default function Invitation() {
               className={styles.link}
             >
               <MapPinIcon className={styles.linkIcon} />
-              Open location
+              {common.openLocation}
             </a>
           </FadeIn>
           <FadeIn as="li" className={styles.item} delay={600}>
-            <span className={styles.label}>Attire</span>
+            <span className={styles.label}>{common.attire}</span>
             <strong className={styles.value}>{data.attire}</strong>
-            <span className={styles.note}>An evening in crimson and gold</span>
+            <span className={styles.note}>{t.attireNote}</span>
           </FadeIn>
         </ul>
       </section>
 
-      <Gallery />
+      <Gallery data={data} />
 
       <FadeIn>
         <StudioCredit className={styles.credit} />

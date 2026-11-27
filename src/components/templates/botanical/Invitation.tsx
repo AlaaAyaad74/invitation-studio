@@ -1,4 +1,4 @@
-import WhatsAppIcon from "@/app/common/icons/WhatsAppIcon";
+import WhatsAppIcon from "@/components/icons/WhatsAppIcon";
 import Reveal from "@/components/Reveal";
 import Countdown from "@/components/templates/botanical/Countdown";
 import Details from "@/components/templates/botanical/Details";
@@ -7,6 +7,12 @@ import VideoCover from "@/components/templates/botanical/VideoCover";
 import MusicPlayer from "@/components/templates/MusicPlayer";
 import StudioCredit, { type GuestBranding } from "@/components/templates/StudioCredit";
 import { getWhatsAppUrl, type BotanicalContent } from "@/data/botanical";
+import { templateCopy } from "@/data/template-copy";
+
+const COPY = {
+  en: { rsvp: "RSVP", title: "We would love to have you with us" },
+  ar: { rsvp: "أكد حضورك", title: "يسعدنا وجودكم معانا" },
+} as const;
 
 export default function Invitation({
   data,
@@ -16,6 +22,9 @@ export default function Invitation({
   /** Only on a couple's live invitation (/template/<slug>). */
   guestBranding?: GuestBranding;
 }) {
+  const lang = data.lang ?? "en";
+  const t = COPY[lang];
+  const common = templateCopy(lang);
   const whatsappUrl = data.rsvp ? getWhatsAppUrl(data.rsvp) : null;
 
   return (
@@ -27,10 +36,10 @@ export default function Invitation({
       <section className="relative overflow-hidden px-6 py-16 text-center">
         <Reveal className="relative">
           <p className="text-[11px] tracking-[0.3em] text-gold uppercase">
-            RSVP
+            {t.rsvp}
           </p>
           <h2 className="mt-3 font-display text-3xl text-balance text-ink">
-            We would love to have you with us
+            {t.title}
           </h2>
           {data.rsvp ? (
             <p className="mt-3 text-sm text-ink-muted">{data.rsvp.deadline}</p>
@@ -43,7 +52,7 @@ export default function Invitation({
               className="mt-8 inline-flex items-center gap-2 border border-gold/55 px-6 py-3 text-xs tracking-[0.18em] text-ink uppercase transition hover:bg-ink hover:text-white"
             >
               <WhatsAppIcon className="h-4 w-4 fill-current" />
-              Confirm on WhatsApp
+              {common.confirmWhatsApp}
             </a>
           ) : null}
         </Reveal>

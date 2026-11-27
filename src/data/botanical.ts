@@ -1,7 +1,9 @@
 import { eventFromInvite, googleCalendarUrl } from "@/lib/calendar";
+import type { Lang } from "@/lib/i18n";
 import { whatsappUrl } from "@/lib/whatsapp";
 
 export const botanicalInvitation = {
+  lang: "en",
   couple: {
     first: "Adam",
     second: "Layla",
@@ -59,6 +61,7 @@ export const botanicalInvitation = {
 } as const;
 
 export type BotanicalContent = {
+  lang?: Lang;
   couple: { first: string; second: string };
   intro: string;
   tagline: string;
@@ -83,6 +86,51 @@ export type BotanicalContent = {
   galleryHint?: string;
   calendarId?: string;
   hideHeroYear?: boolean;
+};
+
+export const botanicalInvitationAr: BotanicalContent = {
+  lang: "ar",
+  couple: {
+    first: "آدم",
+    second: "ليلى",
+  },
+  intro: "بمباركة عائلتيهما",
+  tagline: "يتشرفان بدعوتكم لحضور حفل زفافهما",
+  start: botanicalInvitation.start,
+  end: botanicalInvitation.end,
+  dateLabel: {
+    weekday: "الجمعة",
+    day: "12",
+    month: "مارس",
+    year: "2027",
+  },
+  timeLabel: "الساعة السادسة مساءً",
+  venue: {
+    name: "بيت الحديقة",
+    address: "القاهرة الجديدة، مصر",
+    mapUrl: botanicalInvitation.venue.mapUrl,
+  },
+  dressCode: "ملابس رسمية بألوان هادئة",
+  music: botanicalInvitation.music,
+  rsvp: {
+    whatsapp: botanicalInvitation.rsvp.whatsapp,
+    message: "أهلًا! أكيد هحضر فرح آدم وليلى، ألف مبروك!",
+    deadline: "ياريت تأكدوا حضوركم قبل 1 فبراير 2027",
+  },
+  gallery: [
+    { src: "/botanical/gallery/01-meadow.jpg", alt: "آدم وليلى في مرج من الترمس وقت الغروب" },
+    { src: "/botanical/gallery/02-field.jpg", alt: "لحظة هادئة معًا في الحقل" },
+    { src: "/botanical/gallery/03-walk.jpg", alt: "نزهة بين أزهار المرج" },
+    { src: "/botanical/gallery/04-standing.jpg", alt: "وقفة قريبة بين العشب الطويل" },
+    { src: "/botanical/gallery/05-portrait.jpg", alt: "صورة هادئة في المرج" },
+    { src: "/botanical/gallery/06-together.jpg", alt: "معًا بين أزهار الترمس" },
+  ],
+  calendarId: "botanical-ar",
+};
+
+export const botanicalInvitations: Record<Lang, BotanicalContent> = {
+  en: botanicalInvitation,
+  ar: botanicalInvitationAr,
 };
 
 export function capitalName(name: string) {

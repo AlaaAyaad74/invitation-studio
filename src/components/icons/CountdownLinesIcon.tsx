@@ -5,7 +5,7 @@ import { useEffect, useRef } from "react";
 const RAYS = [-42, -28, -14, 0, 14, 28, 42];
 const LENGTH = 140;
 
-export default function CountdownLines({
+export default function CountdownLinesIcon({
   className = "h-full w-full",
 }: {
   className?: string;

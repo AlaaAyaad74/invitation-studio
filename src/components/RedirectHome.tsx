@@ -3,11 +3,13 @@
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
+import { useLang } from "@/components/i18n/LangProvider";
 
 /** Counts down, then sends the visitor to the home page. */
 export default function RedirectHome({ seconds }: { seconds: number }) {
   const router = useRouter();
   const [left, setLeft] = useState(seconds);
+  const ar = useLang() === "ar";
 
   useEffect(() => {
     const tick = window.setInterval(() => {
@@ -23,14 +25,14 @@ export default function RedirectHome({ seconds }: { seconds: number }) {
   return (
     <>
       <p className="mt-8 text-sm text-ink-muted" aria-live="polite">
-        Taking you home in {left}…
+        {ar ? `هنرجعك للصفحة الرئيسية خلال ${left}…` : `Taking you home in ${left}…`}
       </p>
       <Link
         href="/"
         replace
         className="mt-4 inline-flex bg-sage-deep px-5 py-3 text-sm text-white transition hover:bg-sage"
       >
-        Go home now
+        {ar ? "ارجع للرئيسية دلوقتي" : "Go home now"}
       </Link>
     </>
   );

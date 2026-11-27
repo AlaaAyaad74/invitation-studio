@@ -1,7 +1,24 @@
 import Reveal from "@/components/Reveal";
-import { features } from "@/data/templates";
+import { getFeatures } from "@/data/templates";
+import { getLang } from "@/lib/i18n-server";
 
-export default function Features() {
+const COPY = {
+  en: {
+    kicker: "Our features",
+    title: "Everything guests need, beautifully arranged.",
+    lead: "Templates are more than pretty pages: they help you invite, inform, and celebrate without the spreadsheet chaos.",
+  },
+  ar: {
+    kicker: "ليه إحنا؟",
+    title: "كل اللي ضيوفكم محتاجينه، مترتب بشياكة.",
+    lead: "تصميماتنا مش مجرد صفحات حلوة؛ دي بتساعدكم تعزموا ضيوفكم، وتوصلولهم كل التفاصيل، وتفرحوا معاهم من غير لخبطة الشيتات.",
+  },
+} as const;
+
+export default async function Features() {
+  const lang = await getLang();
+  const t = COPY[lang];
+  const features = getFeatures(lang);
   return (
     <section id="features" className="relative py-10 sm:py-14 lg:py-16">
       <div className="absolute inset-0 bg-sage-deep" />
@@ -11,14 +28,13 @@ export default function Features() {
       <div className="relative mx-auto max-w-6xl px-3 sm:px-8">
         <Reveal className="max-w-2xl">
           <p className="text-sm tracking-[0.2em] text-rose-soft uppercase">
-            Our features
+            {t.kicker}
           </p>
           <h2 className="mt-3 font-display text-4xl leading-tight text-white sm:text-5xl">
-            Everything guests need, beautifully arranged.
+            {t.title}
           </h2>
           <p className="mt-4 max-w-lg text-white/75">
-            Templates are more than pretty pages: they help you invite, inform,
-            and celebrate without the spreadsheet chaos.
+            {t.lead}
           </p>
         </Reveal>
 

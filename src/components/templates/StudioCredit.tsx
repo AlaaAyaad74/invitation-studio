@@ -1,4 +1,8 @@
+"use client";
+
 import Link from "next/link";
+import ArrowUpRightIcon from "@/components/icons/ArrowUpRightIcon";
+import { useLang } from "@/components/i18n/LangProvider";
 import { siteConfig } from "@/lib/site";
 
 /** Set on customers' live invitations (not on the template demos). */
@@ -16,6 +20,8 @@ export default function StudioCredit({
   className: string;
   guest?: GuestBranding;
 }) {
+  const ar = useLang() === "ar";
+
   if (guest) {
     if (guest.hidden) return null;
     const params = new URLSearchParams({
@@ -27,9 +33,11 @@ export default function StudioCredit({
       <footer className={className}>
         <Link
           href={`/?${params.toString()}`}
-          className="opacity-70 transition-opacity hover:opacity-100"
+          className={`opacity-70 transition-opacity hover:opacity-100 ${
+            ar ? "text-[1.3em] leading-relaxed tracking-normal normal-case" : ""
+          }`}
         >
-          Made with ♡ by Invitation Studio
+          {ar ? "اتعملت بحب ♡ في استوديو الدعوات" : "Made with ♡ by Invitation Studio"}
         </Link>
       </footer>
     );
@@ -41,21 +49,16 @@ export default function StudioCredit({
         href={siteConfig.instagramUrl}
         target="_blank"
         rel="noreferrer"
-        className="inline-flex items-center gap-1.5 underline decoration-current/50 underline-offset-4 transition-opacity hover:opacity-70 hover:decoration-current"
+        className={`inline-flex items-center gap-1.5 underline decoration-current/50 transition-opacity hover:opacity-70 hover:decoration-current ${
+          // Arabic letters must join: no tracking or caps from the template,
+          // a larger size, and the underline clear of the dots below.
+          ar
+            ? "text-[1.3em] leading-relaxed tracking-normal normal-case underline-offset-[0.55em]"
+            : "underline-offset-4"
+        }`}
       >
-        Crafted with Invitation Studio
-        <svg
-          viewBox="0 0 24 24"
-          className="h-[1.1em] w-[1.1em] shrink-0"
-          fill="none"
-          stroke="currentColor"
-          strokeWidth="2"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-          aria-hidden="true"
-        >
-          <path d="M7 17 17 7M9 7h8v8" />
-        </svg>
+        {ar ? "اتعملت بحب في استوديو الدعوات" : "Crafted with Invitation Studio"}
+        <ArrowUpRightIcon className={`h-[1.1em] w-[1.1em] shrink-0 ${ar ? "-scale-x-100" : ""}`} />
       </a>
     </footer>
   );

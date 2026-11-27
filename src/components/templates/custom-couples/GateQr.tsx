@@ -1,4 +1,4 @@
-import WaveOrnamentIcon from "@/app/common/icons/WaveOrnamentIcon";
+import WaveOrnamentIcon from "@/components/icons/WaveOrnamentIcon";
 import ImageWithSkeleton from "@/components/ImageWithSkeleton";
 import FadeIn from "@/components/templates/heritage-script/FadeIn";
 

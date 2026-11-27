@@ -1,45 +1,9 @@
-import type { CSSProperties } from "react";
+import type { SVGProps } from "react";
 
-export function Bloom({
-  className,
-  style,
-}: {
-  className?: string;
-  style?: CSSProperties;
-}) {
+/** Leafy rule with a rose in the middle. */
+export default function BranchIcon(props: SVGProps<SVGSVGElement>) {
   return (
-    <svg
-      viewBox="0 0 24 24"
-      className={className}
-      style={style}
-      aria-hidden="true"
-    >
-      <g fill="currentColor">
-        {[0, 72, 144, 216, 288].map((angle) => (
-          <ellipse
-            key={angle}
-            cx="12"
-            cy="7.2"
-            rx="3.3"
-            ry="4.6"
-            opacity="0.82"
-            transform={`rotate(${angle} 12 12)`}
-          />
-        ))}
-      </g>
-      <circle cx="12" cy="12" r="2.6" fill="var(--gold-soft)" />
-    </svg>
-  );
-}
-
-export function Branch({ className }: { className?: string }) {
-  return (
-    <svg
-      viewBox="0 0 180 28"
-      className={className}
-      fill="none"
-      aria-hidden="true"
-    >
+    <svg viewBox="0 0 180 28" fill="none" aria-hidden="true" {...props}>
       <path d="M4 14h62M114 14h62" stroke="var(--gold-soft)" strokeWidth="1" />
       <g fill="var(--sage)" opacity="0.75">
         <ellipse

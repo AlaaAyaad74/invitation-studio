@@ -1,16 +1,23 @@
 "use client";
 
-import WaveOrnamentIcon from "@/app/common/icons/WaveOrnamentIcon";
+import WaveOrnamentIcon from "@/components/icons/WaveOrnamentIcon";
 import { useEffect, useState } from "react";
 import ImageWithSkeleton from "@/components/ImageWithSkeleton";
 import Reveal from "@/components/Reveal";
 import { capitalName, type BotanicalContent } from "@/data/botanical";
+import { templateCopy } from "@/data/template-copy";
 import styles from "./Gallery.module.css";
 
 type Photo = BotanicalContent["gallery"][number];
 
 export default function Gallery({ data }: { data: BotanicalContent }) {
   const [active, setActive] = useState<Photo | null>(null);
+  const lang = data.lang ?? "en";
+  const common = templateCopy(lang);
+  const t =
+    lang === "ar"
+      ? { label: "صورنا", hint: "شوية لقطات حلوة" }
+      : { label: "Our gallery", hint: "A few stills from the meadow" };
 
   useEffect(() => {
     if (!active) return;
@@ -29,9 +36,9 @@ export default function Gallery({ data }: { data: BotanicalContent }) {
   }, [active]);
 
   return (
-    <section className={styles.section} aria-label="Photos">
+    <section className={styles.section} aria-label={common.photos}>
       <Reveal className={styles.intro}>
-        <p className={styles.label}>Our gallery</p>
+        <p className={styles.label}>{t.label}</p>
         <p className={`${styles.script} ${styles.brush}`}>
           {capitalName(data.couple.first)} & {capitalName(data.couple.second)}
         </p>
@@ -40,9 +47,7 @@ export default function Gallery({ data }: { data: BotanicalContent }) {
           <WaveOrnamentIcon />
           <span />
         </div>
-        <p className={styles.hint}>
-          {data.galleryHint ?? "A few stills from the meadow"}
-        </p>
+        <p className={styles.hint}>{data.galleryHint ?? t.hint}</p>
       </Reveal>
 
       <div className={styles.masonry}>
@@ -70,7 +75,8 @@ export default function Gallery({ data }: { data: BotanicalContent }) {
                 skeletonClassName="min-h-48"
               />
               <span className={styles.credit}>
-                {capitalName(data.couple.first)} & {capitalName(data.couple.second)}
+                {capitalName(data.couple.first)} &{" "}
+                {capitalName(data.couple.second)}
               </span>
             </button>
           </Reveal>

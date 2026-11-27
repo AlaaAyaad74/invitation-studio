@@ -3,13 +3,14 @@
 import { useCallback, useState } from "react";
 import { createPortal } from "react-dom";
 import { LuShare2 } from "react-icons/lu";
+import { useLang } from "@/components/i18n/LangProvider";
 import ShareModal from "@/components/ShareModal";
 
 type ShareButtonProps = {
   title: string;
   path: string;
   message?: string;
-  /** Which top corner of the positioned parent the button sits in. */
+  /** Which top corner the button sits in (mirrored for right-to-left). */
   side?: "left" | "right";
   /** Inline z-index; when omitted the button uses the `z-10` class. */
   zIndex?: number;
@@ -24,13 +25,14 @@ export default function ShareButton({
   zIndex,
 }: ShareButtonProps) {
   const [open, setOpen] = useState(false);
+  const ar = useLang() === "ar";
   const close = useCallback(() => setOpen(false), []);
 
   return (
     <>
       <button
         type="button"
-        aria-label={`Share ${title}`}
+        aria-label={ar ? `شارك ${title}` : `Share ${title}`}
         aria-haspopup="dialog"
         aria-expanded={open}
         onClick={(event) => {
@@ -40,7 +42,7 @@ export default function ShareButton({
         }}
         style={{
           top: 10,
-          [side]: 10,
+          [side === "right" ? "insetInlineEnd" : "insetInlineStart"]: 10,
           width: 36,
           height: 36,
           backgroundColor: "#fff",

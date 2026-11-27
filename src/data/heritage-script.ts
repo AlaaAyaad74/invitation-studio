@@ -1,6 +1,9 @@
 import { eventFromInvite, googleCalendarUrl } from "@/lib/calendar";
+import type { Lang, Localized } from "@/lib/i18n";
 
 export const heritageInvitation = {
+  lang: "en",
+  calendarId: "heritage-script",
   couple: {
     first: "Ahmed",
     second: "Menna",
@@ -61,17 +64,64 @@ export const heritageInvitation = {
   ],
 } as const;
 
-export type HeritageInvitation = typeof heritageInvitation;
+export type HeritageInvitation = Localized<typeof heritageInvitation>;
 
-export const heritageEvent = eventFromInvite("heritage-script", {
-  couple: heritageInvitation.couple,
-  intro: heritageInvitation.kicker,
-  tagline: heritageInvitation.honour,
+export const heritageInvitationAr: HeritageInvitation = {
+  lang: "ar",
+  calendarId: "heritage-script-ar",
+  couple: {
+    first: "أحمد",
+    second: "منة",
+  },
+  kicker: "بمباركة عائلتيهما",
+  honour: "يتشرفان بدعوتكم لحضور",
+  closing: "حفل زفافهما",
+  dateLabel: {
+    weekday: "السبت",
+    day: "12",
+    month: "سبتمبر",
+    year: "2027",
+  },
   start: heritageInvitation.start,
   end: heritageInvitation.end,
-  venue: heritageInvitation.venue,
-});
+  timeLabel: "الساعة السادسة مساءً",
+  venue: {
+    name: "القاعة الكبرى",
+    city: "القاهرة",
+    address: "القاهرة، مصر",
+    mapUrl: heritageInvitation.venue.mapUrl,
+  },
+  attire: "زي سهرة رسمي",
+  music: heritageInvitation.music,
+  gallery: [
+    { src: "/heritage-script/couple/1.webp", alt: "أحمد يقبّل جبين منة في صورة قريبة" },
+    { src: "/heritage-script/couple/2.webp", alt: "منة تستند إلى أحمد في صورة قريبة" },
+    { src: "/heritage-script/couple/3.webp", alt: "أحمد ومنة جبينًا إلى جبين" },
+    { src: "/heritage-script/couple/4.webp", alt: "أحمد يحتضن منة بجوار النافذة" },
+    { src: "/heritage-script/couple/5.webp", alt: "منة على ظهر أحمد بجوار النافذة" },
+    { src: "/heritage-script/couple/6.webp", alt: "أحمد ومنة يرقصان تحت العوارض الخشبية" },
+    { src: "/heritage-script/couple/7.webp", alt: "أحمد ومنة يضحكان معًا تحت العوارض الخشبية" },
+    { src: "/heritage-script/couple/8.webp", alt: "أحمد ومنة يجلسان معًا بجانب الجدار" },
+  ],
+};
 
-export function getCalendarUrl() {
-  return googleCalendarUrl(heritageEvent);
+export const heritageInvitations: Record<Lang, HeritageInvitation> = {
+  en: heritageInvitation,
+  ar: heritageInvitationAr,
+};
+
+export function heritageEvent(data: HeritageInvitation) {
+  return eventFromInvite(data.calendarId, {
+    lang: data.lang,
+    couple: data.couple,
+    intro: data.kicker,
+    tagline: data.honour,
+    start: data.start,
+    end: data.end,
+    venue: data.venue,
+  });
+}
+
+export function getCalendarUrl(data: HeritageInvitation) {
+  return googleCalendarUrl(heritageEvent(data));
 }

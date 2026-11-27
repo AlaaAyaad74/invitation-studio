@@ -1,6 +1,6 @@
 "use client";
 
-import { desertBloomInvitation as data } from "@/data/desert-bloom";
+import type { DesertBloomInvitation } from "@/data/desert-bloom";
 import {
   useCallback,
   useEffect,
@@ -11,7 +11,8 @@ import {
 } from "react";
 import InView from "./InView";
 import motion from "./motion.module.css";
-import { Bloom, Branch } from "./Ornaments";
+import BloomIcon from "@/components/icons/BloomIcon";
+import BranchIcon from "@/components/icons/BranchIcon";
 import styles from "./ScratchReveal.module.css";
 
 const BRUSH = 36;
@@ -99,7 +100,38 @@ function embossedText(
   ctx.fillText(text, x, y);
 }
 
-function paintFoil(canvas: HTMLCanvasElement) {
+type FoilText = { scratch: string; reveal: string };
+
+const COPY = {
+  en: {
+    section: "The date",
+    kicker: "Save the date",
+    title: "A little secret",
+    at: "at",
+    after: "We can\u2019t wait to celebrate with you",
+    progress: "Scratched",
+    skip: "or tap to reveal",
+    foil: {
+      scratch: "Scratch here",
+      reveal: "T O   R E V E A L   T H E   D A T E",
+    },
+  },
+  ar: {
+    section: "التاريخ",
+    kicker: "احفظوا الميعاد",
+    title: "سر صغير",
+    at: "الساعة",
+    after: "مش قادرين نستنى نحتفل معاكم",
+    progress: "نسبة المسح",
+    skip: "أو دوس عشان تشوفه",
+    foil: {
+      scratch: "امسح هنا",
+      reveal: "عشان تشوف التاريخ",
+    },
+  },
+} as const;
+
+function paintFoil(canvas: HTMLCanvasElement, text: FoilText) {
   const rect = canvas.getBoundingClientRect();
   const dpr = Math.min(window.devicePixelRatio || 1, 2);
   canvas.width = Math.round(rect.width * dpr);
@@ -179,7 +211,7 @@ function paintFoil(canvas: HTMLCanvasElement) {
   ctx.textAlign = "center";
   ctx.textBaseline = "middle";
   ctx.font = `${Math.round(width / 8.6)}px ${script}, cursive`;
-  embossedText(ctx, "Scratch here", width / 2, cy, "rgba(62, 44, 28, 0.82)");
+  embossedText(ctx, text.scratch, width / 2, cy, "rgba(62, 44, 28, 0.82)");
 
   // Divider with a diamond.
   const lineY = cy + 26;
@@ -200,7 +232,7 @@ function paintFoil(canvas: HTMLCanvasElement) {
   ctx.font = `500 9.5px ${sans}, sans-serif`;
   embossedText(
     ctx,
-    "T O   R E V E A L   T H E   D A T E",
+    text.reveal,
     width / 2,
     lineY + 20,
     "rgba(62, 44, 28, 0.62)",
@@ -209,8 +241,10 @@ function paintFoil(canvas: HTMLCanvasElement) {
   ctx.restore();
 }
 
-export default function ScratchReveal() {
+export default function ScratchReveal({ data }: { data: DesertBloomInvitation }) {
   const { dateLabel } = data;
+  const t = COPY[data.lang];
+  const foil = t.foil;
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const dustRef = useRef<HTMLSpanElement>(null);
   const last = useRef<{ x: number; y: number } | null>(null);
@@ -230,7 +264,7 @@ export default function ScratchReveal() {
       const next = `${rect.width}x${rect.height}`;
       if (next === size) return;
       size = next;
-      paintFoil(canvas);
+      paintFoil(canvas, foil);
     };
     const redrawFonts = () => {
       size = "";
@@ -242,7 +276,7 @@ export default function ScratchReveal() {
     const observer = new ResizeObserver(draw);
     observer.observe(canvas);
     return () => observer.disconnect();
-  }, [revealed]);
+  }, [revealed, foil]);
 
   const reveal = useCallback(() => {
     setProgress(1);
@@ -313,13 +347,13 @@ export default function ScratchReveal() {
   };
 
   return (
-    <InView as="section" className={styles.section} aria-label="The date">
-      <p className={`${styles.kicker} ${motion.kickerIn}`}>Save the date</p>
-      <h2 className={`${styles.title} ${motion.writeIn}`}>A little secret</h2>
+    <InView as="section" className={styles.section} aria-label={t.section}>
+      <p className={`${styles.kicker} ${motion.kickerIn}`}>{t.kicker}</p>
+      <h2 className={`${styles.title} ${motion.writeIn}`}>{t.title}</h2>
 
       <div className={styles.stage} data-revealed={revealed ? "true" : "false"}>
         <span className={styles.halo} aria-hidden="true">
-          <Bloom className={styles.haloBloom} />
+          <BloomIcon className={styles.haloBloom} />
         </span>
 
         <div className={styles.card}>
@@ -330,8 +364,10 @@ export default function ScratchReveal() {
               <span className={styles.day}>{dateLabel.day}</span>
               <span className={styles.month}>{dateLabel.year}</span>
             </span>
-            <span className={styles.time}>at {data.timeShort}</span>
-            <Branch className={styles.branch} />
+            <span className={styles.time}>
+              {t.at} {data.timeShort}
+            </span>
+            <BranchIcon className={styles.branch} />
           </div>
 
           <canvas
@@ -383,7 +419,7 @@ export default function ScratchReveal() {
                 />
               ))}
               <span className={styles.coin}>
-                <Bloom className={styles.coinBloom} />
+                <BloomIcon className={styles.coinBloom} />
               </span>
             </span>
           )}
@@ -413,9 +449,9 @@ export default function ScratchReveal() {
 
       {revealed ? (
         <p className={styles.after}>
-          <Bloom className={styles.afterBloom} />
-          We can&rsquo;t wait to celebrate with you
-          <Bloom className={styles.afterBloom} />
+          <BloomIcon className={styles.afterBloom} />
+          {t.after}
+          <BloomIcon className={styles.afterBloom} />
         </p>
       ) : (
         <div className={styles.footer}>
@@ -423,7 +459,7 @@ export default function ScratchReveal() {
             className={styles.progress}
             data-on={touched ? "true" : "false"}
             role="progressbar"
-            aria-label="Scratched"
+            aria-label={t.progress}
             aria-valuemin={0}
             aria-valuemax={100}
             aria-valuenow={Math.round(progress * 100)}
@@ -431,7 +467,7 @@ export default function ScratchReveal() {
             <span style={{ transform: `scaleX(${progress})` }} />
           </span>
           <button type="button" className={styles.skip} onClick={reveal}>
-            or tap to reveal
+            {t.skip}
           </button>
         </div>
       )}

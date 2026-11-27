@@ -1,8 +1,11 @@
 "use client";
 
+import ChevronLeftIcon from "@/components/icons/ChevronLeftIcon";
+import ClipPathDefs from "@/components/icons/ClipPathDefs";
 import ImageWithSkeleton from "@/components/ImageWithSkeleton";
 import Reveal from "@/components/Reveal";
-import { elegantInvitation as data } from "@/data/elegant";
+import type { ElegantInvitation } from "@/data/elegant";
+import { templateCopy } from "@/data/template-copy";
 import { useHorizontalSwipe } from "@/hooks/useHorizontalSwipe";
 import { useEffect, useState } from "react";
 
@@ -11,8 +14,13 @@ const SHAPE =
 
 const SHAPE_RATIO = "134 / 144";
 
-export default function Gallery() {
+export default function Gallery({ data }: { data: ElegantInvitation }) {
   const photos = data.gallery;
+  const common = templateCopy(data.lang);
+  const t =
+    data.lang === "ar"
+      ? { label: "بالصور", hint: "لحظات على الطريق" }
+      : { label: "In pictures", hint: "Moments along the path" };
   const [index, setIndex] = useState(0);
   const [open, setOpen] = useState(false);
   const photo = photos[index];
@@ -52,34 +60,32 @@ export default function Gallery() {
   }, [open, photos.length]);
 
   return (
-    <section className="px-[1.15rem] pt-2 pb-8" aria-label="Photos">
+    <section className="px-[1.15rem] pt-2 pb-8" aria-label={common.photos}>
       <Reveal className="text-center">
         <p className="text-[0.68rem] tracking-[0.34em] text-e-rose uppercase">
-          In pictures
+          {t.label}
         </p>
         <h2 className="mt-2 font-pinyon text-[clamp(2.6rem,11vw,3.3rem)] leading-none font-normal text-e-ink">
           {data.couple.first} & {data.couple.second}
         </h2>
         <p className="mx-auto mt-3 max-w-64 font-bodoni text-[1.15rem] text-e-muted italic">
-          Moments along the path
+          {t.hint}
         </p>
       </Reveal>
 
-      <svg className="absolute size-0" aria-hidden="true">
-        <defs>
-          <clipPath id="elegant-shape" clipPathUnits="objectBoundingBox">
-            <path d={SHAPE} />
-          </clipPath>
-        </defs>
-      </svg>
+      <ClipPathDefs
+        className="absolute size-0"
+        clips={[{ id: "elegant-shape", d: SHAPE }]}
+      />
 
       <Reveal className="mt-7">
         <div
           className="relative"
+          dir="ltr"
           style={{ touchAction: "pan-y" }}
           role="region"
           aria-roledescription="carousel"
-          aria-label="Couple photos"
+          aria-label={common.couplePhotos}
           onTouchStart={swipe.onTouchStart}
           onTouchEnd={swipe.onTouchEnd}
           onClickCapture={swipe.onClickCapture}
@@ -93,7 +99,7 @@ export default function Gallery() {
                 <button
                   key={item.src}
                   type="button"
-                  aria-label={`Open photo: ${item.alt}`}
+                  aria-label={common.openPhoto(item.alt)}
                   aria-current={itemIndex === index ? "true" : undefined}
                   onClick={() => {
                     setIndex(itemIndex);
@@ -121,12 +127,12 @@ export default function Gallery() {
           </div>
 
           <FrameButton
-            label="Previous photo"
+            label={common.previousPhoto}
             className="top-1/2 left-3 -translate-y-1/2 border-e-white/80 bg-e-white/85 text-e-leaf"
             onClick={() => step(-1)}
           />
           <FrameButton
-            label="Next photo"
+            label={common.nextPhoto}
             className="top-1/2 right-3 -translate-y-1/2 border-e-white/80 bg-e-white/85 text-e-leaf"
             onClick={() => step(1)}
             flip
@@ -137,7 +143,7 @@ export default function Gallery() {
               <button
                 key={item.src}
                 type="button"
-                aria-label={`Show photo ${itemIndex + 1}`}
+                aria-label={common.showPhoto(itemIndex + 1)}
                 onClick={() => setIndex(itemIndex)}
                 className="rounded-full"
                 style={{
@@ -174,7 +180,7 @@ export default function Gallery() {
             Close
           </button>
           <FrameButton
-            label="Previous photo"
+            label={common.previousPhoto}
             className="top-1/2 left-3 -translate-y-1/2 border-e-white/50 bg-e-leaf/35 text-e-white"
             onClick={() => step(-1)}
           />
@@ -204,7 +210,7 @@ export default function Gallery() {
             </figcaption>
           </figure>
           <FrameButton
-            label="Next photo"
+            label={common.nextPhoto}
             className="top-1/2 right-3 -translate-y-1/2 border-e-white/50 bg-e-leaf/35 text-e-white"
             onClick={() => step(1)}
             flip
@@ -236,20 +242,7 @@ function FrameButton({
       }}
       className={`absolute z-10 hidden size-9 items-center justify-center rounded-full border backdrop-blur-sm focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-e-leaf md:flex ${className}`}
     >
-      <svg
-        viewBox="0 0 24 24"
-        className={`size-4 ${flip ? "rotate-180" : ""}`}
-        fill="none"
-        aria-hidden="true"
-      >
-        <path
-          d="M14.5 6.5 9 12l5.5 5.5"
-          stroke="currentColor"
-          strokeWidth="1.6"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-        />
-      </svg>
+      <ChevronLeftIcon className={`size-4 ${flip ? "rotate-180" : ""}`} />
     </button>
   );
 }

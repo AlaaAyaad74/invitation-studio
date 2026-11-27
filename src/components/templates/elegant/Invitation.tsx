@@ -1,4 +1,4 @@
-import WhatsAppIcon from "@/app/common/icons/WhatsAppIcon";
+import WhatsAppIcon from "@/components/icons/WhatsAppIcon";
 import Reveal from "@/components/Reveal";
 import Countdown from "@/components/templates/elegant/Countdown";
 import Gallery from "@/components/templates/elegant/Gallery";
@@ -6,15 +6,24 @@ import Journey from "@/components/templates/elegant/Journey";
 import VideoCover from "@/components/templates/elegant/VideoCover";
 import MusicPlayer from "@/components/templates/MusicPlayer";
 import StudioCredit from "@/components/templates/StudioCredit";
-import { elegantInvitation as data, getWhatsAppUrl } from "@/data/elegant";
+import { getWhatsAppUrl, type ElegantInvitation } from "@/data/elegant";
+import { templateCopy } from "@/data/template-copy";
 import Image from "next/image";
 
-const whatsappUrl = getWhatsAppUrl(data);
+const COPY = {
+  en: { rsvp: "RSVP", title: "Save us a place in the garden" },
+  ar: { rsvp: "أكد حضورك", title: "احجزوا مكانكم في جنينتنا" },
+} as const;
 
-export default function Invitation() {
+export default function Invitation({ data }: { data: ElegantInvitation }) {
+  const whatsappUrl = getWhatsAppUrl(data);
+  const t = COPY[data.lang];
+  const common = templateCopy(data.lang);
+  const [firstInitial, secondInitial] = data.initials.split("&");
+
   return (
     <div className="bg-e-cream text-e-ink">
-      <VideoCover />
+      <VideoCover data={data} />
 
       <div className="relative z-[2] -mt-[2.4rem] rounded-t-[2.4rem] bg-[linear-gradient(180deg,#fbf6f1_0%,#fbf6f1_58%,#f6e4dc_100%)]">
         <div
@@ -45,26 +54,26 @@ export default function Invitation() {
           />
         </div>
 
-        <Countdown />
-        <Journey />
-        <Gallery />
+        <Countdown data={data} />
+        <Journey data={data} />
+        <Gallery data={data} />
 
-        <section className="px-[1.15rem] pt-1.5 pb-2" aria-label="RSVP">
+        <section className="px-[1.15rem] pt-1.5 pb-2" aria-label={t.rsvp}>
           <Reveal>
             <div className="rounded-[1.7rem] bg-e-white px-5 pt-[2.15rem] pb-[1.7rem] text-center shadow-[0_28px_50px_-34px_rgba(22,51,44,0.65)] outline outline-1 outline-e-rose/40 outline-offset-[-11px]">
               <p
                 className="mx-auto flex h-[4.4rem] w-[4.4rem] items-baseline justify-center gap-[0.28rem] rounded-full border border-e-gold/80 font-bodoni text-[1.15rem] leading-[4.4rem] tracking-[0.04em] text-e-rose-deep shadow-[inset_0_0_0_4px_#fffaf6,inset_0_0_0_5px_color-mix(in_srgb,#c45c6c_45%,transparent)]"
                 aria-hidden="true"
               >
-                <span>K</span>
+                <span>{firstInitial}</span>
                 <i className="text-[0.95rem] text-e-gold italic">&amp;</i>
-                <span>A</span>
+                <span>{secondInitial}</span>
               </p>
               <p className="mt-[1.15rem] text-[0.68rem] tracking-[0.34em] text-e-rose uppercase">
-                RSVP
+                {t.rsvp}
               </p>
               <h2 className="mx-auto mt-3 max-w-56 font-bodoni text-[2rem] leading-[1.05] font-medium text-e-ink italic">
-                Save us a place in the garden
+                {t.title}
               </h2>
               <p className="mt-3.5 text-[0.92rem] text-e-muted">
                 {data.rsvp.deadline}
@@ -76,7 +85,7 @@ export default function Invitation() {
                 className="mt-[1.35rem] inline-flex items-center gap-2 rounded-full bg-e-leaf px-5 py-[0.85rem] text-[0.68rem] tracking-[0.16em] text-e-white uppercase no-underline transition-colors duration-200 hover:bg-e-rose-deep focus-visible:bg-e-rose-deep focus-visible:outline-2 focus-visible:outline-offset-[3px] focus-visible:outline-e-leaf"
               >
                 <WhatsAppIcon className="size-4 fill-current" />
-                Confirm on WhatsApp
+                {common.confirmWhatsApp}
               </a>
             </div>
           </Reveal>

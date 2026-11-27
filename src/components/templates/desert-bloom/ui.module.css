@@ -19,6 +19,18 @@
   line-height: 1.15;
 }
 
+/* Arabic: joined letters, and room for Ruqaa's tall strokes. */
+.kicker:lang(ar) {
+  font-size: 0.85rem;
+  letter-spacing: 0;
+}
+
+.heading:lang(ar) {
+  margin-top: 0.6rem;
+  font-size: 2.35rem;
+  line-height: 1.6;
+}
+
 .primary,
 .secondary {
   display: inline-flex;

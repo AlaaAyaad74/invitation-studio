@@ -1,28 +1,26 @@
 "use client";
 
 import Reveal from "@/components/Reveal";
-import { coastalLightInvitation as data } from "@/data/coastal-light";
+import type { CoastalLightInvitation } from "@/data/coastal-light";
+import { arabicDays, fullDate, templateCopy } from "@/data/template-copy";
+import type { Lang } from "@/lib/i18n";
 import { pad, useRemainingTime } from "@/hooks/useRemainingTime";
 import { useEffect, useRef, useState } from "react";
 import styles from "./Countdown.module.css";
 
-const UNITS = [
-  { key: "days", label: "Days" },
-  { key: "hours", label: "Hours" },
-  { key: "minutes", label: "Minutes" },
-  { key: "seconds", label: "Seconds" },
-] as const;
+const UNITS = ["days", "hours", "minutes", "seconds"] as const;
 
-type Unit = (typeof UNITS)[number]["key"];
+type Unit = (typeof UNITS)[number];
 
 function figures(remaining: ReturnType<typeof useRemainingTime>, key: Unit) {
   if (!remaining) return "—";
   return key === "days" ? String(remaining.days) : pad(remaining[key]);
 }
 
-function phrase(remaining: ReturnType<typeof useRemainingTime>) {
+function phrase(remaining: ReturnType<typeof useRemainingTime>, lang: Lang) {
   if (!remaining) return "";
   const days = remaining.days;
+  if (lang === "ar") return `فاضل ${arabicDays(days)} على القاعة الرخامية`;
   return `${days} ${days === 1 ? "morning" : "mornings"} until the marble court`;
 }
 
@@ -108,36 +106,40 @@ function FlipFace({ value }: { value: string }) {
   );
 }
 
-export default function Countdown() {
+export default function Countdown({ data }: { data: CoastalLightInvitation }) {
   const remaining = useRemainingTime(data.start);
-  const dateLine = `${data.dateLabel.weekday}, ${data.dateLabel.day} ${data.dateLabel.month} ${data.dateLabel.year}`;
+  const ar = data.lang === "ar";
+  const common = templateCopy(data.lang);
+
+  const dateLine = fullDate(data.dateLabel, data.lang);
 
   return (
-    <section className={styles.section} aria-label="Countdown to the wedding">
+    <section className={styles.section} aria-label={common.countdownLabel}>
       <Reveal>
         <p className={styles.index}>
           <span>01</span>
-          Remaining
+          {ar ? "فاضل" : "Remaining"}
         </p>
       </Reveal>
 
       {remaining?.done ? (
         <Reveal delayMs={90}>
-          <p className={styles.today}>Today</p>
+          <p className={styles.today}>{common.today}</p>
         </Reveal>
       ) : (
-        <div className={styles.board} role="group" aria-label="Time remaining">
+        <div className={styles.board} role="group" aria-label={common.timeRemaining}>
           {UNITS.map((item, index) => {
-            const value = figures(remaining, item.key);
+            const value = figures(remaining, item);
+            const label = common.units[item];
             return (
-              <Reveal key={item.key} delayMs={40 + index * 70}>
+              <Reveal key={item} delayMs={40 + index * 70}>
                 <div className={styles.card}>
                   <FlipFace value={value} />
                   <span className={styles.caption} aria-hidden="true">
-                    {item.label}
+                    {label}
                   </span>
                   <span className={styles.sr}>
-                    {value} {item.label}
+                    {value} {label}
                   </span>
                 </div>
               </Reveal>
@@ -148,7 +150,11 @@ export default function Countdown() {
 
       <Reveal delayMs={80}>
         <p className={styles.phrase} aria-live="polite">
-          {remaining?.done ? "The day is here" : phrase(remaining)}
+          {remaining?.done
+            ? ar
+              ? "جه اليوم اللي مستنيينه"
+              : "The day is here"
+            : phrase(remaining, data.lang)}
         </p>
       </Reveal>
       <Reveal delayMs={140}>

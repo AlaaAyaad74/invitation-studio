@@ -1,7 +1,8 @@
 import type { Metadata } from "next";
 import { preload } from "react-dom";
 import Invitation from "@/components/templates/desert-bloom/Invitation";
-import { desertBloomInvitation as data } from "@/data/desert-bloom";
+import { desertBloomInvitations } from "@/data/desert-bloom";
+import { getLang } from "@/lib/i18n-server";
 import styles from "./shell.module.css";
 
 export const metadata: Metadata = {
@@ -14,7 +15,8 @@ export const metadata: Metadata = {
   },
 };
 
-export default function DesertBloomPage() {
+export default async function DesertBloomPage() {
+  const data = desertBloomInvitations[await getLang()];
   preload(data.hero.poster, { as: "image", fetchPriority: "high" });
 
   const { couple, dateLabel } = data;
@@ -39,7 +41,7 @@ export default function DesertBloomPage() {
       </aside>
 
       <main className={styles.stage}>
-        <Invitation />
+        <Invitation data={data} />
       </main>
     </div>
   );

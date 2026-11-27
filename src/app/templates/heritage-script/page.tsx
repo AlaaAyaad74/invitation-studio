@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Invitation from "@/components/templates/heritage-script/Invitation";
-import { heritageInvitation } from "@/data/heritage-script";
+import { heritageInvitations } from "@/data/heritage-script";
+import { getLang } from "@/lib/i18n-server";
 import styles from "./shell.module.css";
 
 export const metadata: Metadata = {
@@ -13,8 +14,9 @@ export const metadata: Metadata = {
   },
 };
 
-export default function HeritageScriptPage() {
-  const { couple, dateLabel } = heritageInvitation;
+export default async function HeritageScriptPage() {
+  const data = heritageInvitations[await getLang()];
+  const { couple, dateLabel } = data;
 
   return (
     <div className={styles.frame}>
@@ -30,7 +32,7 @@ export default function HeritageScriptPage() {
       </aside>
 
       <main className={styles.stage}>
-        <Invitation />
+        <Invitation data={data} />
       </main>
     </div>
   );

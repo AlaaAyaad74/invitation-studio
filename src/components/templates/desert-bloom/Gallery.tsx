@@ -1,6 +1,6 @@
 "use client";
 
-import { desertBloomInvitation as data } from "@/data/desert-bloom";
+import type { DesertBloomInvitation } from "@/data/desert-bloom";
 import { useHorizontalSwipe } from "@/hooks/useHorizontalSwipe";
 import { useRef, useState, type CSSProperties } from "react";
 import InView from "./InView";
@@ -9,8 +9,26 @@ import styles from "./Gallery.module.css";
 
 const TOSS_MS = 520;
 
-export default function Gallery() {
+const COPY = {
+  en: {
+    kicker: "Our moments",
+    title: "Little blooms",
+    help: "Tap or swipe the photo",
+    photo: (n: number, total: number, alt: string) =>
+      `Photo ${n} of ${total}: ${alt}. Next photo`,
+  },
+  ar: {
+    kicker: "لحظاتنا",
+    title: "حكايتنا بالصور",
+    help: "دوس على الصورة أو اسحبها",
+    photo: (n: number, total: number, alt: string) =>
+      `الصورة ${n} من ${total}: ${alt}. الصورة التالية`,
+  },
+} as const;
+
+export default function Gallery({ data }: { data: DesertBloomInvitation }) {
   const photos = data.gallery;
+  const t = COPY[data.lang];
   const [order, setOrder] = useState(() => photos.map((_, index) => index));
   const [tossing, setTossing] = useState<"left" | "right" | null>(null);
   const busy = useRef(false);
@@ -36,9 +54,9 @@ export default function Gallery() {
   const top = order[0];
 
   return (
-    <InView as="section" className={styles.section} aria-label="Our moments">
-      <p className={`${styles.kicker} ${motion.kickerIn}`}>Our moments</p>
-      <h2 className={`${styles.title} ${motion.writeIn}`}>Little blooms</h2>
+    <InView as="section" className={styles.section} aria-label={t.kicker}>
+      <p className={`${styles.kicker} ${motion.kickerIn}`}>{t.kicker}</p>
+      <h2 className={`${styles.title} ${motion.writeIn}`}>{t.title}</h2>
 
       <div
         className={styles.stack}
@@ -65,7 +83,7 @@ export default function Gallery() {
                 aria-hidden={!isTop}
                 aria-label={
                   isTop
-                    ? `Photo ${photoIndex + 1} of ${photos.length}: ${photo.alt}. Next photo`
+                    ? t.photo(photoIndex + 1, photos.length, photo.alt)
                     : undefined
                 }
               >
@@ -76,12 +94,12 @@ export default function Gallery() {
           })}
       </div>
 
-      <div className={styles.meta}>
+      <div className={styles.meta} dir="ltr">
         <span className={styles.counter}>
           {String(top + 1).padStart(2, "0")} /{" "}
           {String(photos.length).padStart(2, "0")}
         </span>
-        <span className={styles.help}>Tap or swipe the photo</span>
+        <span className={styles.help} dir="auto">{t.help}</span>
       </div>
     </InView>
   );

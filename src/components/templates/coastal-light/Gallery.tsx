@@ -1,16 +1,19 @@
 "use client";
 
+import ClipPathDefs from "@/components/icons/ClipPathDefs";
 import ImageWithSkeleton from "@/components/ImageWithSkeleton";
 import Reveal from "@/components/Reveal";
-import { coastalLightInvitation as data } from "@/data/coastal-light";
+import type { CoastalLightInvitation } from "@/data/coastal-light";
+import { templateCopy } from "@/data/template-copy";
 import { useEffect, useRef, useState, type CSSProperties } from "react";
 import styles from "./Gallery.module.css";
 
-type Photo = (typeof data.gallery)[number];
+type Photo = CoastalLightInvitation["gallery"][number];
 
 type Piece = {
   key: string;
-  photo: Photo;
+  /** Index into the invitation's gallery. */
+  photo: number;
   w: number;
   h: number;
   x: number;
@@ -28,7 +31,7 @@ type Piece = {
   dy: string;
 };
 
-const [meadow, field, walk, standing, portrait, together] = data.gallery;
+const [meadow, field, walk, standing, portrait, together] = [0, 1, 2, 3, 4, 5];
 
 const SHAPES = {
   up: "M0.463 0.020C0.529 0.028 0.596 0.066 0.653 0.096C0.710 0.126 0.758 0.160 0.805 0.200C0.853 0.240 0.900 0.280 0.930 0.332C0.960 0.384 0.988 0.450 0.988 0.510C0.988 0.570 0.960 0.636 0.928 0.686C0.896 0.736 0.840 0.774 0.792 0.808C0.744 0.842 0.694 0.866 0.640 0.892C0.586 0.918 0.530 0.952 0.466 0.966C0.402 0.980 0.320 0.992 0.256 0.978C0.192 0.964 0.124 0.914 0.084 0.864C0.044 0.814 0.024 0.744 0.016 0.686C0.008 0.628 0.012 0.568 0.016 0.512C0.020 0.456 0.028 0.404 0.046 0.350C0.064 0.296 0.088 0.244 0.122 0.194C0.156 0.144 0.200 0.082 0.256 0.052C0.312 0.022 0.396 0.012 0.463 0.020Z",
@@ -175,7 +178,8 @@ function pieceStyle(piece: Piece): CSSProperties {
   } as CSSProperties;
 }
 
-export default function Gallery() {
+export default function Gallery({ data }: { data: CoastalLightInvitation }) {
+  const common = templateCopy(data.lang);
   const clusterRef = useRef<HTMLDivElement>(null);
   const sentinelRef = useRef<HTMLDivElement>(null);
   const [active, setActive] = useState<Photo | null>(null);
@@ -238,11 +242,11 @@ export default function Gallery() {
   }, [active]);
 
   return (
-    <section className={styles.section} aria-label="Photos">
+    <section className={styles.section} aria-label={common.photos}>
       <Reveal>
         <p className={styles.index}>
           <span>04</span>
-          Pictures
+          {data.lang === "ar" ? "صور" : "Pictures"}
         </p>
       </Reveal>
       <Reveal delayMs={80}>
@@ -251,21 +255,15 @@ export default function Gallery() {
         </p>
       </Reveal>
 
-      <svg className={styles.defs} aria-hidden="true">
-        <defs>
-          {PIECES.map((piece) => (
-            <clipPath
-              key={piece.key}
-              id={`coastal-${piece.key}`}
-              clipPathUnits="objectBoundingBox"
-            >
-              <path d={piece.shape} />
-            </clipPath>
-          ))}
-        </defs>
-      </svg>
+      <ClipPathDefs
+        className={styles.defs}
+        clips={PIECES.map((piece) => ({
+          id: `coastal-${piece.key}`,
+          d: piece.shape,
+        }))}
+      />
 
-      <div ref={clusterRef} className={styles.cluster}>
+      <div ref={clusterRef} className={styles.cluster} dir="ltr">
         <div ref={sentinelRef} className={styles.sentinel} aria-hidden="true" />
         {PIECES.map((piece) => (
           <div key={piece.key} className={styles.mover} style={pieceStyle(piece)}>
@@ -274,14 +272,14 @@ export default function Gallery() {
                 type="button"
                 className={styles.photo}
                 style={{ clipPath: `url(#coastal-${piece.key})` }}
-                aria-label={`Open photo: ${piece.photo.alt}`}
-                onClick={() => setActive(piece.photo)}
+                aria-label={common.openPhoto(data.gallery[piece.photo].alt)}
+                onClick={() => setActive(data.gallery[piece.photo])}
               >
                 <ImageWithSkeleton
                   // Optimized and resized for the 480px invitation column.
                   fill
                   sizes="(min-width: 480px) 480px, 100vw"
-                  src={piece.photo.src}
+                  src={data.gallery[piece.photo].src}
                   alt=""
                   draggable={false}
                   className="size-full object-cover"
@@ -313,7 +311,7 @@ export default function Gallery() {
               {data.couple.first} & {data.couple.second}
             </figcaption>
             <button type="button" className={styles.close} onClick={() => setActive(null)}>
-              Close
+              {common.close}
             </button>
           </figure>
         </div>

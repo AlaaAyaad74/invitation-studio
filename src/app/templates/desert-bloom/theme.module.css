@@ -17,3 +17,7 @@
   background: var(--bg);
   color: var(--text);
 }
+/* Arabic letters join; any tracking splits them apart. */
+.theme:lang(ar) :global(*) {
+  letter-spacing: 0 !important;
+}

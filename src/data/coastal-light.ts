@@ -1,7 +1,10 @@
 import { eventFromInvite, googleCalendarUrl } from "@/lib/calendar";
+import type { Lang, Localized } from "@/lib/i18n";
 import { whatsappUrl } from "@/lib/whatsapp";
 
 export const coastalLightInvitation = {
+  lang: "en",
+  calendarId: "coastal-light",
   couple: {
     first: "Yousef",
     second: "Hana",
@@ -19,6 +22,7 @@ export const coastalLightInvitation = {
   },
   timeLabel: "Four o'clock in the afternoon",
   music: "/minimal/minimal-voice.mp3",
+  video: "/minimal/wedding-invite-enhanced-15s-5MB.mp4",
   venue: {
     name: "The Marble Court",
     address: "Garden City, Cairo",
@@ -71,10 +75,69 @@ export const coastalLightInvitation = {
   },
 } as const;
 
-export type CoastalLightInvitation = typeof coastalLightInvitation;
+export type CoastalLightInvitation = Localized<typeof coastalLightInvitation>;
+
+export const coastalLightInvitationAr: CoastalLightInvitation = {
+  lang: "ar",
+  calendarId: "coastal-light-ar",
+  couple: {
+    first: "يوسف",
+    second: "هنا",
+  },
+  intro: "بمباركة عائلتيهما",
+  tagline: "يتشرفان بدعوتكم لمشاركتهما فرحتهما",
+  note: "كل اللي محتاجينه في اليوم ده… إنكم تكونوا معانا.",
+  start: coastalLightInvitation.start,
+  end: coastalLightInvitation.end,
+  dateLabel: {
+    weekday: "السبت",
+    day: "9",
+    month: "أكتوبر",
+    year: "2027",
+  },
+  timeLabel: "الساعة الرابعة عصرًا",
+  music: coastalLightInvitation.music,
+  video: "/minimal/wedding-invite-arabic-15s-5MB.mp4",
+  venue: {
+    name: "القاعة الرخامية",
+    address: "جاردن سيتي، القاهرة",
+    mapUrl: coastalLightInvitation.venue.mapUrl,
+  },
+  dressCode: "عاجي، رمادي حجري، وأزرق هادئ",
+  gallery: [
+    { src: "/elegant/gallery/01-meadow.jpg", alt: "يوسف وهنا معًا في مرج من الترمس" },
+    { src: "/elegant/gallery/02-field.jpg", alt: "لحظة هادئة معًا في الحقل" },
+    { src: "/elegant/gallery/03-walk.jpg", alt: "نزهة بين أزهار المرج" },
+    { src: "/elegant/gallery/04-standing.jpg", alt: "وقفة قريبة بين العشب الطويل" },
+    { src: "/elegant/gallery/05-portrait.jpg", alt: "صورة هادئة في المرج" },
+    { src: "/elegant/gallery/06-together.jpg", alt: "معًا بين أزهار الترمس" },
+  ],
+  moments: [
+    {
+      label: "عقد القران",
+      time: "الرابعة عصرًا",
+      detail: "تبادل العهود في الساحة",
+    },
+    {
+      label: "العشاء",
+      time: "السابعة مساءً",
+      detail: "مائدة طويلة بعد الغروب",
+    },
+  ],
+  rsvp: {
+    whatsapp: coastalLightInvitation.rsvp.whatsapp,
+    message: "أهلًا! أكيد هحضر فرح يوسف وهنا، ألف مبروك!",
+    deadline: "ياريت تأكدوا حضوركم قبل 1 سبتمبر 2027",
+  },
+};
+
+export const coastalLightInvitations: Record<Lang, CoastalLightInvitation> = {
+  en: coastalLightInvitation,
+  ar: coastalLightInvitationAr,
+};
 
 export function getCalendarUrl(data: CoastalLightInvitation) {
-  return googleCalendarUrl(eventFromInvite("coastal-light", data));
+  return googleCalendarUrl(eventFromInvite(data.calendarId, data));
 }
 
 export function getWhatsAppUrl(data: CoastalLightInvitation) {

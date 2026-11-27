@@ -1,7 +1,7 @@
 import type { IconType } from "react-icons";
 import { LuCalendarCheck, LuClock3, LuStar } from "react-icons/lu";
 import { IoCashOutline } from "react-icons/io5";
-import StarIcon from "@/app/common/icons/StarIcon";
+import StarIcon from "@/components/icons/StarIcon";
 import Reveal from "@/components/Reveal";
 import { startingPriceAmount, startingPriceCurrency } from "@/lib/contact";
 

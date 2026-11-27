@@ -12,6 +12,8 @@ type GalleryPageProps = {
   ctaBody: ReactNode;
   /** Service name sent with the Meta Pixel Lead event on the quote button. */
   leadService: string;
+  /** Quote button text; defaults to the English label. */
+  quoteLabel?: string;
   /** Swaps which corner gets the rose glow and which the gold one. */
   glow?: "rose-first" | "gold-first";
   children: ReactNode;
@@ -25,6 +27,7 @@ export default function GalleryPage({
   ctaTitle,
   ctaBody,
   leadService,
+  quoteLabel = ctaLabels.requestQuote,
   glow = "rose-first",
   children,
 }: GalleryPageProps) {
@@ -64,7 +67,7 @@ export default function GalleryPage({
                 data-meta-lead={leadService}
                 className="mt-6 inline-flex bg-sage-deep px-5 py-3 text-sm text-white transition hover:bg-sage"
               >
-                {ctaLabels.requestQuote}
+                {quoteLabel}
               </a>
             </Reveal>
           </div>

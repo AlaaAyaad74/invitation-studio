@@ -1,6 +1,6 @@
 "use client";
 
-import PlayIcon from "@/app/common/icons/PlayIcon";
+import PlayIcon from "@/components/icons/PlayIcon";
 import {
   useEffect,
   useId,
@@ -10,12 +10,32 @@ import {
   type PointerEvent,
 } from "react";
 import { LuChevronLeft, LuChevronRight, LuX } from "react-icons/lu";
+import { useLang } from "@/components/i18n/LangProvider";
 import type { InvitationVideo } from "@/data/videos";
 import { useDialog } from "@/hooks/useDialog";
 import { useHorizontalSwipe } from "@/hooks/useHorizontalSwipe";
 import OrderButton from "@/components/OrderButton";
 import { trackVideoPlay, trackViewContent } from "@/lib/metaPixel";
 import { videoSharePath } from "@/lib/video-share";
+
+const COPY = {
+  en: {
+    close: "Close",
+    previous: "Previous film",
+    next: "Next film",
+    film: "Film",
+    seek: "Seek",
+    play: (title: string) => `Play ${title}`,
+  },
+  ar: {
+    close: "اقفل",
+    previous: "الفيديو اللي قبله",
+    next: "الفيديو اللي بعده",
+    film: "فيديو",
+    seek: "تقديم وتأخير",
+    play: (title: string) => `شغّل ${title}`,
+  },
+} as const;
 
 type VideoModalProps = {
   video: InvitationVideo;
@@ -45,6 +65,9 @@ export default function VideoModal({
   // The gallery keys this modal by film, so this fires once per film opened
   // (the ref keeps StrictMode's second effect run from firing it again).
   const viewTracked = useRef(false);
+  const lang = useLang();
+  const t = COPY[lang];
+  const title = lang === "ar" ? video.titleAr : video.title;
 
   useEffect(() => {
     if (viewTracked.current) return;
@@ -104,14 +127,14 @@ export default function VideoModal({
       onClickCapture={swipe.onClickCapture}
     >
       <h2 id={titleId} className="sr-only">
-        {video.title}
+        {title}
       </h2>
 
       <div className="absolute right-4 top-4 z-20 sm:right-6 sm:top-6">
         <button
           type="button"
           onClick={stop(onClose)}
-          aria-label="Close"
+          aria-label={t.close}
           className={roundButton}
         >
           <LuX className="h-6 w-6" strokeWidth={2.6} />
@@ -129,7 +152,7 @@ export default function VideoModal({
             poster={video.poster}
             playsInline
             preload="auto"
-            aria-label={video.title}
+            aria-label={title}
             onClick={toggle}
             onLoadedData={() => setReady(true)}
             onPlay={() => {
@@ -167,7 +190,7 @@ export default function VideoModal({
             <button
               type="button"
               onClick={toggle}
-              aria-label={`Play ${video.title}`}
+              aria-label={t.play(title)}
               className="absolute inset-0 flex items-center justify-center bg-ink/15"
             >
               <span className="flex h-16 w-16 items-center justify-center rounded-full border border-gold/60 bg-ink/80 text-white shadow-[0_12px_24px_-10px_rgba(0,0,0,0.8)] transition hover:scale-105">
@@ -178,7 +201,7 @@ export default function VideoModal({
 
           <div
             role="slider"
-            aria-label="Seek"
+            aria-label={t.seek}
             aria-valuemin={0}
             aria-valuemax={100}
             aria-valuenow={Math.round(progress * 100)}
@@ -197,19 +220,19 @@ export default function VideoModal({
 
         <figcaption className="mt-3 text-center">
           <p className="text-xs tracking-[0.2em] text-ivory/70 uppercase">
-            Film
+            {t.film}
           </p>
           <p className="mt-1 font-display text-xl leading-tight text-white sm:text-2xl">
-            {video.title}
+            {title}
           </p>
         </figcaption>
       </figure>
 
-      <div className="flex items-center gap-3 sm:gap-4">
+      <div className="flex items-center gap-3 sm:gap-4" dir="ltr">
         <button
           type="button"
           onClick={stop(onPrevious)}
-          aria-label="Previous film"
+          aria-label={t.previous}
           className={roundButton}
         >
           <LuChevronLeft className="h-6 w-6" strokeWidth={2.4} />
@@ -224,7 +247,7 @@ export default function VideoModal({
         <button
           type="button"
           onClick={stop(onNext)}
-          aria-label="Next film"
+          aria-label={t.next}
           className={roundButton}
         >
           <LuChevronRight className="h-6 w-6" strokeWidth={2.4} />

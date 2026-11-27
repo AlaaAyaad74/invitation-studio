@@ -1,10 +1,11 @@
-import { botanicalInvitation } from "@/data/botanical";
-import { coastalLightInvitation } from "@/data/coastal-light";
+import { botanicalInvitation, botanicalInvitationAr } from "@/data/botanical";
+import { coastalLightInvitations } from "@/data/coastal-light";
 import { couples } from "@/data/couples";
 import { customCoupleEvent, customCouples } from "@/data/custom-couples/couples";
-import { desertBloomEvent } from "@/data/desert-bloom";
-import { elegantInvitation } from "@/data/elegant";
-import { heritageEvent } from "@/data/heritage-script";
+import { desertBloomEvent, desertBloomInvitations } from "@/data/desert-bloom";
+import { elegantInvitations } from "@/data/elegant";
+import { heritageEvent, heritageInvitations } from "@/data/heritage-script";
+import { LANGS } from "@/lib/i18n";
 import { eventFromInvite, type CalendarEvent } from "@/lib/calendar";
 
 /**
@@ -13,10 +14,13 @@ import { eventFromInvite, type CalendarEvent } from "@/lib/calendar";
  */
 const allEvents: CalendarEvent[] = [
   eventFromInvite("botanical", botanicalInvitation),
-  eventFromInvite("elegant", elegantInvitation),
-  eventFromInvite("coastal-light", coastalLightInvitation),
-  heritageEvent,
-  desertBloomEvent,
+  eventFromInvite(botanicalInvitationAr.calendarId ?? "botanical-ar", botanicalInvitationAr),
+  ...LANGS.flatMap((lang) => [
+    eventFromInvite(elegantInvitations[lang].calendarId, elegantInvitations[lang]),
+    eventFromInvite(coastalLightInvitations[lang].calendarId, coastalLightInvitations[lang]),
+    heritageEvent(heritageInvitations[lang]),
+    desertBloomEvent(desertBloomInvitations[lang]),
+  ]),
   ...couples.map((couple) => eventFromInvite(couple.calendarId, couple)),
   ...customCouples.map(customCoupleEvent),
 ];

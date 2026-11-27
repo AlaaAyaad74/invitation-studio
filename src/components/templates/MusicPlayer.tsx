@@ -1,8 +1,9 @@
 "use client";
 
-import RoundPauseIcon from "@/app/common/icons/RoundPauseIcon";
-import RoundPlayIcon from "@/app/common/icons/RoundPlayIcon";
+import RoundPauseIcon from "@/components/icons/RoundPauseIcon";
+import RoundPlayIcon from "@/components/icons/RoundPlayIcon";
 import { useEffect, useRef, useState } from "react";
+import { useLang } from "@/components/i18n/LangProvider";
 
 const styles = {
   control: [
@@ -37,10 +38,9 @@ const GESTURE_EVENTS = [
 
 const SCROLL_EVENTS = ["scroll", "wheel"] as const;
 
-export default function MusicPlayer({
-  src,
-  label = "Invitation music",
-}: MusicPlayerProps) {
+export default function MusicPlayer({ src, label }: MusicPlayerProps) {
+  const ar = useLang() === "ar";
+  const name = label ?? (ar ? "موسيقى الدعوة" : "Invitation music");
   const audioRef = useRef<HTMLAudioElement>(null);
   const buttonRef = useRef<HTMLButtonElement>(null);
   const userPaused = useRef(false);
@@ -201,7 +201,11 @@ export default function MusicPlayer({
         type="button"
         className={styles.control}
         onClick={toggle}
-        aria-label={playing ? `Pause ${label}` : `Play ${label}`}
+        aria-label={
+          ar
+            ? `${playing ? "وقّف" : "شغّل"} ${name}`
+            : `${playing ? "Pause" : "Play"} ${name}`
+        }
         aria-pressed={playing}
       >
         <span className={styles.glyph}>

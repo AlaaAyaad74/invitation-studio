@@ -3,23 +3,53 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
+import { useLang } from "@/components/i18n/LangProvider";
+import LangToggle from "@/components/i18n/LangToggle";
 import ImageWithSkeleton from "@/components/ImageWithSkeleton";
 import { useDialog } from "@/hooks/useDialog";
-import { contactLinkProps, ctaLabels } from "@/lib/contact";
+import { contactLinkProps } from "@/lib/contact";
 
-const links = [
-  { href: "/", label: "Home" },
-  { href: "/#templates", label: "Templates" },
-  { href: "/photos", label: "Photos" },
-  { href: "/videos", label: "Videos" },
-  { href: "/#reviews", label: "Reviews" },
-  { href: "/#features", label: "Features" },
-  // { href: "/#pricing", label: "Pricing" },
-  { href: "/#services", label: "Services" },
-  { href: "/#faq", label: "FAQ" },
-];
+const COPY = {
+  en: {
+    links: [
+      { href: "/", label: "Home" },
+      { href: "/#templates", label: "Templates" },
+      { href: "/photos", label: "Photos" },
+      { href: "/videos", label: "Videos" },
+      { href: "/#reviews", label: "Reviews" },
+      { href: "/#features", label: "Features" },
+      // { href: "/#pricing", label: "Pricing" },
+      { href: "/#services", label: "Services" },
+      { href: "/#faq", label: "FAQ" },
+    ],
+    home: "Invitation Studio home",
+    logo: "Invitation Studio",
+    cta: "Start custom",
+    openMenu: "Open menu",
+    closeMenu: "Close menu",
+  },
+  ar: {
+    links: [
+      { href: "/", label: "الرئيسية" },
+      { href: "/#templates", label: "التصميمات" },
+      { href: "/photos", label: "الصور" },
+      { href: "/videos", label: "الفيديوهات" },
+      { href: "/#reviews", label: "آراء العملاء" },
+      { href: "/#features", label: "المميزات" },
+      { href: "/#services", label: "الخدمات" },
+      { href: "/#faq", label: "الأسئلة الشائعة" },
+    ],
+    home: "الصفحة الرئيسية لاستوديو الدعوات",
+    logo: "استوديو الدعوات",
+    cta: "اطلب دعوتك",
+    openMenu: "افتح القائمة",
+    closeMenu: "اقفل القائمة",
+  },
+} as const;
 
 export default function Header() {
+  const t = COPY[useLang()];
+  const links = t.links;
   const pathname = usePathname();
   const isHome = pathname === "/";
   const [scrolled, setScrolled] = useState(false);
@@ -81,14 +111,14 @@ export default function Header() {
         >
           <Link
             href="/"
-            aria-label="Invitation Studio home"
+            aria-label={t.home}
             onClick={() => setOpen(false)}
             className="flex shrink-0 items-center"
           >
             <ImageWithSkeleton
               // Optimized: the 1254px, 214 KB source is resized for a 96px slot.
               src="/logo.webp"
-              alt="Invitation Studio"
+              alt={t.logo}
               width={96}
               height={96}
               preload
@@ -121,13 +151,17 @@ export default function Header() {
                   : "bg-white/95 text-ink hover:bg-white"
               }`}
             >
-              {ctaLabels.startCustom}
+              {t.cta}
             </a>
+            <LangToggle />
           </nav>
+
+          <div className="flex items-center gap-2 md:hidden">
+            <LangToggle />
 
           <button
             type="button"
-            aria-label={open ? "Close menu" : "Open menu"}
+            aria-label={open ? t.closeMenu : t.openMenu}
             aria-expanded={open}
             aria-controls="mobile-menu"
             onClick={() => setOpen((v) => !v)}
@@ -135,7 +169,7 @@ export default function Header() {
               solidBar ? "text-ink" : "text-white"
             }`}
           >
-            <span className="sr-only">{open ? "Close menu" : "Open menu"}</span>
+            <span className="sr-only">{open ? t.closeMenu : t.openMenu}</span>
             <span className="relative block h-4 w-5">
               <span
                 className={`absolute left-0 top-0 h-px w-full origin-center bg-current transition-all duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] ${
@@ -154,6 +188,7 @@ export default function Header() {
               />
             </span>
           </button>
+          </div>
         </div>
       </div>
 
@@ -207,7 +242,7 @@ export default function Header() {
               // After the last link has slid in.
               style={{ transitionDelay: open ? `${120 + links.length * 70}ms` : "0ms" }}
             >
-              {ctaLabels.startCustom}
+              {t.cta}
             </a>
           </nav>
         </div>

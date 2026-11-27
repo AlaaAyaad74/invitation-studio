@@ -1,8 +1,9 @@
-import WaveOrnamentIcon from "@/app/common/icons/WaveOrnamentIcon";
-import CalendarIcon from "@/app/common/icons/CalendarIcon";
+import WaveOrnamentIcon from "@/components/icons/WaveOrnamentIcon";
+import CalendarIcon from "@/components/icons/CalendarIcon";
 import Reveal from "@/components/Reveal";
 import AddToCalendar from "@/components/templates/AddToCalendar";
 import { getCalendarUrl, type BotanicalContent } from "@/data/botanical";
+import { templateCopy } from "@/data/template-copy";
 
 const smallCaps = "tracking-[0.28em] uppercase";
 const cormorant = "font-[family-name:var(--font-cormorant),serif]";
@@ -26,26 +27,44 @@ const styles = {
   icon: "h-[0.95rem] w-[0.95rem] fill-none stroke-current stroke-[1.6]",
 };
 
+const COPY = {
+  en: {
+    section: "Wedding details",
+    label: "The details",
+    script: "Join us",
+    hint: "in celebration of their wedding",
+  },
+  ar: {
+    section: "تفاصيل الفرح",
+    label: "التفاصيل",
+    script: "شاركونا فرحتنا",
+    hint: "تعالوا افرحوا معانا",
+  },
+} as const;
+
 export default function Details({ data }: { data: BotanicalContent }) {
+  const lang = data.lang ?? "en";
+  const t = COPY[lang];
+  const common = templateCopy(lang);
   const calendarId = data.calendarId ?? "botanical";
   const calendarUrl = getCalendarUrl(data, calendarId);
   return (
-    <section className={styles.section} aria-label="Wedding details">
+    <section className={styles.section} aria-label={t.section}>
       <Reveal className={styles.intro}>
-        <p className={styles.label}>The details</p>
-        <h2 className={styles.script}>Join us</h2>
+        <p className={styles.label}>{t.label}</p>
+        <h2 className={styles.script}>{t.script}</h2>
         <div className={styles.ornament} aria-hidden="true">
           <span />
           <WaveOrnamentIcon />
           <span />
         </div>
-        <p className={styles.hint}>in celebration of their wedding</p>
+        <p className={styles.hint}>{t.hint}</p>
       </Reveal>
 
       <div className={styles.list}>
         <Reveal>
           <article className={styles.card}>
-            <p className={styles.cardLabel}>When</p>
+            <p className={styles.cardLabel}>{common.when}</p>
             <p className={styles.weekday}>{data.dateLabel.weekday}</p>
             <p className={styles.day}>{data.dateLabel.day}</p>
             <p className={styles.month}>
@@ -58,14 +77,14 @@ export default function Details({ data }: { data: BotanicalContent }) {
               className={styles.action}
             >
               <CalendarIcon className={styles.icon} />
-              Add to calendar
+              {common.addToCalendar}
             </AddToCalendar>
           </article>
         </Reveal>
 
         <Reveal delayMs={90}>
           <article className={styles.card}>
-            <p className={styles.cardLabel}>Where</p>
+            <p className={styles.cardLabel}>{common.where}</p>
             <p className={styles.title}>{data.venue.name}</p>
             {data.venue.address ? (
               <p className={styles.meta}>{data.venue.address}</p>
@@ -76,7 +95,7 @@ export default function Details({ data }: { data: BotanicalContent }) {
               rel="noreferrer"
               className={styles.action}
             >
-              Open map
+              {common.openMap}
             </a>
           </article>
         </Reveal>
@@ -84,7 +103,7 @@ export default function Details({ data }: { data: BotanicalContent }) {
         {data.dressCode ? (
           <Reveal delayMs={180}>
             <article className={styles.card}>
-              <p className={styles.cardLabel}>Dress code</p>
+              <p className={styles.cardLabel}>{common.dressCode}</p>
               <p className={styles.title}>{data.dressCode}</p>
             </article>
           </Reveal>

@@ -1,5 +1,5 @@
 import Reveal from "@/components/Reveal";
-import { coastalLightInvitation as data } from "@/data/coastal-light";
+import type { CoastalLightInvitation } from "@/data/coastal-light";
 
 const styles = {
   section: "px-7 pt-[2.8rem] pb-[0.6rem] font-[family-name:var(--font-minimal-serif),Georgia,serif]",
@@ -7,13 +7,14 @@ const styles = {
   line: "mx-auto mt-[1.15rem] mb-0 max-w-[16rem] text-center text-[clamp(2rem,7vw,2.4rem)] leading-[1.25] font-medium text-balance",
 };
 
-export default function Note() {
+export default function Note({ data }: { data: CoastalLightInvitation }) {
+  const label = data.lang === "ar" ? "كلمة مننا" : "A note";
   return (
-    <section className={styles.section} aria-label="A note">
+    <section className={styles.section} aria-label={label}>
       <Reveal>
         <p className={styles.index}>
           <span>03</span>
-          A note
+          {label}
         </p>
       </Reveal>
       <Reveal delayMs={90}>

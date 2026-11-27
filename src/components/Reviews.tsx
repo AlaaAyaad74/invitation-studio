@@ -1,4 +1,4 @@
-import StarIcon from "@/app/common/icons/StarIcon";
+import StarIcon from "@/components/icons/StarIcon";
 import { Amiri } from "next/font/google";
 import Reveal from "@/components/Reveal";
 import ReviewProof from "@/components/ReviewProof";

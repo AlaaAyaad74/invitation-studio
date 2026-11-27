@@ -1,19 +1,20 @@
-import MapPinIcon from "@/app/common/icons/MapPinIcon";
-import CalendarIcon from "@/app/common/icons/CalendarIcon";
+import MapPinIcon from "@/components/icons/MapPinIcon";
+import CalendarIcon from "@/components/icons/CalendarIcon";
 import Reveal from "@/components/Reveal";
 import AddToCalendar from "@/components/templates/AddToCalendar";
-import { coastalLightInvitation as data, getCalendarUrl } from "@/data/coastal-light";
+import { getCalendarUrl, type CoastalLightInvitation } from "@/data/coastal-light";
+import { templateCopy } from "@/data/template-copy";
 import styles from "./Schedule.module.css";
 
-const calendarUrl = getCalendarUrl(data);
-
-export default function Schedule() {
+export default function Schedule({ data }: { data: CoastalLightInvitation }) {
+  const calendarUrl = getCalendarUrl(data);
+  const common = templateCopy(data.lang);
   return (
-    <section className={styles.section} aria-label="Wedding day">
+    <section className={styles.section} aria-label={common.weddingDay}>
       <Reveal>
         <p className={styles.index}>
           <span>02</span>
-          The day
+          {data.lang === "ar" ? "اليوم" : "The day"}
         </p>
       </Reveal>
       <Reveal delayMs={70}>
@@ -40,7 +41,7 @@ export default function Schedule() {
       </figure>
       <Reveal delayMs={250}>
         <p className={styles.attire}>
-          <span>Attire</span>
+          <span>{common.attire}</span>
           {data.dressCode}
         </p>
       </Reveal>
@@ -60,14 +61,14 @@ export default function Schedule() {
       <div className={styles.actions}>
         <Reveal>
           <AddToCalendar
-            template="coastal-light"
+            template={data.calendarId}
             href={calendarUrl}
             className={styles.action}
           >
             <span className={styles.badge}>
               <CalendarIcon className={styles.icon} />
             </span>
-            Add to calendar
+            {common.addToCalendar}
           </AddToCalendar>
         </Reveal>
         <Reveal delayMs={90}>
@@ -80,7 +81,7 @@ export default function Schedule() {
             <span className={styles.badge}>
               <MapPinIcon className={styles.icon} />
             </span>
-            Open map
+            {common.openMap}
           </a>
         </Reveal>
       </div>
