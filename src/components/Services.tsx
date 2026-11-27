@@ -1,7 +1,7 @@
 import Link from "next/link";
 import Reveal from "@/components/Reveal";
 import { getServices } from "@/data/templates";
-import { contactLinkProps } from "@/lib/contact";
+import { contactCopy, contactLinkProps, formatPrice } from "@/lib/contact";
 import { getLang } from "@/lib/i18n-server";
 
 const COPY = {
@@ -53,6 +53,12 @@ export default async function Services() {
               <p className="font-display text-3xl text-ink">{t.logoTitle}</p>
               <p className="mt-3 text-sm leading-relaxed text-ink-muted">
                 {t.logoLead}
+              </p>
+              <p className="mt-4 text-sm text-ink-muted">
+                {contactCopy[lang].customFrom}{" "}
+                <span className="font-display text-xl text-ink [font-variant-numeric:lining-nums]">
+                  {formatPrice("custom", lang)}
+                </span>
               </p>
               <a
                 {...contactLinkProps()}

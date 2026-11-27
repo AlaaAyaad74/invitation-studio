@@ -5,8 +5,12 @@ import PlayIcon from "@/components/icons/PlayIcon";
 import Image from "next/image";
 import { useCallback, useEffect, useRef, useState, type CSSProperties } from "react";
 import { useLang } from "@/components/i18n/LangProvider";
-import OrderButton from "@/components/OrderButton";
+import { LuArrowUpRight } from "react-icons/lu";
+import OrderButton, { channelIcons } from "@/components/OrderButton";
 import ShareButton from "@/components/ShareButton";
+import { contactCopy, formatPrice, primaryContact } from "@/lib/contact";
+
+const OrderIcon = channelIcons[primaryContact.channel];
 import type { InvitationVideo } from "@/data/videos";
 import { trackVideoPlay } from "@/lib/metaPixel";
 import { videoSharePath } from "@/lib/video-share";
@@ -61,14 +65,12 @@ export default function VideoCard({
           play: `شغّل ${title}`,
           pause: `وقّف ${title}`,
           message: `فيديو دعوة ${title}`,
-          order: "اطلب الفيديو ده",
         }
       : {
           film: "Film",
           play: `Play ${title}`,
           pause: `Pause ${title}`,
           message: `${title} invitation film`,
-          order: "Order this video",
         };
 
   const setVideoNode = useCallback(
@@ -282,14 +284,25 @@ export default function VideoCard({
       <figcaption className={styles.caption}>
         <p className="text-sm tracking-[0.2em] text-rose uppercase">{t.film}</p>
         <p className="mt-1 font-display text-lg leading-tight text-ink sm:text-2xl">{title}</p>
+        {/* Order button with the price inside it. */}
         <OrderButton
           kind="video"
           name={video.title}
           path={videoSharePath(video.id)}
-          className="mt-2 inline-flex items-center gap-1 text-[10px] tracking-[0.16em] whitespace-nowrap text-sage-deep uppercase underline-offset-4 hover:underline sm:text-xs"
+          className="shine-sweep group/order mt-2.5 inline-flex h-8 max-w-full items-center gap-1.5 rounded-full bg-sage-deep ps-3 pe-1 text-[11px] font-medium whitespace-nowrap text-white shadow-[0_8px_20px_-12px_color-mix(in_srgb,var(--ink)_70%,transparent)] transition hover:bg-ink sm:text-xs"
         >
-          {t.order}
-          <span aria-hidden className="rtl:-scale-x-100">→</span>
+          <OrderIcon aria-hidden className="h-3 w-3 shrink-0" />
+          {contactCopy[lang].order}
+          <span aria-hidden className="h-3 w-px bg-white/30" />
+          <span className="text-gold [font-variant-numeric:lining-nums]">
+            {formatPrice("video", lang)}
+          </span>
+          <span
+            aria-hidden
+            className="grid h-6 w-6 shrink-0 place-items-center rounded-full bg-white/15 transition group-hover/order:bg-gold group-hover/order:text-ink"
+          >
+            <LuArrowUpRight className="h-3.5 w-3.5 transition-transform duration-300 group-hover/order:-translate-y-0.5 group-hover/order:translate-x-0.5 rtl:-scale-x-100 rtl:group-hover/order:-translate-x-0.5" />
+          </span>
         </OrderButton>
       </figcaption>
     </figure>

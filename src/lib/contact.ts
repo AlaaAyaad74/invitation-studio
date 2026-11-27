@@ -44,6 +44,17 @@ export const primaryContact: ContactOption = instagramContact;
 /** What an order button orders: drives its label and the message sent. */
 export type OrderKind = "template" | "video" | "photo";
 
+/**
+ * Price list in EGP. Templates have one fixed price; a custom design starts
+ * at its price and is quoted after the chat.
+ */
+export const prices = {
+  photo: 50,
+  video: 150,
+  template: 300,
+  custom: 400,
+} as const satisfies Record<OrderKind | "custom", number>;
+
 /** Labels for the contact, order and price UI, per language. */
 export const contactCopy = {
   en: {
@@ -59,6 +70,8 @@ export const contactCopy = {
     order: "Order",
     pricesFrom: "Prices start from",
     from: "From",
+    price: "Price",
+    customFrom: "Custom designs from",
     currency: "EGP",
   },
   ar: {
@@ -74,6 +87,8 @@ export const contactCopy = {
     order: "اطلب",
     pricesFrom: "الأسعار تبدأ من",
     from: "يبدأ من",
+    price: "السعر",
+    customFrom: "التصميم المخصوص يبدأ من",
     currency: "جنيه",
   },
 } as const satisfies Record<Lang, { orderLabels: Record<OrderKind, string> } & Record<string, unknown>>;
@@ -106,9 +121,14 @@ export function orderMessage(kind: OrderKind, name: string, url: string, lang: L
 }
 
 /** Starting price, shown as one line (no pricing table). */
-export const startingPriceAmount = "50";
+export const startingPriceAmount = String(prices.photo);
 export const startingPriceCurrency = "EGP";
 export const startingPrice = `Prices start from ${startingPriceAmount} ${startingPriceCurrency}`;
+
+/** "300 EGP" / "300 جنيه" for one price-list item. */
+export function formatPrice(item: keyof typeof prices, lang: Lang) {
+  return `${prices[item]} ${contactCopy[lang].currency}`;
+}
 
 /**
  * Props for an <a> that opens the contact chat in a new tab.

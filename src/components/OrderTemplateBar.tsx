@@ -7,7 +7,7 @@ import { LuArrowRight } from "react-icons/lu";
 import { useLang } from "@/components/i18n/LangProvider";
 import OrderButton, { channelIcons } from "@/components/OrderButton";
 import { getTemplates, templates } from "@/data/templates";
-import { contactCopy, primaryContact, startingPriceAmount } from "@/lib/contact";
+import { contactCopy, formatPrice, primaryContact } from "@/lib/contact";
 
 /**
  * Floating "Order" pill for the /templates/<slug> demos.
@@ -81,9 +81,9 @@ export default function OrderTemplateBar() {
               {template.title}
             </p>
             <p className="mt-0.5 text-[10px] tracking-[0.14em] whitespace-nowrap text-white/60 uppercase">
-              {copy.from}{" "}
+              {copy.price}{" "}
               <span className="text-gold [font-variant-numeric:lining-nums]">
-                {startingPriceAmount} {copy.currency}
+                {formatPrice("template", lang)}
               </span>
             </p>
           </div>

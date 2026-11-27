@@ -11,6 +11,7 @@ import type { Lang } from "@/lib/i18n";
 import {
   contactCopy,
   contactLinkProps,
+  formatPrice,
   orderMessage,
   primaryContact,
   type OrderKind,
@@ -134,6 +135,7 @@ export default function OrderButton({
     <>
       {withIcon ? <ChannelIcon aria-hidden className="h-4 w-4 shrink-0" /> : null}
       {contactCopy[lang].orderLabels[kind]}
+      <span className="opacity-70 [font-variant-numeric:lining-nums]">· {formatPrice(kind, lang)}</span>
     </>
   );
 
@@ -178,6 +180,7 @@ export default function OrderButton({
         ? createPortal(
             <OrderSheet
               lang={lang}
+              price={formatPrice(kind, lang)}
               message={message}
               copied={copied}
               trackingProps={trackingProps}
@@ -194,6 +197,7 @@ export default function OrderButton({
 
 function OrderSheet({
   lang,
+  price,
   message,
   copied,
   trackingProps,
@@ -202,6 +206,8 @@ function OrderSheet({
   onClose,
 }: {
   lang: Lang;
+  /** Price of the ordered item, e.g. "150 EGP". */
+  price: string;
   message: string;
   copied: boolean;
   trackingProps: Record<string, string>;
@@ -307,6 +313,10 @@ function OrderSheet({
         <h2 id="order-sheet-title" className="mt-1 font-display text-3xl leading-tight text-ink">
           {t.title}
         </h2>
+        <p className="mt-2 inline-flex items-center gap-2 rounded-full border border-gold/50 bg-white px-3 py-1 text-sm text-ink-muted">
+          {contactCopy[lang].price}
+          <span className="font-display text-lg leading-none text-ink [font-variant-numeric:lining-nums]">{price}</span>
+        </p>
 
         <ol className="mt-4 space-y-2.5">
           {steps.map((step, index) => (
