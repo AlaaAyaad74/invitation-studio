@@ -6,7 +6,8 @@ import { useDialog } from "@/hooks/useDialog";
 import { useHorizontalSwipe } from "@/hooks/useHorizontalSwipe";
 import { trackViewContent } from "@/lib/metaPixel";
 import { LuChevronLeft, LuChevronRight, LuX } from "react-icons/lu";
-import type { InvitationPhoto } from "@/data/photos";
+import OrderButton from "@/components/OrderButton";
+import { getPhotoSharePath, type InvitationPhoto } from "@/data/photos";
 
 type PhotoModalProps = {
   photo: InvitationPhoto;
@@ -93,26 +94,36 @@ export default function PhotoModal({
         <LuChevronRight className="h-6 w-6" strokeWidth={2.4} />
       </button>
 
-      <div
-        className="flex max-h-[min(62svh,560px)] w-full max-w-sm items-center justify-center"
-        onClick={(event) => event.stopPropagation()}
-      >
-        <ImageWithSkeleton
-          src={photo.image}
-          alt={`${photo.title} invitation photo`}
-          width={900}
-          height={1200}
-          sizes="(max-width: 768px) 80vw, 384px"
-          className="rounded-2xl object-contain"
-          wrapperClassName="flex max-h-[min(62svh,560px)] items-center justify-center"
-          skeletonClassName="rounded-2xl min-h-[min(40svh,360px)]"
-          style={{
-            width: "auto",
-            height: "auto",
-            maxHeight: "min(62svh, 560px)",
-            maxWidth: "100%",
-          }}
-          priority
+      {/* Photo and its order button; clicks here keep the modal open. */}
+      <div className="flex w-full max-w-sm flex-col items-center gap-4">
+        <div
+          className="flex max-h-[min(62svh,560px)] w-full max-w-sm items-center justify-center"
+          onClick={(event) => event.stopPropagation()}
+        >
+          <ImageWithSkeleton
+            src={photo.image}
+            alt={`${photo.title} invitation photo`}
+            width={900}
+            height={1200}
+            sizes="(max-width: 768px) 80vw, 384px"
+            className="rounded-2xl object-contain"
+            wrapperClassName="flex max-h-[min(62svh,560px)] items-center justify-center"
+            skeletonClassName="rounded-2xl min-h-[min(40svh,360px)]"
+            style={{
+              width: "auto",
+              height: "auto",
+              maxHeight: "min(62svh, 560px)",
+              maxWidth: "100%",
+            }}
+            priority
+          />
+        </div>
+        <OrderButton
+          kind="photo"
+          name={photo.title}
+          path={getPhotoSharePath(photo.id)}
+          withIcon
+            className="shine-sweep inline-flex h-11 items-center gap-2 rounded-full bg-gold px-5 text-sm font-medium tracking-wide whitespace-nowrap text-ink shadow-[0_10px_30px_-8px_rgba(0,0,0,0.45)] transition hover:bg-white sm:h-12 sm:px-6"
         />
       </div>
     </div>

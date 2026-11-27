@@ -42,7 +42,8 @@ function trackPageEvents(pathname: string) {
  * Contact / Lead on outbound links, through one delegated listener so the
  * (mostly server-rendered) components keep their markup unchanged.
  * A link gets Lead when it carries data-meta-lead="<service name>", and
- * data-meta-content-name="<name>" adds content_name to its Contact event.
+ * data-meta-content-name / data-meta-content-category add content_name /
+ * content_category to its Contact event.
  * data-meta-cta marks our own contact buttons (see lib/contact.ts).
  */
 function onDocumentClick(event: MouseEvent) {
@@ -60,7 +61,9 @@ function onDocumentClick(event: MouseEvent) {
   // Other WhatsApp links on template demos are the sample couple's RSVP, not us.
   const isDemoRsvp =
     !isOurCta && channel === "whatsapp" && pathname.startsWith("/templates/");
-  if (channel && !isDemoRsvp) trackContact(channel, link.dataset.metaContentName);
+  if (channel && !isDemoRsvp) {
+    trackContact(channel, link.dataset.metaContentName, link.dataset.metaContentCategory);
+  }
 
   const leadService = link.dataset.metaLead;
   if (leadService) trackLead(leadService);

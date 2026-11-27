@@ -4,6 +4,7 @@ import PauseIcon from "@/app/common/icons/PauseIcon";
 import PlayIcon from "@/app/common/icons/PlayIcon";
 import Image from "next/image";
 import { useCallback, useEffect, useRef, useState, type CSSProperties } from "react";
+import OrderButton from "@/components/OrderButton";
 import ShareButton from "@/components/ShareButton";
 import type { InvitationVideo } from "@/data/videos";
 import { trackVideoPlay } from "@/lib/metaPixel";
@@ -262,6 +263,15 @@ export default function VideoCard({
       <figcaption className={styles.caption}>
         <p className="text-sm tracking-[0.2em] text-rose uppercase">Film</p>
         <p className="mt-1 font-display text-lg leading-tight text-ink sm:text-2xl">{video.title}</p>
+        <OrderButton
+          kind="video"
+          name={video.title}
+          path={videoSharePath(video.id)}
+          className="mt-2 inline-flex items-center gap-1 text-[10px] tracking-[0.16em] whitespace-nowrap text-sage-deep uppercase underline-offset-4 hover:underline sm:text-xs"
+        >
+          Order this video
+          <span aria-hidden>→</span>
+        </OrderButton>
       </figcaption>
     </figure>
   );

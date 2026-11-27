@@ -4,7 +4,7 @@ import { useCallback, useEffect, useId, useRef, useState } from "react";
 import type { IconType } from "react-icons";
 import { FaFacebookF, FaInstagram, FaTelegram, FaWhatsapp } from "react-icons/fa";
 import { FaXTwitter } from "react-icons/fa6";
-import { LuCheck, LuCopy, LuLink, LuX } from "react-icons/lu";
+import { LuCheck, LuCopy, LuLink, LuShare, LuX } from "react-icons/lu";
 
 type ShareModalProps = {
   title: string;
@@ -32,6 +32,42 @@ function getPlatform(): Platform {
   if (/Android/i.test(ua)) return "android";
   if (/iPhone|iPad|iPod/i.test(ua)) return "ios";
   return "desktop";
+}
+
+/** Phones and tablets, where the share menu can reach Instagram and others. */
+function canShareFromDevice() {
+  return (
+    typeof navigator !== "undefined" &&
+    typeof navigator.share === "function" &&
+    window.matchMedia("(pointer: coarse)").matches
+  );
+}
+
+/**
+ * One block of text (name, then link). Shared as `text` only: given separate
+ * text and url, Instagram and others often keep just the link.
+ */
+function shareMessage(text: string, url: string) {
+  return [text, url].join("\n");
+}
+
+/** Copies text, with a fallback for in-app browsers (e.g. Instagram's). */
+async function copyText(text: string) {
+  try {
+    if (navigator.clipboard?.writeText) {
+      await navigator.clipboard.writeText(text);
+      return true;
+    }
+    copyWithTextarea(text);
+    return true;
+  } catch {
+    try {
+      copyWithTextarea(text);
+      return true;
+    } catch {
+      return false;
+    }
+  }
 }
 
 function androidIntent(scheme: string, path: string, packageName: string) {
@@ -134,6 +170,17 @@ export default function ShareModal({
   const url = `${window.location.origin}${path}`;
   const shareText = message ?? `${title} wedding invitation`;
   const platform = getPlatform();
+  const fullMessage = shareMessage(shareText, url);
+  // Read once on open; the modal only renders in the browser.
+  const [deviceShare] = useState(canShareFromDevice);
+
+  const shareAnywhere = async () => {
+    try {
+      await navigator.share({ text: fullMessage });
+    } catch {
+      // Cancelled: the app icons and copy field are still there.
+    }
+  };
 
   const copyLink = useCallback(async () => {
     try {
@@ -221,7 +268,20 @@ export default function ShareModal({
           </button>
         </div>
 
-        <p className="mt-5 text-sm text-ink-muted">Share this link via</p>
+        {deviceShare ? (
+          <button
+            type="button"
+            onClick={() => void shareAnywhere()}
+            className="shine-sweep mt-5 flex h-12 w-full items-center justify-center gap-2 rounded-full bg-sage-deep text-sm font-medium tracking-wide text-white transition hover:bg-sage"
+          >
+            <LuShare aria-hidden className="h-4 w-4" />
+            Share with any app
+          </button>
+        ) : null}
+
+        <p className="mt-5 text-sm text-ink-muted">
+          {deviceShare ? "Or pick an app" : "Share this link via"}
+        </p>
         <div className="mt-4 flex items-center justify-between">
           {shareTargets.map((target) => {
             const Icon = target.icon;
@@ -239,11 +299,22 @@ export default function ShareModal({
                 aria-label={`Share on ${target.label}`}
                 title={target.label}
                 onClick={(event) => {
+                  if (target.id === "instagram" && platform === "desktop") {
+                    // Instagram web opens in a new tab; the message waits on the clipboard.
+                    void copyText(fullMessage).then((ok) => {
+                      if (ok) setHint("Message copied. Open a chat and paste it (Ctrl+V).");
+                    });
+                    return;
+                  }
+
                   if (useNativeShare) {
                     event.preventDefault();
-                    void openInstagramDirect(shareText, url, () => {
+                    setHint(
+                      "In the share menu choose Instagram, then Direct, and pick a chat. The name and link are already typed.",
+                    );
+                    void openInstagramDirect(fullMessage, () => {
                       setHint(
-                        "Link copied. Paste it into an Instagram direct message.",
+                        "Message copied. Open an Instagram chat, press and hold the message box and tap Paste.",
                       );
                     });
                     return;
@@ -329,36 +400,22 @@ function openNativeApp(href: string) {
   window.location.assign(href);
 }
 
-async function openInstagramDirect(
-  title: string,
-  url: string,
-  onStay: () => void,
-) {
-  const text = messageWithLink(title, url);
-
+/**
+ * Phones: the share menu, with name and link as one message, so it lands
+ * typed in the Instagram Direct chat. Without a share menu, copies the
+ * message for pasting instead.
+ */
+async function openInstagramDirect(message: string, onStay: () => void) {
   if (typeof navigator.share === "function") {
     try {
-      await navigator.share({ title, text, url });
+      await navigator.share({ text: message });
       return;
     } catch (error) {
       if (error instanceof DOMException && error.name === "AbortError") return;
     }
   }
 
-  try {
-    if (navigator.clipboard?.writeText) {
-      await navigator.clipboard.writeText(url);
-    } else {
-      copyWithTextarea(url);
-    }
-  } catch {
-    try {
-      copyWithTextarea(url);
-    } catch {
-      /* paste is still possible from the dialog field */
-    }
-  }
-
+  await copyText(message);
   onStay();
 }
 

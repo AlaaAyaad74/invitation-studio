@@ -13,7 +13,9 @@ import { LuChevronLeft, LuChevronRight, LuX } from "react-icons/lu";
 import type { InvitationVideo } from "@/data/videos";
 import { useDialog } from "@/hooks/useDialog";
 import { useHorizontalSwipe } from "@/hooks/useHorizontalSwipe";
+import OrderButton from "@/components/OrderButton";
 import { trackVideoPlay, trackViewContent } from "@/lib/metaPixel";
+import { videoSharePath } from "@/lib/video-share";
 
 type VideoModalProps = {
   video: InvitationVideo;
@@ -203,7 +205,7 @@ export default function VideoModal({
         </figcaption>
       </figure>
 
-      <div className="flex gap-4">
+      <div className="flex items-center gap-3 sm:gap-4">
         <button
           type="button"
           onClick={stop(onPrevious)}
@@ -212,6 +214,13 @@ export default function VideoModal({
         >
           <LuChevronLeft className="h-6 w-6" strokeWidth={2.4} />
         </button>
+        <OrderButton
+          kind="video"
+          name={video.title}
+          path={videoSharePath(video.id)}
+          withIcon
+          className="shine-sweep inline-flex h-11 items-center gap-2 rounded-full bg-gold px-5 text-sm font-medium tracking-wide whitespace-nowrap text-ink shadow-[0_10px_30px_-8px_rgba(0,0,0,0.45)] transition hover:bg-white sm:h-12 sm:px-6"
+        />
         <button
           type="button"
           onClick={stop(onNext)}

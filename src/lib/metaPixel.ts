@@ -120,8 +120,15 @@ export function trackViewContent(contentName: string, contentCategory: ContentCa
   });
 }
 
-export function trackContact(channel: ContactChannel, contentName?: string) {
-  trackEvent("Contact", contentName ? { channel, content_name: contentName } : { channel });
+export function trackContact(
+  channel: ContactChannel,
+  contentName?: string,
+  contentCategory?: string,
+) {
+  const params: Record<string, string> = { channel };
+  if (contentName) params.content_name = contentName;
+  if (contentCategory) params.content_category = contentCategory;
+  trackEvent("Contact", params);
 }
 
 export function trackLead(serviceName: string) {

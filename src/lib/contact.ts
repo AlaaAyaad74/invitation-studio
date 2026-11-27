@@ -13,6 +13,12 @@ export type ContactOption = {
   href: string;
   /** Short call to action for general contact buttons. */
   label: string;
+  /**
+   * Chat link with the message already typed in. Instagram DM links cannot
+   * carry a message, so Instagram leaves this out and the order buttons copy
+   * the message for the visitor to paste instead.
+   */
+  withMessage?: (text: string) => string;
 };
 
 export const instagramContact: ContactOption = {
@@ -28,6 +34,7 @@ export const instagramContact: ContactOption = {
 //   // Number in international format, no "+" or spaces (Egypt: 20...).
 //   href: whatsappUrl("20XXXXXXXXXX", "أهلاً، عايز أعرف تفاصيل دعوات الفرح"),
 //   label: "Chat with us on WhatsApp",
+//   withMessage: (text) => whatsappUrl("20XXXXXXXXXX", text),
 // };
 
 /** The channel every order / contact button uses. */
@@ -39,6 +46,25 @@ export const ctaLabels = {
   customServices: "Custom services",
   requestQuote: "Request a custom quote",
 } as const;
+
+/** What an order button orders: drives its label and the message sent. */
+export type OrderKind = "template" | "video" | "photo";
+
+export const orderLabels: Record<OrderKind, string> = {
+  template: "Order this template",
+  video: "Order this video",
+  photo: "Order this design",
+};
+
+/** The message the visitor sends us from an order button. */
+export function orderMessage(kind: OrderKind, name: string, url: string) {
+  const item = {
+    template: `the "${name}" invitation template`,
+    video: `an invitation video like "${name}"`,
+    photo: `an invitation photo like "${name}"`,
+  }[kind];
+  return `Hi Invitation Studio! I'd like to order ${item}.\n${url}`;
+}
 
 /** Starting price, shown as one line (no pricing table). */
 export const startingPriceAmount = "50";
