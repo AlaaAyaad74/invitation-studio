@@ -157,6 +157,12 @@ export default function MusicPlayer({ src, label, lang }: MusicPlayerProps) {
       startIfStillPaused();
     } else {
       audio.addEventListener("canplay", startIfStillPaused, { once: true });
+      // With preload="none" nothing fires "canplay" on its own. Try once now:
+      // if autoplay is blocked, tryAuto calls load(), so the track is already
+      // buffered when the guest's first tap or scroll calls play(). Before,
+      // this only happened if "pageshow" fired after hydration, which it
+      // often doesn't on slower pages.
+      tryAuto();
     }
 
     return () => {
