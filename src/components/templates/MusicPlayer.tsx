@@ -30,8 +30,11 @@ type MusicPlayerProps = {
   lang?: Lang;
 };
 
+// Phones grant permission to play sound on the end of a tap (pointerup /
+// touchend / click), not on its start; listen to both so any tap counts.
 const GESTURE_EVENTS = [
   "pointerdown",
+  "pointerup",
   "mousedown",
   "touchstart",
   "touchend",
@@ -90,7 +93,14 @@ export default function MusicPlayer({ src, label, lang }: MusicPlayerProps) {
       if (ignore || userPaused.current || started || userTried || !audio.paused) return;
       audio.play().then(markPlaying, () => {
         if (ignore || started || userTried || !audio.paused) return;
-        audio.load();
+        // Blocked: buffer the track for the first tap, but only once. A
+        // second load() would cancel a play() that a tap just started.
+        if (
+          audio.readyState === HTMLMediaElement.HAVE_NOTHING &&
+          audio.networkState !== HTMLMediaElement.NETWORK_LOADING
+        ) {
+          audio.load();
+        }
       });
     };
 
