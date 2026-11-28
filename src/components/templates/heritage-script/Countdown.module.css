@@ -137,3 +137,22 @@
     opacity: 1;
   }
 }
+
+/* Arabic: the Latin small caps sizes leave Arabic labels unreadable. */
+.label:lang(ar) {
+  font-size: 0.95rem;
+}
+
+.daysLabel:lang(ar) {
+  margin-top: 0.7rem;
+  font-size: 1rem;
+}
+
+.unitLabel:lang(ar) {
+  margin-top: 0.5rem;
+  font-size: 0.9rem;
+}
+
+.doneCopy:lang(ar) {
+  font-size: 1rem;
+}

@@ -15,6 +15,7 @@ export default function Gallery({ data }: { data: HeritageInvitation }) {
   const [active, setActive] = useState<Photo | null>(null);
   const common = templateCopy(data.lang);
   const ar = data.lang === "ar";
+  const pair = data.gallery.length <= 2;
 
   useEffect(() => {
     if (!active) return;
@@ -52,32 +53,51 @@ export default function Gallery({ data }: { data: HeritageInvitation }) {
         </FadeIn>
         <FadeIn delay={620}>
           <p className={styles.hint}>
-            {ar ? "لقطات من السهرة" : "A few stills from the evening"}
+            {ar ? "صور من اللحظات المميزة" : "Photos from our special moments"}
           </p>
         </FadeIn>
       </div>
 
-      <div className={styles.masonry}>
+      {/* Two photos or fewer: one row, same height, widths from each ratio. */}
+      <div className={`${styles.masonry} ${pair ? styles.pair : ""}`}>
         {data.gallery.map((photo, index) => (
-          <Reveal key={photo.src} className={styles.cell} delayMs={80 + index * 90}>
+          <Reveal
+            key={photo.src}
+            className={styles.cell}
+            style={pair ? { flex: `${photo.ratio ?? 4 / 5} 1 0%` } : undefined}
+            delayMs={80 + index * 90}
+          >
             <button
               type="button"
               className={styles.item}
+              style={pair ? { aspectRatio: photo.ratio ?? 4 / 5 } : undefined}
               aria-label={common.openPhoto(photo.alt)}
               onClick={() => setActive(photo)}
             >
-              <ImageWithSkeleton
-                // Optimized; width/height only seed the ratio, h-auto keeps
-                // each photo's natural shape.
-                src={photo.src}
-                alt={photo.alt}
-                width={800}
-                height={1000}
-                sizes="(min-width: 480px) 480px, 100vw"
-                className="h-auto w-full"
-                wrapperClassName="w-full"
-                skeletonClassName="min-h-48"
-              />
+              {pair ? (
+                // Fills its tile, cropped to cover around `focus`.
+                <ImageWithSkeleton
+                  src={photo.src}
+                  alt={photo.alt}
+                  fill
+                  sizes="(min-width: 480px) 300px, 60vw"
+                  className="object-cover"
+                  style={{ objectPosition: photo.focus ?? "50% 50%" }}
+                />
+              ) : (
+                <ImageWithSkeleton
+                  // Optimized; width/height only seed the ratio, h-auto keeps
+                  // each photo's natural shape.
+                  src={photo.src}
+                  alt={photo.alt}
+                  width={800}
+                  height={1000}
+                  sizes="(min-width: 480px) 480px, 100vw"
+                  className="h-auto w-full"
+                  wrapperClassName="w-full"
+                  skeletonClassName="min-h-48"
+                />
+              )}
               <span className={styles.credit}>
                 {data.couple.first} & {data.couple.second}
               </span>

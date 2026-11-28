@@ -64,7 +64,21 @@ export const heritageInvitation = {
   ],
 } as const;
 
-export type HeritageInvitation = Localized<typeof heritageInvitation>;
+export type GalleryPhoto = {
+  src: string;
+  alt: string;
+  /**
+   * Tile shape (width / height) when shown as a pair. The pair shares one
+   * height, so each tile's width follows its ratio. Default 4 / 5.
+   */
+  ratio?: number;
+  /** CSS object-position for the crop, e.g. "50% 25%" keeps faces in. */
+  focus?: string;
+};
+
+export type HeritageInvitation = Omit<Localized<typeof heritageInvitation>, "gallery"> & {
+  gallery: readonly GalleryPhoto[];
+};
 
 export const heritageInvitationAr: HeritageInvitation = {
   lang: "ar",
@@ -74,7 +88,7 @@ export const heritageInvitationAr: HeritageInvitation = {
     second: "منة",
   },
   kicker: "بمباركة عائلتيهما",
-  honour: "يتشرفان بدعوتكم لحضور",
+  honour: "يتشرفان بدعوتكم لحضور حفل الزفاف",
   closing: "حفل زفافهما",
   dateLabel: {
     weekday: "السبت",

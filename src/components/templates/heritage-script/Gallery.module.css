@@ -17,6 +17,10 @@
   text-transform: uppercase;
 }
 
+.label:lang(ar) {
+  font-size: 0.95rem;
+}
+
 .script {
   margin: 0.65rem 0 0;
   color: #f8efe3;
@@ -54,6 +58,16 @@
 .masonry {
   columns: 2;
   column-gap: 10px;
+}
+
+.masonry.pair {
+  display: flex;
+  gap: 10px;
+  columns: auto;
+}
+
+.pair .cell {
+  margin: 0;
 }
 
 .cell {

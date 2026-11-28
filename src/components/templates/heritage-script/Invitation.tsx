@@ -24,10 +24,24 @@ const COPY = {
   },
 } as const;
 
-export default function Invitation({ data }: { data: HeritageInvitation }) {
+type InvitationProps = {
+  data: HeritageInvitation;
+  /** Section wording, e.g. for an engagement instead of a wedding. */
+  copy?: { section: string; heading: string };
+  /** Couple pages: tracks guest visits and can hide the studio line. */
+  guest?: { campaign: string; hidden?: boolean };
+  /** Calendar link, when the event differs from the template's (e.g. title). */
+  calendarUrl?: string;
+};
+
+export default function Invitation({
+  data,
+  copy,
+  guest,
+  calendarUrl = getCalendarUrl(data),
+}: InvitationProps) {
   const { dateLabel, venue } = data;
-  const calendarUrl = getCalendarUrl(data);
-  const t = COPY[data.lang];
+  const t = { ...COPY[data.lang], ...copy };
   const common = templateCopy(data.lang);
   const comma = data.lang === "ar" ? "،" : ",";
 
@@ -60,7 +74,7 @@ export default function Invitation({ data }: { data: HeritageInvitation }) {
           <FadeIn as="li" className={styles.item} delay={380}>
             <span className={styles.label}>{common.where}</span>
             <strong className={styles.value}>{venue.name}</strong>
-            <span className={styles.note}>{venue.city}</span>
+            {venue.city ? <span className={styles.note}>{venue.city}</span> : null}
             <a
               href={venue.mapUrl}
               target="_blank"
@@ -71,21 +85,23 @@ export default function Invitation({ data }: { data: HeritageInvitation }) {
               {common.openLocation}
             </a>
           </FadeIn>
-          <FadeIn as="li" className={styles.item} delay={600}>
-            <span className={styles.label}>{common.attire}</span>
-            <strong className={styles.value}>{data.attire}</strong>
-            <span className={styles.note}>{t.attireNote}</span>
-          </FadeIn>
+          {data.attire ? (
+            <FadeIn as="li" className={styles.item} delay={600}>
+              <span className={styles.label}>{common.attire}</span>
+              <strong className={styles.value}>{data.attire}</strong>
+              <span className={styles.note}>{t.attireNote}</span>
+            </FadeIn>
+          ) : null}
         </ul>
       </section>
 
       <Gallery data={data} />
 
       <FadeIn>
-        <StudioCredit className={styles.credit} />
+        <StudioCredit className={styles.credit} guest={guest} lang={data.lang} />
       </FadeIn>
 
-      <MusicPlayer src={data.music} />
+      <MusicPlayer src={data.music} lang={data.lang} />
     </div>
   );
 }

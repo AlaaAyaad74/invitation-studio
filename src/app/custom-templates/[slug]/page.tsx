@@ -1,17 +1,30 @@
-import Invitation from "@/components/templates/custom-couples/Invitation";
-import { capitalName } from "@/data/botanical";
+import Invitation from "@/components/templates/heritage-script/Invitation";
 import {
   customCouples,
+  getCalendarUrl,
   getCouple,
 } from "@/data/custom-couples/couples";
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
-import { preload } from "react-dom";
 import styles from "../../templates/heritage-script/shell.module.css";
 
 type PageProps = {
   params: Promise<{ slug: string }>;
 };
+
+/** Section wording per occasion (the template's own copy is for a wedding). */
+const OCCASION = {
+  wedding: {
+    section: "تفاصيل الفرح",
+    heading: "السهرة",
+    event: "wedding",
+  },
+  engagement: {
+    section: "تفاصيل الخطوبة",
+    heading: "الخطوبة",
+    event: "engagement",
+  },
+} as const;
 
 export function generateStaticParams() {
   return customCouples.map((customCouple) => ({ slug: customCouple.slug }));
@@ -24,10 +37,11 @@ export async function generateMetadata({
   const couple = getCouple(slug);
   if (!couple) return { title: "Invitation" };
 
-  const { first, second } = couple.couple;
+  const { first, second } = couple.latinNames;
+  const { dateLabel } = couple.invitation;
   return {
-    title: `${capitalName(first)} & ${capitalName(second)}`,
-    description: `${first} and ${second} invite you to their wedding on ${couple.dateLabel.weekday}, ${couple.dateLabel.day} ${couple.dateLabel.month} ${couple.dateLabel.year}.`,
+    title: `${first} & ${second}`,
+    description: `${first} and ${second} invite you to their ${OCCASION[couple.occasion].event} on ${dateLabel.day} ${dateLabel.month} ${dateLabel.year}.`,
     robots: { index: false, follow: true },
   };
 }
@@ -37,14 +51,10 @@ export default async function CustomCoupleInvitationPage({ params }: PageProps) 
   const couple = getCouple(slug);
   if (!couple) notFound();
 
-  // Poster only: the cover film waits for page load (see Cover).
-  preload(couple.cover.poster, { as: "image" });
-
-  const { first, second, dateLabel } = {
-    first: couple.couple.first,
-    second: couple.couple.second,
-    dateLabel: couple.dateLabel,
-  };
+  const data = couple.invitation;
+  const { first, second } = data.couple;
+  const { dateLabel } = data;
+  const copy = OCCASION[couple.occasion];
 
   return (
     <div className={styles.frame}>
@@ -60,7 +70,12 @@ export default async function CustomCoupleInvitationPage({ params }: PageProps) 
       </aside>
 
       <main className={styles.stage}>
-        <Invitation data={couple} />
+        <Invitation
+          data={data}
+          copy={{ section: copy.section, heading: copy.heading }}
+          guest={{ campaign: couple.slug, hidden: couple.hideBranding }}
+          calendarUrl={getCalendarUrl(couple)}
+        />
       </main>
     </div>
   );

@@ -4,6 +4,7 @@ import RoundPauseIcon from "@/components/icons/RoundPauseIcon";
 import RoundPlayIcon from "@/components/icons/RoundPlayIcon";
 import { useEffect, useRef, useState } from "react";
 import { useLang } from "@/components/i18n/LangProvider";
+import type { Lang } from "@/lib/i18n";
 
 const styles = {
   control: [
@@ -25,6 +26,8 @@ const styles = {
 type MusicPlayerProps = {
   src: string;
   label?: string;
+  /** The invitation's own language, when it can differ from the site's. */
+  lang?: Lang;
 };
 
 const GESTURE_EVENTS = [
@@ -38,8 +41,9 @@ const GESTURE_EVENTS = [
 
 const SCROLL_EVENTS = ["scroll", "wheel"] as const;
 
-export default function MusicPlayer({ src, label }: MusicPlayerProps) {
-  const ar = useLang() === "ar";
+export default function MusicPlayer({ src, label, lang }: MusicPlayerProps) {
+  const siteLang = useLang();
+  const ar = (lang ?? siteLang) === "ar";
   const name = label ?? (ar ? "موسيقى الدعوة" : "Invitation music");
   const audioRef = useRef<HTMLAudioElement>(null);
   const buttonRef = useRef<HTMLButtonElement>(null);

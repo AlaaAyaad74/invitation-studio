@@ -1,40 +1,13 @@
-import {
-  Almarai,
-  Cinzel,
-  Cormorant_Garamond,
-  Great_Vibes,
-} from "next/font/google";
 import type { ReactNode } from "react";
+import {
+  heritageFontClasses,
+  heritageFontStyle,
+} from "@/app/templates/heritage-script/fonts";
 
-const cinzel = Cinzel({
-  variable: "--font-heritage-caps",
-  subsets: ["latin"],
-  display: "swap",
-  weight: ["400", "500", "600"],
-});
-
-const cormorant = Cormorant_Garamond({
-  variable: "--font-heritage-serif",
-  subsets: ["latin"],
-  display: "swap",
-  weight: ["400", "500", "600"],
-  style: ["normal", "italic"],
-});
-
-const script = Great_Vibes({
-  variable: "--font-heritage-script",
-  subsets: ["latin"],
-  display: "swap",
-  weight: "400",
-});
-
-const almarai = Almarai({
-  variable: "--font-amiri",
-  subsets: ["arabic", "latin"],
-  display: "swap",
-  weight: "400",
-});
-
+/**
+ * Custom couple invitations are Arabic only, whatever language the visitor
+ * last picked on the main site.
+ */
 export default function CustomTemplateLayout({
   children,
 }: {
@@ -42,7 +15,10 @@ export default function CustomTemplateLayout({
 }) {
   return (
     <div
-      className={`${cinzel.variable} ${cormorant.variable} ${script.variable} ${almarai.variable} min-h-full`}
+      lang="ar"
+      dir="rtl"
+      className={`${heritageFontClasses} min-h-full`}
+      style={heritageFontStyle("ar")}
     >
       {children}
     </div>
