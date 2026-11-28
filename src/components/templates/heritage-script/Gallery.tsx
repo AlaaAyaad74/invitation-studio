@@ -80,6 +80,7 @@ export default function Gallery({ data }: { data: HeritageInvitation }) {
                   src={photo.src}
                   alt={photo.alt}
                   fill
+                  wrapperClassName="relative"
                   sizes="(min-width: 480px) 300px, 60vw"
                   className="object-cover"
                   style={{ objectPosition: photo.focus ?? "50% 50%" }}

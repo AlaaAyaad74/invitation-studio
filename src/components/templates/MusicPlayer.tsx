@@ -65,7 +65,10 @@ export default function MusicPlayer({ src, label, lang }: MusicPlayerProps) {
     };
 
     const playFromUser = () => {
-      if (ignore || userPaused.current || userTried) return;
+      // No "already trying" lock: phones only accept play() from the end of a
+      // tap (touchend / click), and a lock set by the earlier touchstart
+      // attempt would make us skip exactly that event.
+      if (ignore || userPaused.current) return;
       if (!audio.paused) {
         markPlaying();
         return;
